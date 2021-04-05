@@ -6,6 +6,9 @@
   "author": "Brendan Tierney (Tiernebre)",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc main.ts"
+    "compile": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1"
   }
 }

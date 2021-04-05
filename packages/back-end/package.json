@@ -1,0 +1,8 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "The back-end infrastructure for the Pokemon League Draft",
+  "main": "index.js",
+  "author": "Brendan Tierney (Tiernebre)",
+  "license": "MIT"
+}

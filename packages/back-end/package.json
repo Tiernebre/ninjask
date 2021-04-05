@@ -6,7 +6,7 @@
   "author": "Brendan Tierney (Tiernebre)",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc -p tsconfig.json"
+    "compile": "echo 'building back-end' && tsc -p tsconfig.json"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1"

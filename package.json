@@ -3,5 +3,11 @@
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
-  }
+  },
+  "scripts": {
+    "compile": "lerna run compile"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

@@ -6,7 +6,7 @@
   "author": "Brendan Tierney (Tiernebre)",
   "license": "MIT",
   "scripts": {
-    "compile": "echo 'building back-end' && tsc -p tsconfig.json",
+    "compile": "tsc -p tsconfig.json",
     "format": "prettier --write .",
     "lint:fix": "yarn lint:code --fix && yarn format",
     "lint:code": "eslint src/** --ext .ts",

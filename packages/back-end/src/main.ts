@@ -1,1 +1,10 @@
-console.log("Hello World: This is the Pokemon League Draft Back-End!");
+import Koa from 'koa'
+
+const app = new Koa();
+
+// response
+app.use(ctx => {
+  ctx.body = 'Hello Koa';
+});
+
+app.listen(3000);

@@ -6,7 +6,8 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "compile": "lerna run compile"
+    "compile": "lerna run compile",
+    "test": "lerna run test"
   },
   "workspaces": [
     "packages/*"

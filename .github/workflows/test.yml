@@ -22,5 +22,8 @@ jobs:
     - name: Bootstrap dependencies across monorepo packages
       run: yarn bootstrap
 
-    - name: Tests
+    - name: Compile and build packages
+      run: yarn compile
+
+    - name: Run tests in each package
       run: yarn test

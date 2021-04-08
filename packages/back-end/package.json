@@ -6,6 +6,7 @@
   "author": "Brendan Tierney (Tiernebre)",
   "license": "MIT",
   "scripts": {
+    "precompile": "rimraf dist",
     "compile": "tsc -p tsconfig.json",
     "format": "prettier --write .",
     "lint:fix": "yarn lint:code --fix && yarn format",

@@ -1,0 +1,4 @@
+# Ignore artficats:
+dist
+node_modules
+coverage

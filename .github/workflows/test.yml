@@ -19,8 +19,8 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Building for production
-      run: yarn build
+    - name: Bootstrap dependencies across monorepo packages
+      run: yarn bootstrap
 
     - name: Tests
       run: yarn test

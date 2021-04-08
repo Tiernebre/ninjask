@@ -11,7 +11,7 @@
     "lint:fix": "yarn lint:code --fix && yarn format",
     "lint:code": "eslint src/** --ext .ts",
     "lint:style": "prettier --check .",
-    "serve": "ts-node src/main.ts",
+    "serve": "ts-node src/app.ts",
     "test": "yarn lint:code && yarn lint:style && jest"
   },
   "devDependencies": {

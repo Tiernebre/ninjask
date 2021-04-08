@@ -8,8 +8,9 @@
   "scripts": {
     "compile": "echo 'building back-end' && tsc -p tsconfig.json",
     "format": "prettier --write .",
-    "lint": "eslint src/** --ext .ts",
-    "test": "jest"
+    "lint:code": "eslint src/** --ext .ts",
+    "lint:style": "prettier --check .",
+    "test": "yarn lint:code && yarn lint:style && jest"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

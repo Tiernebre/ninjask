@@ -11,10 +11,10 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Install dependencies
-          run: yarn
+          run: yarn && yarn bootstrap
 
         - name: Build
-          run: yarn compile
+          run: cd packages/front-end && yarn compile
 
         - name: Deploy
           uses: jakejarvis/s3-sync-action@master
@@ -25,3 +25,4 @@ jobs:
             AWS_ACCESS_KEY_ID: ${{ secrets.FRONT_END_AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.FRONT_END_AWS_SECRET_ACCESS_KEY }}
             AWS_REGION: ${{ secrets.FRONT_END_S3_BUCKET_REGION }}   # optional: defaults to us-east-1
+            SOURCE_DIR: 'build'

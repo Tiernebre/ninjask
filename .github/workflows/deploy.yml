@@ -1,0 +1,21 @@
+name: Deploy Back-End
+
+on:
+  push:
+    branches: [ master ]
+  paths:
+    - "packages/back-end"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.BACK_END_HOST }}
+        username: ${{ secrets.BACK_END_USERNAME }}
+        key: ${{ secrets.BACK_END_KEY }}
+        port: ${{ secrets.BACK_END_PORT }}
+        script: whoami
+    

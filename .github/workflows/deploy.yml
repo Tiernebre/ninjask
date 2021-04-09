@@ -15,5 +15,5 @@ jobs:
         username: ${{ secrets.BACK_END_USERNAME }}
         key: ${{ secrets.BACK_END_KEY }}
         port: ${{ secrets.BACK_END_PORT }}
-        script: whoami
+        script: pwd
     

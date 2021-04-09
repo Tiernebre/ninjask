@@ -4,7 +4,7 @@ const app = new Koa();
 
 // response
 app.use((ctx) => {
-  ctx.body = "Hello Koa";
+  ctx.body = "Hello Koa UPDATED";
 });
 
 export { app };

@@ -20,6 +20,7 @@ jobs:
         script: |
           git clone https://github.com/Tiernebre/pokemon-league-draft.git
           cd pokemon-league-draft
+          git pull
           yarn install
           yarn bootstrap
           cd packages/back-end

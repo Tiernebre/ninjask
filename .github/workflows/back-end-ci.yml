@@ -17,5 +17,12 @@ jobs:
         username: ${{ secrets.BACK_END_USERNAME }}
         key: ${{ secrets.BACK_END_KEY }}
         port: ${{ secrets.BACK_END_PORT }}
-        script: pwd
-    
+        script: |
+          git clone https://github.com/Tiernebre/pokemon-league-draft.git
+          cd pokemon-league-draft
+          yarn install
+          yarn bootstrap
+          cd packages/back-end
+          yarn compile
+          pm2 start dist/app.js
+          pm2 reload dist/app.js

@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
+    - name: deploying back-end changes
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.BACK_END_HOST }}

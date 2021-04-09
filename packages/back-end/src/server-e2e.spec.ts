@@ -22,7 +22,7 @@ describe("Server (E2E)", () => {
       .end((err, res) => {
         if (err) throw err;
 
-        expect(res.text).toEqual("Hello Koa UPDATED");
+        expect(res.text).toEqual("Hello Koa UPDATED AGAIN hopefully it works");
         done();
       });
   });

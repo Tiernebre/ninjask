@@ -3,8 +3,6 @@ name: Deploy Front-End
 on:
   push:
     branches: [ master ]
-    paths:
-    - 'packages/front-end/**'
 
 jobs:
   run:
@@ -22,7 +20,7 @@ jobs:
           run: yarn bootstrap
 
         - name: Build
-          run: cd packages/front-end && yarn compile
+          run: yarn compile
 
         - name: Deploy
           uses: reggionick/s3-deploy@v3

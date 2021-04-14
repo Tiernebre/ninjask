@@ -1,4 +1,4 @@
-export const getRandomInt = (min: number, max: number) => {
+export const getRandomInt = (min: number, max: number): number => {
   if (min > max) {
     throw new Error("min must be greater than max");
   }

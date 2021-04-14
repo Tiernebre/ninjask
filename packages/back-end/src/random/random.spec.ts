@@ -14,5 +14,13 @@ describe('random', () => {
       const retval = getRandomInt(1, 10)
       expect(retval).toEqual(5)
     })
+
+    it('returns properly calculated number with floating point min and max', () => {
+      const mockMath: Math = Object.create(global.Math) as Math;
+      mockMath.random = () => 0.5;
+      global.Math = mockMath;
+      const retval = getRandomInt(1.43, 10.65)
+      expect(retval).toEqual(6)
+    })
   })
 })

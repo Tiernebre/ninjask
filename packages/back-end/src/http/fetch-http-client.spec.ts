@@ -24,5 +24,13 @@ describe('FetchHttpClient', () => {
       const response = await fetchHttpClient.get('foo')
       expect(response).toEqual(expected)
     })
+
+    it('throws an http error if the response was not ok', async () => {
+      mockedFetch.mockResolvedValue({
+        json: jest.fn().mockResolvedValue({}),
+        ok: false
+      })
+      await expect(fetchHttpClient.get('foo')).rejects.toThrowError(new Error('An HTTP Error Occurred'))
+    })
   })
 })

@@ -12,7 +12,7 @@ export class PokeApiPokemonService implements PokemonService {
     return this.pokeApiHttpClient.get('pokemon')
   }
 
-  public async getOne(id: number): Promise<Pokemon> {
+  public async getOneById(id: number): Promise<Pokemon> {
     return this.pokeApiHttpClient.get(`pokemon/${id}`)
   }
 }

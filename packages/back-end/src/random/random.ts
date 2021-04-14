@@ -1,3 +1,3 @@
-const getRandomArbitrary = (min: number, max: number) => {
+export const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 }

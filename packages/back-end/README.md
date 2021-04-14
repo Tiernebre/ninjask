@@ -16,7 +16,7 @@ to avoid confusion.
 ### Running the server locally
 
 ```
-yarn serve
+yarn start
 ```
 
 ### Running tests

@@ -17,7 +17,6 @@
     "lint:style": "prettier --check .",
     "prestart": "yarn compile",
     "start": "node dist/app.js",
-    "serve": "ts-node src/app.ts",
     "test": "yarn lint:code && yarn lint:style && jest",
     "test:unit": "jest"
   },

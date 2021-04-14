@@ -15,14 +15,19 @@ describe("Server (E2E)", () => {
     server.close();
   });
 
-  it('returns "Hello Koa" in the response', (done) => {
+  it('returns mock JSON from a JSONPlaceholder in the response', (done) => {
     void request
       .get("/")
       .expect(200)
       .end((err, res) => {
         if (err) throw err;
 
-        expect(res.text).toEqual("Hello Koa UPDATED AGAIN hopefully it works");
+        expect(res.body).toEqual({
+          userId: 1,
+          id: 1,
+          title: 'delectus aut autem',
+          completed: false
+        });
         done();
       });
   });

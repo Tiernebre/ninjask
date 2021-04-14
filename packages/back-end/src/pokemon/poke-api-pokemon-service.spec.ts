@@ -62,6 +62,18 @@ describe("PokeApiPokemonService", () => {
     it('returns a random pokemon', async () => {
       const index = 23
       getMockedRandomInt.mockReturnValue(index)
+      const mockAllResponse: NamedAPIResourceList = {
+        count: 1,
+        next: "",
+        prev: "",
+        results: [
+          {
+            name: "",
+            url: "",
+          },
+        ],
+      };
+      when(pokeApiHttpClient.get('pokemon')).thenResolve(mockAllResponse)
       const expected: Pokemon = {
         id: 23,
         name: "pikachu",
@@ -74,7 +86,7 @@ describe("PokeApiPokemonService", () => {
       when(pokeApiHttpClient.get(`pokemon/${expected.id}`)).thenResolve(
         expected
       );
-      const response = await pokeApiPokemonService.getOneById(expected.id);
+      const response = await pokeApiPokemonService.getARandomOne();
       expect(response).toEqual(expected);
     })
   })

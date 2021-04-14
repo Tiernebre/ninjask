@@ -15,7 +15,7 @@ describe("Server (E2E)", () => {
     server.close();
   });
 
-  it('returns mock JSON from a JSONPlaceholder in the response', (done) => {
+  it("returns mock JSON from a JSONPlaceholder in the response", (done) => {
     void request
       .get("/")
       .expect(200)
@@ -25,8 +25,8 @@ describe("Server (E2E)", () => {
         expect(res.body).toEqual({
           userId: 1,
           id: 1,
-          title: 'delectus aut autem',
-          completed: false
+          title: "delectus aut autem",
+          completed: false,
         });
         done();
       });

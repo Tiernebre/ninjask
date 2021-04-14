@@ -22,5 +22,9 @@ describe('random', () => {
       const retval = getRandomInt(1.43, 10.65)
       expect(retval).toEqual(6)
     })
+
+    it('throws an error if min is greater than max', () => {
+      expect(() => getRandomInt(2, 1)).toThrowError()
+    })
   })
 })

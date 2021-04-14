@@ -22,7 +22,7 @@ describe("Server (E2E)", () => {
       .end((err, res) => {
         if (err) throw err;
 
-        expect(res.body).toEqual({
+        expect(JSON.parse(res.text)).toEqual({
           userId: 1,
           id: 1,
           title: "delectus aut autem",

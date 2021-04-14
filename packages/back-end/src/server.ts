@@ -17,7 +17,7 @@ const pokemonService: PokemonService = new PokeApiPokemonService(
 // response
 app.use(async (ctx) => {
   ctx.body = "Hello Koa UPDATED AGAIN hopefully it works";
-  const testResponse = await pokemonService.getOneById(12);
+  const testResponse = await pokemonService.getARandomOne();
   ctx.body = JSON.stringify(testResponse);
 });
 

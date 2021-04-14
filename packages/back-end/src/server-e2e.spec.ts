@@ -15,19 +15,14 @@ describe("Server (E2E)", () => {
     server.close();
   });
 
-  it("returns mock JSON from a JSONPlaceholder in the response", (done) => {
+  it("returns with 2xx successful status", (done) => {
     void request
       .get("/")
       .expect(200)
       .end((err, res) => {
         if (err) throw err;
 
-        expect(JSON.parse(res.text)).toEqual({
-          userId: 1,
-          id: 1,
-          title: "delectus aut autem",
-          completed: false,
-        });
+        expect(res.status).toEqual(200);
         done();
       });
   });

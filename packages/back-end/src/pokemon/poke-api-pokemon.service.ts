@@ -19,14 +19,15 @@ export class PokeApiPokemonService implements PokemonService {
   }
 
   public async getOneById(id: number): Promise<Pokemon> {
-    return this.pokeApiHttpClient.get(`pokemon/${id}`);
+    this.logger.info(`Fetching Pokemon with id = ${id}`)
+    const foundPokemon = await this.pokeApiHttpClient.get<Pokemon>(`pokemon/${id}`);
+    this.logger.info(`Retrieved Pokemon ${foundPokemon.name}`);
+    return foundPokemon
   }
 
   public async getARandomOne(): Promise<Pokemon> {
+    this.logger.info(`Getting a randomized Pokemon.`)
     const index = getRandomInt(0, NUMBER_OF_POKEMON);
-    this.logger.info(`Fetching Pokemon with randomly generated index = ${index}`)
-    const pokemonFound = await this.getOneById(index);
-    this.logger.info(`Retrieved Pokemon ${pokemonFound.name}`)
-    return pokemonFound;
+    return this.getOneById(index);
   }
 }

@@ -24,4 +24,8 @@ const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
 app.use(pokemonRouter.routes());
 
-app.listen(3000);
+const PORT = 3000
+
+app.listen(PORT, () => {
+  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`)
+});

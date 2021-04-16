@@ -33,14 +33,14 @@ describe("Server (E2E)", () => {
 
     it("returns with 200 OK status", async () => {
       when(pokemonService.getARandomOne()).thenResolve(generateMockPokemon());
-      const response = await request.get(uri).expect(200).send();
+      const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with the a pokemon as the response", async () => {
       const expected = generateMockPokemon();
       when(pokemonService.getARandomOne()).thenResolve(expected);
-      const response = await request.get(uri).expect(200).send();
+      const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);
     });
   });

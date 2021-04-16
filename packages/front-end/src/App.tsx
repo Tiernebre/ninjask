@@ -1,3 +1,4 @@
+import "./App.css";
 import { FetchHttpClient } from './api/http';
 import { HttpPokemonService } from './api/pokemon';
 import { useCallback, useState } from 'react';
@@ -17,14 +18,13 @@ function App() {
     fetchPokemon()
   }, [])
 
-  const pokemonInformation = pokemon ? <div>
+  const pokemonInformation = pokemon ? <div className="pokemon-information">
     <img src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
     <p>{ pokemon.name }</p>
-    <p>{ pokemon.id }</p>
   </div> : <div></div>
 
   return (
-    <div>
+    <div className="app">
       {pokemonInformation}
       <button onClick={fetchRequest}>Get a random Pokemon!</button>
     </div>

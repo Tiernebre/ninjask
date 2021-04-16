@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { FetchHttpClient } from './api/http';
+import { HttpPokemonService } from './api/pokemon';
+import { useEffect, useState } from 'react';
+import { Pokemon } from './api/pokemon/Pokemon';
+
+const backEndHttpClient = new FetchHttpClient('http://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/')
+const pokemonService = new HttpPokemonService(backEndHttpClient)
 
 function App() {
+  const [pokemon, setPokemon] = useState<Pokemon>()
+
+  useEffect(() => {
+    async function fetchPokemon() {
+      const randomPokemon = await pokemonService.getARandomOne()
+      setPokemon(randomPokemon)
+    }
+    fetchPokemon()
+  }, [])
+
+  const pokemonInformation = pokemon ? <p>{pokemon.name}</p> : <p></p>
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>Testing CD Deployment Round 2</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {pokemonInformation}
     </div>
   );
 }

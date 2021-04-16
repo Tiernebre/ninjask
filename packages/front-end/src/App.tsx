@@ -17,13 +17,11 @@ function App() {
     fetchPokemon()
   }, [])
 
-  const pokemonInformation = pokemon ? <p>{pokemon.name}</p> : <p></p>
-  
-  return (
-    <div>
-      {pokemonInformation}
-    </div>
-  );
+  return pokemon ? <div>
+    <img src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
+    <p>{ pokemon.name }</p>
+    <p>{ pokemon.id }</p>
+  </div> : <div></div>
 }
 
 export default App;

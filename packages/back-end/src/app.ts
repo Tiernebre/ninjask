@@ -34,6 +34,13 @@ app.use(
 app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
 
+app.ws.use((ctx) => {
+  ctx.websocket.send('Hello World');
+  ctx.websocket.on('message', message => {
+    logger.info(`WebSocket Message Received: ${message.toString()}`)
+  })
+})
+
 const PORT = 3000;
 
 app.listen(PORT, () => {

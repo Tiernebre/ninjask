@@ -1,4 +1,4 @@
-import { Pokemon } from "./pokemon";
+import { Pokemon } from "./Pokemon";
 
 export interface PokemonService {
   /**

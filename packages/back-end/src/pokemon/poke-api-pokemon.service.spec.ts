@@ -1,9 +1,9 @@
 import { HttpClient } from "../http/http-client";
 import { PokeApiPokemonService } from "./poke-api-pokemon.service";
 import { matchers, object, when } from "testdouble";
-import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
-import { generateMockPokemon } from "./pokemon.mock";
+import { NamedAPIResourceList, generateMockPokeApiPokemon } from "../poke-api";
 import { Logger } from "../logger";
+import { mapFromPokeApi } from "./pokemon.mapper";
 
 describe("PokeApiPokemonService", () => {
   let pokeApiPokemonService: PokeApiPokemonService;
@@ -38,21 +38,21 @@ describe("PokeApiPokemonService", () => {
 
   describe("getOneById", () => {
     it("returns the found pokemon by given id", async () => {
-      const expected = generateMockPokemon();
+      const expected = generateMockPokeApiPokemon();
       when(pokeApiHttpClient.get(`pokemon/${expected.id}`)).thenResolve(
         expected
       );
       const response = await pokeApiPokemonService.getOneById(expected.id);
-      expect(response).toEqual(expected);
+      expect(response).toEqual(mapFromPokeApi(expected));
     });
   });
 
   describe("getARandomOne", () => {
     it("returns a random pokemon", async () => {
-      const expected = generateMockPokemon();
+      const expected = generateMockPokeApiPokemon();
       when(pokeApiHttpClient.get(matchers.anything())).thenResolve(expected);
       const response = await pokeApiPokemonService.getARandomOne();
-      expect(response).toEqual(expected);
+      expect(response).toEqual(mapFromPokeApi(expected));
     });
   });
 });

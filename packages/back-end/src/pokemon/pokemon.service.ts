@@ -1,4 +1,4 @@
-import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
+import { NamedAPIResourceList } from "../poke-api";
 import { Pokemon } from "./pokemon";
 
 export interface PokemonService {

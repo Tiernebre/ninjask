@@ -1,9 +1,10 @@
 import { HttpClient } from "../http/http-client";
-import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { getRandomInt } from "../random";
-import { Pokemon } from "./pokemon";
+import { PokeApiPokemon, NamedAPIResourceList } from "../poke-api";
 import { PokemonService } from "./pokemon.service";
 import { Logger } from "../logger";
+import { mapFromPokeApi } from "./pokemon.mapper";
+import { Pokemon } from "./pokemon";
 
 // Ignoring Gen 8 because of PokeAPI still updating for it.
 const NUMBER_OF_POKEMON = 809;
@@ -20,11 +21,11 @@ export class PokeApiPokemonService implements PokemonService {
 
   public async getOneById(id: number): Promise<Pokemon> {
     this.logger.info(`Fetching Pokemon with id = ${id}`);
-    const foundPokemon = await this.pokeApiHttpClient.get<Pokemon>(
+    const foundPokemon = await this.pokeApiHttpClient.get<PokeApiPokemon>(
       `pokemon/${id}`
     );
     this.logger.info(`Retrieved Pokemon ${foundPokemon.name}`);
-    return foundPokemon;
+    return mapFromPokeApi(foundPokemon);
   }
 
   public async getARandomOne(): Promise<Pokemon> {

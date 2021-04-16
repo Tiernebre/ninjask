@@ -34,7 +34,7 @@ describe("PokeApiPokemonService", () => {
 
   describe("getOneById", () => {
     it("returns the found pokemon by given id", async () => {
-      const expected = generateMockPokemon()
+      const expected = generateMockPokemon();
       when(pokeApiHttpClient.get(`pokemon/${expected.id}`)).thenResolve(
         expected
       );
@@ -45,7 +45,7 @@ describe("PokeApiPokemonService", () => {
 
   describe("getARandomOne", () => {
     it("returns a random pokemon", async () => {
-      const expected = generateMockPokemon()
+      const expected = generateMockPokemon();
       when(pokeApiHttpClient.get(matchers.anything())).thenResolve(expected);
       const response = await pokeApiPokemonService.getARandomOne();
       expect(response).toEqual(expected);

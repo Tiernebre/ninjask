@@ -7,7 +7,7 @@ import Router from "@koa/router";
 import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
-import cors from '@koa/cors';
+import cors from "@koa/cors";
 
 const app = new Koa();
 
@@ -24,10 +24,12 @@ const pokemonService: PokemonService = new PokeApiPokemonService(
 
 const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
-app.use(cors({
-  // not great CORS API design -- but we'll stick with it for now to get something we can iterate on. :)
-  origin: '*'
-}))
+app.use(
+  cors({
+    // not great CORS API design -- but we'll stick with it for now to get something we can iterate on. :)
+    origin: "*",
+  })
+);
 app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
 

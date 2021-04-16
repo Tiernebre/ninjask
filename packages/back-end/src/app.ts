@@ -8,8 +8,9 @@ import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
+import websockify  from 'koa-websocket';
 
-const app = new Koa();
+const app = websockify(new Koa());
 
 const logger: Logger = new PinoLogger();
 

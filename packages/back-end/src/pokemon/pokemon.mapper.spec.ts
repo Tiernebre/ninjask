@@ -1,0 +1,15 @@
+import { generateMockPokeApiPokemon } from '../poke-api'
+import { mapFromPokeApi } from './pokemon.mapper'
+
+describe('pokemon.mapper', () => {
+  describe('mapFromPokeApi', () => {
+    it('returns a properly formatted pokemon from its PokeAPI version', () => {
+      const pokeApiPokemon = generateMockPokeApiPokemon()
+      pokeApiPokemon.id = 1
+      const pokemonCreated = mapFromPokeApi(pokeApiPokemon)
+      expect(pokemonCreated.id).toEqual(pokeApiPokemon.id)
+      expect(pokemonCreated.name).toEqual(pokeApiPokemon.name)
+      expect(pokemonCreated.imageUrl).toEqual('https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/001.png')
+    })
+  })
+})

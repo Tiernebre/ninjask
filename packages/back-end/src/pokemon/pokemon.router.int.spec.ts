@@ -31,7 +31,7 @@ describe("Server (E2E)", () => {
   describe("GET /random-pokemon", () => {
     const uri = "/random-pokemon";
 
-    it("returns with 2xx successful status", (done) => {
+    it("returns with 200 OK status", (done) => {
       when(pokemonService.getARandomOne()).thenResolve(generateMockPokemon());
       void request
         .get(uri)

@@ -1,4 +1,4 @@
-import { NamedAPIResource } from "../poke-api/named-api-resource";
+import { NamedAPIResource } from "./named-api-resource";
 
 interface PokemonAbility {
   is_hidden: boolean;

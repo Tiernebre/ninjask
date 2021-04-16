@@ -1,7 +1,6 @@
 import { HttpClient } from "../http/http-client";
-import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { getRandomInt } from "../random";
-import { PokeApiPokemon } from "./pokemon";
+import { PokeApiPokemon, NamedAPIResourceList } from "../poke-api";
 import { PokemonService } from "./pokemon.service";
 import { Logger } from "../logger";
 

@@ -1,4 +1,4 @@
-import { PokeApiPokemon } from "./pokemon";
+import { PokeApiPokemon } from "../poke-api";
 
 export const generateMockPokemon = (): PokeApiPokemon => ({
   abilities: [

@@ -11,7 +11,10 @@ describe("PokeApiPokemonService", () => {
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
-    pokeApiPokemonService = new PokeApiPokemonService(pokeApiHttpClient, object<Logger>());
+    pokeApiPokemonService = new PokeApiPokemonService(
+      pokeApiHttpClient,
+      object<Logger>()
+    );
   });
 
   describe("getAll", () => {

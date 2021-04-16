@@ -9,7 +9,7 @@ import { Logger, PinoLogger } from "./logger";
 
 const app = new Koa();
 
-const logger: Logger = new PinoLogger()
+const logger: Logger = new PinoLogger();
 
 const pokeApiHttpClient: HttpClient = new FetchHttpClient(
   "https://pokeapi.co/api/v2"
@@ -24,8 +24,8 @@ const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
 app.use(pokemonRouter.routes());
 
-const PORT = 3000
+const PORT = 3000;
 
 app.listen(PORT, () => {
-  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`)
+  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
 });

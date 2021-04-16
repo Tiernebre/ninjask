@@ -35,7 +35,7 @@ app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
 
 app.ws.use((ctx) => {
-  ctx.websocket.send('Hello World');
+  ctx.websocket.send('Hello World FROM WEB SOCKET LAND WOOO');
   ctx.websocket.on('message', message => {
     logger.info(`WebSocket Message Received: ${message.toString()}`)
   })

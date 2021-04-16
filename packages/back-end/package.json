@@ -24,6 +24,7 @@
     "@tsconfig/recommended": "^1.0.1",
     "@types/jest": "^26.0.22",
     "@types/koa": "^2.13.1",
+    "@types/koa-websocket": "^5.0.5",
     "@types/koa__cors": "^3.0.2",
     "@types/koa__router": "^8.0.4",
     "@types/node": "^14.14.37",
@@ -47,6 +48,7 @@
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
     "koa": "^2.13.1",
+    "koa-websocket": "^6.0.0",
     "node-fetch": "^2.6.1",
     "pino": "^6.11.2"
   }

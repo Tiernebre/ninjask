@@ -6,6 +6,7 @@ import { PokemonService } from "./pokemon/pokemon.service";
 import Router from "@koa/router";
 import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
+import { loggingMiddleware } from "./logger/logging.middleware";
 
 const app = new Koa();
 
@@ -22,6 +23,7 @@ const pokemonService: PokemonService = new PokeApiPokemonService(
 
 const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
+app.use(loggingMiddleware(logger))
 app.use(pokemonRouter.routes());
 
 const PORT = 3000;

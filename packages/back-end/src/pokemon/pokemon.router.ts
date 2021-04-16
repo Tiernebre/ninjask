@@ -1,5 +1,5 @@
 import Router from "@koa/router";
-import { PokemonService } from "./pokemon-service";
+import { PokemonService } from "./pokemon.service";
 
 export class PokemonRouter extends Router {
   constructor (

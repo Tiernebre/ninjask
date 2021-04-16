@@ -2,7 +2,7 @@ import { HttpClient } from "../http/http-client";
 import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { getRandomInt } from "../random";
 import { Pokemon } from "./pokemon";
-import { PokemonService } from "./pokemon-service";
+import { PokemonService } from "./pokemon.service";
 
 // Ignoring Gen 8 because of PokeAPI still updating for it.
 const NUMBER_OF_POKEMON = 809

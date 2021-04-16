@@ -1,5 +1,5 @@
 import { HttpClient } from "../http/http-client";
-import { PokeApiPokemonService } from "./poke-api-pokemon-service";
+import { PokeApiPokemonService } from "./poke-api-pokemon.service";
 import { matchers, object, when } from "testdouble";
 import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { Pokemon } from "./pokemon";

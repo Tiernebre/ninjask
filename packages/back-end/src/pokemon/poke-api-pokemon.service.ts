@@ -25,6 +25,8 @@ export class PokeApiPokemonService implements PokemonService {
   public async getARandomOne(): Promise<Pokemon> {
     const index = getRandomInt(0, NUMBER_OF_POKEMON);
     this.logger.info(`Fetching Pokemon with randomly generated index = ${index}`)
-    return this.getOneById(index);
+    const pokemonFound = await this.getOneById(index);
+    this.logger.info(`Retrieved Pokemon ${pokemonFound.name}`)
+    return pokemonFound;
   }
 }

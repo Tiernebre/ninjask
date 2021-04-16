@@ -37,11 +37,11 @@ describe("Server (E2E)", () => {
       expect(response.status).toEqual(200);
     });
 
-    it('returns with the a pokemon as the response', async () => {
-      const expected = generateMockPokemon()
+    it("returns with the a pokemon as the response", async () => {
+      const expected = generateMockPokemon();
       when(pokemonService.getARandomOne()).thenResolve(expected);
       const response = await request.get(uri).expect(200).send();
       expect(response.body).toEqual(expected);
-    })
+    });
   });
 });

@@ -5,19 +5,29 @@ import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
 import { PokemonService } from "./pokemon/pokemon.service";
 import Router from "@koa/router";
 import { PokemonRouter } from "./pokemon/pokemon.router";
+import { Logger, PinoLogger } from "./logger";
+import { loggingMiddleware } from "./logger/logging.middleware";
 
 const app = new Koa();
+
+const logger: Logger = new PinoLogger();
 
 const pokeApiHttpClient: HttpClient = new FetchHttpClient(
   "https://pokeapi.co/api/v2"
 );
 
 const pokemonService: PokemonService = new PokeApiPokemonService(
-  pokeApiHttpClient
+  pokeApiHttpClient,
+  logger
 );
 
 const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
+app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
 
-app.listen(3000);
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
+});

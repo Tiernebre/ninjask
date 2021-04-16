@@ -3,6 +3,7 @@ import { PokeApiPokemonService } from "./poke-api-pokemon.service";
 import { matchers, object, when } from "testdouble";
 import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { generateMockPokemon } from "./pokemon.mock";
+import { Logger } from "../logger";
 
 describe("PokeApiPokemonService", () => {
   let pokeApiPokemonService: PokeApiPokemonService;
@@ -10,7 +11,10 @@ describe("PokeApiPokemonService", () => {
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
-    pokeApiPokemonService = new PokeApiPokemonService(pokeApiHttpClient);
+    pokeApiPokemonService = new PokeApiPokemonService(
+      pokeApiHttpClient,
+      object<Logger>()
+    );
   });
 
   describe("getAll", () => {

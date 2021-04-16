@@ -1,6 +1,6 @@
-import { Pokemon } from "./pokemon";
+import { PokeApiPokemon } from "./pokemon";
 
-export const generateMockPokemon = (): Pokemon => ({
+export const generateMockPokemon = (): PokeApiPokemon => ({
   abilities: [
     {
       ability: {

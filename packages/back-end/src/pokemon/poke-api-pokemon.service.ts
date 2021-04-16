@@ -1,7 +1,7 @@
 import { HttpClient } from "../http/http-client";
 import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { getRandomInt } from "../random";
-import { Pokemon } from "./pokemon";
+import { PokeApiPokemon } from "./pokemon";
 import { PokemonService } from "./pokemon.service";
 import { Logger } from "../logger";
 
@@ -18,16 +18,16 @@ export class PokeApiPokemonService implements PokemonService {
     return this.pokeApiHttpClient.get("pokemon");
   }
 
-  public async getOneById(id: number): Promise<Pokemon> {
+  public async getOneById(id: number): Promise<PokeApiPokemon> {
     this.logger.info(`Fetching Pokemon with id = ${id}`);
-    const foundPokemon = await this.pokeApiHttpClient.get<Pokemon>(
+    const foundPokemon = await this.pokeApiHttpClient.get<PokeApiPokemon>(
       `pokemon/${id}`
     );
     this.logger.info(`Retrieved Pokemon ${foundPokemon.name}`);
     return foundPokemon;
   }
 
-  public async getARandomOne(): Promise<Pokemon> {
+  public async getARandomOne(): Promise<PokeApiPokemon> {
     this.logger.info(`Getting a randomized Pokemon.`);
     const index = getRandomInt(0, NUMBER_OF_POKEMON);
     return this.getOneById(index);

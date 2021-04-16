@@ -58,7 +58,7 @@ interface PokemonHeldItem {
   version_details: PokemonHeldItemVersion[];
 }
 
-export interface Pokemon {
+export interface PokeApiPokemon {
   id: number;
   name: string;
   base_experience: number;

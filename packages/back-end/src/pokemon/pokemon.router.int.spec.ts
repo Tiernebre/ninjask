@@ -31,17 +31,10 @@ describe("Server (E2E)", () => {
   describe("GET /random-pokemon", () => {
     const uri = "/random-pokemon";
 
-    it("returns with 200 OK status", (done) => {
+    it("returns with 200 OK status", async () => {
       when(pokemonService.getARandomOne()).thenResolve(generateMockPokemon());
-      void request
-        .get(uri)
-        .expect(200)
-        .end((err, res) => {
-          if (err) throw err;
-
-          expect(res.status).toEqual(200);
-          done();
-        });
+      const response = await request.get(uri).expect(200).send();
+      expect(response.status).toEqual(200);
     });
   });
 });

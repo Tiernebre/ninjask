@@ -4,7 +4,8 @@ import { Server } from "http";
 import Application from "koa";
 import { PokemonRouter } from "./pokemon.router";
 import { PokemonService } from "./pokemon.service";
-import { object } from "testdouble";
+import { object, when } from "testdouble";
+import { generateMockPokemon } from "./pokemon.mock";
 
 describe("Server (E2E)", () => {
   let app: Application;
@@ -28,9 +29,12 @@ describe("Server (E2E)", () => {
   });
 
   describe("GET /random-pokemon", () => {
+    const uri = "/random-pokemon";
+
     it("returns with 2xx successful status", (done) => {
+      when(pokemonService.getARandomOne()).thenResolve(generateMockPokemon());
       void request
-        .get("/")
+        .get(uri)
         .expect(200)
         .end((err, res) => {
           if (err) throw err;

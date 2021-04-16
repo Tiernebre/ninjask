@@ -62,9 +62,7 @@ describe("PokeApiPokemonService", () => {
         order: 16,
         weight: 320,
       };
-      when(pokeApiHttpClient.get(matchers.anything())).thenResolve(
-        expected
-      );
+      when(pokeApiHttpClient.get(matchers.anything())).thenResolve(expected);
       const response = await pokeApiPokemonService.getARandomOne();
       expect(response).toEqual(expected);
     });

@@ -2,9 +2,9 @@ import Koa from "koa";
 import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
-import { PokemonRouter } from './pokemon.router'
+import { PokemonRouter } from "./pokemon.router";
 import { PokemonService } from "./pokemon.service";
-import { object } from 'testdouble'
+import { object } from "testdouble";
 
 describe("Server (E2E)", () => {
   let app: Application;
@@ -13,10 +13,10 @@ describe("Server (E2E)", () => {
   let pokemonService: PokemonService;
 
   beforeAll(() => {
-    app = new Koa()
-    pokemonService = object<PokemonService>()
-    const router = new PokemonRouter(pokemonService)
-    app.use(router.routes())
+    app = new Koa();
+    pokemonService = object<PokemonService>();
+    const router = new PokemonRouter(pokemonService);
+    app.use(router.routes());
 
     server = app.listen();
 
@@ -27,7 +27,7 @@ describe("Server (E2E)", () => {
     server.close();
   });
 
-  describe('GET /random-pokemon', () => {
+  describe("GET /random-pokemon", () => {
     it("returns with 2xx successful status", (done) => {
       void request
         .get("/")
@@ -39,5 +39,5 @@ describe("Server (E2E)", () => {
           done();
         });
     });
-  })
+  });
 });

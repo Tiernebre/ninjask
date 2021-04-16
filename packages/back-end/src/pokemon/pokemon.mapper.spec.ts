@@ -11,5 +11,19 @@ describe('pokemon.mapper', () => {
       expect(pokemonCreated.name).toEqual(pokeApiPokemon.name)
       expect(pokemonCreated.imageUrl).toEqual('https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/001.png')
     })
+
+    it('returns a properly formatted image URL for a pokemon with an id in the double digits', () => {
+      const pokeApiPokemon = generateMockPokeApiPokemon()
+      pokeApiPokemon.id = 15
+      const pokemonCreated = mapFromPokeApi(pokeApiPokemon)
+      expect(pokemonCreated.imageUrl).toEqual('https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/015.png')
+    })
+
+    it('returns a properly formatted image URL for a pokemon with an id in the triple digits', () => {
+      const pokeApiPokemon = generateMockPokeApiPokemon()
+      pokeApiPokemon.id = 354
+      const pokemonCreated = mapFromPokeApi(pokeApiPokemon)
+      expect(pokemonCreated.imageUrl).toEqual('https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/354.png')
+    })
   })
 })

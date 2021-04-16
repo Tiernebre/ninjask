@@ -5,7 +5,7 @@ import Application from "koa";
 import { PokemonRouter } from "./pokemon.router";
 import { PokemonService } from "./pokemon.service";
 import { object, when } from "testdouble";
-import { generateMockPokeApiPokemon } from "../poke-api";
+import { generateMockPokemon} from "./pokemon.mock";
 
 describe("Server (E2E)", () => {
   let app: Application;
@@ -33,14 +33,14 @@ describe("Server (E2E)", () => {
 
     it("returns with 200 OK status", async () => {
       when(pokemonService.getARandomOne()).thenResolve(
-        generateMockPokeApiPokemon()
+        generateMockPokemon()
       );
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with the a pokemon as the response", async () => {
-      const expected = generateMockPokeApiPokemon();
+      const expected = generateMockPokemon();
       when(pokemonService.getARandomOne()).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);

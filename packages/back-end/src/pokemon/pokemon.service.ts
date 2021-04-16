@@ -1,4 +1,5 @@
 import { NamedAPIResourceList, PokeApiPokemon } from "../poke-api";
+import { Pokemon } from "./pokemon";
 
 export interface PokemonService {
   /**
@@ -12,11 +13,11 @@ export interface PokemonService {
    * @param id The id of the Pokemon to get.
    * @returns The found pokemon.
    */
-  getOneById(id: number): Promise<PokeApiPokemon>;
+  getOneById(id: number): Promise<Pokemon>;
 
   /**
    * Returns a random Pokemon.
    * @returns A randomized Pokemon from anywhere in the national dex.
    */
-  getARandomOne(): Promise<PokeApiPokemon>;
+  getARandomOne(): Promise<Pokemon>;
 }

@@ -1,15 +1,8 @@
-jest.mock("../random", () => ({
-  getRandomInt: jest.fn(),
-}));
-
 import { HttpClient } from "../http/http-client";
 import { PokeApiPokemonService } from "./poke-api-pokemon-service";
-import { object, when } from "testdouble";
+import { matchers, object, when } from "testdouble";
 import { NamedAPIResourceList } from "../poke-api/named-api-resource-list";
 import { Pokemon } from "./pokemon";
-import { getRandomInt } from "../random";
-
-const getMockedRandomInt = (getRandomInt as unknown) as jest.Mock;
 
 describe("PokeApiPokemonService", () => {
   let pokeApiPokemonService: PokeApiPokemonService;
@@ -60,20 +53,6 @@ describe("PokeApiPokemonService", () => {
 
   describe("getARandomOne", () => {
     it("returns a random pokemon", async () => {
-      const index = 23;
-      getMockedRandomInt.mockReturnValue(index);
-      const mockAllResponse: NamedAPIResourceList = {
-        count: 1,
-        next: "",
-        prev: "",
-        results: [
-          {
-            name: "",
-            url: "",
-          },
-        ],
-      };
-      when(pokeApiHttpClient.get("pokemon")).thenResolve(mockAllResponse);
       const expected: Pokemon = {
         id: 23,
         name: "pikachu",
@@ -83,7 +62,7 @@ describe("PokeApiPokemonService", () => {
         order: 16,
         weight: 320,
       };
-      when(pokeApiHttpClient.get(`pokemon/${expected.id}`)).thenResolve(
+      when(pokeApiHttpClient.get(matchers.anything())).thenResolve(
         expected
       );
       const response = await pokeApiPokemonService.getARandomOne();

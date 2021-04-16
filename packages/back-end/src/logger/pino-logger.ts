@@ -13,6 +13,6 @@ export class PinoLogger implements Logger {
   }
 
   error(message: string): void {
-    this.pino.error(message)
+    this.pino.error(message);
   }
 }

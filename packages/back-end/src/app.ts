@@ -23,7 +23,7 @@ const pokemonService: PokemonService = new PokeApiPokemonService(
 
 const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
-app.use(loggingMiddleware(logger))
+app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
 
 const PORT = 3000;

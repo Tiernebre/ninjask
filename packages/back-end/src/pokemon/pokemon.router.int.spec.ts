@@ -32,7 +32,9 @@ describe("Server (E2E)", () => {
     const uri = "/random-pokemon";
 
     it("returns with 200 OK status", async () => {
-      when(pokemonService.getARandomOne()).thenResolve(generateMockPokeApiPokemon());
+      when(pokemonService.getARandomOne()).thenResolve(
+        generateMockPokeApiPokemon()
+      );
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });

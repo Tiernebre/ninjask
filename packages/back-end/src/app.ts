@@ -1,20 +1,11 @@
 import Koa from "koa";
-import { FetchHttpClient } from "./http/fetch-http-client";
-import { HttpClient } from "./http/http-client";
-import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
-import { PokemonService } from "./pokemon/pokemon.service";
-import Router from "@koa/router";
-import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
 import websockify from "koa-websocket";
 import dotenv from "dotenv";
 import "reflect-metadata";
-import { createConnection, getRepository } from "typeorm";
-import { LeagueEntity } from "./leagues/league.entity";
-import { LeagueService } from "./leagues/league.service";
-import { LeagueRouter } from "./leagues/league.router";
+import { injectDependencies } from "./dependency-injection";
 
 dotenv.config();
 
@@ -37,26 +28,8 @@ app.ws.use((ctx) => {
   });
 });
 
-const injectDependencies = async (): Promise<Router[]> => {
-  await createConnection()
 
-  const pokeApiHttpClient: HttpClient = new FetchHttpClient(
-    "https://pokeapi.co/api/v2"
-  );
-  const pokemonService: PokemonService = new PokeApiPokemonService(
-    pokeApiHttpClient,
-    logger
-  );
-  const pokemonRouter: Router = new PokemonRouter(pokemonService);
-
-  const leagueRepository = getRepository(LeagueEntity);
-  const leagueService = new LeagueService(leagueRepository, logger);
-  const leagueRouter: Router = new LeagueRouter(leagueService);
-
-  return [pokemonRouter, leagueRouter]
-}
-
-void injectDependencies().then((routers) => {
+void injectDependencies(logger).then((routers) => {
   routers.forEach(router => {
     app.use(router.routes())
   })

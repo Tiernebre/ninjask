@@ -8,8 +8,9 @@ import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
+import websockify from "koa-websocket";
 
-const app = new Koa();
+const app = websockify(new Koa());
 
 const logger: Logger = new PinoLogger();
 
@@ -32,6 +33,14 @@ app.use(
 );
 app.use(loggingMiddleware(logger));
 app.use(pokemonRouter.routes());
+
+app.ws.use((ctx) => {
+  ctx.websocket.send("Hello World FROM WEB SOCKET LAND WOOO");
+  ctx.websocket.on("message", (message) => {
+    logger.info(`WebSocket Message Received: ${message.toString()}`);
+    ctx.websocket.send("Thanks for saying hi back :)");
+  });
+});
 
 const PORT = 3000;
 

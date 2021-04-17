@@ -10,9 +10,8 @@ export const generateMockLeagueEntity = (): LeagueEntity => {
   return leagueEntity;
 };
 
-
 export const generateMockLeague = (): League => ({
   id: generateRandomNumber(),
   name: `Mock League ${generateRandomString()}`,
-  description: `Just a mock league. ${generateRandomString()}`
-})
+  description: `Just a mock league. ${generateRandomString()}`,
+});

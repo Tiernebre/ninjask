@@ -19,23 +19,23 @@ const buildPokemonRouter = (logger: Logger) => {
     logger
   );
   return new PokemonRouter(pokemonService);
-}
+};
 
 const buildLeagueRouter = (logger: Logger) => {
   const leagueRepository = getRepository(LeagueEntity);
   const leagueService = new LeagueService(leagueRepository, logger);
   return new LeagueRouter(leagueService);
-}
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
- * 
+ *
  * @param logger The application logger, which is on its own a dependency but needed in other spots.
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
 export const injectDependencies = async (logger: Logger): Promise<Router[]> => {
-  await createConnection()
+  await createConnection();
 
-  return [buildPokemonRouter(logger), buildLeagueRouter(logger)]
-}
+  return [buildPokemonRouter(logger), buildLeagueRouter(logger)];
+};

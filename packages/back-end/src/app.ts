@@ -28,14 +28,13 @@ app.ws.use((ctx) => {
   });
 });
 
-
 void injectDependencies(logger).then((routers) => {
-  routers.forEach(router => {
-    app.use(router.routes())
-  })
+  routers.forEach((router) => {
+    app.use(router.routes());
+  });
 
   const port = Number(process.env.API_SERVER_PORT);
   app.listen(port, () => {
     logger.info(`Pokemon Random API Has Started on Port: ${port}`);
   });
-})
+});

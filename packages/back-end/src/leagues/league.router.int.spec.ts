@@ -32,7 +32,10 @@ describe("League Router (integration)", () => {
     const uri = "/leagues";
 
     it("returns with 200 OK status", async () => {
-      when(leagueService.getAll()).thenResolve([generateMockLeague(), generateMockLeague()]);
+      when(leagueService.getAll()).thenResolve([
+        generateMockLeague(),
+        generateMockLeague(),
+      ]);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });

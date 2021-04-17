@@ -9,9 +9,9 @@ import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
 import websockify from "koa-websocket";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const app = websockify(new Koa());
 

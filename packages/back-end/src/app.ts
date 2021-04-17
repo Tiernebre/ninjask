@@ -11,7 +11,7 @@ import cors from "@koa/cors";
 import websockify from "koa-websocket";
 import dotenv from "dotenv";
 import "reflect-metadata";
-import { getRepository } from "typeorm";
+import { createConnection, getRepository } from "typeorm";
 import { LeagueEntity } from "./leagues/league.entity";
 import { LeagueService } from "./leagues/league.service";
 import { LeagueRouter } from "./leagues/league.router";
@@ -21,19 +21,6 @@ dotenv.config();
 const app = websockify(new Koa());
 const logger: Logger = new PinoLogger();
 
-const pokeApiHttpClient: HttpClient = new FetchHttpClient(
-  "https://pokeapi.co/api/v2"
-);
-const pokemonService: PokemonService = new PokeApiPokemonService(
-  pokeApiHttpClient,
-  logger
-);
-const pokemonRouter: Router = new PokemonRouter(pokemonService);
-
-const leagueRepository = getRepository(LeagueEntity);
-const leagueService = new LeagueService(leagueRepository, logger);
-const leagueRouter: Router = new LeagueRouter(leagueService);
-
 app.use(
   cors({
     // not great CORS API design -- but we'll stick with it for now to get something we can iterate on. :)
@@ -41,8 +28,6 @@ app.use(
   })
 );
 app.use(loggingMiddleware(logger));
-app.use(pokemonRouter.routes());
-app.use(leagueRouter.routes());
 
 app.ws.use((ctx) => {
   ctx.websocket.send("Hello World FROM WEB SOCKET LAND WOOO");
@@ -52,8 +37,33 @@ app.ws.use((ctx) => {
   });
 });
 
-const PORT = Number(process.env.API_SERVER_PORT);
+const injectDependencies = async (): Promise<Router[]> => {
+  await createConnection()
 
-app.listen(PORT, () => {
-  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
-});
+  const pokeApiHttpClient: HttpClient = new FetchHttpClient(
+    "https://pokeapi.co/api/v2"
+  );
+  const pokemonService: PokemonService = new PokeApiPokemonService(
+    pokeApiHttpClient,
+    logger
+  );
+  const pokemonRouter: Router = new PokemonRouter(pokemonService);
+
+  const leagueRepository = getRepository(LeagueEntity);
+  const leagueService = new LeagueService(leagueRepository, logger);
+  const leagueRouter: Router = new LeagueRouter(leagueService);
+
+  return [pokemonRouter, leagueRouter]
+}
+
+void injectDependencies().then((routers) => {
+  routers.forEach(router => {
+    app.use(router.routes())
+  })
+
+  const PORT = Number(process.env.API_SERVER_PORT);
+
+  app.listen(PORT, () => {
+    logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
+  });
+})

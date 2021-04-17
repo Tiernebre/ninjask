@@ -51,15 +51,15 @@ app.ws.use((ctx) => {
 const PORT = Number(process.env.API_SERVER_PORT);
 
 const testDb = async () => {
-  const connection = await createConnection()
-  await connection.query('SELECT 1')
-  logger.info("Succesfully connected to the database.")
-  const pokemonRepository = connection.getRepository(PokemonEntity)
-  const numberOfPokemon = await pokemonRepository.count()
-  logger.info(`There are ${numberOfPokemon} pokemon stored on the DB.`)
-}
+  const connection = await createConnection();
+  await connection.query("SELECT 1");
+  logger.info("Succesfully connected to the database.");
+  const pokemonRepository = connection.getRepository(PokemonEntity);
+  const numberOfPokemon = await pokemonRepository.count();
+  logger.info(`There are ${numberOfPokemon} pokemon stored on the DB.`);
+};
 
-void testDb()
+void testDb();
 
 app.listen(PORT, () => {
   logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);

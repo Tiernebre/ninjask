@@ -1,5 +1,6 @@
 import { LeagueEntity } from "./league.entity";
 import { generateRandomNumber, generateRandomString } from "../random";
+import { League } from "./league";
 
 export const generateMockLeagueEntity = (): LeagueEntity => {
   const leagueEntity = new LeagueEntity();
@@ -8,3 +9,10 @@ export const generateMockLeagueEntity = (): LeagueEntity => {
   leagueEntity.description = `Just a mock league. ${generateRandomString()}`;
   return leagueEntity;
 };
+
+
+export const generateMockLeague = (): League => ({
+  id: generateRandomNumber(),
+  name: `Mock League ${generateRandomString()}`,
+  description: `Just a mock league. ${generateRandomString()}`
+})

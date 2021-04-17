@@ -2,21 +2,21 @@ import Koa from "koa";
 import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
-import { PokemonRouter } from "./pokemon.router";
-import { PokemonService } from "./pokemon.service";
+import { LeagueRouter } from "./league.router";
+import { LeagueService } from "./league.service";
 import { object, when } from "testdouble";
-import { generateMockPokemon } from "./pokemon.mock";
+import { generateMockLeague } from "./league.mock";
 
-describe("Pokemon Router (integration)", () => {
+describe("League Router (integration)", () => {
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
-  let pokemonService: PokemonService;
+  let leagueService: LeagueService;
 
   beforeAll(() => {
     app = new Koa();
-    pokemonService = object<PokemonService>();
-    const router = new PokemonRouter(pokemonService);
+    leagueService = object<LeagueService>();
+    const router = new LeagueRouter(leagueService);
     app.use(router.routes());
 
     server = app.listen();
@@ -28,18 +28,21 @@ describe("Pokemon Router (integration)", () => {
     server.close();
   });
 
-  describe("GET /random-pokemon", () => {
-    const uri = "/random-pokemon";
+  describe("GET /leagues", () => {
+    const uri = "/leagues";
 
     it("returns with 200 OK status", async () => {
-      when(pokemonService.getARandomOne()).thenResolve(generateMockPokemon());
+      when(leagueService.getAll()).thenResolve([
+        generateMockLeague(),
+        generateMockLeague(),
+      ]);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
-    it("returns with the a pokemon as the response", async () => {
-      const expected = generateMockPokemon();
-      when(pokemonService.getARandomOne()).thenResolve(expected);
+    it("returns with the a league as the response", async () => {
+      const expected = [generateMockLeague(), generateMockLeague()];
+      when(leagueService.getAll()).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);
     });

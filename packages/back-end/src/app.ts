@@ -1,33 +1,16 @@
 import Koa from "koa";
-import { FetchHttpClient } from "./http/fetch-http-client";
-import { HttpClient } from "./http/http-client";
-import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
-import { PokemonService } from "./pokemon/pokemon.service";
-import Router from "@koa/router";
-import { PokemonRouter } from "./pokemon/pokemon.router";
 import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
 import websockify from "koa-websocket";
 import dotenv from "dotenv";
 import "reflect-metadata";
+import { injectDependencies } from "./dependency-injection";
 
 dotenv.config();
 
 const app = websockify(new Koa());
-
 const logger: Logger = new PinoLogger();
-
-const pokeApiHttpClient: HttpClient = new FetchHttpClient(
-  "https://pokeapi.co/api/v2"
-);
-
-const pokemonService: PokemonService = new PokeApiPokemonService(
-  pokeApiHttpClient,
-  logger
-);
-
-const pokemonRouter: Router = new PokemonRouter(pokemonService);
 
 app.use(
   cors({
@@ -36,7 +19,6 @@ app.use(
   })
 );
 app.use(loggingMiddleware(logger));
-app.use(pokemonRouter.routes());
 
 app.ws.use((ctx) => {
   ctx.websocket.send("Hello World FROM WEB SOCKET LAND WOOO");
@@ -46,8 +28,13 @@ app.ws.use((ctx) => {
   });
 });
 
-const PORT = Number(process.env.API_SERVER_PORT);
+void injectDependencies(logger).then((routers) => {
+  routers.forEach((router) => {
+    app.use(router.routes());
+  });
 
-app.listen(PORT, () => {
-  logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
+  const port = Number(process.env.API_SERVER_PORT);
+  app.listen(port, () => {
+    logger.info(`Pokemon Random API Has Started on Port: ${port}`);
+  });
 });

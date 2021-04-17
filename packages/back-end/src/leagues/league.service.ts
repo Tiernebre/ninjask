@@ -10,12 +10,12 @@ export class LeagueService {
   ) {}
 
   public async getAll(): Promise<League[]> {
-    this.logger.info("Retrieving all of the leagues.")
-    const foundLeagues = await this.leagueRepository.find()
-    return foundLeagues.map(league => ({
+    this.logger.info("Retrieving all of the leagues.");
+    const foundLeagues = await this.leagueRepository.find();
+    return foundLeagues.map((league) => ({
       id: league.id,
       name: league.name,
-      description: league.description
-    }))
+      description: league.description,
+    }));
   }
 }

@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import crypto from "crypto";
 
 export const getRandomInt = (min: number, max: number): number => {
   if (min > max) {
@@ -11,9 +11,9 @@ export const getRandomInt = (min: number, max: number): number => {
 };
 
 export const generateRandomNumber = (): number => {
-  return getRandomInt(0, Number.MAX_SAFE_INTEGER)
-}
+  return getRandomInt(0, Number.MAX_SAFE_INTEGER);
+};
 
 export const generateRandomString = (): string => {
-  return crypto.randomBytes(20).toString('hex');
-}
+  return crypto.randomBytes(20).toString("hex");
+};

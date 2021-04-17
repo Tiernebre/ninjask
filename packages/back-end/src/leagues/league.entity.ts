@@ -1,15 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-  name: 'league'
+  name: "league",
 })
 export class LeagueEntity {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
-  name!: string
+  name!: string;
 
   @Column()
-  description!: string
+  description!: string;
 }

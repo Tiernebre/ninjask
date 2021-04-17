@@ -34,9 +34,8 @@ void injectDependencies(logger).then((routers) => {
     app.use(router.routes())
   })
 
-  const PORT = Number(process.env.API_SERVER_PORT);
-
-  app.listen(PORT, () => {
-    logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);
+  const port = Number(process.env.API_SERVER_PORT);
+  app.listen(port, () => {
+    logger.info(`Pokemon Random API Has Started on Port: ${port}`);
   });
 })

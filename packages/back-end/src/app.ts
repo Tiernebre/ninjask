@@ -9,6 +9,9 @@ import { Logger, PinoLogger } from "./logger";
 import { loggingMiddleware } from "./logger/logging.middleware";
 import cors from "@koa/cors";
 import websockify from "koa-websocket";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = websockify(new Koa());
 
@@ -42,7 +45,7 @@ app.ws.use((ctx) => {
   });
 });
 
-const PORT = 3000;
+const PORT = Number(process.env.API_SERVER_PORT);
 
 app.listen(PORT, () => {
   logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);

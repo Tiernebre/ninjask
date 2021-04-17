@@ -11,6 +11,7 @@ import cors from "@koa/cors";
 import websockify from "koa-websocket";
 import dotenv from "dotenv";
 import "reflect-metadata";
+import { createConnection } from "typeorm";
 
 dotenv.config();
 
@@ -47,6 +48,14 @@ app.ws.use((ctx) => {
 });
 
 const PORT = Number(process.env.API_SERVER_PORT);
+
+const testDb = async () => {
+  const connection = await createConnection()
+  await connection.query('SELECT 1')
+  console.log('YOO!')
+}
+
+void testDb()
 
 app.listen(PORT, () => {
   logger.info(`Pokemon Random API Has Started on Port: ${PORT}`);

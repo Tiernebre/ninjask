@@ -1,9 +1,4 @@
-import {
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { SeasonEntity } from "../season/season.entity";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 
@@ -14,9 +9,9 @@ export class DraftEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => SeasonEntity, season => season.draft)
+  @OneToOne(() => SeasonEntity, (season) => season.draft)
   season!: SeasonEntity;
 
-  @OneToMany(() => DraftPokemonEntity, draftPokemon => draftPokemon.draft)
+  @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft)
   pokemon!: Promise<DraftPokemonEntity[]>;
 }

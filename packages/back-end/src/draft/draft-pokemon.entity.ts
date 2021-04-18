@@ -1,8 +1,4 @@
-import {
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DraftEntity } from "./draft.entity";
 
 @Entity({
@@ -12,6 +8,6 @@ export class DraftPokemonEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => DraftEntity, draft => draft.pokemon)
+  @ManyToOne(() => DraftEntity, (draft) => draft.pokemon)
   draft!: Promise<DraftEntity>;
 }

@@ -41,6 +41,6 @@ export class SeasonEntity {
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
 
-  @OneToOne(() => DraftEntity, draft => draft.season)
+  @OneToOne(() => DraftEntity, (draft) => draft.season)
   draft!: Promise<DraftEntity>;
 }

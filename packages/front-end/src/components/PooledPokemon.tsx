@@ -5,11 +5,9 @@ type PooledPokemonProps = {
   pokemon: Pokemon[]
 }
 
-const PooledPokemonListing = (pokemon: Pokemon) => <li key={pokemon.id}>
-  <div className="pooledPokemon-pokemon">
-    <img src={pokemon.iconUrl} alt={pokemon.name}></img>
-    <p>{pokemon.name}</p>
-  </div>
+const PooledPokemonListing = (pokemon: Pokemon) => <li className="pooledPokemon-pokemon" key={pokemon.id}>
+  <img src={pokemon.iconUrl} alt={pokemon.name}></img>
+  <p>{pokemon.name}</p>
 </li>
 
 export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {

@@ -32,6 +32,7 @@ export class DraftService {
         const draftPokemonEntity = new DraftPokemonEntity();
         draftPokemonEntity.pokemonId = pokemon.id;
         draftPokemonEntity.draft = draft;
+        pokemonPooled.push(draftPokemonEntity);
       }
       draft.pokemon = pokemonPooled;
       await this.draftRepository.save(draft);

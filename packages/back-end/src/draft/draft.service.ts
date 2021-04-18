@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import { Repository } from "typeorm";
+import { fetchOk } from "../http";
 import { PokeApiPokemonSpecies } from "../poke-api";
 import { getRandomInt } from "../random";
 import { VersionService } from "../version/version.service";
@@ -24,8 +25,7 @@ export class DraftService {
       for (let i = 0; i < 5; i++) {
         const randomNumber = getRandomInt(0, pokemonEntries.length);
         const randomPokemon = pokemonEntries[randomNumber];
-        const pokemonResponse = await fetch(randomPokemon.pokemon_species.url);
-        const pokemon = (await pokemonResponse.json()) as PokeApiPokemonSpecies;
+        const pokemon = await fetchOk<PokeApiPokemonSpecies>(randomPokemon.pokemon_species.url);
         pokemonPooled.push(pokemon.name);
       }
       console.log(pokemonPooled);

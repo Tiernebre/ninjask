@@ -28,7 +28,7 @@ export class LeagueEntity {
   @OneToMany(() => SeasonEntity, (season) => season.league)
   seasons!: Promise<SeasonEntity[]>;
 
-  @CreateDateColumn({ nullable: false, readonly: true })
+  @CreateDateColumn({ nullable: false, update: false })
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })

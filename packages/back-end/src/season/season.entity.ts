@@ -33,7 +33,7 @@ export class SeasonEntity {
   @OneToMany(() => ChallengeEntity, (challenge) => challenge.season)
   challenges!: Promise<ChallengeEntity[]>;
 
-  @CreateDateColumn({ nullable: false, readonly: true })
+  @CreateDateColumn({ nullable: false, update: false })
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })

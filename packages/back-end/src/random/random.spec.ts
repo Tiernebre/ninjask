@@ -86,7 +86,7 @@ describe("random", () => {
         min: 1,
         max: 10,
         size: 2,
-        denyList: [5],
+        denyList: new Set([5]),
       });
       expect(integers).not.toContain(5);
     });

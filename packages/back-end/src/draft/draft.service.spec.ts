@@ -7,9 +7,11 @@ import { Repository } from "typeorm";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { VersionService } from "../version/version.service";
 import { DraftEntity } from "./draft.entity";
-import { generateMockDraftEntity } from "./draft.mock";
+import {
+  generateMockDraftEntity,
+  generateMockDraftPokemonEntity,
+} from "./draft.mock";
 import { DraftService } from "./draft.service";
-import { generateMockPokeApiPokedex } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import {
@@ -19,6 +21,11 @@ import {
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { generateRandomNumber } from "../random";
 import { Pokemon } from "../pokemon/pokemon";
+import {
+  generateMockPokedex,
+  generateMockVersion,
+} from "../version/version.mock";
+import { Logger } from "../logger";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -35,7 +42,8 @@ describe("DraftService", () => {
     draftService = new DraftService(
       draftRepository,
       versionService,
-      pokemonService
+      pokemonService,
+      object<Logger>()
     );
   });
 
@@ -66,12 +74,13 @@ describe("DraftService", () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
       const challenge = await draft.challenge;
-      const pokedex = generateMockPokeApiPokedex();
-      draft.poolSize = pokedex.pokemon_entries.length;
+      const version = generateMockVersion();
+      const pokedex = generateMockPokedex();
+      draft.pokemon = [];
+      draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
-      when(
-        versionService.getPokedexFromOneWithId(challenge.versionId)
-      ).thenResolve(pokedex);
+      when(versionService.getOneById(challenge.versionId)).thenResolve(version);
+      when(versionService.getPokedexFromOne(version)).thenResolve(pokedex);
       const pokemonGenerated: PokeApiPokemonSpecies[] = [];
       mockedFetchOk.mockImplementation(() => {
         const pokemon = generateMockPokeApiPokemonSpecies();
@@ -86,7 +95,28 @@ describe("DraftService", () => {
       });
       await draftService.generatePoolOfPokemonForOneWithId(id);
       draft.pokemon = expectedPokemonSaved;
-      verify(draftRepository.save(draft));
+      verify(draftRepository.save(draft), { times: 1 });
+    });
+
+    it("clears an existing draft pool if a previous one existed during generation", async () => {
+      const id = generateRandomNumber();
+      const draft = generateMockDraftEntity();
+      const challenge = await draft.challenge;
+      const version = generateMockVersion();
+      const pokedex = generateMockPokedex();
+      draft.pokemon = [generateMockDraftPokemonEntity()];
+      draft.poolSize = pokedex.pokemonUrls.length;
+      when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
+      when(versionService.getOneById(challenge.versionId)).thenResolve(version);
+      when(versionService.getPokedexFromOne(version)).thenResolve(pokedex);
+      const pokemonGenerated: PokeApiPokemonSpecies[] = [];
+      mockedFetchOk.mockImplementation(() => {
+        const pokemon = generateMockPokeApiPokemonSpecies();
+        pokemonGenerated.push(pokemon);
+        return pokemon;
+      });
+      await draftService.generatePoolOfPokemonForOneWithId(id);
+      verify(draftRepository.save(matchers.anything()), { times: 2 });
     });
   });
 

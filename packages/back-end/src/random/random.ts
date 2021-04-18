@@ -20,7 +20,7 @@ export interface RandomIntegersSetConfiguration {
   // exclusive maximum
   max: number;
   // numbers that should be excluded from the set
-  denyList?: number[];
+  denyList?: Set<number>;
   // the size of the set of numbers
   size: number;
 }
@@ -28,7 +28,7 @@ export interface RandomIntegersSetConfiguration {
 export const getSetOfRandomIntegers = (
   configuration: RandomIntegersSetConfiguration
 ): Set<number> => {
-  const { min, max, denyList = [], size } = configuration;
+  const { min, max, denyList = new Set(), size } = configuration;
 
   const range = max - min;
   if (size > range) {
@@ -39,7 +39,7 @@ export const getSetOfRandomIntegers = (
 
   do {
     const randomInt = getRandomInt(min, max);
-    if (!denyList.includes(randomInt)) {
+    if (!denyList.has(randomInt)) {
       randomIntegers.add(randomInt);
     }
   } while (randomIntegers.size !== size);

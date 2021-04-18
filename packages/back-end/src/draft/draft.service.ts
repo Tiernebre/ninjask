@@ -34,7 +34,7 @@ export class DraftService {
     const randomNumbersGenerated = Array.from(getSetOfRandomIntegers({
       min: 0,
       max: pokemonEntries.length,
-      size: 30
+      size: draft.poolSize
     }))
     const pokemonPooled = await Promise.all(randomNumbersGenerated.map(async (randomNumber) => {
       const randomPokemon = pokemonEntries[randomNumber];

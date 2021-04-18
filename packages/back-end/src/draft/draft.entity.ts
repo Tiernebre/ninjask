@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinColumn,
   OneToMany,
@@ -23,4 +24,7 @@ export class DraftEntity {
     cascade: true,
   })
   pokemon!: DraftPokemonEntity[];
+
+  @Column({ nullable: false, comment:'The amount of pokemon this draft should have.' })
+  poolSize!: number
 }

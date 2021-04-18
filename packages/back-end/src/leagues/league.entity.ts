@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { SeasonEntity } from "../season/season.entity";
 
 @Entity({
@@ -22,8 +29,8 @@ export class LeagueEntity {
   seasons!: Promise<SeasonEntity[]>;
 
   @CreateDateColumn({ nullable: false, readonly: true })
-  createdAt!: Date
+  createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })
-  updatedAt!: Date
+  updatedAt!: Date;
 }

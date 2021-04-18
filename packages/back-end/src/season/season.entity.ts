@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import { LeagueEntity } from "../leagues/league.entity";
 
@@ -23,11 +31,11 @@ export class SeasonEntity {
   league!: Promise<LeagueEntity>;
 
   @OneToMany(() => ChallengeEntity, (challenge) => challenge.season)
-  challenges!: Promise<ChallengeEntity[]>
+  challenges!: Promise<ChallengeEntity[]>;
 
   @CreateDateColumn({ nullable: false, readonly: true })
-  createdAt!: Date
+  createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })
-  updatedAt!: Date
+  updatedAt!: Date;
 }

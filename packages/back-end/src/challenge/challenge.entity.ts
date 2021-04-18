@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from "typeorm";
 import { SeasonEntity } from "../season/season.entity";
 
 @Entity({
@@ -18,17 +25,17 @@ export class ChallengeEntity {
   })
   description!: string;
 
-  @ManyToOne(() => SeasonEntity, season => season.challenges)
-  season!: SeasonEntity
+  @ManyToOne(() => SeasonEntity, (season) => season.challenges)
+  season!: SeasonEntity;
 
   @CreateDateColumn({ nullable: false, readonly: true })
-  createdAt!: Date
+  createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })
-  updatedAt!: Date
+  updatedAt!: Date;
 
   @Column({
-    nullable: false
+    nullable: false,
   })
-  versionId!: number
+  versionId!: number;
 }

@@ -31,5 +31,11 @@ describe('DraftService', () => {
       const gotten = await draftService.getOneById(id)
       expect(gotten).toEqual(expected)
     })
+
+    it('throws an error if the draft entity does not exist', async () => {
+      const id = 1
+      when(draftRepository.findOne(id, matchers.anything())).thenResolve(undefined)
+      await expect(draftService.getOneById(id)).rejects.toThrowError(`Draft with id ${id} was not found.`)
+    })
   })
 })

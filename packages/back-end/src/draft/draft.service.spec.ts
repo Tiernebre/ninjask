@@ -11,9 +11,11 @@ import { generateMockDraftEntity } from "./draft.mock";
 import { DraftService } from "./draft.service";
 import { generateMockPokeApiPokedex } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
-import P from "pino";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { generateMockPokeApiPokemonSpecies, PokeApiPokemonSpecies } from "../poke-api";
+import { generateMockPokemon } from '../pokemon/pokemon.mock'
+import { generateRandomNumber } from "../random";
+import { Pokemon } from "../pokemon/pokemon";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -36,7 +38,7 @@ describe("DraftService", () => {
 
   describe("getOneById", () => {
     it("returns the found draft entity if it exists", async () => {
-      const id = 1;
+      const id = generateRandomNumber();
       const expected = generateMockDraftEntity();
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(
         expected
@@ -58,7 +60,7 @@ describe("DraftService", () => {
 
   describe("generatePoolOfPokemonForOneWithId", () => {
     it("generates a pool of pokemon for a given draft id", async () => {
-      const id = 1;
+      const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
       const challenge = await draft.challenge;
       const pokedex = generateMockPokeApiPokedex();
@@ -84,4 +86,20 @@ describe("DraftService", () => {
       verify(draftRepository.save(draft))
     });
   });
+
+  describe("getPoolOfPokemonForOneWithId", () => {
+    it('returns the pokemon associated with a given draft pool', async () => {
+      const id = generateRandomNumber();
+      const draft = generateMockDraftEntity();
+      const expected: Pokemon[] = []
+      draft.pokemon.forEach(pokemon => {
+        const pokemonGotten = generateMockPokemon()
+        when(pokemonService.getOneById(pokemon.id)).thenResolve(pokemonGotten)
+        expected.push(pokemonGotten)
+      })
+      when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
+      const gotten = await draftService.getPoolOfPokemonForOneWithId(id)
+      expect(gotten).toEqual(expected)
+    })
+  })
 });

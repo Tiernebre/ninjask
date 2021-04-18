@@ -1,4 +1,12 @@
-import { NamedAPIResource } from "./named-api-resource";
+// Common Typings Across all PokeAPI Types.
+
+export interface NamedAPIResource {
+  // The name of the referenced resource.
+  name: string;
+
+  // The URL of the referenced resource.
+  url: string;
+}
 
 export interface NamedAPIResourceList {
   // The total number of resources available from this API.
@@ -12,4 +20,9 @@ export interface NamedAPIResourceList {
 
   // A list of named API resources.
   results: NamedAPIResource[];
+}
+
+export interface Name {
+  name: string;
+  language: NamedAPIResource;
 }

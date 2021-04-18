@@ -5,17 +5,6 @@
   height: 100%;
 }
 
-.pokemon-information {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.pokemon-information img {
-  max-width: 300px;
-}
-
 .pokemon-draft-buttons {
   display: flex;
 }

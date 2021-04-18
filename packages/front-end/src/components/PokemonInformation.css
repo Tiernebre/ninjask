@@ -1,0 +1,14 @@
+.pokemonInformation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.pokemonInformation-image {
+  max-width: 300px;
+}
+
+.pokemonInformation-name::first-letter {
+  text-transform: capitalize;
+}

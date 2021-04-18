@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Pokemon } from "./api/pokemon/Pokemon";
 import { PooledPokemon } from "./components/PooledPokemon";
+import { PokemonInformation } from "./components/PokemonInformation";
 
 interface DraftStatus {
   currentPokemon: Pokemon;
@@ -29,11 +30,6 @@ function App() {
   const currentPokemon = currentDraftStatus?.currentPokemon
   const pooledPokemon = currentDraftStatus?.pooledPokemon || []
 
-  const pokemonInformation = currentPokemon ? <div className="pokemon-information">
-    <img src={currentPokemon.imageUrl} alt={`${currentPokemon.name}`}></img>
-    <p>{ currentPokemon.name }</p>
-  </div> : <div></div>
-
   const buttons = isReady() ? 
       <div className="pokemon-draft-buttons">
         <button onClick={restartDraft}>Restart the Draft!</button>
@@ -46,7 +42,7 @@ function App() {
         <PooledPokemon pokemon={pooledPokemon} />
       </div>
       <div className="app-pokemon-information-container">
-        {pokemonInformation}
+        <PokemonInformation pokemon={currentPokemon} />
         {buttons}
       </div>
     </div>

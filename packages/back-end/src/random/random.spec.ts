@@ -75,5 +75,15 @@ describe("random", () => {
         })
       ).not.toThrowError();
     });
+
+    it("does not generate a number that is on a provided deny list", () => {
+      const integers = getSetOfRandomIntegers({
+        min: 0,
+        max: 10,
+        size: 8,
+        denyList: [1]
+      })
+      expect(integers).not.toContain(1)
+    })
   });
 });

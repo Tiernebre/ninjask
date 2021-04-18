@@ -24,12 +24,17 @@ const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 describe("PokeApiVersionService", () => {
   let pokeApiVersionService: PokeApiVersionService;
   let pokeApiHttpClient: HttpClient;
-  let versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>
+  let versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>;
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
-    versionDeniedPokemonRepository = object<Repository<VersionDeniedPokemonEntity>>();
-    pokeApiVersionService = new PokeApiVersionService(pokeApiHttpClient, versionDeniedPokemonRepository);
+    versionDeniedPokemonRepository = object<
+      Repository<VersionDeniedPokemonEntity>
+    >();
+    pokeApiVersionService = new PokeApiVersionService(
+      pokeApiHttpClient,
+      versionDeniedPokemonRepository
+    );
     mockedFetchOk.mockReset();
   });
 
@@ -41,11 +46,16 @@ describe("PokeApiVersionService", () => {
       );
       const versionDeniedList = [
         generateMockVersionDeniedPokemon(),
-        generateMockVersionDeniedPokemon()
-      ]
-      when(versionDeniedPokemonRepository.find({ versionId: pokeApiVersion.id })).thenResolve(versionDeniedList)
+        generateMockVersionDeniedPokemon(),
+      ];
+      when(
+        versionDeniedPokemonRepository.find({ versionId: pokeApiVersion.id })
+      ).thenResolve(versionDeniedList);
       const gotten = await pokeApiVersionService.getOneById(pokeApiVersion.id);
-      const expected = mapVersionFromPokeApi(pokeApiVersion, versionDeniedList.map(({ pokemonId }) => pokemonId))
+      const expected = mapVersionFromPokeApi(
+        pokeApiVersion,
+        versionDeniedList.map(({ pokemonId }) => pokemonId)
+      );
       expect(gotten).toEqual(expected);
     });
   });
@@ -56,7 +66,9 @@ describe("PokeApiVersionService", () => {
       const versionGroup = generateMockPokeApiVersionGroup();
       const pokedex = generateMockPokeApiPokedex();
       when(pokeApiHttpClient.get(`version/${version.id}`)).thenResolve(version);
-      when(versionDeniedPokemonRepository.find({ versionId: version.id })).thenResolve([])
+      when(
+        versionDeniedPokemonRepository.find({ versionId: version.id })
+      ).thenResolve([]);
       jestWhen(mockedFetchOk)
         .calledWith(version.version_group.url)
         .mockResolvedValue(versionGroup);

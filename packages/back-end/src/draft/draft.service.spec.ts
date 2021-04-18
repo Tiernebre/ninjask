@@ -18,7 +18,10 @@ import {
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { generateRandomNumber } from "../random";
 import { Pokemon } from "../pokemon/pokemon";
-import { generateMockPokedex, generateMockVersion } from "../version/version.mock";
+import {
+  generateMockPokedex,
+  generateMockVersion,
+} from "../version/version.mock";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -66,14 +69,12 @@ describe("DraftService", () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
       const challenge = await draft.challenge;
-      const version = generateMockVersion()
+      const version = generateMockVersion();
       const pokedex = generateMockPokedex();
       draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
-      when(versionService.getOneById(challenge.versionId)).thenResolve(version)
-      when(
-        versionService.getPokedexFromOne(version)
-      ).thenResolve(pokedex);
+      when(versionService.getOneById(challenge.versionId)).thenResolve(version);
+      when(versionService.getPokedexFromOne(version)).thenResolve(pokedex);
       const pokemonGenerated: PokeApiPokemonSpecies[] = [];
       mockedFetchOk.mockImplementation(() => {
         const pokemon = generateMockPokeApiPokemonSpecies();

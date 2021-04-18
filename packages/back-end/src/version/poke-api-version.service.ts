@@ -6,8 +6,12 @@ import {
   PokeApiVersionGroup,
 } from "../poke-api";
 import { VersionService } from "./version.service";
-import { mapPokedexFromPokeApi, mapVersionFromPokeApi, mapVersionGroupFromPokeApi } from './version.mapper'
-import { Version } from './version'
+import {
+  mapPokedexFromPokeApi,
+  mapVersionFromPokeApi,
+  mapVersionGroupFromPokeApi,
+} from "./version.mapper";
+import { Version } from "./version";
 import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
@@ -19,10 +23,14 @@ export class PokeApiVersionService implements VersionService {
   ) {}
 
   async getOneById(id: number): Promise<Version> {
-    const foundVersion = await this.pokeApiHttpClient.get<PokeApiVersion>(`version/${id}`)
-    const deniedPokemon = await this.versionDeniedPokemonRepository.find({ versionId: foundVersion.id })
-    const deniedPokemonIds = deniedPokemon.map(({ pokemonId }) => pokemonId)
-    return mapVersionFromPokeApi(foundVersion, deniedPokemonIds)
+    const foundVersion = await this.pokeApiHttpClient.get<PokeApiVersion>(
+      `version/${id}`
+    );
+    const deniedPokemon = await this.versionDeniedPokemonRepository.find({
+      versionId: foundVersion.id,
+    });
+    const deniedPokemonIds = deniedPokemon.map(({ pokemonId }) => pokemonId);
+    return mapVersionFromPokeApi(foundVersion, deniedPokemonIds);
   }
 
   async getPokedexFromOneWithId(id: number): Promise<Pokedex> {
@@ -33,8 +41,10 @@ export class PokeApiVersionService implements VersionService {
     const versionGroupResponse = await fetchOk<PokeApiVersionGroup>(
       version.versionGroupUrl
     );
-    const versionGroup = mapVersionGroupFromPokeApi(versionGroupResponse)
-    const pokedexResponse = await fetchOk<PokeApiPokedex>(versionGroup.pokedexUrl)
-    return mapPokedexFromPokeApi(pokedexResponse)
+    const versionGroup = mapVersionGroupFromPokeApi(versionGroupResponse);
+    const pokedexResponse = await fetchOk<PokeApiPokedex>(
+      versionGroup.pokedexUrl
+    );
+    return mapPokedexFromPokeApi(pokedexResponse);
   }
 }

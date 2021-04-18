@@ -28,22 +28,22 @@ export class DraftService {
   public async generatePoolOfPokemonForOneWithId(id: number): Promise<void> {
     const draft = await this.getOneById(id);
     const challenge = await draft.challenge;
-    const version = await this.versionService.getOneById(challenge.versionId)
-    const { pokemonUrls }= await this.versionService.getPokedexFromOne(version);
+    const version = await this.versionService.getOneById(challenge.versionId);
+    const { pokemonUrls } = await this.versionService.getPokedexFromOne(
+      version
+    );
     const randomNumbersGenerated = Array.from(
       getSetOfRandomIntegers({
         min: 0,
         max: pokemonUrls.length,
         size: draft.poolSize,
-        denyList: version.deniedPokemonIds
+        denyList: version.deniedPokemonIds,
       })
     );
     const pokemonPooled = await Promise.all(
       randomNumbersGenerated.map(async (randomNumber) => {
         const randomPokemonUrl = pokemonUrls[randomNumber];
-        const pokemon = await fetchOk<PokeApiPokemonSpecies>(
-          randomPokemonUrl
-        );
+        const pokemon = await fetchOk<PokeApiPokemonSpecies>(randomPokemonUrl);
         const draftPokemonEntity = new DraftPokemonEntity();
         draftPokemonEntity.pokemonId = pokemon.id;
         draftPokemonEntity.draft = draft;

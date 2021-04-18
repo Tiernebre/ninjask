@@ -17,3 +17,7 @@
 .pokemon-information img {
   max-width: 300px;
 }
+
+.pokemon-draft-buttons {
+  display: flex;
+}

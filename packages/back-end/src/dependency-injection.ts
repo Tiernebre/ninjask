@@ -4,11 +4,20 @@ import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
 import { PokemonService } from "./pokemon/pokemon.service";
 import Router from "@koa/router";
 import { PokemonRouter } from "./pokemon/pokemon.router";
-import { createConnection, getRepository } from "typeorm";
+import { createConnection, getConnectionOptions, getRepository } from "typeorm";
 import { LeagueEntity } from "./leagues/league.entity";
 import { LeagueService } from "./leagues/league.service";
 import { LeagueRouter } from "./leagues/league.router";
 import { Logger } from "./logger";
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+
+const setupTypeOrmConnection = async (): Promise<void> => {
+  const existingConfiguration = await getConnectionOptions()
+  await createConnection({
+    ...existingConfiguration,
+    namingStrategy: new SnakeNamingStrategy()
+  });
+}
 
 const buildPokemonRouter = (logger: Logger) => {
   const pokeApiHttpClient: HttpClient = new FetchHttpClient(
@@ -35,7 +44,6 @@ const buildLeagueRouter = (logger: Logger) => {
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
 export const injectDependencies = async (logger: Logger): Promise<Router[]> => {
-  await createConnection();
-
+  await setupTypeOrmConnection()
   return [buildPokemonRouter(logger), buildLeagueRouter(logger)];
 };

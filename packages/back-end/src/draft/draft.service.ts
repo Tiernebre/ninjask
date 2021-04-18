@@ -16,7 +16,7 @@ export class DraftService {
   ) {}
 
   public async getOneById(id: number): Promise<DraftEntity> {
-    const draft = await this.draftRepository.findOne(id)
+    const draft = await this.draftRepository.findOne(id, { relations: ['pokemon'] })
     if (!draft) {
       throw new Error(`Draft with id ${id} was not found.`)
     }

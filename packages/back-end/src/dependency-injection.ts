@@ -28,12 +28,15 @@ const buildPokeApiHttpClient = (): HttpClient => {
   return new FetchHttpClient("https://pokeapi.co/api/v2");
 };
 
-const buildPokemonRouter = (logger: Logger) => {
-  const pokemonService: PokemonService = new PokeApiPokemonService(
+const buildPokemonService = (logger: Logger): PokemonService => {
+  return new PokeApiPokemonService(
     buildPokeApiHttpClient(),
     logger
   );
-  return new PokemonRouter(pokemonService);
+}
+
+const buildPokemonRouter = (logger: Logger) => {
+  return new PokemonRouter(buildPokemonService(logger));
 };
 
 const buildLeagueRouter = (logger: Logger) => {
@@ -42,12 +45,12 @@ const buildLeagueRouter = (logger: Logger) => {
   return new LeagueRouter(leagueService);
 };
 
-const buildDraftRouter = () => {
+const buildDraftRouter = (logger: Logger) => {
   const versionService: VersionService = new PokeApiVersionService(
     buildPokeApiHttpClient()
   );
   const draftRepository = getRepository(DraftEntity);
-  const draftService = new DraftService(draftRepository, versionService);
+  const draftService = new DraftService(draftRepository, versionService, buildPokemonService(logger));
   return new DraftRouter(draftService);
 };
 
@@ -63,6 +66,6 @@ export const injectDependencies = async (logger: Logger): Promise<Router[]> => {
   return [
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
-    buildDraftRouter(),
+    buildDraftRouter(logger),
   ];
 };

@@ -14,5 +14,12 @@ export class DraftRouter extends Router {
       );
       ctx.status = 204;
     });
+
+    this.get('/drafts/:id/pool', async (ctx) => {
+      const pokemon = await this.draftService.getPoolOfPokemonForOneWithId(
+        Number(ctx.params.id)
+      )
+      ctx.body = pokemon
+    })
   }
 }

@@ -40,7 +40,9 @@ export class DraftService {
     );
     const version = await this.versionService.getOneById(challenge.versionId);
     this.logger.info(
-      `Found version ${JSON.stringify(version)} that was associated with challenge for pool generation.`
+      `Found version ${JSON.stringify(
+        version
+      )} that was associated with challenge for pool generation.`
     );
     const { pokemonUrls } = await this.versionService.getPokedexFromOne(
       version

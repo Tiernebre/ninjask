@@ -1,11 +1,13 @@
-import { getRandomInt } from "./random";
+import { getRandomInt, getSetOfRandomIntegers } from "./random";
 
 describe("random", () => {
+  afterEach(() => {
+    jest.spyOn(global.Math, 'random').mockRestore();
+  })
+
   describe("getRandomInt", () => {
     beforeEach(() => {
-      const mockMath: Math = Object.create(global.Math) as Math;
-      mockMath.random = () => 0.5;
-      global.Math = mockMath;
+      jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
     });
 
     it("returns an integer", () => {
@@ -32,4 +34,16 @@ describe("random", () => {
       expect(() => getRandomInt(2, 1)).toThrowError();
     });
   });
+
+  describe('getSetOfRandomIntegers', () => {
+    it("returns a size of random integers as specified", () => {
+      const size = 5
+      const randomIntegers = getSetOfRandomIntegers({
+        min: 0,
+        max: Number.MAX_SAFE_INTEGER,
+        size
+      })
+      expect(randomIntegers.size).toEqual(size)
+    })
+  })
 });

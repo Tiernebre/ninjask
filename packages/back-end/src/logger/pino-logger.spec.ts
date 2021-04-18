@@ -25,4 +25,12 @@ describe('pino-logger', () => {
       expect(mockPino.info).toHaveBeenCalledWith(message)
     })
   })
+
+  describe('error', () => {
+    it('calls pino error', () => {
+      const message = 'Expected Error Message'
+      pinoLogger.error(message)
+      expect(mockPino.error).toHaveBeenCalledWith(message)
+    })
+  })
 })

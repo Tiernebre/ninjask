@@ -1,10 +1,8 @@
 .app {
-  width: 100%;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  height: 100%;
 }
 
 .pokemon-information {
@@ -20,4 +18,14 @@
 
 .pokemon-draft-buttons {
   display: flex;
+}
+
+.app-pooled-pokemon-container {
+  width: 20%;
+  height: 100%;
+}
+
+.app-pokemon-information-container {
+  width: 80%;
+  height: 100%;
 }

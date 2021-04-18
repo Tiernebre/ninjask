@@ -1,4 +1,5 @@
 import { Pokemon } from "../api/pokemon/Pokemon"
+import "./PooledPokemon.css"
 
 type PooledPokemonProps = {
   pokemon: Pokemon[]
@@ -6,7 +7,7 @@ type PooledPokemonProps = {
 
 export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {
   return (
-    <div>
+    <div className="pooled-pokemon">
       <ol>
         {pokemon.map(individualPokemon => <li>{individualPokemon.name}</li>)}
       </ol>

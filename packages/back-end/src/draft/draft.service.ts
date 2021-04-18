@@ -14,6 +14,7 @@ export class DraftService {
     if (draft) {
       const challenge = await draft.challenge;
       const version = await this.versionService.getOneById(challenge.versionId);
+      const pokedex = await this.versionService.getPokedexFromOne(version);
     }
   }
 }

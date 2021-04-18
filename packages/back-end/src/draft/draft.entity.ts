@@ -1,4 +1,10 @@
-import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 
@@ -9,7 +15,8 @@ export class DraftEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => ChallengeEntity, (challenge) => challenge.draft)
+  @OneToOne(() => ChallengeEntity)
+  @JoinColumn()
   challenge!: Promise<ChallengeEntity>;
 
   @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft)

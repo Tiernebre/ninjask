@@ -5,7 +5,7 @@ type PooledPokemonProps = {
   pokemon: Pokemon[]
 }
 
-const PooledPokemonListing = (pokemon: Pokemon) => <li>
+const PooledPokemonListing = (pokemon: Pokemon) => <li key={pokemon.id}>
   <div className="pooledPokemon-pokemon">
     <img src={pokemon.iconUrl} alt={pokemon.name}></img>
     <p>{pokemon.name}</p>
@@ -15,6 +15,9 @@ const PooledPokemonListing = (pokemon: Pokemon) => <li>
 export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {
   return (
     <div className="pooledPokemon">
+      <h2 className="pooledPokemon-heading">
+        Pooled Pokemon
+      </h2>
       <ol>
         {pokemon.map(PooledPokemonListing)}
       </ol>

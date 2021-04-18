@@ -21,12 +21,13 @@
 }
 
 .app-pooled-pokemon-container {
-  width: 10%;
+  width: 8%;
   height: 100%;
 }
 
 .app-pokemon-information-container {
-  width: 90%;
+  width: 92%;
+  min-width: 218px;
   height: 100%;
   display: flex;
   align-items: center;

@@ -5,6 +5,11 @@
   padding: 8px;
 }
 
+.pooledPokemon-heading {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
 .pooledPokemon ol {
   width: 100%;
   list-style: none;

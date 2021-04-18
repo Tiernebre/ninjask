@@ -1,11 +1,12 @@
 // Common Typings Across all PokeAPI Types.
 
-export interface NamedAPIResource {
-  // The name of the referenced resource.
-  name: string;
-
+export interface APIResource {
   // The URL of the referenced resource.
   url: string;
+}
+export interface NamedAPIResource extends APIResource {
+  // The name of the referenced resource.
+  name: string;
 }
 
 export interface NamedAPIResourceList {
@@ -30,4 +31,10 @@ export interface Name {
 export interface Description {
   description: string;
   language: NamedAPIResource;
+}
+
+export interface FlavorText {
+  flavor_text: string;
+  language: NamedAPIResource;
+  version: NamedAPIResource;
 }

@@ -1,4 +1,6 @@
+import fetch from "node-fetch";
 import { Repository } from "typeorm";
+import { getRandomInt } from "../random";
 import { VersionService } from "../version/version.service";
 import { DraftEntity } from "./draft.entity";
 
@@ -14,7 +16,14 @@ export class DraftService {
     if (draft) {
       const challenge = await draft.challenge;
       const version = await this.versionService.getOneById(challenge.versionId);
-      const pokedex = await this.versionService.getPokedexFromOne(version);
+      const { pokemon_entries: pokemonEntries }= await this.versionService.getPokedexFromOne(version);
+      const pokemonPooled = []
+      for (let i = 0; i < 5; i++) {
+        const randomNumber = getRandomInt(0, pokemonEntries.length)
+        const randomPokemon = pokemonEntries[randomNumber]
+        const pokemonResponse = await fetch(randomPokemon.pokemon_species.url)
+        const pokemon = await pokemonResponse.json()
+      }
     }
   }
 }

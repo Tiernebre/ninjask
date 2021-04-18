@@ -26,6 +26,16 @@ describe('version.mapper', () => {
       const mappedVersion = mapVersionFromPokeApi(pokeApiVersion)
       expect(mappedVersion.id).toEqual(pokeApiVersion.id)
       expect(mappedVersion.versionGroupUrl).toEqual(pokeApiVersion.version_group.url)
+      expect(mappedVersion.deniedPokemonIds).toEqual([])
+    })
+
+    it('allows for included mapping of denied pokemon', () => {
+      const deniedPokemonIds = [1, 4, 10]
+      const pokeApiVersion = generateMockPokeApiVersion()
+      const mappedVersion = mapVersionFromPokeApi(pokeApiVersion, deniedPokemonIds)
+      expect(mappedVersion.id).toEqual(pokeApiVersion.id)
+      expect(mappedVersion.versionGroupUrl).toEqual(pokeApiVersion.version_group.url)
+      expect(mappedVersion.deniedPokemonIds).toEqual(deniedPokemonIds)
     })
   })
 })

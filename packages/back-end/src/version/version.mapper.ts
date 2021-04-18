@@ -17,9 +17,10 @@ export const mapVersionGroupFromPokeApi = (pokeApiVersionGroup: PokeApiVersionGr
   )
 }
 
-export const mapVersionFromPokeApi = (pokeApiVersion: PokeApiVersion): Version => {
+export const mapVersionFromPokeApi = (pokeApiVersion: PokeApiVersion, deniedPokemonIds: number[] = []): Version => {
   return new Version(
     pokeApiVersion.id,
-    pokeApiVersion.version_group.url
+    pokeApiVersion.version_group.url,
+    deniedPokemonIds
   )
 }

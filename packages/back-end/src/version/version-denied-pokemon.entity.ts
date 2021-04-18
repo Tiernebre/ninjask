@@ -1,10 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity({
-  name: 'version-deny-list'
+  name: 'version-denied-pokemon'
 })
 @Unique(["versionId", "pokemonId"])
-export class VersionDenyList {
+export class VersionDeniedPokemonEntity {
   @PrimaryGeneratedColumn()
   id!: number
 

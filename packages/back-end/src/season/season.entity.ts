@@ -1,4 +1,3 @@
-
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LeagueEntity } from "../leagues/league.entity";
 
@@ -10,15 +9,15 @@ export class SeasonEntity {
   id!: number;
 
   @Column({
-    nullable: false
+    nullable: false,
   })
   name!: string;
 
   @Column({
-    nullable: false
+    nullable: false,
   })
   description!: string;
 
-  @ManyToOne(() => LeagueEntity, league => league.seasons)
+  @ManyToOne(() => LeagueEntity, (league) => league.seasons)
   jeague!: Promise<LeagueEntity>;
 }

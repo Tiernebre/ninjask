@@ -9,15 +9,15 @@ export class LeagueEntity {
   id!: number;
 
   @Column({
-    nullable: false
+    nullable: false,
   })
   name!: string;
 
   @Column({
-    nullable: false
+    nullable: false,
   })
   description!: string;
 
-  @OneToMany(() => SeasonEntity, season => season.league)
+  @OneToMany(() => SeasonEntity, (season) => season.league)
   seasons!: Promise<SeasonEntity[]>;
 }

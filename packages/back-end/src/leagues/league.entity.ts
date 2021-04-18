@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { SeasonEntity } from "../season/season.entity";
 
 @Entity({
   name: "league",
@@ -7,9 +8,16 @@ export class LeagueEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   name!: string;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   description!: string;
+
+  @OneToMany(() => SeasonEntity, (season) => season.league)
+  seasons!: Promise<SeasonEntity[]>;
 }

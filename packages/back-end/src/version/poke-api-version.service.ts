@@ -6,20 +6,25 @@ import {
   PokeApiVersionGroup,
 } from "../poke-api";
 import { VersionService } from "./version.service";
+import { mapPokedexFromPokeApi, mapVersionFromPokeApi, mapVersionGroupFromPokeApi } from './version.mapper'
+import { Version } from './version'
+import { Pokedex } from "./pokedex";
 
 export class PokeApiVersionService implements VersionService {
   constructor(private readonly pokeApiHttpClient: HttpClient) {}
 
-  getOneById(id: number): Promise<PokeApiVersion> {
-    return this.pokeApiHttpClient.get(`version/${id}`);
+  async getOneById(id: number): Promise<Version> {
+    const foundVersion = await this.pokeApiHttpClient.get<PokeApiVersion>(`version/${id}`)
+    return mapVersionFromPokeApi(foundVersion)
   }
 
-  async getPokedexFromOneWithId(id: number): Promise<PokeApiPokedex> {
+  async getPokedexFromOneWithId(id: number): Promise<Pokedex> {
     const version = await this.getOneById(id);
-    const versionGroup = await fetchOk<PokeApiVersionGroup>(
-      version.version_group.url
+    const versionGroupResponse = await fetchOk<PokeApiVersionGroup>(
+      version.versionGroupUrl
     );
-    const [pokedex] = versionGroup.pokedexes;
-    return fetchOk(pokedex.url);
+    const versionGroup = mapVersionGroupFromPokeApi(versionGroupResponse)
+    const pokedexResponse = await fetchOk<PokeApiPokedex>(versionGroup.pokedexUrl)
+    return mapPokedexFromPokeApi(pokedexResponse)
   }
 }

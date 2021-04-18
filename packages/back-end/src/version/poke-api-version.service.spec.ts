@@ -14,6 +14,7 @@ import {
 } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { when as jestWhen } from "jest-when";
+import { mapPokedexFromPokeApi, mapVersionFromPokeApi } from "./version.mapper";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -34,7 +35,7 @@ describe("PokeApiVersionService", () => {
         expected
       );
       const gotten = await pokeApiVersionService.getOneById(expected.id);
-      expect(gotten).toEqual(expected);
+      expect(gotten).toEqual(mapVersionFromPokeApi(expected));
     });
   });
 
@@ -53,7 +54,7 @@ describe("PokeApiVersionService", () => {
       const gotten = await pokeApiVersionService.getPokedexFromOneWithId(
         version.id
       );
-      expect(gotten).toEqual(pokedex);
+      expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
     });
   });
 });

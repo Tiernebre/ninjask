@@ -26,3 +26,8 @@ export interface Name {
   name: string;
   language: NamedAPIResource;
 }
+
+export interface Description {
+  description: string;
+  language: NamedAPIResource;
+}

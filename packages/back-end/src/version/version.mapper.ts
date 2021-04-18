@@ -35,6 +35,6 @@ export const mapVersionFromPokeApi = (
     pokeApiVersion.id,
     pokeApiVersion.name,
     pokeApiVersion.version_group.url,
-    deniedPokemonIds
+    new Set(deniedPokemonIds)
   );
 };

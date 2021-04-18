@@ -15,7 +15,7 @@ export const generateMockVersion = (): Version => {
     generateRandomNumber(),
     generateRandomString(),
     generateRandomString(),
-    []
+    new Set()
   );
 };
 

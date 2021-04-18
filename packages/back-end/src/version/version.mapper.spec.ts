@@ -45,7 +45,7 @@ describe("version.mapper", () => {
       expect(mappedVersion.versionGroupUrl).toEqual(
         pokeApiVersion.version_group.url
       );
-      expect(mappedVersion.deniedPokemonIds).toEqual([]);
+      expect(mappedVersion.deniedPokemonIds).toEqual(new Set());
     });
 
     it("allows for included mapping of denied pokemon", () => {
@@ -55,7 +55,7 @@ describe("version.mapper", () => {
         pokeApiVersion,
         deniedPokemonIds
       );
-      expect(mappedVersion.deniedPokemonIds).toEqual(deniedPokemonIds);
+      expect(mappedVersion.deniedPokemonIds).toEqual(new Set(deniedPokemonIds));
     });
   });
 });

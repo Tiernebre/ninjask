@@ -15,7 +15,7 @@ import { PokeApiVersionService } from "./version/poke-api-version.service";
 import { VersionService } from "./version/version.service";
 import { DraftRouter } from "./draft/draft.router";
 import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
-import Koa from 'koa';
+import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
 import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
 
@@ -61,7 +61,7 @@ const buildDraftService = (logger: Logger) => {
     buildPokemonService(logger),
     logger
   );
-}
+};
 
 const buildDraftRouter = (logger: Logger) => {
   return new DraftRouter(buildDraftService(logger));
@@ -74,7 +74,10 @@ const buildDraftRouter = (logger: Logger) => {
  * @param logger The application logger, which is on its own a dependency but needed in other spots.
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
-export const injectDependencies = async (app: KoaWebsocket.App, logger: Logger): Promise<Koa> => {
+export const injectDependencies = async (
+  app: KoaWebsocket.App,
+  logger: Logger
+): Promise<Koa> => {
   await setupTypeOrmConnection();
   const routers = [
     buildPokemonRouter(logger),
@@ -84,6 +87,6 @@ export const injectDependencies = async (app: KoaWebsocket.App, logger: Logger):
   routers.forEach((router) => {
     app.use(router.routes());
   });
-  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger))
-  return app
+  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger));
+  return app;
 };

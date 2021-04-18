@@ -19,5 +19,5 @@ export class SeasonEntity {
   description!: string;
 
   @ManyToOne(() => LeagueEntity, (league) => league.seasons)
-  jeague!: Promise<LeagueEntity>;
+  league!: Promise<LeagueEntity>;
 }

@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { Repository } from "typeorm";
 import { fetchOk } from "../http";
 import { PokeApiPokemonSpecies } from "../poke-api";

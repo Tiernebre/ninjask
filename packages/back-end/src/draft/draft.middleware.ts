@@ -11,7 +11,12 @@ export const liveDraftSocketMiddleware = (
   draftService: DraftService,
   logger: Logger,
   app: KoaWebsocket.App
-) => (ctx: Context): void => {
+) => async (ctx: Context): Promise<void> => {
+  if (!currentDraftPokemon.length) {
+    const draftPokemon = await draftService.getPoolOfPokemonForOneWithId(1)
+    currentDraftPokemon = draftPokemon;
+  }
+
   const generateDraftPoolMessage = (): string => JSON.stringify(({
     currentPokemon: currentDraftPokemon[currentIndex] || null,
     pooledPokemon: currentDraftPokemon.slice(0, currentIndex)
@@ -26,12 +31,6 @@ export const liveDraftSocketMiddleware = (
   }
 
   sendCurrentDraftPoolMessage();
-
-  if (!currentDraftPokemon.length) {
-    void draftService.getPoolOfPokemonForOneWithId(1).then((draftPokemon) => {
-      currentDraftPokemon = draftPokemon;
-    });
-  }
 
   ctx.websocket.on("message", (message: string) => {
     logger.info(`Received WebSocket Message ${message}`);

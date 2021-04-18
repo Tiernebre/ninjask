@@ -1,6 +1,10 @@
 import fetch from "node-fetch";
 import { HttpClient } from "../http/http-client";
-import { PokeApiVersion, PokeApiVersionGroup } from "../poke-api";
+import {
+  PokeApiPokedex,
+  PokeApiVersion,
+  PokeApiVersionGroup,
+} from "../poke-api";
 import { VersionService } from "./version.service";
 
 export class PokeApiVersionService implements VersionService {
@@ -10,9 +14,11 @@ export class PokeApiVersionService implements VersionService {
     return this.pokeApiHttpClient.get(`version/${id}`);
   }
 
-  async getPokedexFromOne(version: PokeApiVersion): Promise<void> {
+  async getPokedexFromOne(version: PokeApiVersion): Promise<PokeApiPokedex> {
     const versionGroupResponse = await fetch(version.version_group.url);
     const versionGroup = (await versionGroupResponse.json()) as PokeApiVersionGroup;
-    console.log(versionGroup);
+    const [pokedex] = versionGroup.pokedexes;
+    const pokedexResponse = await fetch(pokedex.url);
+    return pokedexResponse.json() as Promise<PokeApiPokedex>;
   }
 }

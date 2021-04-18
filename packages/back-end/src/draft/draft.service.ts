@@ -62,17 +62,7 @@ export class DraftService {
         ", "
       )}`
     );
-    const pokemonPooled = await Promise.all(
-      randomNumbersGenerated.map(async (randomNumber) => {
-        const randomPokemonUrl = pokemonUrls[randomNumber];
-        const pokemon = await fetchOk<PokeApiPokemonSpecies>(randomPokemonUrl);
-        const draftPokemonEntity = new DraftPokemonEntity();
-        draftPokemonEntity.pokemonId = pokemon.id;
-        draftPokemonEntity.draft = draft;
-        this.logger.info(`Added ${pokemon.name} to the draft. Welcome!`);
-        return draftPokemonEntity;
-      })
-    );
+    const pokemonPooled = await this.poolPokemon(pokemonUrls, randomNumbersGenerated, draft)
     draft.pokemon = pokemonPooled;
     await this.draftRepository.save(draft);
     this.logger.info(
@@ -86,6 +76,24 @@ export class DraftService {
     const pokemonIds = draft.pokemon.map(({ pokemonId }) => pokemonId);
     return Promise.all(
       pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
+    );
+  }
+
+  private async poolPokemon(
+    pokemonUrls: string[], 
+    pokemonIndices: number[],
+    draft: DraftEntity
+  ): Promise<DraftPokemonEntity[]> {
+    return Promise.all(
+      pokemonIndices.map(async (randomNumber: number) => {
+        const randomPokemonUrl = pokemonUrls[randomNumber];
+        const pokemon = await fetchOk<PokeApiPokemonSpecies>(randomPokemonUrl);
+        const draftPokemonEntity = new DraftPokemonEntity();
+        draftPokemonEntity.pokemonId = pokemon.id;
+        draftPokemonEntity.draft = draft;
+        this.logger.info(`Added ${pokemon.name} to the draft. Welcome!`);
+        return draftPokemonEntity;
+      })
     );
   }
 }

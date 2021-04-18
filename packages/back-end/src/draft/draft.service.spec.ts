@@ -12,8 +12,11 @@ import { DraftService } from "./draft.service";
 import { generateMockPokeApiPokedex } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
-import { generateMockPokeApiPokemonSpecies, PokeApiPokemonSpecies } from "../poke-api";
-import { generateMockPokemon } from '../pokemon/pokemon.mock'
+import {
+  generateMockPokeApiPokemonSpecies,
+  PokeApiPokemonSpecies,
+} from "../poke-api";
+import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { generateRandomNumber } from "../random";
 import { Pokemon } from "../pokemon/pokemon";
 
@@ -69,37 +72,48 @@ describe("DraftService", () => {
       when(
         versionService.getPokedexFromOneWithId(challenge.versionId)
       ).thenResolve(pokedex);
-      const pokemonGenerated: PokeApiPokemonSpecies[] = []
+      const pokemonGenerated: PokeApiPokemonSpecies[] = [];
       mockedFetchOk.mockImplementation(() => {
-        const pokemon = generateMockPokeApiPokemonSpecies()
-        pokemonGenerated.push(pokemon)
-        return pokemon
-      })
-      const expectedPokemonSaved = pokemonGenerated.map(pokemon => {
-        const pokemonDraftEntity = new DraftPokemonEntity()
-        pokemonDraftEntity.pokemonId = pokemon.id
-        pokemonDraftEntity.draft = draft
-        return pokemonDraftEntity
-      })
-      await draftService.generatePoolOfPokemonForOneWithId(id)
-      draft.pokemon = expectedPokemonSaved
-      verify(draftRepository.save(draft))
+        const pokemon = generateMockPokeApiPokemonSpecies();
+        pokemonGenerated.push(pokemon);
+        return pokemon;
+      });
+      const expectedPokemonSaved = pokemonGenerated.map((pokemon) => {
+        const pokemonDraftEntity = new DraftPokemonEntity();
+        pokemonDraftEntity.pokemonId = pokemon.id;
+        pokemonDraftEntity.draft = draft;
+        return pokemonDraftEntity;
+      });
+      await draftService.generatePoolOfPokemonForOneWithId(id);
+      draft.pokemon = expectedPokemonSaved;
+      verify(draftRepository.save(draft));
     });
   });
 
   describe("getPoolOfPokemonForOneWithId", () => {
-    it('returns the pokemon associated with a given draft pool', async () => {
+    it("returns the pokemon associated with a given draft pool", async () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
-      const expected: Pokemon[] = []
-      draft.pokemon.forEach(pokemon => {
-        const pokemonGotten = generateMockPokemon()
-        when(pokemonService.getOneById(pokemon.id)).thenResolve(pokemonGotten)
-        expected.push(pokemonGotten)
-      })
+      const expected: Pokemon[] = [];
+      draft.pokemon.forEach((pokemon) => {
+        const expectedPokemon = generateMockPokemon();
+        expected.push(expectedPokemon);
+        when(pokemonService.getOneById(pokemon.pokemonId)).thenResolve(
+          expectedPokemon
+        );
+      });
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
-      const gotten = await draftService.getPoolOfPokemonForOneWithId(id)
-      expect(gotten).toEqual(expected)
-    })
-  })
+      const gotten = await draftService.getPoolOfPokemonForOneWithId(id);
+      expect(gotten).toEqual(expected);
+    });
+
+    it("returns an empty array if the draft has no pokemon tied to it", async () => {
+      const id = generateRandomNumber();
+      const draft = generateMockDraftEntity();
+      draft.pokemon = [];
+      when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
+      const gotten = await draftService.getPoolOfPokemonForOneWithId(id);
+      expect(gotten).toEqual([]);
+    });
+  });
 });

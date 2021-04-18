@@ -19,5 +19,5 @@ export class LeagueEntity {
   description!: string;
 
   @OneToMany(() => SeasonEntity, season => season.league)
-  seasons!: SeasonEntity[];
+  seasons!: Promise<SeasonEntity[]>;
 }

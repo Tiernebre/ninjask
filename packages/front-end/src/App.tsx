@@ -48,7 +48,6 @@ function App() {
       <div className="app-pokemon-information-container">
         {pokemonInformation}
         {buttons}
-        {pooledPokemon.map(pokemon => <div>{pokemon.name}</div>)}
       </div>
     </div>
   )

@@ -39,6 +39,7 @@ export class DraftService {
     const pokemonUrls = await this.getEligiblePokemonForDraft(draft, version);
     const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(draft, version, pokemonUrls)
     const pokemonPooled = await this.poolPokemon(pokemonUrls, randomNumbersGenerated, draft)
+    await this.clearExistingDraftPool(draft);
     draft.pokemon = pokemonPooled;
     await this.draftRepository.save(draft);
     this.logger.info(
@@ -111,5 +112,16 @@ export class DraftService {
         return draftPokemonEntity;
       })
     );
+  }
+
+  private async clearExistingDraftPool(draft: DraftEntity): Promise<void> {
+    if (draft.pokemon.length) {
+      this.logger.info(`Draft with id = ${draft.id} already had an existing pool of Pokemon. Clearing out the existing pool in favor of the newly generated one.`)
+      draft.pokemon = []
+      await this.draftRepository.save(draft)
+      this.logger.info(`Cleared the pool for draft with id = ${draft.id}`)
+    } else {
+      this.logger.info(`Draft with id = ${draft.id} does not have an existing pool.`)
+    }
   }
 }

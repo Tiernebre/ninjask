@@ -128,4 +128,4 @@ export interface PokeApiPokemonSpecies {
   form_descriptions: Description[];
   genera: Genus[];
   varieties: PokemonSpeciesVariety[];
-} 
+}

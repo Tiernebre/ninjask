@@ -20,21 +20,9 @@ app.use(
 );
 app.use(loggingMiddleware(logger));
 
-app.ws.use((ctx) => {
-  ctx.websocket.send("Hello World FROM WEB SOCKET LAND WOOO");
-  ctx.websocket.on("message", (message) => {
-    logger.info(`WebSocket Message Received: ${message.toString()}`);
-    ctx.websocket.send("Thanks for saying hi back :)");
-  });
-});
-
-void injectDependencies(logger).then((routers) => {
-  routers.forEach((router) => {
-    app.use(router.routes());
-  });
-
+void injectDependencies(app, logger).then((injectedApp) => {
   const port = Number(process.env.API_SERVER_PORT);
-  app.listen(port, () => {
+  injectedApp.listen(port, () => {
     logger.info(`Pokemon Random API Has Started on Port: ${port}`);
   });
 });

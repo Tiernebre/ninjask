@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { LeagueEntity } from "../leagues/league.entity";
 
 @Entity({
@@ -20,4 +20,10 @@ export class SeasonEntity {
 
   @ManyToOne(() => LeagueEntity, (league) => league.seasons)
   league!: Promise<LeagueEntity>;
+
+  @CreateDateColumn({ nullable: false, readonly: true })
+  createdAt!: Date
+
+  @UpdateDateColumn({ nullable: false })
+  updatedAt!: Date
 }

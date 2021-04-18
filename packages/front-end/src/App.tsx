@@ -41,11 +41,17 @@ function App() {
       </div> : <div></div>
 
   return (
-    <div className="app">
-      <PooledPokemon pokemon={pooledPokemon} />
-      {pokemonInformation}
-      {buttons}
-      {pooledPokemon.map(pokemon => <div>{pokemon.name}</div>)}
+    <div className="app container">
+      <div className="row">
+        <div className="col-3">
+          <PooledPokemon pokemon={pooledPokemon} />
+        </div>
+        <div className="col-9">
+          {pokemonInformation}
+          {buttons}
+          {pooledPokemon.map(pokemon => <div>{pokemon.name}</div>)}
+        </div>
+      </div>
     </div>
   )
 }

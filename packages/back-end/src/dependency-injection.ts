@@ -16,6 +16,8 @@ import { VersionService } from "./version/version.service";
 import { DraftRouter } from "./draft/draft.router";
 import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
 import Koa from 'koa';
+import KoaWebsocket from "koa-websocket";
+import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -43,7 +45,7 @@ const buildLeagueRouter = (logger: Logger) => {
   return new LeagueRouter(leagueService);
 };
 
-const buildDraftRouter = (logger: Logger) => {
+const buildDraftService = (logger: Logger) => {
   const versionDeniedPokemonRepository = getRepository(
     VersionDeniedPokemonEntity
   );
@@ -53,13 +55,16 @@ const buildDraftRouter = (logger: Logger) => {
     logger
   );
   const draftRepository = getRepository(DraftEntity);
-  const draftService = new DraftService(
+  return new DraftService(
     draftRepository,
     versionService,
     buildPokemonService(logger),
     logger
   );
-  return new DraftRouter(draftService);
+}
+
+const buildDraftRouter = (logger: Logger) => {
+  return new DraftRouter(buildDraftService(logger));
 };
 
 /**
@@ -69,7 +74,7 @@ const buildDraftRouter = (logger: Logger) => {
  * @param logger The application logger, which is on its own a dependency but needed in other spots.
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
-export const injectDependencies = async (app: Koa, logger: Logger): Promise<Koa> => {
+export const injectDependencies = async (app: KoaWebsocket.App, logger: Logger): Promise<Koa> => {
   await setupTypeOrmConnection();
   const routers = [
     buildPokemonRouter(logger),
@@ -79,5 +84,6 @@ export const injectDependencies = async (app: Koa, logger: Logger): Promise<Koa>
   routers.forEach((router) => {
     app.use(router.routes());
   });
+  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger))
   return app
 };

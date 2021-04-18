@@ -8,7 +8,7 @@ module.exports = {
     "!src/**/index.ts",
     "!src/poke-api/**/*",
     "!src/app.ts",
-    "!src/dependency-injection.ts"
+    "!src/dependency-injection.ts",
   ],
   globals: {
     "ts-jest": {

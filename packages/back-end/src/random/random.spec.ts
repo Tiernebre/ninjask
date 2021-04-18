@@ -2,12 +2,12 @@ import { getRandomInt, getSetOfRandomIntegers } from "./random";
 
 describe("random", () => {
   afterEach(() => {
-    jest.spyOn(global.Math, 'random').mockRestore();
-  })
+    jest.spyOn(global.Math, "random").mockRestore();
+  });
 
   describe("getRandomInt", () => {
     beforeEach(() => {
-      jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
+      jest.spyOn(global.Math, "random").mockReturnValue(0.5);
     });
 
     it("returns an integer", () => {
@@ -35,39 +35,45 @@ describe("random", () => {
     });
   });
 
-  describe('getSetOfRandomIntegers', () => {
+  describe("getSetOfRandomIntegers", () => {
     it("returns a size of random integers as specified", () => {
-      const size = 5
+      const size = 5;
       const randomIntegers = getSetOfRandomIntegers({
         min: 0,
         max: Number.MAX_SAFE_INTEGER,
-        size
-      })
-      expect(randomIntegers.size).toEqual(size)
-    })
+        size,
+      });
+      expect(randomIntegers.size).toEqual(size);
+    });
 
     it("throws an error if the size is lesser than the range", () => {
-      expect(() => getSetOfRandomIntegers({
-        min: 0,
-        max: 1,
-        size: 2
-      })).toThrowError()
-    })
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 1,
+          size: 2,
+        })
+      ).toThrowError();
+    });
 
     it("does not throw an error if the size is equal to the range", () => {
-      expect(() => getSetOfRandomIntegers({
-        min: 0,
-        max: 10,
-        size: 10
-      })).not.toThrowError()
-    })
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 10,
+          size: 10,
+        })
+      ).not.toThrowError();
+    });
 
     it("does not throw an error if the size is lesser than the range", () => {
-      expect(() => getSetOfRandomIntegers({
-        min: 0,
-        max: 10,
-        size: 9
-      })).not.toThrowError()
-    })
-  })
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 10,
+          size: 9,
+        })
+      ).not.toThrowError();
+    });
+  });
 });

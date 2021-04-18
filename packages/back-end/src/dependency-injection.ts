@@ -29,11 +29,8 @@ const buildPokeApiHttpClient = (): HttpClient => {
 };
 
 const buildPokemonService = (logger: Logger): PokemonService => {
-  return new PokeApiPokemonService(
-    buildPokeApiHttpClient(),
-    logger
-  );
-}
+  return new PokeApiPokemonService(buildPokeApiHttpClient(), logger);
+};
 
 const buildPokemonRouter = (logger: Logger) => {
   return new PokemonRouter(buildPokemonService(logger));
@@ -50,7 +47,11 @@ const buildDraftRouter = (logger: Logger) => {
     buildPokeApiHttpClient()
   );
   const draftRepository = getRepository(DraftEntity);
-  const draftService = new DraftService(draftRepository, versionService, buildPokemonService(logger));
+  const draftService = new DraftService(
+    draftRepository,
+    versionService,
+    buildPokemonService(logger)
+  );
   return new DraftRouter(draftService);
 };
 

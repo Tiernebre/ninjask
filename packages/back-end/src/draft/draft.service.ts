@@ -12,13 +12,15 @@ export class DraftService {
   constructor(
     private readonly draftRepository: Repository<DraftEntity>,
     private readonly versionService: VersionService,
-    private readonly pokemonService: PokemonService,
+    private readonly pokemonService: PokemonService
   ) {}
 
   public async getOneById(id: number): Promise<DraftEntity> {
-    const draft = await this.draftRepository.findOne(id, { relations: ['pokemon'] })
+    const draft = await this.draftRepository.findOne(id, {
+      relations: ["pokemon"],
+    });
     if (!draft) {
-      throw new Error(`Draft with id ${id} was not found.`)
+      throw new Error(`Draft with id ${id} was not found.`);
     }
     return draft;
   }
@@ -28,31 +30,35 @@ export class DraftService {
     const challenge = await draft.challenge;
     const {
       pokemon_entries: pokemonEntries,
-    } = await this.versionService.getPokedexFromOneWithId(
-      challenge.versionId
+    } = await this.versionService.getPokedexFromOneWithId(challenge.versionId);
+    const randomNumbersGenerated = Array.from(
+      getSetOfRandomIntegers({
+        min: 0,
+        max: pokemonEntries.length,
+        size: draft.poolSize,
+      })
     );
-    const randomNumbersGenerated = Array.from(getSetOfRandomIntegers({
-      min: 0,
-      max: pokemonEntries.length,
-      size: draft.poolSize
-    }))
-    const pokemonPooled = await Promise.all(randomNumbersGenerated.map(async (randomNumber) => {
-      const randomPokemon = pokemonEntries[randomNumber];
-      const pokemon = await fetchOk<PokeApiPokemonSpecies>(
-        randomPokemon.pokemon_species.url
-      );
-      const draftPokemonEntity = new DraftPokemonEntity();
-      draftPokemonEntity.pokemonId = pokemon.id;
-      draftPokemonEntity.draft = draft;
-      return draftPokemonEntity;
-    }))
+    const pokemonPooled = await Promise.all(
+      randomNumbersGenerated.map(async (randomNumber) => {
+        const randomPokemon = pokemonEntries[randomNumber];
+        const pokemon = await fetchOk<PokeApiPokemonSpecies>(
+          randomPokemon.pokemon_species.url
+        );
+        const draftPokemonEntity = new DraftPokemonEntity();
+        draftPokemonEntity.pokemonId = pokemon.id;
+        draftPokemonEntity.draft = draft;
+        return draftPokemonEntity;
+      })
+    );
     draft.pokemon = pokemonPooled;
     await this.draftRepository.save(draft);
   }
 
   public async getPoolOfPokemonForOneWithId(id: number): Promise<Pokemon[]> {
-    const draft = await this.getOneById(id)
-    const pokemonIds = draft.pokemon.map(({ pokemonId }) => pokemonId)
-    return Promise.all(pokemonIds.map(pokemonId => this.pokemonService.getOneById(pokemonId)))
+    const draft = await this.getOneById(id);
+    const pokemonIds = draft.pokemon.map(({ pokemonId }) => pokemonId);
+    return Promise.all(
+      pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
+    );
   }
 }

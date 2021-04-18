@@ -1,5 +1,5 @@
 import { NamedAPIResource } from ".";
-import { APIResource, Description, Name } from "./utility";
+import { APIResource, Description, FlavorText, Name } from "./utility";
 
 interface PokemonAbility {
   is_hidden: boolean;
@@ -119,7 +119,8 @@ export interface PokeApiPokemonSpecies {
   egg_groups: NamedAPIResource[];
   color: NamedAPIResource;
   shape: NamedAPIResource;
-  evolves_from_species: NamedAPIResource;
+  evolves_from_species: NamedAPIResource | null;
+  flavor_text_entries: FlavorText[];
   evolution_chain: APIResource;
   habitat: NamedAPIResource;
   generation: NamedAPIResource;

@@ -25,19 +25,21 @@ export interface RandomIntegersSetConfiguration {
   size: number;
 }
 
-export const getSetOfRandomIntegers = (configuration: RandomIntegersSetConfiguration): Set<number> => {
-  const { min, max, denyList = [], size } = configuration
-  const randomIntegers = new Set<number>()
+export const getSetOfRandomIntegers = (
+  configuration: RandomIntegersSetConfiguration
+): Set<number> => {
+  const { min, max, denyList = [], size } = configuration;
+  const randomIntegers = new Set<number>();
 
   do {
-    const randomInt = getRandomInt(min, max)
+    const randomInt = getRandomInt(min, max);
     if (!denyList.includes(randomInt)) {
-      randomIntegers.add(randomInt)
+      randomIntegers.add(randomInt);
     }
   } while (randomIntegers.size !== size);
 
   return randomIntegers;
-}
+};
 
 export const generateRandomString = (): string => {
   return crypto.randomBytes(20).toString("hex");

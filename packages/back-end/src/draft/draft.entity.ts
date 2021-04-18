@@ -25,6 +25,9 @@ export class DraftEntity {
   })
   pokemon!: DraftPokemonEntity[];
 
-  @Column({ nullable: false, comment:'The amount of pokemon this draft should have.' })
-  poolSize!: number
+  @Column({
+    nullable: false,
+    comment: "The amount of pokemon this draft should have.",
+  })
+  poolSize!: number;
 }

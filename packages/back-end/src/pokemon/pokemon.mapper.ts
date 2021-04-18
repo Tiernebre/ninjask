@@ -10,7 +10,9 @@ const getImageUrlForPokemon = (pokemon: PokeApiPokemonSpecies): string => {
   return `${POKEMON_IMAGE_URL}/${paddedId}.png`;
 };
 
-export const mapFromPokeApi = (pokeApiPokemon: PokeApiPokemonSpecies): Pokemon => {
+export const mapFromPokeApi = (
+  pokeApiPokemon: PokeApiPokemonSpecies
+): Pokemon => {
   return new Pokemon(
     pokeApiPokemon.id,
     pokeApiPokemon.name,

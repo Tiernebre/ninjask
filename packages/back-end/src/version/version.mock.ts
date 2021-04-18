@@ -11,7 +11,12 @@ export const generateMockPokedex = (): Pokedex => {
 };
 
 export const generateMockVersion = (): Version => {
-  return new Version(generateRandomNumber(), generateRandomString(), []);
+  return new Version(
+    generateRandomNumber(),
+    generateRandomString(),
+    generateRandomString(),
+    []
+  );
 };
 
 export const generateMockVersionDeniedPokemon = (): VersionDeniedPokemonEntity => {

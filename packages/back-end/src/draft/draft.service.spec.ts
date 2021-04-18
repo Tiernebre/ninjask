@@ -22,6 +22,7 @@ import {
   generateMockPokedex,
   generateMockVersion,
 } from "../version/version.mock";
+import { Logger } from "../logger";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -38,7 +39,8 @@ describe("DraftService", () => {
     draftService = new DraftService(
       draftRepository,
       versionService,
-      pokemonService
+      pokemonService,
+      object<Logger>()
     );
   });
 

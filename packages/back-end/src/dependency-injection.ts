@@ -15,6 +15,7 @@ import { DraftService } from "./draft/draft.service";
 import { PokeApiVersionService } from "./version/poke-api-version.service";
 import { VersionService } from "./version/version.service";
 import { DraftRouter } from "./draft/draft.router";
+import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -43,14 +44,20 @@ const buildLeagueRouter = (logger: Logger) => {
 };
 
 const buildDraftRouter = (logger: Logger) => {
+  const versionDeniedPokemonRepository = getRepository(
+    VersionDeniedPokemonEntity
+  );
   const versionService: VersionService = new PokeApiVersionService(
-    buildPokeApiHttpClient()
+    buildPokeApiHttpClient(),
+    versionDeniedPokemonRepository,
+    logger
   );
   const draftRepository = getRepository(DraftEntity);
   const draftService = new DraftService(
     draftRepository,
     versionService,
-    buildPokemonService(logger)
+    buildPokemonService(logger),
+    logger
   );
   return new DraftRouter(draftService);
 };

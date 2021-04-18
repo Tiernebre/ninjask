@@ -15,14 +15,17 @@ import { Version } from "./version";
 import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
+import { Logger } from "../logger";
 
 export class PokeApiVersionService implements VersionService {
   constructor(
     private readonly pokeApiHttpClient: HttpClient,
-    private readonly versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>
+    private readonly versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>,
+    private readonly logger: Logger
   ) {}
 
   async getOneById(id: number): Promise<Version> {
+    this.logger.info(`Retrieving version with id = ${id}`);
     const foundVersion = await this.pokeApiHttpClient.get<PokeApiVersion>(
       `version/${id}`
     );
@@ -30,6 +33,9 @@ export class PokeApiVersionService implements VersionService {
       versionId: foundVersion.id,
     });
     const deniedPokemonIds = deniedPokemon.map(({ pokemonId }) => pokemonId);
+    this.logger.info(
+      `Retrieved version with id = ${id} and name = ${foundVersion.name}`
+    );
     return mapVersionFromPokeApi(foundVersion, deniedPokemonIds);
   }
 
@@ -38,6 +44,11 @@ export class PokeApiVersionService implements VersionService {
   }
 
   async getPokedexFromOne(version: Version): Promise<Pokedex> {
+    this.logger.info(
+      `Retrieving regional pokedex for given version = ${JSON.stringify(
+        version
+      )}`
+    );
     const versionGroupResponse = await fetchOk<PokeApiVersionGroup>(
       version.versionGroupUrl
     );

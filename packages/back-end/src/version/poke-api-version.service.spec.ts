@@ -18,6 +18,7 @@ import { mapPokedexFromPokeApi, mapVersionFromPokeApi } from "./version.mapper";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { generateMockVersionDeniedPokemon } from "./version.mock";
+import { Logger } from "../logger";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -33,7 +34,8 @@ describe("PokeApiVersionService", () => {
     >();
     pokeApiVersionService = new PokeApiVersionService(
       pokeApiHttpClient,
-      versionDeniedPokemonRepository
+      versionDeniedPokemonRepository,
+      object<Logger>()
     );
     mockedFetchOk.mockReset();
   });

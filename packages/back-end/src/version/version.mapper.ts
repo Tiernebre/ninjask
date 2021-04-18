@@ -33,6 +33,7 @@ export const mapVersionFromPokeApi = (
 ): Version => {
   return new Version(
     pokeApiVersion.id,
+    pokeApiVersion.name,
     pokeApiVersion.version_group.url,
     deniedPokemonIds
   );

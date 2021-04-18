@@ -41,6 +41,7 @@ describe("version.mapper", () => {
       const pokeApiVersion = generateMockPokeApiVersion();
       const mappedVersion = mapVersionFromPokeApi(pokeApiVersion);
       expect(mappedVersion.id).toEqual(pokeApiVersion.id);
+      expect(mappedVersion.name).toEqual(pokeApiVersion.name);
       expect(mappedVersion.versionGroupUrl).toEqual(
         pokeApiVersion.version_group.url
       );
@@ -53,10 +54,6 @@ describe("version.mapper", () => {
       const mappedVersion = mapVersionFromPokeApi(
         pokeApiVersion,
         deniedPokemonIds
-      );
-      expect(mappedVersion.id).toEqual(pokeApiVersion.id);
-      expect(mappedVersion.versionGroupUrl).toEqual(
-        pokeApiVersion.version_group.url
       );
       expect(mappedVersion.deniedPokemonIds).toEqual(deniedPokemonIds);
     });

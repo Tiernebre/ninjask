@@ -1,22 +1,20 @@
 import "./App.css";
-import { FetchHttpClient } from './api/http';
-import { HttpPokemonService } from './api/pokemon';
-import { useCallback, useState } from 'react';
-import { Pokemon } from './api/pokemon/Pokemon';
-
-const backEndHttpClient = new FetchHttpClient('http://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/')
-const pokemonService = new HttpPokemonService(backEndHttpClient)
+import { useCallback } from 'react';
+import useWebSocket from 'react-use-websocket';
 
 function App() {
-  const [pokemon, setPokemon] = useState<Pokemon>()
+  const { sendMessage, lastMessage } = useWebSocket('ws://localhost:3000/live-draft')
+
+  const restartDraft = useCallback(() => sendMessage('RESTART'), [])
 
   const fetchRequest = useCallback(() => {
     async function fetchPokemon() {
-      const randomPokemon = await pokemonService.getARandomOne()
-      setPokemon(randomPokemon)
+      sendMessage('NEXT')
     }
     fetchPokemon()
   }, [])
+
+  const pokemon = lastMessage ? JSON.parse(lastMessage.data) : null
 
   const pokemonInformation = pokemon ? <div className="pokemon-information">
     <img src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
@@ -26,7 +24,10 @@ function App() {
   return (
     <div className="app">
       {pokemonInformation}
-      <button onClick={fetchRequest}>Get a random Pokemon!</button>
+      <div className="pokemon-draft-buttons">
+        <button onClick={restartDraft}>Restart the Draft!</button>
+        <button onClick={fetchRequest}>See the next available Pokemon!</button>
+      </div>
     </div>
   )
 }

@@ -26,4 +26,9 @@ export class ChallengeEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date
+
+  @Column({
+    nullable: false
+  })
+  versionId!: number
 }

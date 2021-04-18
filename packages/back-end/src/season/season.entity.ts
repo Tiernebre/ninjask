@@ -42,5 +42,5 @@ export class SeasonEntity {
   updatedAt!: Date;
 
   @OneToOne(() => DraftEntity, draft => draft.season)
-  draft!: DraftEntity;
+  draft!: Promise<DraftEntity>;
 }

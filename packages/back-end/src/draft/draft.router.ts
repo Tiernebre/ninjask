@@ -9,8 +9,10 @@ export class DraftRouter extends Router {
 
   private setupRoutes() {
     this.post("/drafts/:id/pool", async (ctx) => {
-      await this.draftService.generatePoolOfPokemonForOneWithId(Number(ctx.params.id))
-      ctx.status = 204
+      await this.draftService.generatePoolOfPokemonForOneWithId(
+        Number(ctx.params.id)
+      );
+      ctx.status = 204;
     });
   }
 }

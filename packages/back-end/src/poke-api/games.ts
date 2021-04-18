@@ -1,13 +1,13 @@
 import { Name, NamedAPIResource, Description } from "./utility";
 
 export interface PokeApiVersion {
-  id: number
+  id: number;
   name: string;
   names: Name[];
   version_group: NamedAPIResource;
 }
 
-export interface PokeApiVersionGroup  {
+export interface PokeApiVersionGroup {
   id: number;
   name: string;
   order: number;

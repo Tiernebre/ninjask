@@ -41,6 +41,6 @@ export class ChallengeEntity {
   })
   versionId!: number;
 
-  @OneToOne(() => DraftEntity, draft => draft.challenge)
+  @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 }

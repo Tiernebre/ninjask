@@ -3,6 +3,7 @@ import "./App.css";
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Pokemon } from "./api/pokemon/Pokemon";
+import { PooledPokemon } from "./components/PooledPokemon";
 
 interface DraftStatus {
   currentPokemon: Pokemon;
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <div className="app">
+      <PooledPokemon pokemon={pooledPokemon} />
       {pokemonInformation}
       {buttons}
       {pooledPokemon.map(pokemon => <div>{pokemon.name}</div>)}

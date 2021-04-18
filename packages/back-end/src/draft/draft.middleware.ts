@@ -1,17 +1,17 @@
 import { Context } from "koa";
-import KoaWebsocket from "koa-websocket";
 import { Logger } from "../logger";
 import { Pokemon } from "../pokemon/pokemon";
 import { DraftService } from "./draft.service";
+import KoaWebsocket from 'koa-websocket'
 
 let currentDraftPokemon: Pokemon[] = [];
 let currentIndex = 0;
 
 export const liveDraftSocketMiddleware = (
   draftService: DraftService,
-  logger: Logger,
-  app: KoaWebsocket.App
+  logger: Logger
 ) => (ctx: Context): void => {
+  const app = ctx.app as KoaWebsocket.App
   const generateCurrentPokemonMessage = () =>
     JSON.stringify(currentDraftPokemon[currentIndex]);
   const sendCurrentPokemon = () =>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';

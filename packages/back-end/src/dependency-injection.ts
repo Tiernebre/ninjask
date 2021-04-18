@@ -10,6 +10,11 @@ import { LeagueService } from "./leagues/league.service";
 import { LeagueRouter } from "./leagues/league.router";
 import { Logger } from "./logger";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { DraftEntity } from "./draft/draft.entity";
+import { DraftService } from "./draft/draft.service";
+import { PokeApiVersionService } from "./version/poke-api-version.service";
+import { VersionService } from "./version/version.service";
+import { DraftRouter } from "./draft/draft.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -19,12 +24,13 @@ const setupTypeOrmConnection = async (): Promise<void> => {
   });
 };
 
+const buildPokeApiHttpClient = (): HttpClient => {
+  return new FetchHttpClient("https://pokeapi.co/api/v2");
+};
+
 const buildPokemonRouter = (logger: Logger) => {
-  const pokeApiHttpClient: HttpClient = new FetchHttpClient(
-    "https://pokeapi.co/api/v2"
-  );
   const pokemonService: PokemonService = new PokeApiPokemonService(
-    pokeApiHttpClient,
+    buildPokeApiHttpClient(),
     logger
   );
   return new PokemonRouter(pokemonService);
@@ -36,6 +42,15 @@ const buildLeagueRouter = (logger: Logger) => {
   return new LeagueRouter(leagueService);
 };
 
+const buildDraftRouter = () => {
+  const versionService: VersionService = new PokeApiVersionService(
+    buildPokeApiHttpClient()
+  );
+  const draftRepository = getRepository(DraftEntity);
+  const draftService = new DraftService(draftRepository, versionService);
+  return new DraftRouter(draftService);
+};
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -45,5 +60,9 @@ const buildLeagueRouter = (logger: Logger) => {
  */
 export const injectDependencies = async (logger: Logger): Promise<Router[]> => {
   await setupTypeOrmConnection();
-  return [buildPokemonRouter(logger), buildLeagueRouter(logger)];
+  return [
+    buildPokemonRouter(logger),
+    buildLeagueRouter(logger),
+    buildDraftRouter(),
+  ];
 };

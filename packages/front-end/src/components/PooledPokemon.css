@@ -6,6 +6,8 @@
 .pooledPokemon-heading {
   text-align: center;
   background-color: slategrey;
+  margin: 0;
+  padding: 10px 0;
 }
 
 .pooledPokemon ol {

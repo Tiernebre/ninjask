@@ -23,5 +23,17 @@ describe('logging-middleware', () => {
       verify(logger.info(`Received ${ctx.method} ${ctx.protocol} Request for ${ctx.path}`))
       verify(logger.info(`Finished ${ctx.method} Request.`))
     })
+
+    it('logs the correct information for a failed operation', async () => {
+      const ctx = object<Context>()
+      ctx.method = 'GET'
+      ctx.protocol = 'HTTP'
+      ctx.path = '/test'
+      const error = new Error('test expected error')
+      const next = jest.fn().mockRejectedValue(error)
+      await middleware(ctx, next)
+      verify(logger.info(`Received ${ctx.method} ${ctx.protocol} Request for ${ctx.path}`))
+      verify(logger.error(error))
+    })
   })
 })

@@ -2,26 +2,34 @@
 import "./App.css";
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { Pokemon } from "./api/pokemon/Pokemon";
+
+interface DraftStatus {
+  currentPokemon: Pokemon;
+  pooledPokemon: Pokemon[];
+}
 
 function App() {
-  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft')
+  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://localhost:3000/live-draft')
   const restartDraft = useCallback(() => sendMessage('RESTART'), [])
   const fetchRequest = useCallback(() => sendMessage('NEXT'), [])
 
   const isReady = () => readyState === ReadyState.OPEN
 
-  console.log(lastMessage)
-  const pokemon = () => {
+  let currentDraftStatus: DraftStatus | null = null
+  if (isReady() && lastMessage) {
     try {
-      return isReady() && lastMessage ? JSON.parse(lastMessage.data) : null
-    } catch (error) {
-      return null
+      currentDraftStatus = JSON.parse(lastMessage.data)
+    } catch {
+      currentDraftStatus = null
     }
   }
 
-  const pokemonInformation = pokemon() ? <div className="pokemon-information">
-    <img src={pokemon().imageUrl} alt={`${pokemon().name}`}></img>
-    <p>{ pokemon().name }</p>
+  const pokemon = currentDraftStatus?.currentPokemon
+
+  const pokemonInformation = pokemon ? <div className="pokemon-information">
+    <img src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
+    <p>{ pokemon.name }</p>
   </div> : <div></div>
 
   const buttons = isReady() ? 

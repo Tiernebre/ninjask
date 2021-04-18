@@ -81,9 +81,9 @@ describe("random", () => {
         min: 0,
         max: 10,
         size: 8,
-        denyList: [1]
-      })
-      expect(integers).not.toContain(1)
-    })
+        denyList: [1],
+      });
+      expect(integers).not.toContain(1);
+    });
   });
 });

@@ -1,17 +1,17 @@
 import {
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
 import { SeasonEntity } from "../season/season.entity";
 
 @Entity({
-  name: "league",
+  name: "challenge",
 })
-export class LeagueEntity {
+export class ChallengeEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -25,12 +25,17 @@ export class LeagueEntity {
   })
   description!: string;
 
-  @OneToMany(() => SeasonEntity, (season) => season.league)
-  seasons!: Promise<SeasonEntity[]>;
+  @ManyToOne(() => SeasonEntity, (season) => season.challenges)
+  season!: SeasonEntity;
 
   @CreateDateColumn({ nullable: false, update: false })
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
+
+  @Column({
+    nullable: false,
+  })
+  versionId!: number;
 }

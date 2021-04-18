@@ -170,7 +170,29 @@ export const generateMockPokeApiPokedex = (): PokeApiPokedex => ({
       name: "Kanto",
     },
   ],
-  pokemon_entries: [],
+  pokemon_entries: [
+    {
+      entry_number: 1,
+      pokemon_species: {
+        name: "bulbasaur",
+        url: "https://pokeapi.co/api/v2/pokemon-species/1/",
+      },
+    },
+    {
+      entry_number: 2,
+      pokemon_species: {
+        name: "ivysaur",
+        url: "https://pokeapi.co/api/v2/pokemon-species/2/",
+      },
+    },
+    {
+      entry_number: 3,
+      pokemon_species: {
+        name: "venusaur",
+        url: "https://pokeapi.co/api/v2/pokemon-species/3/",
+      },
+    },
+  ],
   region: {
     name: "kanto",
     url: "https://pokeapi.co/api/v2/region/1/",

@@ -5,6 +5,7 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.ts",
     "!src/**/*.entity.ts",
+    "!src/**/*.mock.ts",
     "!src/**/index.ts",
     "!src/poke-api/**/*",
     "!src/app.ts",

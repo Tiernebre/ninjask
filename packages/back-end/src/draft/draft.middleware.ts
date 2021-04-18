@@ -10,6 +10,11 @@ export const liveDraftSocketMiddleware = (
   draftService: DraftService,
   logger: Logger
 ) => (ctx: Context): void => {
+  const generateCurrentPokemonMessage = () => JSON.stringify(currentDraftPokemon[currentIndex])
+  const sendCurrentPokemon = () => ctx.websocket.send(generateCurrentPokemonMessage())
+
+  sendCurrentPokemon()
+
   ctx.websocket.on("message", (message: string) => {
     logger.info(`Received WebSocket Message ${message}`);
     switch (message.toUpperCase()) {
@@ -25,7 +30,7 @@ export const liveDraftSocketMiddleware = (
       case "NEXT":
         currentIndex++;
         logger.info(`Broadcasting the next announced Pokemon.`);
-        ctx.websocket.send(JSON.stringify(currentDraftPokemon[currentIndex]));
+        sendCurrentPokemon()
         break;
       default:
         logger.info(

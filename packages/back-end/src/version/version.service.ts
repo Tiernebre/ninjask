@@ -1,3 +1,5 @@
+import { PokeApiVersion } from "../poke-api/games";
+
 export interface VersionService {
-  getOneById(id: number): Promise<void>
+  getOneById(id: number): Promise<PokeApiVersion>
 }

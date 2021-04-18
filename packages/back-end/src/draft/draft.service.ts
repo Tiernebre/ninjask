@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { fetchOk } from "../http";
 import { PokeApiPokemonSpecies } from "../poke-api";
-import { getRandomInt } from "../random";
+import { getSetOfRandomIntegers } from "../random";
 import { VersionService } from "../version/version.service";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
@@ -22,9 +22,12 @@ export class DraftService {
       } = await this.versionService.getPokedexFromOneWithId(
         challenge.versionId
       );
-      const pokemonPooled: DraftPokemonEntity[] = [];
-      for (let i = 0; i < 5; i++) {
-        const randomNumber = getRandomInt(0, pokemonEntries.length);
+      const randomNumbersGenerated = Array.from(getSetOfRandomIntegers({
+        min: 0,
+        max: pokemonEntries.length,
+        size: 30
+      }))
+      const pokemonPooled = await Promise.all(randomNumbersGenerated.map(async (randomNumber) => {
         const randomPokemon = pokemonEntries[randomNumber];
         const pokemon = await fetchOk<PokeApiPokemonSpecies>(
           randomPokemon.pokemon_species.url
@@ -32,8 +35,8 @@ export class DraftService {
         const draftPokemonEntity = new DraftPokemonEntity();
         draftPokemonEntity.pokemonId = pokemon.id;
         draftPokemonEntity.draft = draft;
-        pokemonPooled.push(draftPokemonEntity);
-      }
+        return draftPokemonEntity;
+      }))
       draft.pokemon = pokemonPooled;
       await this.draftRepository.save(draft);
     }

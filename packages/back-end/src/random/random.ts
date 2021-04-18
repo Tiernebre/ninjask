@@ -14,6 +14,31 @@ export const generateRandomNumber = (): number => {
   return getRandomInt(0, Number.MAX_SAFE_INTEGER);
 };
 
+export interface RandomIntegersSetConfiguration {
+  // inclusive minimum
+  min: number;
+  // exclusive maximum
+  max: number;
+  // numbers that should be excluded from the set
+  denyList?: number[];
+  // the size of the set of numbers
+  size: number;
+}
+
+export const getSetOfRandomIntegers = (configuration: RandomIntegersSetConfiguration): Set<number> => {
+  const { min, max, denyList = [], size } = configuration
+  const randomIntegers = new Set<number>()
+
+  do {
+    const randomInt = getRandomInt(min, max)
+    if (!denyList.includes(randomInt)) {
+      randomIntegers.add(randomInt)
+    }
+  } while (randomIntegers.size !== size);
+
+  return randomIntegers;
+}
+
 export const generateRandomString = (): string => {
   return crypto.randomBytes(20).toString("hex");
 };

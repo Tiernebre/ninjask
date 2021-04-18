@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import { fetchOk } from "../http";
 import { HttpClient } from "../http/http-client";
 import {
   PokeApiPokedex,
@@ -15,10 +15,8 @@ export class PokeApiVersionService implements VersionService {
   }
 
   async getPokedexFromOne(version: PokeApiVersion): Promise<PokeApiPokedex> {
-    const versionGroupResponse = await fetch(version.version_group.url);
-    const versionGroup = (await versionGroupResponse.json()) as PokeApiVersionGroup;
+    const versionGroup = await fetchOk<PokeApiVersionGroup>(version.version_group.url);
     const [pokedex] = versionGroup.pokedexes;
-    const pokedexResponse = await fetch(pokedex.url);
-    return pokedexResponse.json() as Promise<PokeApiPokedex>;
+    return fetchOk(pokedex.url)
   }
 }

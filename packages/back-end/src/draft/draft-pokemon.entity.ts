@@ -2,7 +2,7 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DraftEntity } from "./draft.entity";
 
 @Entity({
-  name: "draft-pokemon",
+  name: "draft_pokemon",
 })
 export class DraftPokemonEntity {
   @PrimaryGeneratedColumn()

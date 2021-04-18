@@ -18,6 +18,12 @@ export const liveDraftSocketMiddleware = (
   }))
   const sendCurrentDraftPoolMessage = () =>
     ctx.websocket.send(generateDraftPoolMessage());
+  const broadcastCurrentDraftPool = () => {
+    logger.info(`Broadcasting the next announced Pokemon.`);
+    app.ws.server?.clients.forEach((client) => {
+      client.send(generateDraftPoolMessage());
+    });
+  }
 
   sendCurrentDraftPoolMessage();
 
@@ -32,14 +38,11 @@ export const liveDraftSocketMiddleware = (
     switch (message.toUpperCase()) {
       case "RESTART":
         currentIndex = 0;
-        logger.info(`Restarting the Live Draft Pool Feed From the Beginning.`);
+        broadcastCurrentDraftPool()
         break;
       case "NEXT":
         currentIndex++;
-        logger.info(`Broadcasting the next announced Pokemon.`);
-        app.ws.server?.clients.forEach((client) => {
-          client.send(generateDraftPoolMessage());
-        });
+        broadcastCurrentDraftPool()
         break;
       default:
         logger.info(

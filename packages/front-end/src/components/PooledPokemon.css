@@ -1,13 +1,11 @@
 .pooledPokemon {
   height: 100%;
   width: 100%;
-  background-color: slategrey;
 }
 
 .pooledPokemon-heading {
-  margin: 0;
-  margin-bottom: 8px;
   text-align: center;
+  background-color: slategrey;
 }
 
 .pooledPokemon ol {

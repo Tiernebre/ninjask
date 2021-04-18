@@ -5,6 +5,7 @@ import { PokeApiPokemonSpecies } from "../poke-api";
 import { Pokemon } from "../pokemon/pokemon";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
+import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
@@ -34,34 +35,9 @@ export class DraftService {
       `Generating a pool of draftable Pokemon for draft with id = ${id}.`
     );
     const draft = await this.getOneById(id);
-    const challenge = await draft.challenge;
-    this.logger.info(
-      `Found challenge with id = ${challenge.id} that was associated with draft for pool generation.`
-    );
-    const version = await this.versionService.getOneById(challenge.versionId);
-    this.logger.info(
-      `Found version ${JSON.stringify(
-        version
-      )} that was associated with challenge for pool generation.`
-    );
-    const { pokemonUrls } = await this.versionService.getPokedexFromOne(
-      version
-    );
-    const randomNumbersGenerated = Array.from(
-      getSetOfRandomIntegers({
-        min: 0,
-        max: pokemonUrls.length,
-        size: draft.poolSize,
-        denyList: version.deniedPokemonIds,
-      })
-    );
-    this.logger.info(
-      `Using Pokedex associated with version ${
-        version.name
-      }: The following random Pokedex numbers were generated for the draft: ${randomNumbersGenerated.join(
-        ", "
-      )}`
-    );
+    const version = await this.getVersionForDraft(draft)
+    const pokemonUrls = await this.getEligiblePokemonForDraft(draft, version);
+    const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(draft, version, pokemonUrls)
     const pokemonPooled = await this.poolPokemon(pokemonUrls, randomNumbersGenerated, draft)
     draft.pokemon = pokemonPooled;
     await this.draftRepository.save(draft);
@@ -77,6 +53,46 @@ export class DraftService {
     return Promise.all(
       pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
     );
+  }
+
+  private async getVersionForDraft(draft: DraftEntity): Promise<Version> {
+    const challenge = await draft.challenge;
+    this.logger.info(
+      `Found challenge with id = ${challenge.id} that was associated with draft for pool generation.`
+    );
+    const version = await this.versionService.getOneById(challenge.versionId);
+    this.logger.info(
+      `Found version ${JSON.stringify(
+        version
+      )} that was associated with challenge for pool generation.`
+    );
+    return version
+  }
+
+  private async getEligiblePokemonForDraft(draft: DraftEntity, version: Version): Promise<string[]> {
+    const { pokemonUrls } = await this.versionService.getPokedexFromOne(
+      version
+    );
+    return pokemonUrls
+  }
+
+  private generateRandomPokemonIndicesForDraft(draft: DraftEntity, version: Version, pokemonUrls: string[]): number[] {
+    const randomNumbersGenerated = Array.from(
+      getSetOfRandomIntegers({
+        min: 0,
+        max: pokemonUrls.length,
+        size: draft.poolSize,
+        denyList: version.deniedPokemonIds,
+      })
+    );
+    this.logger.info(
+      `Using Pokedex associated with version ${
+        version.name
+      }: The following random Pokedex numbers were generated for the draft: ${randomNumbersGenerated.join(
+        ", "
+      )}`
+    );
+    return randomNumbersGenerated
   }
 
   private async poolPokemon(

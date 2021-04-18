@@ -16,10 +16,9 @@ export class DraftService {
 
     if (draft) {
       const challenge = await draft.challenge;
-      const version = await this.versionService.getOneById(challenge.versionId);
       const {
         pokemon_entries: pokemonEntries,
-      } = await this.versionService.getPokedexFromOne(version);
+      } = await this.versionService.getPokedexFromOneWithId(challenge.versionId);
       const pokemonPooled: string[] = [];
       for (let i = 0; i < 5; i++) {
         const randomNumber = getRandomInt(0, pokemonEntries.length);

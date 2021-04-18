@@ -8,8 +8,8 @@ export interface VersionService {
   getOneById(id: number): Promise<PokeApiVersion>;
 
   /**
-   * Fetches the regional Pokedex for this version.
-   * @param version The version to get the pokedex from.
+   * Fetches the regional Pokedex for a given version id.
+   * @param id the id of the version to get a pokedex for..
    */
-  getPokedexFromOne(version: PokeApiVersion): Promise<PokeApiPokedex>;
+  getPokedexFromOneWithId(id: number): Promise<PokeApiPokedex>;
 }

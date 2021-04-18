@@ -1,13 +1,23 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from "typeorm";
 import { DraftEntity } from "./draft.entity";
 
 @Entity({
   name: "draft_pokemon",
 })
+@Unique(["draft", "pokemonId"])
 export class DraftPokemonEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @ManyToOne(() => DraftEntity, (draft) => draft.pokemon)
-  draft!: Promise<DraftEntity>;
+  draft!: DraftEntity;
+
+  @Column({ nullable: false })
+  pokemonId!: number;
 }

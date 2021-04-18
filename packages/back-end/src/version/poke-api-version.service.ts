@@ -16,8 +16,10 @@ export class PokeApiVersionService implements VersionService {
 
   async getPokedexFromOneWithId(id: number): Promise<PokeApiPokedex> {
     const version = await this.getOneById(id);
-    const versionGroup = await fetchOk<PokeApiVersionGroup>(version.version_group.url);
+    const versionGroup = await fetchOk<PokeApiVersionGroup>(
+      version.version_group.url
+    );
     const [pokedex] = versionGroup.pokedexes;
-    return fetchOk(pokedex.url)
+    return fetchOk(pokedex.url);
   }
 }

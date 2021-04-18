@@ -3,6 +3,7 @@ import { fetchOk } from "../http";
 import { PokeApiPokemonSpecies } from "../poke-api";
 import { getRandomInt } from "../random";
 import { VersionService } from "../version/version.service";
+import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 
 export class DraftService {
@@ -18,15 +19,22 @@ export class DraftService {
       const challenge = await draft.challenge;
       const {
         pokemon_entries: pokemonEntries,
-      } = await this.versionService.getPokedexFromOneWithId(challenge.versionId);
-      const pokemonPooled: string[] = [];
+      } = await this.versionService.getPokedexFromOneWithId(
+        challenge.versionId
+      );
+      const pokemonPooled: DraftPokemonEntity[] = [];
       for (let i = 0; i < 5; i++) {
         const randomNumber = getRandomInt(0, pokemonEntries.length);
         const randomPokemon = pokemonEntries[randomNumber];
-        const pokemon = await fetchOk<PokeApiPokemonSpecies>(randomPokemon.pokemon_species.url);
-        pokemonPooled.push(pokemon.name);
+        const pokemon = await fetchOk<PokeApiPokemonSpecies>(
+          randomPokemon.pokemon_species.url
+        );
+        const draftPokemonEntity = new DraftPokemonEntity();
+        draftPokemonEntity.pokemonId = pokemon.id;
+        draftPokemonEntity.draft = draft;
       }
-      console.log(pokemonPooled);
+      draft.pokemon = pokemonPooled;
+      await this.draftRepository.save(draft);
     }
   }
 }

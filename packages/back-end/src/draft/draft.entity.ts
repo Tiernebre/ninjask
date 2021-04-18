@@ -1,5 +1,12 @@
-import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { SeasonEntity } from "../season/season.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 
 @Entity({
@@ -9,9 +16,18 @@ export class DraftEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => SeasonEntity, (season) => season.draft)
-  season!: SeasonEntity;
+  @OneToOne(() => ChallengeEntity)
+  @JoinColumn()
+  challenge!: Promise<ChallengeEntity>;
 
-  @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft)
-  pokemon!: Promise<DraftPokemonEntity[]>;
+  @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft, {
+    cascade: true,
+  })
+  pokemon!: DraftPokemonEntity[];
+
+  @Column({
+    nullable: false,
+    comment: "The amount of pokemon this draft should have.",
+  })
+  poolSize!: number;
 }

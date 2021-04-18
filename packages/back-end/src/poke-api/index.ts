@@ -1,4 +1,4 @@
-export { NamedAPIResource } from "./named-api-resource";
-export { NamedAPIResourceList } from "./named-api-resource-list";
-export { PokeApiPokemon } from "./poke-api-pokemon";
-export { generateMockPokeApiPokemon } from "./poke-api-pokemon.mock";
+export * from "./pokemon";
+export * from "./poke-api-pokemon.mock";
+export * from "./utility";
+export * from "./games";

@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToOne,
 } from "typeorm";
+import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 
 @Entity({
@@ -38,4 +40,7 @@ export class ChallengeEntity {
     nullable: false,
   })
   versionId!: number;
+
+  @OneToOne(() => DraftEntity, (draft) => draft.challenge)
+  draft!: Promise<DraftEntity>;
 }

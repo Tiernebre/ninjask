@@ -4,12 +4,10 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
-import { DraftEntity } from "../draft/draft.entity";
 import { LeagueEntity } from "../leagues/league.entity";
 
 @Entity({
@@ -40,7 +38,4 @@ export class SeasonEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
-
-  @OneToOne(() => DraftEntity, (draft) => draft.season)
-  draft!: Promise<DraftEntity>;
 }

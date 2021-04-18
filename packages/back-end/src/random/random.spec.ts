@@ -1,11 +1,13 @@
-import { getRandomInt } from "./random";
+import { getRandomInt, getSetOfRandomIntegers } from "./random";
 
 describe("random", () => {
+  afterEach(() => {
+    jest.spyOn(global.Math, "random").mockRestore();
+  });
+
   describe("getRandomInt", () => {
     beforeEach(() => {
-      const mockMath: Math = Object.create(global.Math) as Math;
-      mockMath.random = () => 0.5;
-      global.Math = mockMath;
+      jest.spyOn(global.Math, "random").mockReturnValue(0.5);
     });
 
     it("returns an integer", () => {
@@ -30,6 +32,58 @@ describe("random", () => {
 
     it("throws an error if min is greater than max", () => {
       expect(() => getRandomInt(2, 1)).toThrowError();
+    });
+  });
+
+  describe("getSetOfRandomIntegers", () => {
+    it("returns a size of random integers as specified", () => {
+      const size = 5;
+      const randomIntegers = getSetOfRandomIntegers({
+        min: 0,
+        max: Number.MAX_SAFE_INTEGER,
+        size,
+      });
+      expect(randomIntegers.size).toEqual(size);
+    });
+
+    it("throws an error if the size is lesser than the range", () => {
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 1,
+          size: 2,
+        })
+      ).toThrowError();
+    });
+
+    it("does not throw an error if the size is equal to the range", () => {
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 10,
+          size: 10,
+        })
+      ).not.toThrowError();
+    });
+
+    it("does not throw an error if the size is lesser than the range", () => {
+      expect(() =>
+        getSetOfRandomIntegers({
+          min: 0,
+          max: 10,
+          size: 9,
+        })
+      ).not.toThrowError();
+    });
+
+    it("does not generate a number that is on a provided deny list", () => {
+      const integers = getSetOfRandomIntegers({
+        min: 0,
+        max: 10,
+        size: 8,
+        denyList: [1],
+      });
+      expect(integers).not.toContain(1);
     });
   });
 });

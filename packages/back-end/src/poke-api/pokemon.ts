@@ -1,4 +1,5 @@
-import { NamedAPIResource } from "./named-api-resource";
+import { NamedAPIResource } from ".";
+import { APIResource, Description, FlavorText, Name } from "./utility";
 
 interface PokemonAbility {
   is_hidden: boolean;
@@ -58,6 +59,27 @@ interface PokemonHeldItem {
   version_details: PokemonHeldItemVersion[];
 }
 
+interface PokemonSpeciesDexEntry {
+  entry_number: number;
+  pokedex: NamedAPIResource;
+}
+
+interface PalParkEncounterArea {
+  base_score: number;
+  rate: number;
+  area: NamedAPIResource;
+}
+
+interface Genus {
+  genus: string;
+  language: NamedAPIResource;
+}
+
+interface PokemonSpeciesVariety {
+  is_default: boolean;
+  pokemon: NamedAPIResource;
+}
+
 export interface PokeApiPokemon {
   id: number;
   name: string;
@@ -77,4 +99,34 @@ export interface PokeApiPokemon {
   stats: PokemonStat[];
   types: PokemonType[];
   past_types: PokemonType[];
+}
+
+export interface PokeApiPokemonSpecies {
+  id: number;
+  name: string;
+  order: number;
+  gender_rate: number;
+  capture_rate: number;
+  base_happiness: number;
+  is_baby: boolean;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  hatch_counter: number;
+  has_gender_differences: boolean;
+  forms_switchable: boolean;
+  growth_rate: NamedAPIResource;
+  pokedex_numbers: PokemonSpeciesDexEntry[];
+  egg_groups: NamedAPIResource[];
+  color: NamedAPIResource;
+  shape: NamedAPIResource;
+  evolves_from_species: NamedAPIResource | null;
+  flavor_text_entries: FlavorText[];
+  evolution_chain: APIResource;
+  habitat: NamedAPIResource;
+  generation: NamedAPIResource;
+  names: Name[];
+  pal_park_encounters: PalParkEncounterArea[];
+  form_descriptions: Description[];
+  genera: Genus[];
+  varieties: PokemonSpeciesVariety[];
 }

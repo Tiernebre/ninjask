@@ -25,11 +25,12 @@ function App() {
     }
   }
 
-  const pokemon = currentDraftStatus?.currentPokemon
+  const currentPokemon = currentDraftStatus?.currentPokemon
+  const pooledPokemon = currentDraftStatus?.pooledPokemon || []
 
-  const pokemonInformation = pokemon ? <div className="pokemon-information">
-    <img src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
-    <p>{ pokemon.name }</p>
+  const pokemonInformation = currentPokemon ? <div className="pokemon-information">
+    <img src={currentPokemon.imageUrl} alt={`${currentPokemon.name}`}></img>
+    <p>{ currentPokemon.name }</p>
   </div> : <div></div>
 
   const buttons = isReady() ? 
@@ -42,6 +43,7 @@ function App() {
     <div className="app">
       {pokemonInformation}
       {buttons}
+      {pooledPokemon.map(pokemon => <div>{pokemon.name}</div>)}
     </div>
   )
 }

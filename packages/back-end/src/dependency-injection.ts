@@ -2,7 +2,6 @@ import { FetchHttpClient } from "./http/fetch-http-client";
 import { HttpClient } from "./http/http-client";
 import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
 import { PokemonService } from "./pokemon/pokemon.service";
-import Router from "@koa/router";
 import { PokemonRouter } from "./pokemon/pokemon.router";
 import { createConnection, getConnectionOptions, getRepository } from "typeorm";
 import { LeagueEntity } from "./leagues/league.entity";
@@ -16,6 +15,7 @@ import { PokeApiVersionService } from "./version/poke-api-version.service";
 import { VersionService } from "./version/version.service";
 import { DraftRouter } from "./draft/draft.router";
 import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
+import Koa from 'koa';
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -69,11 +69,15 @@ const buildDraftRouter = (logger: Logger) => {
  * @param logger The application logger, which is on its own a dependency but needed in other spots.
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
-export const injectDependencies = async (logger: Logger): Promise<Router[]> => {
+export const injectDependencies = async (app: Koa, logger: Logger): Promise<Koa> => {
   await setupTypeOrmConnection();
-  return [
+  const routers = [
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
   ];
+  routers.forEach((router) => {
+    app.use(router.routes());
+  });
+  return app
 };

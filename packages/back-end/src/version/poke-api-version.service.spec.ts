@@ -69,4 +69,22 @@ describe("PokeApiVersionService", () => {
       expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
     });
   });
+
+  describe("getPokedexFromOne", () => {
+    it("returns an associated pokedex from a given version", async () => {
+      const version = generateMockPokeApiVersion();
+      const versionGroup = generateMockPokeApiVersionGroup();
+      const pokedex = generateMockPokeApiPokedex();
+      jestWhen(mockedFetchOk)
+        .calledWith(version.version_group.url)
+        .mockResolvedValue(versionGroup);
+      jestWhen(mockedFetchOk)
+        .calledWith(versionGroup.pokedexes[0].url)
+        .mockResolvedValue(pokedex);
+      const gotten = await pokeApiVersionService.getPokedexFromOne(
+        mapVersionFromPokeApi(version)
+      );
+      expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
+    });
+  });
 });

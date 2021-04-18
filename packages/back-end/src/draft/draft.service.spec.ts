@@ -7,7 +7,10 @@ import { Repository } from "typeorm";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { VersionService } from "../version/version.service";
 import { DraftEntity } from "./draft.entity";
-import { generateMockDraftEntity, generateMockDraftPokemonEntity } from "./draft.mock";
+import {
+  generateMockDraftEntity,
+  generateMockDraftPokemonEntity,
+} from "./draft.mock";
 import { DraftService } from "./draft.service";
 import { fetchOk } from "../http";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
@@ -73,7 +76,7 @@ describe("DraftService", () => {
       const challenge = await draft.challenge;
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
-      draft.pokemon = []
+      draft.pokemon = [];
       draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);
@@ -101,7 +104,7 @@ describe("DraftService", () => {
       const challenge = await draft.challenge;
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
-      draft.pokemon = [generateMockDraftPokemonEntity()]
+      draft.pokemon = [generateMockDraftPokemonEntity()];
       draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);

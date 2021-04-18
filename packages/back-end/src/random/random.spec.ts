@@ -77,7 +77,8 @@ describe("random", () => {
     });
 
     it("does not generate a number that is on a provided deny list", () => {
-      jest.spyOn(global.Math, "random")
+      jest
+        .spyOn(global.Math, "random")
         .mockReturnValueOnce(0.5)
         .mockReturnValueOnce(0.75)
         .mockReturnValue(0.25);

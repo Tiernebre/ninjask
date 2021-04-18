@@ -45,5 +45,13 @@ describe("random", () => {
       })
       expect(randomIntegers.size).toEqual(size)
     })
+
+    it("throws an error if the size is lesser than the range", () => {
+      expect(() => getSetOfRandomIntegers({
+        min: 0,
+        max: 1,
+        size: 2
+      })).toThrowError()
+    })
   })
 });

@@ -29,6 +29,12 @@ export const getSetOfRandomIntegers = (
   configuration: RandomIntegersSetConfiguration
 ): Set<number> => {
   const { min, max, denyList = [], size } = configuration;
+
+  const range = max - min
+  if (size > range) {
+    throw Error('Size must be smaller than the range provided')
+  }
+
   const randomIntegers = new Set<number>();
 
   do {

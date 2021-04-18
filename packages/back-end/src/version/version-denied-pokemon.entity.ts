@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity({
-  name: "version-denied-pokemon",
+  name: "version_denied_pokemon",
 })
 @Unique(["versionId", "pokemonId"])
 export class VersionDeniedPokemonEntity {

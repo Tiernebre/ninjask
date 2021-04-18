@@ -77,13 +77,18 @@ describe("random", () => {
     });
 
     it("does not generate a number that is on a provided deny list", () => {
+      jest
+        .spyOn(global.Math, "random")
+        .mockReturnValueOnce(0.5)
+        .mockReturnValueOnce(0.75)
+        .mockReturnValue(0.25);
       const integers = getSetOfRandomIntegers({
-        min: 0,
+        min: 1,
         max: 10,
-        size: 8,
-        denyList: [1],
+        size: 2,
+        denyList: [5],
       });
-      expect(integers).not.toContain(1);
+      expect(integers).not.toContain(5);
     });
   });
 });

@@ -2,27 +2,33 @@
 import "./App.css";
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { Pokemon } from "./api/pokemon/Pokemon";
+import { PooledPokemon } from "./components/PooledPokemon";
+import { PokemonInformation } from "./components/PokemonInformation";
+
+interface DraftStatus {
+  currentPokemon: Pokemon;
+  pooledPokemon: Pokemon[];
+}
 
 function App() {
-  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft')
+  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://localhost:3000/live-draft')
   const restartDraft = useCallback(() => sendMessage('RESTART'), [])
   const fetchRequest = useCallback(() => sendMessage('NEXT'), [])
 
   const isReady = () => readyState === ReadyState.OPEN
 
-  console.log(lastMessage)
-  const pokemon = () => {
+  let currentDraftStatus: DraftStatus | null = null
+  if (isReady() && lastMessage) {
     try {
-      return isReady() && lastMessage ? JSON.parse(lastMessage.data) : null
-    } catch (error) {
-      return null
+      currentDraftStatus = JSON.parse(lastMessage.data)
+    } catch {
+      currentDraftStatus = null
     }
   }
 
-  const pokemonInformation = pokemon() ? <div className="pokemon-information">
-    <img src={pokemon().imageUrl} alt={`${pokemon().name}`}></img>
-    <p>{ pokemon().name }</p>
-  </div> : <div></div>
+  const currentPokemon = currentDraftStatus?.currentPokemon
+  const pooledPokemon = currentDraftStatus?.pooledPokemon || []
 
   const buttons = isReady() ? 
       <div className="pokemon-draft-buttons">
@@ -32,8 +38,13 @@ function App() {
 
   return (
     <div className="app">
-      {pokemonInformation}
-      {buttons}
+      <div className="app-pooled-pokemon-container">
+        <PooledPokemon pokemon={pooledPokemon} />
+      </div>
+      <div className="app-pokemon-information-container">
+        <PokemonInformation pokemon={currentPokemon} emptyPlaceholder="The Pokemon is being loaded..." />
+        {buttons}
+      </div>
     </div>
   )
 }

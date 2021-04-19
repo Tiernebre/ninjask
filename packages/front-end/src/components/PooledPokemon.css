@@ -1,0 +1,47 @@
+.pooledPokemon {
+  height: 100%;
+  width: 100%;
+  background-color: snow;
+}
+
+.pooledPokemon-heading {
+  text-align: center;
+  background-color: mediumaquamarine;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.pooledPokemon ol {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pooledPokemon-pokemon {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  padding: 10px 0;
+}
+
+.pooledPokemon img {
+  width: 40px;
+}
+
+.pooledPokemon-pokemon p {
+  margin: 0;
+  padding-top: 3px;
+}
+
+.pooledPokemon-pokemon p::first-letter {
+  text-transform: capitalize;
+}
+
+.pooledPokemon-pokemon:nth-child(odd) {
+  background-color: snow;
+}
+
+.pooledPokemon-pokemon:nth-child(even) {
+  background-color: lightgrey;
+}

@@ -1,2 +1,3 @@
-export type { PokemonService } from './PokemonService'
-export { HttpPokemonService } from './HttpPokemonService'
+export * from './PokemonService'
+export * from './HttpPokemonService'
+export * from './Pokemon'

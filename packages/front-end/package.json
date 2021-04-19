@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -20,8 +21,11 @@
   "scripts": {
     "start": "react-scripts start",
     "compile": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
+    "test:unit": "react-scripts test --watchAll=false",
+    "test": "yarn lint:style && yarn test:unit",
+    "lint:style": "prettier --check .",
+    "eject": "react-scripts eject",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [

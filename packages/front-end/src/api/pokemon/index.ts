@@ -1,3 +1,3 @@
-export * from './PokemonService'
-export * from './HttpPokemonService'
-export * from './Pokemon'
+export * from "./PokemonService";
+export * from "./HttpPokemonService";
+export * from "./Pokemon";

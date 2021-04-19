@@ -4,5 +4,5 @@ export interface PokemonService {
   /**
    * Returns a random Pokemon.
    */
-  getARandomOne(): Promise<Pokemon>
+  getARandomOne(): Promise<Pokemon>;
 }

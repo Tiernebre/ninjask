@@ -3,10 +3,20 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border: 3px solid lightgray;
+  border-radius: 2%;
+  padding: 20px;
 }
 
 .pokemonInformation-image {
   max-width: 300px;
+}
+
+.pokemonInformation-name {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  margin-top: 30px;
 }
 
 .pokemonInformation-name::first-letter {

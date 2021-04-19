@@ -12,7 +12,7 @@ interface DraftStatus {
 }
 
 function App() {
-  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://localhost:3000/live-draft')
+  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft')
   const restartDraft = useCallback(() => sendMessage('RESTART'), [])
   const fetchRequest = useCallback(() => sendMessage('NEXT'), [])
 

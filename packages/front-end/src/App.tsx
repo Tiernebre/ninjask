@@ -42,7 +42,7 @@ function App() {
         <PooledPokemon pokemon={pooledPokemon} />
       </div>
       <div className="app-pokemon-information-container">
-        <PokemonInformation pokemon={currentPokemon} />
+        <PokemonInformation pokemon={currentPokemon} emptyPlaceholder="The Pokemon is being loaded..." />
         {buttons}
       </div>
     </div>

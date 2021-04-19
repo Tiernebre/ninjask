@@ -6,7 +6,8 @@
 
 .pooledPokemon-heading {
   text-align: center;
-  background-color: mediumaquamarine;
+  background-color: #00d1b2;
+  color: snow;
   margin: 0;
   padding: 10px 0;
 }
@@ -16,6 +17,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .pooledPokemon-pokemon {

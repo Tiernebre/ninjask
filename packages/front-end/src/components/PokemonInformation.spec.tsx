@@ -9,7 +9,7 @@ it('renders pokemon name', () => {
     imageUrl: 'foo',
     iconUrl: 'foo'
   }
-  render(<PokemonInformation pokemon={pokemon} />);
+  render(<PokemonInformation pokemon={pokemon} emptyPlaceholder="hello" />);
   const pokemonName = screen.getByText(pokemon.name);
   expect(pokemonName).toBeInTheDocument();
 });

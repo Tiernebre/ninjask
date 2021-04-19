@@ -2,7 +2,7 @@ import { Context } from "koa";
 import { Logger } from "../logger";
 import { Pokemon } from "../pokemon/pokemon";
 import { DraftService } from "./draft.service";
-import KoaWebsocket from 'koa-websocket'
+import KoaWebsocket from "koa-websocket";
 
 let currentDraftPokemon: Pokemon[] = [];
 let currentIndex = 0;
@@ -13,14 +13,15 @@ export const liveDraftSocketMiddleware = (
   app: KoaWebsocket.App
 ) => async (ctx: Context): Promise<void> => {
   if (!currentDraftPokemon.length) {
-    const draftPokemon = await draftService.getPoolOfPokemonForOneWithId(1)
+    const draftPokemon = await draftService.getPoolOfPokemonForOneWithId(1);
     currentDraftPokemon = draftPokemon;
   }
 
-  const generateDraftPoolMessage = (): string => JSON.stringify(({
-    currentPokemon: currentDraftPokemon[currentIndex] || null,
-    pooledPokemon: currentDraftPokemon.slice(0, currentIndex)
-  }))
+  const generateDraftPoolMessage = (): string =>
+    JSON.stringify({
+      currentPokemon: currentDraftPokemon[currentIndex] || null,
+      pooledPokemon: currentDraftPokemon.slice(0, currentIndex),
+    });
   const sendCurrentDraftPoolMessage = () =>
     ctx.websocket.send(generateDraftPoolMessage());
   const broadcastCurrentDraftPool = () => {
@@ -28,7 +29,7 @@ export const liveDraftSocketMiddleware = (
     app.ws.server?.clients.forEach((client) => {
       client.send(generateDraftPoolMessage());
     });
-  }
+  };
 
   sendCurrentDraftPoolMessage();
 
@@ -37,11 +38,11 @@ export const liveDraftSocketMiddleware = (
     switch (message.toUpperCase()) {
       case "RESTART":
         currentIndex = 0;
-        broadcastCurrentDraftPool()
+        broadcastCurrentDraftPool();
         break;
       case "NEXT":
         currentIndex++;
-        broadcastCurrentDraftPool()
+        broadcastCurrentDraftPool();
         break;
       default:
         logger.info(

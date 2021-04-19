@@ -6,6 +6,6 @@ export class HttpPokemonService implements PokemonService {
   constructor(private readonly httpClient: HttpClient) {}
 
   getARandomOne(): Promise<Pokemon> {
-    return this.httpClient.get('random-pokemon')
+    return this.httpClient.get("random-pokemon");
   }
 }

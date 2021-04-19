@@ -1,2 +1,2 @@
-export type { HttpClient } from './HttpClient'
-export { FetchHttpClient } from './FetchHttpClient'
+export type { HttpClient } from "./HttpClient";
+export { FetchHttpClient } from "./FetchHttpClient";

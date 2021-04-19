@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
-import { useCallback } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useCallback } from "react";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 import { Pokemon } from "./api/pokemon/Pokemon";
 import { PooledPokemon } from "./components/PooledPokemon";
 import { PokemonInformation } from "./components/PokemonInformation";
@@ -12,29 +12,34 @@ interface DraftStatus {
 }
 
 function App() {
-  const { sendMessage, lastMessage, readyState } = useWebSocket('ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft')
-  const restartDraft = useCallback(() => sendMessage('RESTART'), [])
-  const fetchRequest = useCallback(() => sendMessage('NEXT'), [])
+  const { sendMessage, lastMessage, readyState } = useWebSocket(
+    "ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft"
+  );
+  const restartDraft = useCallback(() => sendMessage("RESTART"), []);
+  const fetchRequest = useCallback(() => sendMessage("NEXT"), []);
 
-  const isReady = () => readyState === ReadyState.OPEN
+  const isReady = () => readyState === ReadyState.OPEN;
 
-  let currentDraftStatus: DraftStatus | null = null
+  let currentDraftStatus: DraftStatus | null = null;
   if (isReady() && lastMessage) {
     try {
-      currentDraftStatus = JSON.parse(lastMessage.data)
+      currentDraftStatus = JSON.parse(lastMessage.data);
     } catch {
-      currentDraftStatus = null
+      currentDraftStatus = null;
     }
   }
 
-  const currentPokemon = currentDraftStatus?.currentPokemon
-  const pooledPokemon = currentDraftStatus?.pooledPokemon || []
+  const currentPokemon = currentDraftStatus?.currentPokemon;
+  const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
-  const buttons = isReady() ? 
-      <div className="pokemon-draft-buttons">
-        <button onClick={restartDraft}>Restart the Draft!</button>
-        <button onClick={fetchRequest}>See the next available Pokemon!</button>
-      </div> : <div></div>
+  const buttons = isReady() ? (
+    <div className="pokemon-draft-buttons">
+      <button onClick={restartDraft}>Restart the Draft!</button>
+      <button onClick={fetchRequest}>See the next available Pokemon!</button>
+    </div>
+  ) : (
+    <div></div>
+  );
 
   return (
     <div className="app">
@@ -42,11 +47,14 @@ function App() {
         <PooledPokemon pokemon={pooledPokemon} />
       </div>
       <div className="app-pokemon-information-container">
-        <PokemonInformation pokemon={currentPokemon} emptyPlaceholder="The Pokemon is being loaded..." />
+        <PokemonInformation
+          pokemon={currentPokemon}
+          emptyPlaceholder="The Pokemon is being loaded..."
+        />
         {buttons}
       </div>
     </div>
-  )
+  );
 }
 
 export default App;

@@ -21,7 +21,9 @@
   "scripts": {
     "start": "react-scripts start",
     "compile": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test:unit": "react-scripts test --watchAll=false",
+    "test": "yarn lint:style && yarn test:unit",
+    "lint:style": "prettier --check .",
     "eject": "react-scripts eject",
     "format": "prettier --write ."
   },

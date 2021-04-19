@@ -2,12 +2,13 @@ import { Pokemon } from "../api/pokemon/Pokemon"
 import './PokemonInformation.css'
 
 type PokemonInformationProps = {
-  pokemon?: Pokemon
+  pokemon?: Pokemon,
+  emptyPlaceholder: string
 }
 
-export const PokemonInformation = ({ pokemon }: PokemonInformationProps) => {
+export const PokemonInformation = ({ pokemon, emptyPlaceholder  }: PokemonInformationProps) => {
   return pokemon ? <div className="pokemonInformation">
     <img className="pokemonInformation-image" src={pokemon.imageUrl} alt={`${pokemon.name}`}></img>
     <p className="pokemonInformation-name">{ pokemon.name }</p>
-  </div> : <div></div>
+  </div> : <p>{emptyPlaceholder}</p>
 }

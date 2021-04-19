@@ -13,3 +13,10 @@ it('renders pokemon name', () => {
   const pokemonName = screen.getByText(pokemon.name);
   expect(pokemonName).toBeInTheDocument();
 });
+
+it('renders a provided empty placeholder if a pokemon is not provided', () => {
+  const emptyPlaceholderText = 'Empty Placeholder'
+  render(<PokemonInformation emptyPlaceholder={emptyPlaceholderText} />);
+  const emptyPlaceholder = screen.getByText(emptyPlaceholderText);
+  expect(emptyPlaceholder).toBeInTheDocument();
+})

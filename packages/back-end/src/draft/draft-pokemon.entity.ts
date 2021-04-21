@@ -27,5 +27,5 @@ export class DraftPokemonEntity {
   createdAt!: Date;
 
   @UpdateDateColumn({ nullable: false })
-  updatedAt!: Date
+  updatedAt!: Date;
 }

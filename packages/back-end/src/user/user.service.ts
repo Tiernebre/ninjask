@@ -14,7 +14,8 @@ export class UserService {
     request: CreateUserRequest
   ): Promise<User> {
     const userEntity = this.userRepository.create()
-    userEntity.accessKey = request.accessKey
+    userEntity.nickname = request.nickname
+    userEntity.password = await this.passwordEncoder.encode(request.password)
     const savedUserEntity = await this.userRepository.save(userEntity)
     return this.mapEntityToDto(savedUserEntity)
   }

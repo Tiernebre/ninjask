@@ -13,7 +13,7 @@ export class SessionRouter extends Router {
 
   private setupRoutes(): void {
     this.post('/sessions', async (ctx) => {
-      const createdSession = await this.sessionService.createOne(ctx.body as SessionRequest)
+      const createdSession = await this.sessionService.createOne(ctx.request.body as SessionRequest)
       ctx.body = createdSession
       ctx.status = CREATED
     })

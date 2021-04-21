@@ -21,6 +21,17 @@ describe('jwt-session', () => {
     )
   })
 
+  describe('constructor', () => {
+    it.each([null, undefined, ''])('throws an error if secret provided is %p', (secret) => {
+      expect(() => {
+        new JwtSessionService(
+          userService,
+          secret as Secret
+        )
+      }).toThrowError()
+    })
+  })
+
   describe('createOne', () => {
     it('returns a session token bag if the request is valid', async () => {
       const request: SessionRequest = {

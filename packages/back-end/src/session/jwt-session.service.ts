@@ -3,6 +3,7 @@ import { SessionRequest } from "./session-request";
 import { SessionTokenBag } from "./session-token-bag";
 import { SessionService } from "./session.service";
 import jwt, { Secret } from 'jsonwebtoken'
+import { SessionPayload } from "./session-payload";
 
 export class JwtSessionService implements SessionService {
   constructor(
@@ -25,7 +26,7 @@ export class JwtSessionService implements SessionService {
     }
   }
 
-  verifyOne(accessToken: string): void {
-    jwt.verify(accessToken, this.secret)
+  verifyOne(accessToken: string): SessionPayload {
+    return JSON.parse(jwt.verify(accessToken, this.secret).toString()) as SessionPayload
   }
 }

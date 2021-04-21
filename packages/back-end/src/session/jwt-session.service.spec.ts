@@ -2,7 +2,7 @@ import { Secret } from 'jsonwebtoken'
 import { UserService } from '../user/user.service'
 import { JwtSessionService } from './jwt-session.service'
 import { object, when } from 'testdouble'
-import { generateRandomString } from '../random'
+import { generateRandomNumber, generateRandomString } from '../random'
 import { SessionRequest } from './session-request'
 import { generateMockUser } from '../user/user.mock'
 import jwt from 'jsonwebtoken'
@@ -46,9 +46,13 @@ describe('jwt-session', () => {
   })
 
   describe('verifyOne', () => {
-    it('does nothing if the given access token is valid', () => {
-      const accessToken = jwt.sign({}, secret)
-      jwtSessionService.verifyOne(accessToken)
+    it('returns the decoded payload if the given access token is valid', () => {
+      const payload = {
+        id: generateRandomNumber(),
+        accessKey: generateRandomString()
+      }
+      const accessToken = jwt.sign(payload, secret)
+      expect(jwtSessionService.verifyOne(accessToken)).toEqual(payload)
     })
 
     it.each(['', null, undefined, 'totes not a valid JWT token'])('throws an error if a given access token is %p', (accessToken) => {

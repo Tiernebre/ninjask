@@ -52,7 +52,12 @@ describe('jwt-session', () => {
         accessKey: generateRandomString()
       }
       const accessToken = jwt.sign(payload, secret)
-      expect(jwtSessionService.verifyOne(accessToken)).toEqual(payload)
+      expect(jwtSessionService.verifyOne(accessToken)).toEqual(expect.objectContaining({
+        id: payload.id,
+        accessKey: payload.accessKey,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        iat: expect.anything()
+      }))
     })
 
     it.each(['', null, undefined, 'totes not a valid JWT token'])('throws an error if a given access token is %p', (accessToken) => {

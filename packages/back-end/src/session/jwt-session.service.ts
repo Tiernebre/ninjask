@@ -27,6 +27,6 @@ export class JwtSessionService implements SessionService {
   }
 
   verifyOne(accessToken: string): SessionPayload {
-    return JSON.parse(jwt.verify(accessToken, this.secret).toString()) as SessionPayload
+    return jwt.verify(accessToken, this.secret) as SessionPayload
   }
 }

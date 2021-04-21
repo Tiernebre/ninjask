@@ -6,6 +6,7 @@ import websockify from "koa-websocket";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import { injectDependencies } from "./dependency-injection";
+import bodyParser from 'koa-bodyparser'
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(
   })
 );
 app.use(loggingMiddleware(logger));
+app.use(bodyParser())
 
 void injectDependencies(app, logger).then((injectedApp) => {
   const port = Number(process.env.API_SERVER_PORT);

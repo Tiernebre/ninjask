@@ -13,7 +13,7 @@ export class UserRouter extends Router {
 
   private setupRoutes(): void {
     this.post('/users', async (ctx) => {
-      const createdUser = await this.userService.createOne(ctx.body as CreateUserRequest)
+      const createdUser = await this.userService.createOne(ctx.request.body as CreateUserRequest)
       ctx.body = createdUser
       ctx.status = CREATED
     })

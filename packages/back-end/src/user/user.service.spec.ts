@@ -30,5 +30,12 @@ describe('UserService', () => {
         expect(gottenUser.accessKey).toEqual(userEntity.accessKey)
       })
     })
+
+    it('returns an empty optional if a user with a given access key does not exist.', async () => {
+      const userEntity = generateMockUserEntity()
+      when(userRepository.findOne({ accessKey: userEntity.accessKey })).thenResolve(undefined)
+      const gottenUser = await userService.findOneWithAccessKeyAndPassword(userEntity.accessKey, userEntity.password)
+      expect(gottenUser.isPresent()).toEqual(false)
+    })
   })
 })

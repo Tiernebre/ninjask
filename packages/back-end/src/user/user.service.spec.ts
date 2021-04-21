@@ -21,20 +21,22 @@ describe("UserService", () => {
     it("returns a created user", async () => {
       const request = {
         nickname: generateRandomString(),
-        password: generateRandomString()
-      }
-      const hashedPassword = generateRandomString()
-      when(passwordEncoder.encode(request.password)).thenResolve(hashedPassword)
-      const userEntity = generateMockUserEntity()
-      when(userRepository.create()).thenReturn(userEntity)
-      when(userRepository.save(userEntity)).thenResolve(userEntity)
-      const createdUser = await userService.createOne(request)
-      expect(createdUser.id).toEqual(userEntity.id)
-      expect(createdUser.accessKey).toBeTruthy()
-      expect(userEntity.nickname).toEqual(request.nickname)
-      expect(userEntity.password).toEqual(hashedPassword)
-    })
-  })
+        password: generateRandomString(),
+      };
+      const hashedPassword = generateRandomString();
+      when(passwordEncoder.encode(request.password)).thenResolve(
+        hashedPassword
+      );
+      const userEntity = generateMockUserEntity();
+      when(userRepository.create()).thenReturn(userEntity);
+      when(userRepository.save(userEntity)).thenResolve(userEntity);
+      const createdUser = await userService.createOne(request);
+      expect(createdUser.id).toEqual(userEntity.id);
+      expect(createdUser.accessKey).toBeTruthy();
+      expect(userEntity.nickname).toEqual(request.nickname);
+      expect(userEntity.password).toEqual(hashedPassword);
+    });
+  });
 
   describe("findOneWithAccessKeyAndPassword", () => {
     it("returns a user if one exists with a given access key and correct password", async () => {

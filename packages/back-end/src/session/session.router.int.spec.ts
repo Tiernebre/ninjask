@@ -1,13 +1,13 @@
 import Koa from "koa";
 import Application from "koa";
-import bodyParser from 'koa-bodyparser'
+import bodyParser from "koa-bodyparser";
 import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
 import { generateRandomString } from "../random";
 import { SessionRouter } from "../session/session.router";
 import { SessionService } from "../session/session.service";
-import { CREATED } from 'http-status'
+import { CREATED } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
 
 describe("Session Router (integration)", () => {
@@ -18,7 +18,7 @@ describe("Session Router (integration)", () => {
 
   beforeAll(() => {
     app = new Koa();
-    app.use(bodyParser())
+    app.use(bodyParser());
     sessionService = object<SessionService>();
     const router = new SessionRouter(sessionService);
     app.use(router.routes());
@@ -38,12 +38,14 @@ describe("Session Router (integration)", () => {
     it("returns with 201 CREATED status", async () => {
       const createSessionRequest = {
         accessKey: generateRandomString(),
-        password: generateRandomString()
-      }
+        password: generateRandomString(),
+      };
       const tokenPayload: SessionTokenBag = {
-        accessToken: generateRandomString()
-      }
-      when(sessionService.createOne(createSessionRequest)).thenResolve(tokenPayload)
+        accessToken: generateRandomString(),
+      };
+      when(sessionService.createOne(createSessionRequest)).thenResolve(
+        tokenPayload
+      );
       const response = await request.post(uri).send(createSessionRequest);
       expect(response.status).toEqual(CREATED);
     });
@@ -51,12 +53,14 @@ describe("Session Router (integration)", () => {
     it("returns with the a session as the response", async () => {
       const createSessionRequest = {
         accessKey: generateRandomString(),
-        password: generateRandomString()
-      }
+        password: generateRandomString(),
+      };
       const expected: SessionTokenBag = {
-        accessToken: generateRandomString()
-      }
-      when(sessionService.createOne(createSessionRequest)).thenResolve(expected)
+        accessToken: generateRandomString(),
+      };
+      when(sessionService.createOne(createSessionRequest)).thenResolve(
+        expected
+      );
       const response = await request.post(uri).send(createSessionRequest);
       expect(response.body).toEqual(expected);
     });

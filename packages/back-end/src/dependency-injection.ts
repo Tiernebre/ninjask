@@ -92,7 +92,11 @@ export const injectDependencies = async (
   app: KoaWebsocket.App,
   logger: Logger
 ): Promise<Koa> => {
-  await setupTypeOrmConnection();
+  try {
+    await setupTypeOrmConnection();
+  } catch (error) {
+    logger.error(error)
+  }
   const routers = [
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),

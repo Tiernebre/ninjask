@@ -20,9 +20,9 @@ export class UserEntity {
   @Column({ nullable: false })
   password!: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ update: false, nullable: false })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
 }

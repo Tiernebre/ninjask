@@ -29,9 +29,9 @@ const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
   const connection = await createConnection({
     ...existingConfiguration,
-    namingStrategy: new SnakeNamingStrategy()
+    namingStrategy: new SnakeNamingStrategy(),
   });
-  await connection.runMigrations()
+  await connection.runMigrations();
 };
 
 const buildPokeApiHttpClient = (): HttpClient => {
@@ -75,20 +75,23 @@ const buildDraftRouter = (logger: Logger) => {
 };
 
 const buildUserService = () => {
-  const passwordEncoder = new BCryptPasswordEncoder()
-  const userRepository = getRepository(UserEntity)
-  return new UserService(passwordEncoder, userRepository)
-}
+  const passwordEncoder = new BCryptPasswordEncoder();
+  const userRepository = getRepository(UserEntity);
+  return new UserService(passwordEncoder, userRepository);
+};
 
 const buildSessionRouter = () => {
-  const sessionService = new JwtSessionService(buildUserService(), process.env.API_JWT_SECRET)
-  const sessionRouter = new SessionRouter(sessionService)
-  return sessionRouter
-}
+  const sessionService = new JwtSessionService(
+    buildUserService(),
+    process.env.API_JWT_SECRET
+  );
+  const sessionRouter = new SessionRouter(sessionService);
+  return sessionRouter;
+};
 
 const buildUserRouter = () => {
-  return new UserRouter(buildUserService())
-}
+  return new UserRouter(buildUserService());
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -104,14 +107,14 @@ export const injectDependencies = async (
   try {
     await setupTypeOrmConnection();
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
   }
   const routers = [
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
     buildSessionRouter(),
-    buildUserRouter()
+    buildUserRouter(),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

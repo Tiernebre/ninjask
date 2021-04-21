@@ -12,9 +12,9 @@ export interface SessionService {
 
   /**
    * Verifies a given token and ensures that it is used for a legitamite session.
-   * 
+   *
    * @param token The access token to check.
    * @throws An error if the access token provided is invalid.
    */
-  verifyOne(accessToken: string): void
+  verifyOne(accessToken: string): void;
 }

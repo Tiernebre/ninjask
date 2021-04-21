@@ -11,7 +11,8 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true, type: 'uuid' })
+  // TODO: Auto-Gen this using PG instead of managing it within the app.
+  @Column({ unique: true, type: "uuid" })
   accessKey!: string;
 
   @Column()

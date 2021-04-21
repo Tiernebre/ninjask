@@ -3,7 +3,7 @@ import { PasswordEncoder } from "../crypto/password-encoder";
 import { CreateUserRequest } from "./create-user-request";
 import { User } from "./user";
 import { UserEntity } from "./user.entity";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export class UserService {
   constructor(
@@ -11,15 +11,14 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  public async createOne(
-    request: CreateUserRequest
-  ): Promise<User> {
-    const userEntity = this.userRepository.create()
-    userEntity.nickname = request.nickname
-    userEntity.password = await this.passwordEncoder.encode(request.password)
-    userEntity.accessKey = uuidv4()
-    const savedUserEntity = await this.userRepository.save(userEntity)
-    return this.mapEntityToDto(savedUserEntity)
+  public async createOne(request: CreateUserRequest): Promise<User> {
+    const userEntity = this.userRepository.create();
+    userEntity.nickname = request.nickname;
+    userEntity.password = await this.passwordEncoder.encode(request.password);
+    // TODO: Auto-Gen this using PG instead of managing it within the app.
+    userEntity.accessKey = uuidv4();
+    const savedUserEntity = await this.userRepository.save(userEntity);
+    return this.mapEntityToDto(savedUserEntity);
   }
 
   public async findOneWithAccessKeyAndPassword(

@@ -44,4 +44,20 @@ describe('jwt-session', () => {
       expect(jwt.verify(tokenBag.accessToken, secret)).toBeTruthy()
     })
   })
+
+  describe('verifyOne', () => {
+    it('does nothing if the given access token is valid', () => {
+      const accessToken = jwt.sign({}, secret)
+      jwtSessionService.verifyOne(accessToken)
+    })
+
+    it.each(['', null, undefined, 'totes not a valid JWT token'])('throws an error if a given access token is %p', (accessToken) => {
+      expect(() => jwtSessionService.verifyOne(accessToken as string)).toThrowError()
+    })
+
+    it('throws an error if a given access token was signed with an incorrect secret', () => {
+      const accessToken = jwt.sign({}, 'totes not the expected JWT secret')
+      expect(() => jwtSessionService.verifyOne(accessToken)).toThrowError()
+    })
+  })
 })

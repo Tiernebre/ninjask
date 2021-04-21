@@ -13,7 +13,6 @@ export class JwtSessionService implements SessionService {
       throw new Error('Secret is a required environmental property that must be set for JWT sessions.')
     }
   }
-
   async createOne({ accessKey, password }: SessionRequest): Promise<SessionTokenBag> {
     const associatedUser = await this.userService.findOneWithAccessKeyAndPassword(accessKey, password);
 
@@ -24,5 +23,9 @@ export class JwtSessionService implements SessionService {
     return {
       accessToken
     }
+  }
+
+  verifyOne(accessToken: string): void {
+    jwt.verify(accessToken, this.secret)
   }
 }

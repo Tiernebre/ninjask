@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from "typeorm";
 import { DraftEntity } from "./draft.entity";
 
@@ -20,4 +22,10 @@ export class DraftPokemonEntity {
 
   @Column({ nullable: false })
   pokemonId!: number;
+
+  @CreateDateColumn({ update: false, nullable: false })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ nullable: false })
+  updatedAt!: Date
 }

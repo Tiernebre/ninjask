@@ -2,26 +2,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from "typeorm";
-import { DraftEntity } from "./draft.entity";
 
-@Entity({
-  name: "draft_pokemon",
-})
-@Unique(["draft", "pokemonId"])
-export class DraftPokemonEntity {
+@Entity({ name: "user" })
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => DraftEntity, (draft) => draft.pokemon)
-  draft!: DraftEntity;
+  // TODO: Auto-Gen this using PG instead of managing it within the app.
+  @Column({ unique: true, type: "uuid" })
+  accessKey!: string;
+
+  @Column()
+  nickname!: string;
 
   @Column({ nullable: false })
-  pokemonId!: number;
+  password!: string;
 
   @CreateDateColumn({ update: false, nullable: false })
   createdAt!: Date;

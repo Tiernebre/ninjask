@@ -18,13 +18,20 @@ import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.ent
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
 import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
+import { UserService } from "./user/user.service";
+import { BCryptPasswordEncoder } from "./crypto/bcrypt-password-encoder";
+import { UserEntity } from "./user/user.entity";
+import { JwtSessionService } from "./session/jwt-session.service";
+import { SessionRouter } from "./session/session.router";
+import { UserRouter } from "./user/user.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
-  await createConnection({
+  const connection = await createConnection({
     ...existingConfiguration,
     namingStrategy: new SnakeNamingStrategy(),
   });
+  await connection.runMigrations();
 };
 
 const buildPokeApiHttpClient = (): HttpClient => {
@@ -67,6 +74,25 @@ const buildDraftRouter = (logger: Logger) => {
   return new DraftRouter(buildDraftService(logger));
 };
 
+const buildUserService = () => {
+  const passwordEncoder = new BCryptPasswordEncoder();
+  const userRepository = getRepository(UserEntity);
+  return new UserService(passwordEncoder, userRepository);
+};
+
+const buildSessionRouter = () => {
+  const sessionService = new JwtSessionService(
+    buildUserService(),
+    process.env.API_JWT_SECRET
+  );
+  const sessionRouter = new SessionRouter(sessionService);
+  return sessionRouter;
+};
+
+const buildUserRouter = () => {
+  return new UserRouter(buildUserService());
+};
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -78,11 +104,17 @@ export const injectDependencies = async (
   app: KoaWebsocket.App,
   logger: Logger
 ): Promise<Koa> => {
-  await setupTypeOrmConnection();
+  try {
+    await setupTypeOrmConnection();
+  } catch (error) {
+    logger.error(error);
+  }
   const routers = [
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
+    buildSessionRouter(),
+    buildUserRouter(),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

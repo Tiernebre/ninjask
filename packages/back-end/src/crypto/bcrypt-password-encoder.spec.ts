@@ -1,5 +1,5 @@
 import { BCryptPasswordEncoder } from "./bcrypt-password-encoder";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 describe("bcrypt-password-encoder", () => {
   let bcryptPasswordEncoder: BCryptPasswordEncoder;
@@ -17,16 +17,23 @@ describe("bcrypt-password-encoder", () => {
   });
 
   describe("compare", () => {
-    it('returns true if the raw password matches the encoded stored password', async () => {
-      const rawPassword = 'someTestPassword123!'
-      const encodedPassword = await bcrypt.hash(rawPassword, 12)
-      await expect(bcryptPasswordEncoder.matches(rawPassword, encodedPassword)).resolves.toEqual(true)
-    })
+    it("returns true if the raw password matches the encoded stored password", async () => {
+      const rawPassword = "someTestPassword123!";
+      const encodedPassword = await bcrypt.hash(rawPassword, 12);
+      await expect(
+        bcryptPasswordEncoder.matches(rawPassword, encodedPassword)
+      ).resolves.toEqual(true);
+    });
 
-    it('returns false if the raw password does not match the encoded stored password', async () => {
-      const rawPassword = 'someTestPassword123!'
-      const encodedPassword = await bcrypt.hash(rawPassword + 'actually NOT', 12)
-      await expect(bcryptPasswordEncoder.matches(rawPassword, encodedPassword)).resolves.toEqual(false)
-    })
-  })
+    it("returns false if the raw password does not match the encoded stored password", async () => {
+      const rawPassword = "someTestPassword123!";
+      const encodedPassword = await bcrypt.hash(
+        rawPassword + "actually NOT",
+        12
+      );
+      await expect(
+        bcryptPasswordEncoder.matches(rawPassword, encodedPassword)
+      ).resolves.toEqual(false);
+    });
+  });
 });

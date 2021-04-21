@@ -11,9 +11,9 @@ export const sessionMiddleware = (sessionService: SessionService) => (ctx: Conte
   try {
     const user = sessionService.verifyOne(ctx.header.authorization)
     ctx.state.user = user
-    void next()
   } catch (error) {
     ctx.status = FORBIDDEN
     throw new Error('Authentication provided was invalid.')
   }
+  void next()
 }

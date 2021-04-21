@@ -27,10 +27,13 @@ import { UserRouter } from "./user/user.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
-  await createConnection({
+  const connection = await createConnection({
     ...existingConfiguration,
     namingStrategy: new SnakeNamingStrategy(),
+    synchronize: false,
   });
+  await connection.runMigrations()
+  await connection.synchronize()
 };
 
 const buildPokeApiHttpClient = (): HttpClient => {

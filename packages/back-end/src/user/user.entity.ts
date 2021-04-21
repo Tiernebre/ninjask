@@ -5,6 +5,12 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number
 
+  @Column({ unique: true })
+  accessKey!: string
+
+  @Column()
+  nickname!: string;
+
   @Column({ nullable: false })
   password!: string
 

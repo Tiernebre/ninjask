@@ -18,6 +18,11 @@ import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.ent
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
 import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
+import { UserService } from "./user/user.service";
+import { BCryptPasswordEncoder } from "./crypto/bcrypt-password-encoder";
+import { UserEntity } from "./user/user.entity";
+import { JwtSessionService } from "./session/jwt-session.service";
+import { SessionRouter } from "./session/session.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -67,6 +72,15 @@ const buildDraftRouter = (logger: Logger) => {
   return new DraftRouter(buildDraftService(logger));
 };
 
+const buildSessionRouter = () => {
+  const passwordEncoder = new BCryptPasswordEncoder()
+  const userRepository = getRepository(UserEntity)
+  const userService = new UserService(passwordEncoder, userRepository)
+  const sessionService = new JwtSessionService(userService, process.env.API_JWT_SECRET)
+  const sessionRouter = new SessionRouter(sessionService)
+  return sessionRouter
+}
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -83,6 +97,7 @@ export const injectDependencies = async (
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
+    buildSessionRouter()
   ];
   routers.forEach((router) => {
     app.use(router.routes());

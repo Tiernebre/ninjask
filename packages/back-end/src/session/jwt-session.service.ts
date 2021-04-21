@@ -6,14 +6,18 @@ import jwt, { Secret } from 'jsonwebtoken'
 import { SessionPayload } from "./session-payload";
 
 export class JwtSessionService implements SessionService {
+  private readonly secret: Secret
+
   constructor(
     private readonly userService: UserService,
-    private readonly secret: Secret
+    secret?: Secret
   ) {
-    if (!this.secret) {
+    if (!secret) {
       throw new Error('Secret is a required environmental property that must be set for JWT sessions.')
     }
+    this.secret = secret
   }
+
   async createOne({ accessKey, password }: SessionRequest): Promise<SessionTokenBag> {
     const associatedUser = await this.userService.findOneWithAccessKeyAndPassword(accessKey, password);
 

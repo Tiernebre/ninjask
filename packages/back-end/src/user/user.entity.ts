@@ -11,7 +11,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'uuid', default: () => 'uuid_generate_v4()' })
   accessKey!: string;
 
   @Column()

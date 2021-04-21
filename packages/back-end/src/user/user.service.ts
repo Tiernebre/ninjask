@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
+import { CreateUserRequest } from "./create-user-request";
 import { User } from "./user";
 import { UserEntity } from "./user.entity";
 
@@ -8,6 +9,15 @@ export class UserService {
     private readonly passwordEncoder: PasswordEncoder,
     private readonly userRepository: Repository<UserEntity>
   ) {}
+
+  public async createOne(
+    request: CreateUserRequest
+  ): Promise<User> {
+    const userEntity = this.userRepository.create()
+    userEntity.accessKey = request.accessKey
+    const savedUserEntity = await this.userRepository.save(userEntity)
+    return this.mapEntityToDto(savedUserEntity)
+  }
 
   public async findOneWithAccessKeyAndPassword(
     accessKey: string,

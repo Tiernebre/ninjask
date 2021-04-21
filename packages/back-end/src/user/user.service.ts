@@ -1,4 +1,3 @@
-import Optional from "optional-js";
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { User } from "./user";
@@ -13,9 +12,17 @@ export class UserService {
   public async findOneWithAccessKeyAndPassword(
     accessKey: string,
     password: string
-  ): Promise<Optional<User>> {
-    return Optional.ofNullable(await this.userRepository.findOne({ accessKey }))
-          .map(entity => this.mapEntityToDto(entity))
+  ): Promise<User> {
+    const foundUser = await this.userRepository.findOne({ accessKey })
+    if (!foundUser) {
+      throw new Error(`User with access key = ${accessKey} does not exist.`)
+    }
+
+    const passwordIsValid = await this.verifyPassword(password, foundUser)
+    if (!passwordIsValid) {
+      throw new Error(`User with access key = ${accessKey} had an incorrect password attempt.`)
+    }
+    return this.mapEntityToDto(foundUser)
   }
 
   private mapEntityToDto(entity: UserEntity): User {
@@ -23,5 +30,9 @@ export class UserService {
       entity.id,
       entity.accessKey
     )
+  }
+
+  private verifyPassword(givenPassword: string, existingUser: UserEntity): Promise<boolean> {
+    return this.passwordEncoder.matches(givenPassword, existingUser.password)
   }
 }

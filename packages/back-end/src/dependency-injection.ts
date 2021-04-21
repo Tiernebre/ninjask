@@ -29,11 +29,9 @@ const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
   const connection = await createConnection({
     ...existingConfiguration,
-    namingStrategy: new SnakeNamingStrategy(),
-    synchronize: false,
+    namingStrategy: new SnakeNamingStrategy()
   });
   await connection.runMigrations()
-  await connection.synchronize()
 };
 
 const buildPokeApiHttpClient = (): HttpClient => {

@@ -58,7 +58,6 @@
     "koa": "^2.13.1",
     "koa-websocket": "^6.0.0",
     "node-fetch": "^2.6.1",
-    "optional-js": "^2.3.0",
     "pg": "^8.6.0",
     "pino": "^6.11.2",
     "reflect-metadata": "^0.1.13",

@@ -1,48 +1,66 @@
-import { Repository } from 'typeorm'
-import { PasswordEncoder } from '../crypto/password-encoder'
-import { UserService } from './user.service'
-import { object, when } from 'testdouble'
-import { UserEntity } from './user.entity'
-import { generateMockUserEntity } from './user.mock'
-import { generateRandomString } from '../random'
+import { Repository } from "typeorm";
+import { PasswordEncoder } from "../crypto/password-encoder";
+import { UserService } from "./user.service";
+import { object, when } from "testdouble";
+import { UserEntity } from "./user.entity";
+import { generateMockUserEntity } from "./user.mock";
+import { generateRandomString } from "../random";
 
-describe('UserService', () => {
-  let userService: UserService
-  let passwordEncoder: PasswordEncoder
-  let userRepository: Repository<UserEntity>
+describe("UserService", () => {
+  let userService: UserService;
+  let passwordEncoder: PasswordEncoder;
+  let userRepository: Repository<UserEntity>;
 
   beforeEach(() => {
-    passwordEncoder = object<PasswordEncoder>()
-    userRepository = object<Repository<UserEntity>>()
-    userService = new UserService(
-      passwordEncoder,
-      userRepository
-    )
-  })
+    passwordEncoder = object<PasswordEncoder>();
+    userRepository = object<Repository<UserEntity>>();
+    userService = new UserService(passwordEncoder, userRepository);
+  });
 
-  describe('findOneWithAccessKeyAndPassword', () => {
-    it('returns a user if one exists with a given access key and correct password', async () => {
-      const userEntity = generateMockUserEntity()
-      when(userRepository.findOne({ accessKey: userEntity.accessKey })).thenResolve(userEntity)
-      const rawPassword = generateRandomString()
-      when(passwordEncoder.matches(rawPassword, userEntity.password)).thenResolve(true)
-      const gottenUser = await userService.findOneWithAccessKeyAndPassword(userEntity.accessKey, rawPassword)
-      expect(gottenUser.id).toEqual(userEntity.id)
-      expect(gottenUser.accessKey).toEqual(userEntity.accessKey)
-    })
+  describe("findOneWithAccessKeyAndPassword", () => {
+    it("returns a user if one exists with a given access key and correct password", async () => {
+      const userEntity = generateMockUserEntity();
+      when(
+        userRepository.findOne({ accessKey: userEntity.accessKey })
+      ).thenResolve(userEntity);
+      const rawPassword = generateRandomString();
+      when(
+        passwordEncoder.matches(rawPassword, userEntity.password)
+      ).thenResolve(true);
+      const gottenUser = await userService.findOneWithAccessKeyAndPassword(
+        userEntity.accessKey,
+        rawPassword
+      );
+      expect(gottenUser.id).toEqual(userEntity.id);
+      expect(gottenUser.accessKey).toEqual(userEntity.accessKey);
+    });
 
-    it('throws an error if a user without a given access key exists', async () => {
-      const accessKey = generateRandomString()
-      when(userRepository.findOne({ accessKey })).thenResolve(undefined)
-      await expect(userService.findOneWithAccessKeyAndPassword(accessKey, generateRandomString())).rejects.toThrowError()
-    })
+    it("throws an error if a user without a given access key exists", async () => {
+      const accessKey = generateRandomString();
+      when(userRepository.findOne({ accessKey })).thenResolve(undefined);
+      await expect(
+        userService.findOneWithAccessKeyAndPassword(
+          accessKey,
+          generateRandomString()
+        )
+      ).rejects.toThrowError();
+    });
 
-    it('returns an empty optional if a user with a given access key does exist -- but the given password is incorrect.', async () => {
-      const userEntity = generateMockUserEntity()
-      when(userRepository.findOne({ accessKey: userEntity.accessKey })).thenResolve(userEntity)
-      const rawPassword = generateRandomString()
-      when(passwordEncoder.matches(rawPassword, userEntity.password)).thenResolve(false)
-      await expect(userService.findOneWithAccessKeyAndPassword(userEntity.accessKey, generateRandomString())).rejects.toThrowError()
-    })
-  })
-})
+    it("returns an empty optional if a user with a given access key does exist -- but the given password is incorrect.", async () => {
+      const userEntity = generateMockUserEntity();
+      when(
+        userRepository.findOne({ accessKey: userEntity.accessKey })
+      ).thenResolve(userEntity);
+      const rawPassword = generateRandomString();
+      when(
+        passwordEncoder.matches(rawPassword, userEntity.password)
+      ).thenResolve(false);
+      await expect(
+        userService.findOneWithAccessKeyAndPassword(
+          userEntity.accessKey,
+          generateRandomString()
+        )
+      ).rejects.toThrowError();
+    });
+  });
+});

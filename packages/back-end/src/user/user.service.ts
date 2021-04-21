@@ -13,26 +13,28 @@ export class UserService {
     accessKey: string,
     password: string
   ): Promise<User> {
-    const foundUser = await this.userRepository.findOne({ accessKey })
+    const foundUser = await this.userRepository.findOne({ accessKey });
     if (!foundUser) {
-      throw new Error(`User with access key = ${accessKey} does not exist.`)
+      throw new Error(`User with access key = ${accessKey} does not exist.`);
     }
 
-    const passwordIsValid = await this.verifyPassword(password, foundUser)
+    const passwordIsValid = await this.verifyPassword(password, foundUser);
     if (!passwordIsValid) {
-      throw new Error(`User with access key = ${accessKey} had an incorrect password attempt.`)
+      throw new Error(
+        `User with access key = ${accessKey} had an incorrect password attempt.`
+      );
     }
-    return this.mapEntityToDto(foundUser)
+    return this.mapEntityToDto(foundUser);
   }
 
   private mapEntityToDto(entity: UserEntity): User {
-    return new User(
-      entity.id,
-      entity.accessKey
-    )
+    return new User(entity.id, entity.accessKey);
   }
 
-  private verifyPassword(givenPassword: string, existingUser: UserEntity): Promise<boolean> {
-    return this.passwordEncoder.matches(givenPassword, existingUser.password)
+  private verifyPassword(
+    givenPassword: string,
+    existingUser: UserEntity
+  ): Promise<boolean> {
+    return this.passwordEncoder.matches(givenPassword, existingUser.password);
   }
 }

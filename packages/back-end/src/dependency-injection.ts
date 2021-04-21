@@ -23,6 +23,7 @@ import { BCryptPasswordEncoder } from "./crypto/bcrypt-password-encoder";
 import { UserEntity } from "./user/user.entity";
 import { JwtSessionService } from "./session/jwt-session.service";
 import { SessionRouter } from "./session/session.router";
+import { UserRouter } from "./user/user.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -72,13 +73,20 @@ const buildDraftRouter = (logger: Logger) => {
   return new DraftRouter(buildDraftService(logger));
 };
 
-const buildSessionRouter = () => {
+const buildUserService = () => {
   const passwordEncoder = new BCryptPasswordEncoder()
   const userRepository = getRepository(UserEntity)
-  const userService = new UserService(passwordEncoder, userRepository)
-  const sessionService = new JwtSessionService(userService, process.env.API_JWT_SECRET)
+  return new UserService(passwordEncoder, userRepository)
+}
+
+const buildSessionRouter = () => {
+  const sessionService = new JwtSessionService(buildUserService(), process.env.API_JWT_SECRET)
   const sessionRouter = new SessionRouter(sessionService)
   return sessionRouter
+}
+
+const buildUserRouter = () => {
+  return new UserRouter(buildUserService())
 }
 
 /**
@@ -101,7 +109,8 @@ export const injectDependencies = async (
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
-    buildSessionRouter()
+    buildSessionRouter(),
+    buildUserRouter()
   ];
   routers.forEach((router) => {
     app.use(router.routes());

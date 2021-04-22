@@ -18,6 +18,7 @@ jobs:
         key: ${{ secrets.BACK_END_KEY }}
         port: ${{ secrets.BACK_END_PORT }}
         script: |
+          sudo su
           git clone https://github.com/Tiernebre/pokemon-league-draft.git
           cd pokemon-league-draft
           git pull

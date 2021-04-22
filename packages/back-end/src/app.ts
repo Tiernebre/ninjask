@@ -43,13 +43,13 @@ const getHttpsCredentials = (): https.ServerOptions => {
     cert,
     ca,
   };
-}
+};
 
-let sockifiedApp: KoaWebsocket.App
+let sockifiedApp: KoaWebsocket.App;
 if (process.env.NODE_ENV === "production") {
-  sockifiedApp = websockify(app, undefined, getHttpsCredentials())
+  sockifiedApp = websockify(app, undefined, getHttpsCredentials());
 } else {
-  sockifiedApp = websockify(app)
+  sockifiedApp = websockify(app);
 }
 
 void injectDependencies(sockifiedApp, logger).then((injectedApp) => {
@@ -60,7 +60,10 @@ void injectDependencies(sockifiedApp, logger).then((injectedApp) => {
       logger.info(`Ninjask Back-End API Has Started on HTTP Port: ${port}`);
     });
   } else {
-    const httpsServer = https.createServer(getHttpsCredentials(), injectedApp.callback());
+    const httpsServer = https.createServer(
+      getHttpsCredentials(),
+      injectedApp.callback()
+    );
     httpsServer.listen(443, () => {
       logger.info(`Ninjask Back-End API Has Started HTTPS server on Port 443`);
     });

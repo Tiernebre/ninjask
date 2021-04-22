@@ -29,6 +29,6 @@ export class UserEntity {
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
 
-  @ManyToMany(() => ChallengeEntity, challenge => challenge.users)
-  challenges!: Promise<ChallengeEntity[]>
+  @ManyToMany(() => ChallengeEntity, (challenge) => challenge.users)
+  challenges!: Promise<ChallengeEntity[]>;
 }

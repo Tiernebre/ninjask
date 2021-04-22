@@ -47,7 +47,7 @@ export class ChallengeEntity {
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 
-  @ManyToMany(() => UserEntity, user => user.challenges)
+  @ManyToMany(() => UserEntity, (user) => user.challenges)
   @JoinTable()
-  users!: Promise<UserEntity>
+  users!: Promise<UserEntity>;
 }

@@ -23,6 +23,5 @@ jobs:
           yarn bootstrap
           cd packages/back-end
           yarn compile
-          sudo -E su
-          pm2 start dist/app.js
-          pm2 reload dist/app.js
+          sudo -E pm2 start dist/app.js
+          sudo -E pm2 reload dist/app.js

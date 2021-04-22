@@ -29,7 +29,7 @@ void injectDependencies(app, logger).then((injectedApp) => {
 
   if (process.env.NODE_ENV !== "production") {
     injectedApp.listen(port, () => {
-      logger.info(`Ninjask API Has Started on HTTP Port: ${port}`);
+      logger.info(`Ninjask Back-End API Has Started on HTTP Port: ${port}`);
     });
   } else {
     const key = fs.readFileSync(
@@ -51,7 +51,7 @@ void injectDependencies(app, logger).then((injectedApp) => {
     };
     const httpsServer = https.createServer(credentials, app.callback());
     httpsServer.listen(443, () => {
-      logger.info(`Ninjask API Has Started HTTPS server on Port 443`);
+      logger.info(`Ninjask Back-End API Has Started HTTPS server on Port 443`);
     });
   }
 });

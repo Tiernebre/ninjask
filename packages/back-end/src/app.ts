@@ -9,10 +9,11 @@ import { injectDependencies } from "./dependency-injection";
 import bodyParser from "koa-bodyparser";
 import fs from "fs";
 import https from "https";
+import KoaWebsocket from "koa-websocket";
 
 dotenv.config();
 
-const app = websockify(new Koa());
+const app = new Koa();
 const logger: Logger = new PinoLogger();
 
 app.use(
@@ -24,7 +25,34 @@ app.use(
 app.use(loggingMiddleware(logger));
 app.use(bodyParser());
 
-void injectDependencies(app, logger).then((injectedApp) => {
+const getHttpsCredentials = (): https.ServerOptions => {
+  const key = fs.readFileSync(
+    "/etc/letsencrypt/live/api.ninjask.app/privkey.pem",
+    "utf8"
+  );
+  const cert = fs.readFileSync(
+    "/etc/letsencrypt/live/api.ninjask.app/cert.pem",
+    "utf8"
+  );
+  const ca = fs.readFileSync(
+    "/etc/letsencrypt/live/api.ninjask.app/chain.pem",
+    "utf8"
+  );
+  return {
+    key,
+    cert,
+    ca,
+  };
+}
+
+let sockifiedApp: KoaWebsocket.App
+if (process.env.NODE_ENV === "production") {
+  sockifiedApp = websockify(app, undefined, getHttpsCredentials())
+} else {
+  sockifiedApp = websockify(app)
+}
+
+void injectDependencies(sockifiedApp, logger).then((injectedApp) => {
   const port = Number(process.env.API_SERVER_PORT);
 
   if (process.env.NODE_ENV !== "production") {
@@ -32,24 +60,7 @@ void injectDependencies(app, logger).then((injectedApp) => {
       logger.info(`Ninjask Back-End API Has Started on HTTP Port: ${port}`);
     });
   } else {
-    const key = fs.readFileSync(
-      "/etc/letsencrypt/live/api.ninjask.app/privkey.pem",
-      "utf8"
-    );
-    const cert = fs.readFileSync(
-      "/etc/letsencrypt/live/api.ninjask.app/cert.pem",
-      "utf8"
-    );
-    const ca = fs.readFileSync(
-      "/etc/letsencrypt/live/api.ninjask.app/chain.pem",
-      "utf8"
-    );
-    const credentials = {
-      key,
-      cert,
-      ca,
-    };
-    const httpsServer = https.createServer(credentials, app.callback());
+    const httpsServer = https.createServer(getHttpsCredentials(), injectedApp.callback());
     httpsServer.listen(443, () => {
       logger.info(`Ninjask Back-End API Has Started HTTPS server on Port 443`);
     });

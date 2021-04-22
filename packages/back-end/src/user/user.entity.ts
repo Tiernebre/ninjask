@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ChallengeEntity } from "../challenge/challenge.entity";
 
 @Entity({ name: "user" })
 export class UserEntity {
@@ -26,4 +28,7 @@ export class UserEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
+
+  @ManyToMany(() => ChallengeEntity, (challenge) => challenge.users)
+  challenges!: Promise<ChallengeEntity[]>;
 }

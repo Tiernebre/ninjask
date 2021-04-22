@@ -13,7 +13,7 @@ interface DraftStatus {
 
 function App() {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    "ws://ec2-35-163-100-24.us-west-2.compute.amazonaws.com:3000/live-draft"
+    `${process.env.REACT_APP_BACK_END_API_WS_URL}/live-draft`
   );
   const restartDraft = useCallback(() => sendMessage("RESTART"), []);
   const fetchRequest = useCallback(() => sendMessage("NEXT"), []);

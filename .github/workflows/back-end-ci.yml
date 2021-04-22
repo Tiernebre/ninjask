@@ -3,8 +3,6 @@ name: Deploy Back-End
 on:
   push:
     branches: [ master ]
-    paths:
-    - 'packages/back-end/**'
 
 jobs:
   build:
@@ -18,12 +16,4 @@ jobs:
         key: ${{ secrets.BACK_END_KEY }}
         port: ${{ secrets.BACK_END_PORT }}
         script: |
-          git clone https://github.com/Tiernebre/pokemon-league-draft.git
-          cd pokemon-league-draft
-          git pull
-          yarn install
-          yarn bootstrap
-          cd packages/back-end
-          yarn compile
-          sudo -E pm2 start dist/app.js
-          sudo -E pm2 reload dist/app.js
+          $HOME/deploy.sh

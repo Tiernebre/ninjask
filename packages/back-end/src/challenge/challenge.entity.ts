@@ -6,9 +6,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Entity({
   name: "challenge",
@@ -43,4 +46,8 @@ export class ChallengeEntity {
 
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
+
+  @ManyToMany(() => UserEntity, user => user.challenges)
+  @JoinTable()
+  users!: Promise<UserEntity>
 }

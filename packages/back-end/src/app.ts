@@ -29,7 +29,7 @@ void injectDependencies(app, logger).then((injectedApp) => {
 
   if (process.env.NODE_ENV !== "production") {
     injectedApp.listen(port, () => {
-      logger.info(`Pokemon Random API Has Started on Port: ${port}`);
+      logger.info(`Pokemon Random API Has Started on HTTP Port: ${port}`);
     });
   } else {
     const key = fs.readFileSync(

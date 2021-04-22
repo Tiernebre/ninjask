@@ -16,4 +16,4 @@ jobs:
         key: ${{ secrets.BACK_END_KEY }}
         port: ${{ secrets.BACK_END_PORT }}
         script: |
-          $HOME/deploy.sh
+          ./deploy.sh

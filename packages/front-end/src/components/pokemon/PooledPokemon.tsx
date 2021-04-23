@@ -1,4 +1,4 @@
-import { Pokemon } from "../api/pokemon/Pokemon";
+import { Pokemon } from "../../api/pokemon/Pokemon";
 import "./PooledPokemon.css";
 
 type PooledPokemonProps = {

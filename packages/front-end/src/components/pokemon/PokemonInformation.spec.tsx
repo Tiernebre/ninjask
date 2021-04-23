@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Pokemon } from "../api/pokemon";
+import { Pokemon } from "../../api/pokemon";
 import { PokemonInformation } from "./PokemonInformation";
 
 it("renders pokemon name", () => {

@@ -2,7 +2,7 @@
 import "./PokemonLiveDraft.css";
 import { useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { Pokemon } from "../api/pokemon/Pokemon";
+import { Pokemon } from "../../api/pokemon/Pokemon";
 import { PooledPokemon } from "./PooledPokemon";
 import { PokemonInformation } from "./PokemonInformation";
 

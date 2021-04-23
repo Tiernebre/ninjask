@@ -38,6 +38,7 @@ it("submits the form when the form is filled out and valid and the user clicks o
     await user.type(getPasswordInput(), password)
     await user.click(getSubmitButton())
   })
+  expect(onSubmit).toHaveBeenCalledTimes(1)
   expect(onSubmit).toHaveBeenCalledWith({
     accessKey,
     password

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { ErrorMessage } from "../form/ErrorMessage";
 import './LoginForm.css'
 
 type LoginFormData = {
@@ -30,15 +31,7 @@ export const LoginForm = (props: LoginFormProps) => {
         aria-invalid={!!errors.accessKey}
         {...register("accessKey", { required: true })}
       />
-      {errors.accessKey && (
-        <label
-          htmlFor="LoginForm__access-key"
-          aria-label="This field is required"
-          role="alert"
-        >
-          This field is required
-        </label>
-      )}
+      {errors.accessKey && <ErrorMessage htmlFor="LoginForm__access-key" />}
       <label htmlFor="LoginForm__password">Password</label>
       <input
         type="password"
@@ -46,15 +39,7 @@ export const LoginForm = (props: LoginFormProps) => {
         aria-invalid={!!errors.password}
         {...register("password", { required: true })}
       />
-      {errors.password && (
-        <label
-          htmlFor="LoginForm__password"
-          aria-label="This field is required"
-          role="alert"
-        >
-          This field is required
-        </label>
-      )}
+      {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
       <button>Login</button>
     </form>
   );

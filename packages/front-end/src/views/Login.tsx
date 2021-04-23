@@ -1,10 +1,15 @@
+import { SessionService } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
 import "./Login.css";
 
-export const Login = () => {
+type LoginProps = {
+  sessionService: SessionService
+}
+
+export const Login = ({ sessionService }: LoginProps) => {
   const submitLogin = (sessionRequest: SessionRequest) => {
-    console.log(sessionRequest);
+    sessionService.createOne(sessionRequest)
   };
 
   return (

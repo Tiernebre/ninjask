@@ -9,7 +9,19 @@ import { HttpServerError } from "./HttpServerError";
  * https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  */
 export class FetchHttpClient implements HttpClient {
-  public constructor(private readonly rootUrl: string) {}
+  private readonly rootUrl: string
+
+  public constructor(rootUrl?: string) {
+    if (!rootUrl) {
+      throw new Error('HTTP Client could not be instantiated due to missing rootUrl.')
+    }
+
+    if (!rootUrl.endsWith('/')) {
+      rootUrl += '/'
+    }
+
+    this.rootUrl = rootUrl
+  }
 
   public async get<T>(uri: string): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`);

@@ -15,13 +15,15 @@ export const LoginForm = () => {
       <input
         type="text"
         id="LoginForm__access-key"
+        aria-invalid={!!errors.accessKey}
         {...register("accessKey", { required: true })}
       />
-      {errors.accessKey && <span>This field is required</span>}
+      {errors.accessKey && <label htmlFor="LoginForm__access-key" aria-label="This field is required" role="alert">This field is required</label>}
       <label htmlFor="LoginForm__password">Password</label>
       <input
         type="password"
         id="LoginForm__password"
+        aria-invalid={!!errors.password}
         {...register("password", { required: true })}
       />
       {errors.password && <span>This field is required</span>}

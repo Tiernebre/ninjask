@@ -1,10 +1,10 @@
-.pooledPokemon {
+.PooledPokemon {
   height: 100%;
   width: 100%;
   background-color: snow;
 }
 
-.pooledPokemon-heading {
+.PooledPokemon__heading {
   text-align: center;
   background-color: #00d1b2;
   color: snow;
@@ -12,7 +12,7 @@
   padding: 10px 0;
 }
 
-.pooledPokemon ol {
+.PooledPokemon ol {
   width: 100%;
   list-style: none;
   margin: 0;
@@ -21,30 +21,30 @@
   overflow-y: auto;
 }
 
-.pooledPokemon-pokemon {
+.PooledPokemon__pokemon {
   display: flex;
   align-items: center;
   justify-self: center;
   padding: 10px 0;
 }
 
-.pooledPokemon img {
+.PooledPokemon img {
   width: 40px;
 }
 
-.pooledPokemon-pokemon p {
+.PooledPokemon__pokemon p {
   margin: 0;
   padding-top: 3px;
 }
 
-.pooledPokemon-pokemon p::first-letter {
+.PooledPokemon__pokemon p::first-letter {
   text-transform: capitalize;
 }
 
-.pooledPokemon-pokemon:nth-child(odd) {
+.PooledPokemon__pokemon:nth-child(odd) {
   background-color: snow;
 }
 
-.pooledPokemon-pokemon:nth-child(even) {
+.PooledPokemon__pokemon:nth-child(even) {
   background-color: lightgrey;
 }

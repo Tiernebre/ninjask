@@ -8,3 +8,7 @@
   flex-direction: column;
   margin-bottom: 16px;
 }
+
+.LoginForm__input-group label:first-of-type {
+  margin-bottom: 8px;
+}

@@ -9,7 +9,7 @@ const getSubmitButton = () => screen.getByRole('button', { name: /Login/i })
 const getErrorMessage = () => screen.getByRole('alert', { name: /This field is required/i })
 
 it('renders an error message and marks the access key input invalid if it is not filled out', async () => {
-  render(<LoginForm />)
+  render(<LoginForm onSubmit={jest.fn()} />)
   await act(async () => {
     await user.type(getPasswordInput(), 'p@55w0rd')
     await user.click(getSubmitButton())
@@ -19,11 +19,27 @@ it('renders an error message and marks the access key input invalid if it is not
 })
 
 it('renders an error message and marks the password input invalid if it is not filled out', async () => {
-  render(<LoginForm />)
+  render(<LoginForm onSubmit={jest.fn()} />)
   await act(async () => {
     await user.type(getAccessKeyInput(), 'some-access-key-value')
     await user.click(getSubmitButton())
   })
   expect(getPasswordInput()).toBeInvalid()
   expect(getErrorMessage()).toBeInTheDocument()
+})
+
+it("submits the form when the form is filled out and valid and the user clicks on the login button", async () => {
+  const onSubmit = jest.fn()
+  render(<LoginForm onSubmit={onSubmit} />)
+  const accessKey = 'some-access-key-value'
+  const password = 'p@55w0rd'
+  await act(async () => {
+    await user.type(getAccessKeyInput(), accessKey)
+    await user.type(getPasswordInput(), password)
+    await user.click(getSubmitButton())
+  })
+  expect(onSubmit).toHaveBeenCalledWith({
+    accessKey,
+    password
+  })
 })

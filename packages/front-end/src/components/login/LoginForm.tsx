@@ -5,9 +5,16 @@ type LoginFormData = {
   password: string
 }
 
-export const LoginForm = () => {
+type LoginFormProps = {
+  onSubmit: (data: LoginFormData) => void
+}
+
+export const LoginForm = (props: LoginFormProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
-  const onSubmit = handleSubmit(data => console.log(data))
+
+  const onSubmit = handleSubmit(data => {
+    props.onSubmit(data)
+  })
 
   return (
     <form className="LoginForm" onSubmit={onSubmit}>

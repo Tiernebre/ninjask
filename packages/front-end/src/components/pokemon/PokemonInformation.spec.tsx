@@ -20,3 +20,7 @@ it("renders a provided empty placeholder if a pokemon is not provided", () => {
   const emptyPlaceholder = screen.getByText(emptyPlaceholderText);
   expect(emptyPlaceholder).toBeInTheDocument();
 });
+
+it("submits the form when the form is filled out and valid and the user clicks on the login button", () => {
+
+})

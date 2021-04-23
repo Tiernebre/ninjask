@@ -9,7 +9,11 @@ type LoginProps = {
 
 export const Login = ({ sessionService }: LoginProps) => {
   const submitLogin = (sessionRequest: SessionRequest) => {
-    sessionService.createOne(sessionRequest)
+    try {
+      sessionService.createOne(sessionRequest)
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (

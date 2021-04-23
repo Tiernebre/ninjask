@@ -32,6 +32,9 @@ export class FetchHttpClient implements HttpClient {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       method: "POST",
       body: JSON.stringify(request),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     return this.parseResponse(response);
   }

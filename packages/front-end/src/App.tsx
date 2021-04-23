@@ -5,7 +5,6 @@ import { Login } from "./views/Login";
 function App() {
   return (
     <div className="App">
-      <p>Welcome to Ninjask!</p>
       <Router>
         <Switch>
           <Route path={["/", "/login"]}>

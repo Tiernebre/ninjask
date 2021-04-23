@@ -1,4 +1,4 @@
-import { Pokemon } from "../api/pokemon/Pokemon";
+import { Pokemon } from "../../api/pokemon/Pokemon";
 import "./PooledPokemon.css";
 
 type PooledPokemonProps = {
@@ -6,7 +6,7 @@ type PooledPokemonProps = {
 };
 
 const PooledPokemonListing = (pokemon: Pokemon) => (
-  <li className="pooledPokemon-pokemon" key={pokemon.id}>
+  <li className="PooledPokemon__pokemon" key={pokemon.id}>
     <img src={pokemon.iconUrl} alt={pokemon.name}></img>
     <p>{pokemon.name}</p>
   </li>
@@ -14,8 +14,8 @@ const PooledPokemonListing = (pokemon: Pokemon) => (
 
 export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {
   return (
-    <div className="pooledPokemon">
-      <h2 className="pooledPokemon-heading">Pooled Pokemon</h2>
+    <div className="PooledPokemon">
+      <h2 className="PooledPokemon__heading">Pooled Pokemon</h2>
       <ol>{pokemon.map(PooledPokemonListing)}</ol>
     </div>
   );

@@ -4,15 +4,15 @@ import { LoginForm } from "../components/login/LoginForm";
 import "./Login.css";
 
 type LoginProps = {
-  sessionService: SessionService
-}
+  sessionService: SessionService;
+};
 
 export const Login = ({ sessionService }: LoginProps) => {
   const submitLogin = (sessionRequest: SessionRequest) => {
     try {
-      sessionService.createOne(sessionRequest)
+      sessionService.createOne(sessionRequest);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 

@@ -4,8 +4,10 @@ import { Login } from "./views/Login";
 import { HttpSessionService } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 
-const backEndHttpClient = new FetchHttpClient(process.env.REACT_APP_BACK_END_API_HTTP_URL)
-const sessionService = new HttpSessionService(backEndHttpClient)
+const backEndHttpClient = new FetchHttpClient(
+  process.env.REACT_APP_BACK_END_API_HTTP_URL
+);
+const sessionService = new HttpSessionService(backEndHttpClient);
 
 function App() {
   return (

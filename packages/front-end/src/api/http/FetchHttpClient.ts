@@ -9,18 +9,20 @@ import { HttpServerError } from "./HttpServerError";
  * https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  */
 export class FetchHttpClient implements HttpClient {
-  private readonly rootUrl: string
+  private readonly rootUrl: string;
 
   public constructor(rootUrl?: string) {
     if (!rootUrl) {
-      throw new Error('HTTP Client could not be instantiated due to missing rootUrl.')
+      throw new Error(
+        "HTTP Client could not be instantiated due to missing rootUrl."
+      );
     }
 
-    if (!rootUrl.endsWith('/')) {
-      rootUrl += '/'
+    if (!rootUrl.endsWith("/")) {
+      rootUrl += "/";
     }
 
-    this.rootUrl = rootUrl
+    this.rootUrl = rootUrl;
   }
 
   public async get<T>(uri: string): Promise<T> {
@@ -33,8 +35,8 @@ export class FetchHttpClient implements HttpClient {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
     return this.parseResponse(response);
   }

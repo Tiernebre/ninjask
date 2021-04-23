@@ -4,6 +4,7 @@ import { SessionTokenBag } from "./SessionTokenBag";
 
 export class HttpSessionService implements SessionService {
   createOne(request: SessionRequest): Promise<SessionTokenBag> {
-    throw new Error("Method not implemented.");
+    console.log('DEBUG -- Session Request has been received and will be processed. Request = ', request)
+    return Promise.resolve({ accessToken: '' })
   }
 }

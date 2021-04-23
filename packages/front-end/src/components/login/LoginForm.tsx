@@ -26,7 +26,7 @@ export const LoginForm = () => {
         aria-invalid={!!errors.password}
         {...register("password", { required: true })}
       />
-      {errors.password && <span>This field is required</span>}
+      {errors.password && <label htmlFor="LoginForm__password" aria-label="This field is required" role="alert">This field is required</label>}
       <button>Login</button>
     </form>
   );

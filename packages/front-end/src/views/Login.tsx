@@ -1,4 +1,4 @@
-import { SessionRequest } from "../api/session/session-request";
+import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
 import './Login.css';
 

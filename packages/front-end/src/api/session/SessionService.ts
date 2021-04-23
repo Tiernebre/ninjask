@@ -1,5 +1,5 @@
-import { SessionRequest } from "./session-request";
-import { SessionTokenBag } from "./session-token-bag";
+import { SessionRequest } from "./SessionRequest";
+import { SessionTokenBag } from "./SessionTokenBag";
 
 export interface SessionService {
   /**

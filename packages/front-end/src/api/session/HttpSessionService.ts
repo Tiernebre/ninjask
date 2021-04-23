@@ -14,6 +14,8 @@ export class HttpSessionService implements SessionService {
       "DEBUG -- Session Request has been received and will be processed. Request = ",
       request
     );
-    return this.httpClient.post('sessions', request)
+    const tokenBag = await this.httpClient.post<SessionTokenBag>('sessions', request)
+    console.log('DEBUG -- Got back token bag ', tokenBag)
+    return tokenBag
   }
 }

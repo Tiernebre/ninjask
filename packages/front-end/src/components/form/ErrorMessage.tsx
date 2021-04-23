@@ -1,10 +1,10 @@
-import './ErrorMessage.css'
+import "./ErrorMessage.css";
 
 interface ErrorMessageProps {
-  htmlFor: string
+  htmlFor: string;
 }
 
-export const ErrorMessage = (props: ErrorMessageProps) =>
+export const ErrorMessage = (props: ErrorMessageProps) => (
   <label
     className="ErrorMessage"
     aria-label="This field is required"
@@ -13,3 +13,4 @@ export const ErrorMessage = (props: ErrorMessageProps) =>
   >
     This field is required
   </label>
+);

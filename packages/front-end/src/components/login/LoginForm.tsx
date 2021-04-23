@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../form/ErrorMessage";
-import './LoginForm.css'
+import "./LoginForm.css";
 
 type LoginFormData = {
   accessKey: string;

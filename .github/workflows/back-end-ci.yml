@@ -3,6 +3,8 @@ name: Deploy Back-End
 on:
   push:
     branches: [ master ]
+    paths:
+    - 'packages/back-end/**'
 
 jobs:
   build:

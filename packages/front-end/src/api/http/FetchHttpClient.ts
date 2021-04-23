@@ -18,10 +18,6 @@ export class FetchHttpClient implements HttpClient {
       );
     }
 
-    if (!rootUrl.endsWith("/")) {
-      rootUrl += "/";
-    }
-
     this.rootUrl = rootUrl;
   }
 

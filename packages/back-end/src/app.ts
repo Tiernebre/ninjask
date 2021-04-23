@@ -60,7 +60,7 @@ void injectDependencies(sockifiedApp, logger).then((injectedApp) => {
       logger.info(`Ninjask Back-End API Has Started on HTTP Port: ${port}`);
     });
   } else {
-    app.listen(443, () => {
+    injectedApp.listen(443, () => {
       logger.info(`Ninjask Back-End API Has Started HTTPS server on Port 443`);
     });
   }

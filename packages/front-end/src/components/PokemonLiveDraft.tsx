@@ -54,5 +54,5 @@ export const PokemonLiveDraft = () => {
         {buttons}
       </div>
     </div>
-  )
-}
+  );
+};

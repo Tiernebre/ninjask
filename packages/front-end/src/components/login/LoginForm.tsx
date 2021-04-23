@@ -1,6 +1,6 @@
 export const LoginForm = () => {
   return (
-    <form>
+    <form className="LoginForm">
       <label htmlFor="LoginForm__access-key">
         Access Key
       </label>

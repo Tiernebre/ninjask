@@ -27,7 +27,7 @@ export const LoginForm = (props: LoginFormProps) => {
       <div className="field">
         <label className="label" htmlFor="LoginForm__access-key">Access Key</label>
         <input
-          className="input"
+          className={`input ${errors.accessKey ? "is-danger" : ""}`}
           type="text"
           id="LoginForm__access-key"
           aria-invalid={!!errors.accessKey}
@@ -38,7 +38,7 @@ export const LoginForm = (props: LoginFormProps) => {
       <div className="field">
         <label className="label" htmlFor="LoginForm__password">Password</label>
         <input
-          className="input"
+          className={`input ${errors.password ? "is-danger" : ""}`}
           type="password"
           id="LoginForm__password"
           aria-invalid={!!errors.password}

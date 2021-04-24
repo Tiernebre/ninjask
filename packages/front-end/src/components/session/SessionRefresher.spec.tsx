@@ -26,6 +26,7 @@ it("displays a loading message while a refresh occurs", () => {
 });
 
 it("handles a successful refresh", async () => {
+  jest.useFakeTimers()
   const accessToken = "some-valid-access-token";
   const accessTokenExpiration = 10000;
   const sessionService = object<SessionService>();
@@ -46,9 +47,11 @@ it("handles a successful refresh", async () => {
   );
   await act(async () => {
     await flushPromises();
+    jest.runAllTimers()
   });
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
+  expect(onSessionRefresh).toHaveBeenCalledTimes(1);
   expect(onSessionRefresh).toHaveBeenCalledWith({
     accessToken,
     accessTokenExpiration,

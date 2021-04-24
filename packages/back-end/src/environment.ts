@@ -1,3 +1,3 @@
 const PRODUCTION_NAME = "Production";
 
-export const isProduction = () => process.env.NODE_ENV === PRODUCTION_NAME;
+export const isProduction = (): boolean => process.env.NODE_ENV === PRODUCTION_NAME;

@@ -88,26 +88,24 @@ describe("UserService", () => {
   describe("findOneWithId", () => {
     it("returns a user if one exists with a given id", async () => {
       const userEntity = generateMockUserEntity();
-      when(userRepository.findOne(userEntity.id)).thenResolve(
-        userEntity
-      );
+      when(userRepository.findOne(userEntity.id)).thenResolve(userEntity);
       const gottenUser = await userService.findOneWithId(userEntity.id);
       expect(gottenUser.id).toEqual(userEntity.id);
       expect(gottenUser.accessKey).toEqual(userEntity.accessKey);
     });
 
     it("throws an error if a user with the id does not exist", async () => {
-      const id = generateRandomNumber()
-      when(userRepository.findOne(id)).thenResolve(undefined)
-      await expect(userService.findOneWithId(id)).rejects.toThrowError()
+      const id = generateRandomNumber();
+      when(userRepository.findOne(id)).thenResolve(undefined);
+      await expect(userService.findOneWithId(id)).rejects.toThrowError();
     });
   });
 
   describe("incrementTokenVersionForOneWithId", () => {
     it("increments the token version for a given id", async () => {
-      const id = generateRandomNumber()
-      await userService.incrementTokenVersionForOneWithId(id)
-      verify(userRepository.increment({ id }, 'tokenVersion', 1))
-    })
-  })
+      const id = generateRandomNumber();
+      await userService.incrementTokenVersionForOneWithId(id);
+      verify(userRepository.increment({ id }, "tokenVersion", 1));
+    });
+  });
 });

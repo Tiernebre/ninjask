@@ -4,6 +4,7 @@ import { Login } from "./views/Login";
 import { HttpSessionService } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 import { Footer } from "./components/layout/Footer";
+import { Home } from "./views/Home";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
@@ -17,6 +18,9 @@ function App() {
         <Switch>
           <Route path={["/", "/login"]}>
             <Login sessionService={sessionService} />
+          </Route>
+          <Route path="/home">
+            <Home accessToken="some-sample-token" />
           </Route>
         </Switch>
       </Router>

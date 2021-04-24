@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Login } from "./views/Login";
 import { HttpSessionService } from "./api/session";
 import { FetchHttpClient } from "./api/http";
+import { Footer } from "./components/layout/Footer";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
@@ -19,6 +20,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <Footer />
     </div>
   );
 }

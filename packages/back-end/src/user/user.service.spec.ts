@@ -110,7 +110,7 @@ describe("UserService", () => {
         id
       );
       verify(userRepository.increment({ id }, "tokenVersion", 1));
-      expect(updatedUser).toEqual(user)
+      expect(updatedUser).toEqual(user);
     });
   });
 });

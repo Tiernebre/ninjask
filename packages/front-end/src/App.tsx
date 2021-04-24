@@ -11,7 +11,7 @@ const backEndHttpClient = new FetchHttpClient(
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Router>

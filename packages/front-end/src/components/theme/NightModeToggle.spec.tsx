@@ -19,7 +19,7 @@ it('sets dark theme if the user checks the switch to the "on" state', async () =
   expect(document.getElementById(NIGHT_MODE_STYLESHEET_ID)).toBeTruthy();
 });
 
-it('sets dark theme if the user checks the switch to the "off" state', async () => {
+it('does not set the dark theme if the user checks the switch to the "off" state', async () => {
   render(<NightModeToggle />);
   await user.click(getSwitch());
   await user.click(getSwitch());

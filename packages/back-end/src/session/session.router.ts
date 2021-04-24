@@ -4,7 +4,7 @@ import { SessionService } from "./session.service";
 import { CREATED } from "http-status";
 import { isProduction } from "../environment";
 
-export const REFRESH_TOKEN_HEADER = "ninjask_refresh-token";
+export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
 
 export class SessionRouter extends Router {
   constructor(private readonly sessionService: SessionService) {
@@ -18,7 +18,7 @@ export class SessionRouter extends Router {
         ctx.request.body as SessionRequest
       );
       ctx.body = createdSession;
-      ctx.cookies.set(REFRESH_TOKEN_HEADER, createdSession.refreshToken, {
+      ctx.cookies.set(REFRESH_TOKEN_COOKIE_KEY, createdSession.refreshToken, {
         httpOnly: true,
         secure: isProduction(),
       });

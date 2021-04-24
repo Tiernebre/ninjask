@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Koa from "koa";
 import Application from "koa";
 import bodyParser from "koa-bodyparser";
@@ -5,7 +7,7 @@ import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
 import { generateRandomString } from "../random";
-import { SessionRouter } from "../session/session.router";
+import { REFRESH_TOKEN_COOKIE_KEY, SessionRouter } from "../session/session.router";
 import { SessionService } from "../session/session.service";
 import { CREATED } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
@@ -65,8 +67,10 @@ describe("Session Router (integration)", () => {
       );
       const response = await request.post(uri).send(createSessionRequest);
       expect(response.body).toEqual(expected.toJSON());
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(response.body.refreshToken).toBeFalsy()
+      const [refreshTokenCookie] = response.headers['set-cookie']
+      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY)
+      expect(refreshTokenCookie).toContain('httponly')
     });
   });
 });

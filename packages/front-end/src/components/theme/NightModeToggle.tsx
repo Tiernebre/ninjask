@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Switch from 'react-switch'
 import useLocalStorage from 'react-use-localstorage'
+import './NightModeToggle.css'
 
 const NIGHT_MODE_KEY = 'night-mode'
 const NIGHT_MODE_STYLESHEET_ID = 'night-theme-style'
@@ -35,5 +36,10 @@ export const NightModeToggle = () =>{
     setNightModeEnabled(nightModeEnabled.toString())
   }
 
-  return <Switch checked={nightModeIsTrulyEnabled} onChange={updateNightMode} />
+  return (
+    <label className="NightModeToggle">
+      <span className="NightModeToggle__emoji" aria-label="Night Mode Toggle">🌙</span>
+      <Switch checked={nightModeIsTrulyEnabled} onChange={updateNightMode} />
+    </label>
+  )
 } 

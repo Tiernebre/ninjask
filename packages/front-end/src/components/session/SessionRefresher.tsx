@@ -25,7 +25,7 @@ export const SessionRefresher = ({
     } finally {
       setIsLoading(false);
     }
-  }, [onSessionRefresh, onSessionRefreshFail, setIsLoading, sessionService]);
+  }, [onSessionRefresh, onSessionRefreshFail, sessionService]);
 
   useEffect(() => {
     refreshSession();

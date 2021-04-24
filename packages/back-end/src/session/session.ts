@@ -13,7 +13,7 @@ export class Session {
   toJSON(): JSONifiedSession {
     return {
       accessToken: this.accessToken,
-      accessTokenExpiration: this.accessTokenExpiration
+      accessTokenExpiration: this.accessTokenExpiration,
     };
   }
 }

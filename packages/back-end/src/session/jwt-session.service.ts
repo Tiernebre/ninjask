@@ -34,10 +34,7 @@ export class JwtSessionService implements SessionService {
     this.refreshTokenSecret = refreshTokenSecret;
   }
 
-  async createOne({
-    accessKey,
-    password,
-  }: SessionRequest): Promise<Session> {
+  async createOne({ accessKey, password }: SessionRequest): Promise<Session> {
     this.logger.info(
       `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
     );
@@ -107,10 +104,6 @@ export class JwtSessionService implements SessionService {
       accessToken,
       this.accessTokenSecret
     ) as JsonWebTokenPayload;
-    return new Session(
-      accessToken,
-      refreshToken,
-      accessTokenExpiration * 1000
-    );
+    return new Session(accessToken, refreshToken, accessTokenExpiration * 1000);
   }
 }

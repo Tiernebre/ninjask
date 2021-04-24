@@ -53,4 +53,8 @@ export class JwtSessionService implements SessionService {
   verifyOne(accessToken: string): SessionPayload {
     return jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
   }
+
+  refreshOne(refreshToken: string): Promise<SessionTokenBag> {
+    throw new Error("Method not implemented.");
+  }
 }

@@ -73,4 +73,43 @@ describe("Session Router (integration)", () => {
       expect(refreshTokenCookie).toContain('httponly')
     });
   });
+
+  describe("PUT /sessions", () => {
+    const uri = "/sessions";
+
+    it("returns with 201 CREATED status", async () => {
+      const refreshToken = generateRandomString()
+      const tokenPayload = new SessionTokenBag(
+        generateRandomString(),
+        generateRandomString()
+      )
+      when(sessionService.refreshOne(refreshToken)).thenResolve(
+        tokenPayload
+      );
+      const httpRequest = request.put(uri)
+      await httpRequest.set('Cookie', [`${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`])
+      const response = await httpRequest.send()
+
+      expect(response.status).toEqual(CREATED);
+    });
+
+    it("returns with the a session as the response", async () => {
+      const refreshToken = generateRandomString()
+      const tokenPayload = new SessionTokenBag(
+        generateRandomString(),
+        generateRandomString()
+      )
+      when(sessionService.refreshOne(refreshToken)).thenResolve(
+        tokenPayload
+      );
+      const httpRequest = request.put(uri)
+      await httpRequest.set('Cookie', [`${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`])
+      const response = await httpRequest.send()
+      expect(response.body).toEqual(tokenPayload.toJSON());
+      expect(response.body.refreshToken).toBeFalsy()
+      const [refreshTokenCookie] = response.headers['set-cookie']
+      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY)
+      expect(refreshTokenCookie).toContain('httponly')
+    });
+  })
 });

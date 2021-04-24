@@ -10,6 +10,7 @@ export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
 
 export class SessionRouter extends Router {
   private readonly URI = "/sessions";
+  private readonly CURRENT_SESSION_URI = `${this.URI}/current-session`
 
   constructor(private readonly sessionService: SessionService) {
     super();
@@ -24,7 +25,7 @@ export class SessionRouter extends Router {
       this.prepareSessionInResponse(ctx, createdSession);
     });
 
-    this.put(this.URI, async (ctx) => {
+    this.put(this.CURRENT_SESSION_URI, async (ctx) => {
       const refreshToken = ctx.cookies.get(REFRESH_TOKEN_COOKIE_KEY);
       if (!refreshToken) {
         ctx.status = FORBIDDEN;
@@ -36,6 +37,10 @@ export class SessionRouter extends Router {
         this.prepareSessionInResponse(ctx, refreshedSession);
       }
     });
+
+    this.delete(this.CURRENT_SESSION_URI, (ctx) => {
+      this.setRefreshTokenCookie(ctx, new Date(), null)
+    })
   }
 
   private prepareSessionInResponse(
@@ -45,12 +50,20 @@ export class SessionRouter extends Router {
     ctx.body = createdSession;
     const expires = new Date()
     expires.setDate(expires.getDate() + 1)
-    ctx.cookies.set(REFRESH_TOKEN_COOKIE_KEY, createdSession.refreshToken, {
+    ctx.status = CREATED;
+    this.setRefreshTokenCookie(ctx, expires, createdSession.refreshToken)
+  }
+
+  private setRefreshTokenCookie(
+    ctx: ParameterizedContext, 
+    expires: Date,
+    refreshToken: string | null
+  ): void {
+    ctx.cookies.set(REFRESH_TOKEN_COOKIE_KEY, refreshToken, {
       httpOnly: true,
       path: this.URI,
       secure: isProduction(),
       expires
     })
-    ctx.status = CREATED;
   }
 }

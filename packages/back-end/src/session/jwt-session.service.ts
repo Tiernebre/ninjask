@@ -7,10 +7,10 @@ import { SessionPayload } from "./session-payload";
 
 export class JwtSessionService implements SessionService {
   private readonly accessTokenSecret: Secret;
-  private readonly refreshTokenSecret: Secret
+  private readonly refreshTokenSecret: Secret;
 
   constructor(
-    private readonly userService: UserService, 
+    private readonly userService: UserService,
     accessTokenSecret?: Secret,
     refreshTokenSecret?: Secret
   ) {
@@ -40,11 +40,13 @@ export class JwtSessionService implements SessionService {
       }
     );
 
-    const refreshToken = jwt.sign({}, this.refreshTokenSecret, { expiresIn: '1d' })
+    const refreshToken = jwt.sign({}, this.refreshTokenSecret, {
+      expiresIn: "1d",
+    });
 
     return {
       accessToken,
-      refreshToken
+      refreshToken,
     };
   }
 

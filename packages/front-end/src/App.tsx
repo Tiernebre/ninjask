@@ -23,6 +23,7 @@ const App = () => {
 
   const logOut = useCallback(async () => {
     setAccessToken(undefined);
+    setSessionRefreshTimestamp(undefined);
     await sessionService.deleteCurrentSession();
   }, []);
 

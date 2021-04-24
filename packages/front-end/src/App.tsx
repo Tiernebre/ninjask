@@ -17,7 +17,7 @@ const backEndHttpClient = new FetchHttpClient(
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
 
-const secondsSinceEpoch = () => Math.round(Date.now() / 1000)
+const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
@@ -35,7 +35,10 @@ const App = () => {
   const logIn = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
     setSessionRefreshTimestamp(
-      (session.accessTokenExpiration - ONE_MINUTE_IN_SECONDS - secondsSinceEpoch()) * 1000
+      (session.accessTokenExpiration -
+        ONE_MINUTE_IN_SECONDS -
+        secondsSinceEpoch()) *
+        1000
     );
   }, []);
 

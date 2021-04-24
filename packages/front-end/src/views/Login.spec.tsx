@@ -15,11 +15,11 @@ it("processes a fully valid login", async () => {
   const password = "p@55w0rd";
   const sessionService = object<SessionService>();
   const accessToken = "access-token";
-  const accessTokenExpiration = 10000
+  const accessTokenExpiration = 10000;
   const onSuccess = jest.fn();
   when(sessionService.createOne({ accessKey, password })).thenResolve({
     accessToken,
-    accessTokenExpiration
+    accessTokenExpiration,
   });
   const expectedHomeMessage = "Hey! The Home Route Loaded Up Properly!";
   render(
@@ -38,7 +38,10 @@ it("processes a fully valid login", async () => {
     await user.click(getSubmitButton());
   });
   await flushPromises();
-  expect(onSuccess).toHaveBeenCalledWith({ accessToken, accessTokenExpiration });
+  expect(onSuccess).toHaveBeenCalledWith({
+    accessToken,
+    accessTokenExpiration,
+  });
   expect(screen.getByText(expectedHomeMessage)).toBeInTheDocument();
 });
 

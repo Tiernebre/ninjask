@@ -83,7 +83,7 @@ const buildUserService = () => {
 const buildSessionRouter = () => {
   const sessionService = new JwtSessionService(
     buildUserService(),
-    process.env.API_JWT_SECRET
+    process.env.API_JWT_ACCESS_TOKEN_SECRET
   );
   const sessionRouter = new SessionRouter(sessionService);
   return sessionRouter;

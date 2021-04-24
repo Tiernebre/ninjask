@@ -10,6 +10,7 @@ import bodyParser from "koa-bodyparser";
 import fs from "fs";
 import https from "https";
 import KoaWebsocket from "koa-websocket";
+import { isProduction } from "./environment";
 
 dotenv.config();
 
@@ -46,7 +47,7 @@ const getHttpsCredentials = (): https.ServerOptions => {
 };
 
 let sockifiedApp: KoaWebsocket.App;
-if (process.env.NODE_ENV === "production") {
+if (isProduction()) {
   sockifiedApp = websockify(app, undefined, getHttpsCredentials());
 } else {
   sockifiedApp = websockify(app);

@@ -1,3 +1,4 @@
-export class SessionTokenBag {
-  constructor(public readonly accessToken: string) {}
+export interface SessionTokenBag {
+  readonly accessToken: string;
+  readonly refreshToken: string;
 }

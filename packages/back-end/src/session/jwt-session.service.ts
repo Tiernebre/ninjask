@@ -6,15 +6,21 @@ import jwt, { Secret } from "jsonwebtoken";
 import { SessionPayload } from "./session-payload";
 
 export class JwtSessionService implements SessionService {
-  private readonly secret: Secret;
+  private readonly accessTokenSecret: Secret;
+  private readonly refreshTokenSecret: Secret
 
-  constructor(private readonly userService: UserService, secret?: Secret) {
-    if (!secret) {
+  constructor(
+    private readonly userService: UserService, 
+    accessTokenSecret?: Secret,
+    refreshTokenSecret?: Secret
+  ) {
+    if (!accessTokenSecret || !refreshTokenSecret) {
       throw new Error(
-        "Secret is a required environmental property that must be set for JWT sessions."
+        "Secrets are a required enviroment property that must be set for JWT sessions."
       );
     }
-    this.secret = secret;
+    this.accessTokenSecret = accessTokenSecret;
+    this.refreshTokenSecret = refreshTokenSecret;
   }
 
   async createOne({
@@ -28,18 +34,21 @@ export class JwtSessionService implements SessionService {
 
     const accessToken = jwt.sign(
       { id: associatedUser.id, accessKey: associatedUser.accessKey },
-      this.secret,
+      this.accessTokenSecret,
       {
         expiresIn: "30m",
       }
     );
 
+    const refreshToken = jwt.sign({}, this.refreshTokenSecret, { expiresIn: '1d' })
+
     return {
       accessToken,
+      refreshToken
     };
   }
 
   verifyOne(accessToken: string): SessionPayload {
-    return jwt.verify(accessToken, this.secret) as SessionPayload;
+    return jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
   }
 }

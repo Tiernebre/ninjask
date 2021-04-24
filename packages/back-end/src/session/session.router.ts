@@ -17,7 +17,7 @@ export class SessionRouter extends Router {
       const createdSession = await this.sessionService.createOne(
         ctx.request.body as SessionRequest
       );
-      ctx.body = { accessToken: createdSession };
+      ctx.body = createdSession;
       ctx.cookies.set(REFRESH_TOKEN_HEADER, createdSession.refreshToken, {
         httpOnly: true,
         secure: isProduction(),

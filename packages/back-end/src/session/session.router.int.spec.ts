@@ -40,9 +40,10 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const tokenPayload: SessionTokenBag = {
-        accessToken: generateRandomString(),
-      };
+      const tokenPayload = new SessionTokenBag(
+        generateRandomString(),
+        generateRandomString()
+      )
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         tokenPayload
       );
@@ -55,14 +56,17 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected: SessionTokenBag = {
-        accessToken: generateRandomString(),
-      };
+      const expected = new SessionTokenBag(
+        generateRandomString(),
+        generateRandomString()
+      )
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         expected
       );
       const response = await request.post(uri).send(createSessionRequest);
-      expect(response.body).toEqual(expected);
+      expect(response.body).toEqual(expected.toJSON());
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      expect(response.body.refreshToken).toBeFalsy()
     });
   });
 });

@@ -79,9 +79,9 @@ export class JwtSessionService implements SessionService {
       }
     );
 
-    return {
+    return new SessionTokenBag(
       accessToken,
-      refreshToken,
-    };
+      refreshToken
+    );
   }
 }

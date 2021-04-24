@@ -84,7 +84,7 @@ export class JwtSessionService implements SessionService {
       { id: user.id, accessKey: user.accessKey },
       this.accessTokenSecret,
       {
-        expiresIn: "3 minutes",
+        expiresIn: "30 minutes",
       }
     );
 
@@ -92,7 +92,7 @@ export class JwtSessionService implements SessionService {
       { id: user.id, tokenVersion: user.tokenVersion },
       this.refreshTokenSecret,
       {
-        expiresIn: "1d",
+        expiresIn: "1 day",
       }
     );
 

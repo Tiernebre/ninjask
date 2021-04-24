@@ -17,4 +17,12 @@ export interface SessionService {
    * @throws An error if the access token provided is invalid.
    */
   verifyOne(accessToken: string): void;
+
+  /**
+   * Refreshes an existing session by checking the validity of a given refresh token.
+   *
+   * @param refreshToken The refresh token to check.
+   * @returns A session token bag that includes new tokens to continue an authentication session.
+   */
+  refreshOne(refreshToken: string): Promise<SessionTokenBag>;
 }

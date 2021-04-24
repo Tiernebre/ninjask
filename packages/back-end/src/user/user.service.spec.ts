@@ -1,10 +1,10 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { UserService } from "./user.service";
-import { object, when } from "testdouble";
+import { object, verify, when } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUserEntity } from "./user.mock";
-import { generateRandomString } from "../random";
+import { generateRandomNumber, generateRandomString } from "../random";
 
 describe("UserService", () => {
   let userService: UserService;
@@ -82,6 +82,30 @@ describe("UserService", () => {
           generateRandomString()
         )
       ).rejects.toThrowError();
+    });
+  });
+
+  describe("findOneWithId", () => {
+    it("returns a user if one exists with a given id", async () => {
+      const userEntity = generateMockUserEntity();
+      when(userRepository.findOne(userEntity.id)).thenResolve(userEntity);
+      const gottenUser = await userService.findOneWithId(userEntity.id);
+      expect(gottenUser.id).toEqual(userEntity.id);
+      expect(gottenUser.accessKey).toEqual(userEntity.accessKey);
+    });
+
+    it("throws an error if a user with the id does not exist", async () => {
+      const id = generateRandomNumber();
+      when(userRepository.findOne(id)).thenResolve(undefined);
+      await expect(userService.findOneWithId(id)).rejects.toThrowError();
+    });
+  });
+
+  describe("incrementTokenVersionForOneWithId", () => {
+    it("increments the token version for a given id", async () => {
+      const id = generateRandomNumber();
+      await userService.incrementTokenVersionForOneWithId(id);
+      verify(userRepository.increment({ id }, "tokenVersion", 1));
     });
   });
 });

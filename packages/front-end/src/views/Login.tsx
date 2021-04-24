@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useHistory } from "react-router";
 import { SessionService } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
@@ -5,14 +7,26 @@ import "./Login.css";
 
 type LoginProps = {
   sessionService: SessionService;
+  onSuccess: (accessToken: string) => void;
 };
 
-export const Login = ({ sessionService }: LoginProps) => {
-  const submitLogin = (sessionRequest: SessionRequest) => {
+export const Login = ({ sessionService, onSuccess }: LoginProps) => {
+  const [loginErrored, setLoginErrored] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  const submitLogin = async (sessionRequest: SessionRequest) => {
     try {
-      sessionService.createOne(sessionRequest);
+      setLoginErrored(false);
+      setLoading(true);
+      const { accessToken } = await sessionService.createOne(sessionRequest);
+      onSuccess(accessToken);
+      history.push("/home");
     } catch (error) {
       console.error(error);
+      setLoginErrored(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -24,7 +38,15 @@ export const Login = ({ sessionService }: LoginProps) => {
           Please fill out your login information below to start drafting and
           tracking your Pokémon challenges!
         </h2>
-        <LoginForm onSubmit={submitLogin} />
+        <LoginForm onSubmit={submitLogin} loading={loading} />
+        {loginErrored && (
+          <article role="alert" className="message is-danger mt-3">
+            <div className="message-body">
+              The information submitted was incorrect. Please double check and
+              try again.
+            </div>
+          </article>
+        )}
       </div>
     </div>
   );

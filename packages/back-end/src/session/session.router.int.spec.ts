@@ -133,12 +133,12 @@ describe("Session Router (integration)", () => {
     const uri = "/sessions/current-session";
 
     it("returns with 204 NO_CONTENT status", async () => {
-      const response = await request.delete(uri).send()
-      expect(response.status).toEqual(NO_CONTENT)
+      const response = await request.delete(uri).send();
+      expect(response.status).toEqual(NO_CONTENT);
     });
 
     it("returns with the refresh token set to be nulled", async () => {
-      const response = await request.delete(uri).send()
+      const response = await request.delete(uri).send();
       const [refreshTokenCookie] = response.headers["set-cookie"];
       expect(refreshTokenCookie).toContain(`${REFRESH_TOKEN_COOKIE_KEY}=;`);
       expect(refreshTokenCookie).toContain("httponly");

@@ -10,7 +10,7 @@ export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
 
 export class SessionRouter extends Router {
   private readonly URI = "/sessions";
-  private readonly CURRENT_SESSION_URI = `${this.URI}/current-session`
+  private readonly CURRENT_SESSION_URI = `${this.URI}/current-session`;
 
   constructor(private readonly sessionService: SessionService) {
     super();
@@ -39,9 +39,9 @@ export class SessionRouter extends Router {
     });
 
     this.delete(this.CURRENT_SESSION_URI, (ctx) => {
-      this.setRefreshTokenCookie(ctx, new Date(), null)
-      ctx.status = NO_CONTENT
-    })
+      this.setRefreshTokenCookie(ctx, new Date(), null);
+      ctx.status = NO_CONTENT;
+    });
   }
 
   private prepareSessionInResponse(
@@ -49,14 +49,14 @@ export class SessionRouter extends Router {
     createdSession: SessionTokenBag
   ): void {
     ctx.body = createdSession;
-    const expires = new Date()
-    expires.setDate(expires.getDate() + 1)
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 1);
     ctx.status = CREATED;
-    this.setRefreshTokenCookie(ctx, expires, createdSession.refreshToken)
+    this.setRefreshTokenCookie(ctx, expires, createdSession.refreshToken);
   }
 
   private setRefreshTokenCookie(
-    ctx: ParameterizedContext, 
+    ctx: ParameterizedContext,
     expires: Date,
     refreshToken: string | null
   ): void {
@@ -64,7 +64,7 @@ export class SessionRouter extends Router {
       httpOnly: true,
       path: this.URI,
       secure: isProduction(),
-      expires
-    })
+      expires,
+    });
   }
 }

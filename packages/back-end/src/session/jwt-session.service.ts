@@ -71,7 +71,9 @@ export class JwtSessionService implements SessionService {
       );
     }
 
-    const updatedUser = await this.userService.incrementTokenVersionForOneWithId(associatedUser.id);
+    const updatedUser = await this.userService.incrementTokenVersionForOneWithId(
+      associatedUser.id
+    );
 
     return this.signTokensForUser(updatedUser);
   }

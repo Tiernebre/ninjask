@@ -105,18 +105,20 @@ describe("UserService", () => {
   describe("incrementTokenVersionForOneWithId", () => {
     it("increments the token version for a given id", async () => {
       const id = generateRandomNumber();
-      const user = generateMockUser()
-      when(userRepository.findOne(id)).thenResolve(user)
+      const user = generateMockUser();
+      when(userRepository.findOne(id)).thenResolve(user);
       userService.incrementTokenVersionForOneWithId = (id) => {
         const incrementedUser = new User(
           user.id,
           user.accessKey,
           user.tokenVersion + 1
-        )
-        return Promise.resolve(incrementedUser)
-      }
-      const updatedUser = await userService.incrementTokenVersionForOneWithId(id);
-      expect(updatedUser.tokenVersion).toEqual(user.tokenVersion + 1)
+        );
+        return Promise.resolve(incrementedUser);
+      };
+      const updatedUser = await userService.incrementTokenVersionForOneWithId(
+        id
+      );
+      expect(updatedUser.tokenVersion).toEqual(user.tokenVersion + 1);
     });
   });
 });

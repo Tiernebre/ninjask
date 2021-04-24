@@ -128,7 +128,9 @@ describe("JwtSessionService", () => {
         user.tokenVersion + 1
       );
       when(userService.findOneWithId(user.id)).thenResolve(user);
-      when(userService.incrementTokenVersionForOneWithId(user.id)).thenResolve(incrementedUser)
+      when(userService.incrementTokenVersionForOneWithId(user.id)).thenResolve(
+        incrementedUser
+      );
       const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret);
       const refreshedSession = await jwtSessionService.refreshOne(refreshToken);
       expect(refreshedSession.accessToken).toBeTruthy();
@@ -138,7 +140,10 @@ describe("JwtSessionService", () => {
       expect(
         jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)
       ).toBeTruthy();
-      const signedPayload = jwt.verify(refreshedSession.refreshToken, refreshTokenSecret) as RefreshPayload
+      const signedPayload = jwt.verify(
+        refreshedSession.refreshToken,
+        refreshTokenSecret
+      ) as RefreshPayload;
       expect(signedPayload.tokenVersion).toEqual(incrementedUser.tokenVersion);
     });
 

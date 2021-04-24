@@ -49,7 +49,7 @@ export class UserService {
 
   public async incrementTokenVersionForOneWithId(id: number): Promise<User> {
     await this.userRepository.increment({ id }, "tokenVersion", 1);
-    return this.findOneWithId(id)
+    return this.findOneWithId(id);
   }
 
   private mapEntityToDto(entity: UserEntity): User {

@@ -20,7 +20,7 @@ const logger: Logger = new PinoLogger();
 app.use(
   cors({
     origin: process.env.API_CORS_ORIGIN,
-    credentials: true
+    credentials: true,
   })
 );
 app.use(loggingMiddleware(logger));

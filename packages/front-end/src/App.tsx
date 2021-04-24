@@ -10,12 +10,14 @@ import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
 
-const ONE_MINUTE_IN_MS = 60000;
+const ONE_MINUTE_IN_SECONDS = 60;
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
+
+const secondsSinceEpoch = () => Math.round(Date.now() / 1000)
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
@@ -33,7 +35,7 @@ const App = () => {
   const logIn = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
     setSessionRefreshTimestamp(
-      session.accessTokenExpiration - ONE_MINUTE_IN_MS - Date.now()
+      (session.accessTokenExpiration - ONE_MINUTE_IN_SECONDS - secondsSinceEpoch()) * 1000
     );
   }, []);
 

@@ -104,6 +104,6 @@ export class JwtSessionService implements SessionService {
       accessToken,
       this.accessTokenSecret
     ) as JsonWebTokenPayload;
-    return new Session(accessToken, refreshToken, accessTokenExpiration * 1000);
+    return new Session(accessToken, refreshToken, accessTokenExpiration);
   }
 }

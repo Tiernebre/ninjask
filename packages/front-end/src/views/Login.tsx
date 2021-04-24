@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
 import { SessionService } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
@@ -15,7 +15,7 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const submitLogin = async (sessionRequest: SessionRequest) => {
+  const submitLogin = useCallback(async (sessionRequest: SessionRequest) => {
     try {
       setLoginErrored(false);
       setLoading(true);
@@ -27,7 +27,7 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
       setLoginErrored(true);
       setLoading(false);
     }
-  };
+  }, [onSuccess, history, sessionService]);
 
   return (
     <div className="Login columns is-vcentered is-mobile">

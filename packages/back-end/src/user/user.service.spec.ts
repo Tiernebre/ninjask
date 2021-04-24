@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { UserService } from "./user.service";
-import { object, when } from "testdouble";
+import { object, verify, when } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUserEntity } from "./user.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
@@ -102,4 +102,12 @@ describe("UserService", () => {
       await expect(userService.findOneWithId(id)).rejects.toThrowError()
     });
   });
+
+  describe("incrementTokenVersionForOneWithId", () => {
+    it("increments the token version for a given id", async () => {
+      const id = generateRandomNumber()
+      await userService.incrementTokenVersionForOneWithId(id)
+      verify(userRepository.increment({ id }, 'tokenVersion', 1))
+    })
+  })
 });

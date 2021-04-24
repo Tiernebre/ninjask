@@ -1,7 +1,7 @@
 import Router from "@koa/router";
 import { SessionRequest } from "./session-request";
 import { SessionService } from "./session.service";
-import { CREATED, FORBIDDEN, OK } from "http-status";
+import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { isProduction } from "../environment";
 import { ParameterizedContext } from "koa";
 import { SessionTokenBag } from "./session-token-bag";
@@ -40,7 +40,7 @@ export class SessionRouter extends Router {
 
     this.delete(this.CURRENT_SESSION_URI, (ctx) => {
       this.setRefreshTokenCookie(ctx, new Date(), null)
-      ctx.status = OK
+      ctx.status = NO_CONTENT
     })
   }
 

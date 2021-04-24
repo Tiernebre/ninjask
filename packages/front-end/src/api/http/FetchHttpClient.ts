@@ -44,6 +44,14 @@ export class FetchHttpClient implements HttpClient {
     return this.parseResponse(response);
   }
 
+  public async delete(uri: string): Promise<void> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "DELETE"
+    });
+    this.parseResponse(response)
+  }
+
   private parseResponse(response: Response): Promise<any> {
     if (response.ok) {
       return response.json();

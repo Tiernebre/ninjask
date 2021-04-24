@@ -12,7 +12,7 @@ import {
   SessionRouter,
 } from "../session/session.router";
 import { SessionService } from "../session/session.service";
-import { CREATED, FORBIDDEN, OK } from "http-status";
+import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
 
 describe("Session Router (integration)", () => {
@@ -132,9 +132,9 @@ describe("Session Router (integration)", () => {
   describe("DELETE /sessions/current-session", () => {
     const uri = "/sessions/current-session";
 
-    it("returns with 200 OK status", async () => {
+    it("returns with 204 NO_CONTENT status", async () => {
       const response = await request.delete(uri).send()
-      expect(response.status).toEqual(OK)
+      expect(response.status).toEqual(NO_CONTENT)
     });
 
     it("returns with the refresh token set to be nulled", async () => {

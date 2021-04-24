@@ -32,7 +32,7 @@ const App = () => {
     await sessionService.deleteCurrentSession();
   }, []);
 
-  const logIn = useCallback(async (session: Session) => {
+  const setSession = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
     setSessionRefreshTimestampInMillis(
       (session.accessTokenExpiration -
@@ -46,7 +46,7 @@ const App = () => {
     <div className="App">
       <SessionRefresher
         sessionService={sessionService}
-        onSessionRefresh={logIn}
+        onSessionRefresh={setSession}
         onSessionRefreshFail={logOut}
         sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
@@ -54,7 +54,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route path={["/", "/login"]} exact>
-              <Login sessionService={sessionService} onSuccess={logIn} />
+              <Login sessionService={sessionService} onSuccess={setSession} />
             </Route>
             <SessionChecker accessToken={accessToken}>
               <Route path="/home">

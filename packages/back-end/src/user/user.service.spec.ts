@@ -4,7 +4,7 @@ import { UserService } from "./user.service";
 import { object, when } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUserEntity } from "./user.mock";
-import { generateRandomString } from "../random";
+import { generateRandomNumber, generateRandomString } from "../random";
 
 describe("UserService", () => {
   let userService: UserService;
@@ -94,6 +94,12 @@ describe("UserService", () => {
       const gottenUser = await userService.findOneWithId(userEntity.id);
       expect(gottenUser.id).toEqual(userEntity.id);
       expect(gottenUser.accessKey).toEqual(userEntity.accessKey);
+    });
+
+    it("throws an error if a user with the id does not exist", async () => {
+      const id = generateRandomNumber()
+      when(userRepository.findOne(id)).thenResolve(undefined)
+      await expect(userService.findOneWithId(id)).rejects.toThrowError()
     });
   });
 });

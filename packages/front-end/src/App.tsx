@@ -18,10 +18,14 @@ const sessionService = new HttpSessionService(backEndHttpClient);
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
 
+  const logOut = () => {
+    setAccessToken(undefined)
+  }
+
   return (
     <div className="App">
       <SessionRefresher sessionService={sessionService} onSessionRefresh={setAccessToken}>
-        <Header />
+        <Header onLogOut={logOut} isAuthenticated={!!accessToken}/>
         <Router>
           <Switch>
             <Route path={["/", "/login"]} exact>

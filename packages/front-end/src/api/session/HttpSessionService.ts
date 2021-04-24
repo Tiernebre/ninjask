@@ -18,4 +18,8 @@ export class HttpSessionService implements SessionService {
     console.log("DEBUG -- Got back token bag ", tokenBag);
     return tokenBag;
   }
+
+  async refreshOne(): Promise<SessionTokenBag> {
+    throw new Error("Method not implemented.");
+  }
 }

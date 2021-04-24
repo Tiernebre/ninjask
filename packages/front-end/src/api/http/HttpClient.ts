@@ -31,4 +31,15 @@ export interface HttpClient {
    * @throws HttpServerError if the HTTP response has a 5xx status code.
    */
   post<T>(uri: string, request?: any): Promise<T>;
+
+  /**
+   * Performs an HTTP PUT request with an optionally provided request object
+   * and returns the response body in the form of a JavaScript Object.
+   *
+   * @param uri The URI of the specific HTTP resource to retrieve.
+   * @param request An optional parameter that represents the request body to send over.
+   * @throws HttpClientError if the HTTP response has a 4xx status code.
+   * @throws HttpServerError if the HTTP response has a 5xx status code.
+   */
+  put<T>(uri: string, request?: any): Promise<T>;
 }

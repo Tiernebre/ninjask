@@ -28,11 +28,18 @@ export class FetchHttpClient implements HttpClient {
 
   public async post<T>(uri: string, request?: any): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
       method: "POST",
-      body: JSON.stringify(request),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: JSON.stringify(request)
+    });
+    return this.parseResponse(response);
+  }
+
+  public async put<T>(uri: string, request?: any): Promise<T> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "PUT",
+      body: JSON.stringify(request)
     });
     return this.parseResponse(response);
   }
@@ -49,6 +56,14 @@ export class FetchHttpClient implements HttpClient {
         throw new HttpClientError(
           `HTTP Client Error ${response.status} occurred.`
         );
+      }
+    }
+  }
+
+  private getCommonConfiguration(): RequestInit {
+    return {
+      headers: {
+        "Content-Type": "application/json",
       }
     }
   }

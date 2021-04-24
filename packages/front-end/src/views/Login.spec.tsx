@@ -9,6 +9,27 @@ const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);
 const getPasswordInput = () => screen.getByLabelText(/Password/i);
 const getSubmitButton = () => screen.getByRole("button", { name: /Login/i });
 
+it("processes a fully valid login", async () => {
+  const accessKey = "access-key";
+  const password = "p@55w0rd";
+  const sessionService = object<SessionService>();
+  const accessToken = 'access-token'
+  const onSuccess = jest.fn()
+  when(sessionService.createOne({ accessKey, password })).thenResolve({
+    accessToken
+  })
+  render(
+    <Login onSuccess={onSuccess} sessionService={sessionService} />
+  );
+  await act(async () => {
+    await user.type(getAccessKeyInput(), "access-key");
+    await user.type(getPasswordInput(), "p@55w0rd");
+    await user.click(getSubmitButton());
+  });
+  await flushPromises();
+  expect(onSuccess).toHaveBeenCalledWith(accessToken)
+})
+
 it("displays a login error message if the login submission did not work", async () => {
   const accessKey = "access-key";
   const password = "p@55w0rd";
@@ -17,7 +38,7 @@ it("displays a login error message if the login submission did not work", async 
     new Error()
   );
   render(
-    <Login onSuccess={jest.fn()} sessionService={object<SessionService>()} />
+    <Login onSuccess={jest.fn()} sessionService={sessionService} />
   );
   await act(async () => {
     await user.type(getAccessKeyInput(), "access-key");

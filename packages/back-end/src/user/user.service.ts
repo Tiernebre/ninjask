@@ -21,6 +21,14 @@ export class UserService {
     return this.mapEntityToDto(savedUserEntity);
   }
 
+  public async findOneWithId(id: number): Promise<User> {
+    const foundUser = await this.userRepository.findOne(id);
+    if (!foundUser) {
+      throw new Error(`User with id = ${id} does not exist.`);
+    }
+    return this.mapEntityToDto(foundUser)
+  }
+
   public async findOneWithAccessKeyAndPassword(
     accessKey: string,
     password: string
@@ -39,8 +47,12 @@ export class UserService {
     return this.mapEntityToDto(foundUser);
   }
 
+  public async incrementTokenVersionForOneWithId(id: number): Promise<void> {
+    await this.userRepository.increment({ id }, 'tokenVersion', 1);
+  }
+
   private mapEntityToDto(entity: UserEntity): User {
-    return new User(entity.id, entity.accessKey);
+    return new User(entity.id, entity.accessKey, entity.tokenVersion);
   }
 
   private verifyPassword(

@@ -31,4 +31,7 @@ export class UserEntity {
 
   @ManyToMany(() => ChallengeEntity, (challenge) => challenge.users)
   challenges!: Promise<ChallengeEntity[]>;
+
+  @Column({ nullable: false, default: 0, comment: 'Used to version refresh tokens and much more easily revoke out-in-the-wild access/refresh tokens' })
+  tokenVersion!: number;
 }

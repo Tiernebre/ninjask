@@ -1,13 +1,13 @@
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService } from "../api/session";
+import { SessionService, Session } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
 import "./Login.css";
 
 type LoginProps = {
   sessionService: SessionService;
-  onSuccess: (accessToken: string) => void;
+  onSuccess: (session: Session) => void;
 };
 
 export const Login = ({ sessionService, onSuccess }: LoginProps) => {
@@ -20,8 +20,8 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
       try {
         setLoginErrored(false);
         setLoading(true);
-        const { accessToken } = await sessionService.createOne(sessionRequest);
-        onSuccess(accessToken);
+        const session = await sessionService.createOne(sessionRequest);
+        onSuccess(session);
         history.push("/home");
       } catch (error) {
         console.error(error);

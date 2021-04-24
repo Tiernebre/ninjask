@@ -1,33 +1,27 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { SessionService } from "../../api/session";
+import { SessionService, Session } from "../../api/session";
 
 type SessionRefresherProps = {
-  onSessionRefresh: (accessToken: string) => void;
+  onSessionRefresh: (session: Session) => void;
   onSessionRefreshFail: () => void;
   sessionService: SessionService;
   children: React.ReactNode;
+  sessionRefreshTimestamp?: number;
 };
-
-const ONE_MINUTE_IN_MS = 60000;
 
 export const SessionRefresher = ({
   onSessionRefresh,
   onSessionRefreshFail,
   sessionService,
   children,
+  sessionRefreshTimestamp
 }: SessionRefresherProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [refreshTimestamp, setRefreshTimestamp] = useState<number>();
 
   const refreshSession = useCallback(async () => {
     try {
-      const {
-        accessToken,
-        accessTokenExpiration,
-      } = await sessionService.refreshCurrentSession();
-      onSessionRefresh(accessToken);
-      // set a refresh in the future for one minute right before the set expiration.
-      setRefreshTimestamp(accessTokenExpiration - ONE_MINUTE_IN_MS);
+      const refreshedSession = await sessionService.refreshCurrentSession();
+      onSessionRefresh(refreshedSession);
     } catch (error) {
       onSessionRefreshFail();
     } finally {
@@ -41,8 +35,8 @@ export const SessionRefresher = ({
 
   useEffect(() => {
     let refreshTimeout: number;
-    if (refreshTimestamp) {
-      refreshTimeout = window.setTimeout(refreshSession, refreshTimestamp);
+    if (sessionRefreshTimestamp) {
+      refreshTimeout = window.setTimeout(refreshSession, sessionRefreshTimestamp);
     } else {
       // no-op, as a refresh timestamp has not been setup yet.
       refreshTimeout = window.setTimeout(() => {});
@@ -51,7 +45,7 @@ export const SessionRefresher = ({
     return () => {
       clearTimeout(refreshTimeout);
     };
-  }, [refreshTimestamp, refreshSession]);
+  }, [sessionRefreshTimestamp, refreshSession]);
 
   return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
 };

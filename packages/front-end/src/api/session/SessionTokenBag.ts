@@ -1,4 +1,4 @@
-export interface SessionTokenBag {
+export interface Session {
   readonly accessToken: string;
   readonly accessTokenExpiration: number;
 }

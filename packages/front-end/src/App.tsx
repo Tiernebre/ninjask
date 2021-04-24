@@ -7,6 +7,7 @@ import { Footer } from "./components/layout/Footer";
 import { Home } from "./views/Home";
 import { useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
+import { Header } from "./components/layout/Header";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Header />
       <Router>
         <Switch>
           <Route path={["/", "/login"]} exact>

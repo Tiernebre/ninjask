@@ -85,7 +85,7 @@ const buildSessionRouter = (logger: Logger) => {
     buildUserService(),
     logger,
     process.env.API_JWT_ACCESS_TOKEN_SECRET,
-    process.env.API_JWT_REFRESH_TOKEN_SECRET,
+    process.env.API_JWT_REFRESH_TOKEN_SECRET
   );
   const sessionRouter = new SessionRouter(sessionService);
   return sessionRouter;

@@ -19,7 +19,9 @@ export class JwtSessionService implements SessionService {
     refreshTokenSecret?: Secret
   ) {
     if (!accessTokenSecret || !refreshTokenSecret) {
-      this.logger.error("Double check the environment variables. One or more of the JWT secrets was not provided.")
+      this.logger.error(
+        "Double check the environment variables. One or more of the JWT secrets was not provided."
+      );
       throw new Error(
         "Secrets are a required enviroment property that must be set for JWT sessions."
       );
@@ -32,7 +34,9 @@ export class JwtSessionService implements SessionService {
     accessKey,
     password,
   }: SessionRequest): Promise<SessionTokenBag> {
-    this.logger.info(`Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`)
+    this.logger.info(
+      `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
+    );
     const associatedUser = await this.userService.findOneWithAccessKeyAndPassword(
       accessKey,
       password
@@ -46,7 +50,7 @@ export class JwtSessionService implements SessionService {
   }
 
   async refreshOne(refreshToken: string): Promise<SessionTokenBag> {
-    this.logger.info("A Session Refresh Attempt is being verified.")
+    this.logger.info("A Session Refresh Attempt is being verified.");
     const refreshPayload = jwt.verify(
       refreshToken,
       this.refreshTokenSecret
@@ -54,10 +58,14 @@ export class JwtSessionService implements SessionService {
     const associatedUser = await this.userService.findOneWithId(
       refreshPayload.id
     );
-    this.logger.info(`Found tied to user for Session Refresh Attempt with id = ${associatedUser.id}`)
+    this.logger.info(
+      `Found tied to user for Session Refresh Attempt with id = ${associatedUser.id}`
+    );
 
     if (refreshPayload.tokenVersion !== associatedUser.tokenVersion) {
-      this.logger.error(`A possible malicious attempt to refresh a token happened for user with id = ${associatedUser.id}`)
+      this.logger.error(
+        `A possible malicious attempt to refresh a token happened for user with id = ${associatedUser.id}`
+      );
       throw new Error(
         "Refreshing a session could not be completed due to invalid data."
       );
@@ -86,11 +94,10 @@ export class JwtSessionService implements SessionService {
       }
     );
 
-    this.logger.info(`User with ID = ${user.id} provided valid information. A session has been created for them.`)
-
-    return new SessionTokenBag(
-      accessToken,
-      refreshToken
+    this.logger.info(
+      `User with ID = ${user.id} provided valid information. A session has been created for them.`
     );
+
+    return new SessionTokenBag(accessToken, refreshToken);
   }
 }

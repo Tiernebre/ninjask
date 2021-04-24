@@ -7,7 +7,10 @@ import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
 import { generateRandomString } from "../random";
-import { REFRESH_TOKEN_COOKIE_KEY, SessionRouter } from "../session/session.router";
+import {
+  REFRESH_TOKEN_COOKIE_KEY,
+  SessionRouter,
+} from "../session/session.router";
 import { SessionService } from "../session/session.service";
 import { CREATED, FORBIDDEN } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
@@ -45,7 +48,7 @@ describe("Session Router (integration)", () => {
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
         generateRandomString()
-      )
+      );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         tokenPayload
       );
@@ -61,16 +64,16 @@ describe("Session Router (integration)", () => {
       const expected = new SessionTokenBag(
         generateRandomString(),
         generateRandomString()
-      )
+      );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         expected
       );
       const response = await request.post(uri).send(createSessionRequest);
       expect(response.body).toEqual(expected.toJSON());
-      expect(response.body.refreshToken).toBeFalsy()
-      const [refreshTokenCookie] = response.headers['set-cookie']
-      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY)
-      expect(refreshTokenCookie).toContain('httponly')
+      expect(response.body.refreshToken).toBeFalsy();
+      const [refreshTokenCookie] = response.headers["set-cookie"];
+      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY);
+      expect(refreshTokenCookie).toContain("httponly");
     });
   });
 
@@ -78,53 +81,51 @@ describe("Session Router (integration)", () => {
     const uri = "/sessions";
 
     it("returns with 201 CREATED status", async () => {
-      const refreshToken = generateRandomString()
+      const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
         generateRandomString()
-      )
-      when(sessionService.refreshOne(refreshToken)).thenResolve(
-        tokenPayload
       );
-      const httpRequest = request.put(uri)
-      await httpRequest.set('Cookie', [`${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`])
-      const response = await httpRequest.send()
+      when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
+      const httpRequest = request.put(uri);
+      await httpRequest.set("Cookie", [
+        `${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`,
+      ]);
+      const response = await httpRequest.send();
 
       expect(response.status).toEqual(CREATED);
     });
 
     it("returns with 403 FORBIDDEN status if no cookie is provided", async () => {
-      const refreshToken = generateRandomString()
+      const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
         generateRandomString()
-      )
-      when(sessionService.refreshOne(refreshToken)).thenResolve(
-        tokenPayload
       );
-      const httpRequest = request.put(uri)
-      const response = await httpRequest.send()
+      when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
+      const httpRequest = request.put(uri);
+      const response = await httpRequest.send();
 
       expect(response.status).toEqual(FORBIDDEN);
     });
 
     it("returns with the a session as the response", async () => {
-      const refreshToken = generateRandomString()
+      const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
         generateRandomString()
-      )
-      when(sessionService.refreshOne(refreshToken)).thenResolve(
-        tokenPayload
       );
-      const httpRequest = request.put(uri)
-      await httpRequest.set('Cookie', [`${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`])
-      const response = await httpRequest.send()
+      when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
+      const httpRequest = request.put(uri);
+      await httpRequest.set("Cookie", [
+        `${REFRESH_TOKEN_COOKIE_KEY}=${refreshToken}`,
+      ]);
+      const response = await httpRequest.send();
       expect(response.body).toEqual(tokenPayload.toJSON());
-      expect(response.body.refreshToken).toBeFalsy()
-      const [refreshTokenCookie] = response.headers['set-cookie']
-      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY)
-      expect(refreshTokenCookie).toContain('httponly')
+      expect(response.body.refreshToken).toBeFalsy();
+      const [refreshTokenCookie] = response.headers["set-cookie"];
+      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY);
+      expect(refreshTokenCookie).toContain("httponly");
     });
-  })
+  });
 });

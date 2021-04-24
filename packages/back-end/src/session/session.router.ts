@@ -9,7 +9,7 @@ import { SessionTokenBag } from "./session-token-bag";
 export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
 
 export class SessionRouter extends Router {
-  private readonly URI = "/sessions"
+  private readonly URI = "/sessions";
 
   constructor(private readonly sessionService: SessionService) {
     super();
@@ -21,22 +21,27 @@ export class SessionRouter extends Router {
       const createdSession = await this.sessionService.createOne(
         ctx.request.body as SessionRequest
       );
-      this.prepareSessionInResponse(ctx, createdSession)
+      this.prepareSessionInResponse(ctx, createdSession);
     });
 
     this.put(this.URI, async (ctx) => {
-      const refreshToken = ctx.cookies.get(REFRESH_TOKEN_COOKIE_KEY)
+      const refreshToken = ctx.cookies.get(REFRESH_TOKEN_COOKIE_KEY);
       if (!refreshToken) {
-        ctx.status = FORBIDDEN
+        ctx.status = FORBIDDEN;
       } else {
-        const refreshedSession = await this.sessionService.refreshOne(refreshToken)
+        const refreshedSession = await this.sessionService.refreshOne(
+          refreshToken
+        );
 
-        this.prepareSessionInResponse(ctx, refreshedSession)
+        this.prepareSessionInResponse(ctx, refreshedSession);
       }
-    })
+    });
   }
 
-  private prepareSessionInResponse(ctx: ParameterizedContext, createdSession: SessionTokenBag): void {
+  private prepareSessionInResponse(
+    ctx: ParameterizedContext,
+    createdSession: SessionTokenBag
+  ): void {
     ctx.body = createdSession;
     ctx.cookies.set(REFRESH_TOKEN_COOKIE_KEY, createdSession.refreshToken, {
       httpOnly: true,

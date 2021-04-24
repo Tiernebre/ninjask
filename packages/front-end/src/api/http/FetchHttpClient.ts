@@ -56,17 +56,24 @@ export class FetchHttpClient implements HttpClient {
     if (response.ok) {
       return response.json();
     } else {
-      this.checkResponseForErrors(response)
-      return Promise.reject()
+      if (response.status >= 500) {
+        throw new HttpServerError(
+          `HTTP Server Error ${response.status} occurred.`
+        );
+      } else {
+        throw new HttpClientError(
+          `HTTP Client Error ${response.status} occurred.`
+        );
+      }
     }
   }
 
-  private checkResponseForErrors(response: Response): Promise<void> {
+  private checkResponseForErrors(response: Response): void {
     if (response.status >= 500) {
       throw new HttpServerError(
         `HTTP Server Error ${response.status} occurred.`
       );
-    } else {
+    } else if (response.status >= 400) {
       throw new HttpClientError(
         `HTTP Client Error ${response.status} occurred.`
       );

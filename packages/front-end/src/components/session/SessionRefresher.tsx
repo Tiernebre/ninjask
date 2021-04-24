@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { SessionService } from "../../api/session";
 
 type SessionRefresherProps = {
@@ -16,19 +16,20 @@ export const SessionRefresher = ({
 }: SessionRefresherProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
+  const refreshSession = useCallback(async () => {
+    try {
+      const { accessToken } = await sessionService.refreshCurrentSession();
+      onSessionRefresh(accessToken);
+    } catch (error) {
+      onSessionRefreshFail();
+    } finally {
+      setIsLoading(false);
+    }
+  }, [onSessionRefresh, onSessionRefreshFail, setIsLoading, sessionService])
+
   useEffect(() => {
-    const refreshSession = async () => {
-      try {
-        const { accessToken } = await sessionService.refreshCurrentSession();
-        onSessionRefresh(accessToken);
-      } catch (error) {
-        onSessionRefreshFail();
-      } finally {
-        setIsLoading(false);
-      }
-    };
     refreshSession();
-  }, [sessionService, onSessionRefresh, onSessionRefreshFail]);
+  }, [refreshSession]);
 
   return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
 };

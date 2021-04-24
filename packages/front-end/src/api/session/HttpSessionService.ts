@@ -1,7 +1,7 @@
 import { HttpClient } from "../http";
 import { SessionRequest } from "./SessionRequest";
 import { SessionService } from "./SessionService";
-import { SessionTokenBag } from "./SessionTokenBag";
+import { Session } from "./SessionTokenBag";
 
 export class HttpSessionService implements SessionService {
   private readonly URI = "sessions";
@@ -9,12 +9,12 @@ export class HttpSessionService implements SessionService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  async createOne(request: SessionRequest): Promise<SessionTokenBag> {
-    return this.httpClient.post<SessionTokenBag>(this.URI, request);
+  async createOne(request: SessionRequest): Promise<Session> {
+    return this.httpClient.post<Session>(this.URI, request);
   }
 
-  async refreshCurrentSession(): Promise<SessionTokenBag> {
-    return this.httpClient.put<SessionTokenBag>(this.CURRENT_SESSION_URI);
+  async refreshCurrentSession(): Promise<Session> {
+    return this.httpClient.put<Session>(this.CURRENT_SESSION_URI);
   }
 
   async deleteCurrentSession(): Promise<void> {

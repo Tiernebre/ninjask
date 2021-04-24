@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService } from "../api/session";
+import { SessionService, Session } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
 import "./Login.css";
 
 type LoginProps = {
   sessionService: SessionService;
-  onSuccess: (accessToken: string) => void;
+  onSuccess: (session: Session) => void;
 };
 
 export const Login = ({ sessionService, onSuccess }: LoginProps) => {
@@ -15,19 +15,22 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const submitLogin = async (sessionRequest: SessionRequest) => {
-    try {
-      setLoginErrored(false);
-      setLoading(true);
-      const { accessToken } = await sessionService.createOne(sessionRequest);
-      onSuccess(accessToken);
-      history.push("/home");
-    } catch (error) {
-      console.error(error);
-      setLoginErrored(true);
-      setLoading(false);
-    }
-  };
+  const submitLogin = useCallback(
+    async (sessionRequest: SessionRequest) => {
+      try {
+        setLoginErrored(false);
+        setLoading(true);
+        const session = await sessionService.createOne(sessionRequest);
+        onSuccess(session);
+        history.push("/home");
+      } catch (error) {
+        console.error(error);
+        setLoginErrored(true);
+        setLoading(false);
+      }
+    },
+    [onSuccess, history, sessionService]
+  );
 
   return (
     <div className="Login columns is-vcentered is-mobile">

@@ -1,12 +1,16 @@
 import { UserService } from "../user/user.service";
 import { SessionRequest } from "./session-request";
-import { SessionTokenBag } from "./session-token-bag";
+import { Session } from "./session";
 import { SessionService } from "./session.service";
 import jwt, { Secret } from "jsonwebtoken";
 import { SessionPayload } from "./session-payload";
 import { User } from "../user/user";
 import { RefreshPayload } from "./refresh-payload";
 import { Logger } from "../logger";
+
+type JsonWebTokenPayload = {
+  exp: number;
+};
 
 export class JwtSessionService implements SessionService {
   private readonly accessTokenSecret: Secret;
@@ -30,10 +34,7 @@ export class JwtSessionService implements SessionService {
     this.refreshTokenSecret = refreshTokenSecret;
   }
 
-  async createOne({
-    accessKey,
-    password,
-  }: SessionRequest): Promise<SessionTokenBag> {
+  async createOne({ accessKey, password }: SessionRequest): Promise<Session> {
     this.logger.info(
       `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
     );
@@ -49,7 +50,7 @@ export class JwtSessionService implements SessionService {
     return jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
   }
 
-  async refreshOne(refreshToken: string): Promise<SessionTokenBag> {
+  async refreshOne(refreshToken: string): Promise<Session> {
     this.logger.info("A Session Refresh Attempt is being verified.");
     const refreshPayload = jwt.verify(
       refreshToken,
@@ -78,12 +79,12 @@ export class JwtSessionService implements SessionService {
     return this.signTokensForUser(updatedUser);
   }
 
-  private signTokensForUser(user: User): SessionTokenBag {
+  private signTokensForUser(user: User): Session {
     const accessToken = jwt.sign(
       { id: user.id, accessKey: user.accessKey },
       this.accessTokenSecret,
       {
-        expiresIn: "30m",
+        expiresIn: "30 minutes",
       }
     );
 
@@ -91,7 +92,7 @@ export class JwtSessionService implements SessionService {
       { id: user.id, tokenVersion: user.tokenVersion },
       this.refreshTokenSecret,
       {
-        expiresIn: "1d",
+        expiresIn: "1 day",
       }
     );
 
@@ -99,6 +100,10 @@ export class JwtSessionService implements SessionService {
       `User with ID = ${user.id} provided valid information. A session has been created for them.`
     );
 
-    return new SessionTokenBag(accessToken, refreshToken);
+    const { exp: accessTokenExpiration } = jwt.verify(
+      accessToken,
+      this.accessTokenSecret
+    ) as JsonWebTokenPayload;
+    return new Session(accessToken, refreshToken, accessTokenExpiration);
   }
 }

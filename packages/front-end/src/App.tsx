@@ -1,43 +1,60 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Login } from "./views/Login";
-import { HttpSessionService } from "./api/session";
+import { HttpSessionService, Session } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 import { Footer } from "./components/layout/Footer";
 import { Home } from "./views/Home";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
+
+const ONE_MINUTE_IN_SECONDS = 60;
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
 
+const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
+
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
+  const [
+    sessionRefreshTimestampInMillis,
+    setSessionRefreshTimestampInMillis,
+  ] = useState<number>();
 
-  const logOut = async () => {
+  const logOut = useCallback(async () => {
     setAccessToken(undefined);
+    setSessionRefreshTimestampInMillis(undefined);
     await sessionService.deleteCurrentSession();
-  };
+  }, []);
+
+  const logIn = useCallback(async (session: Session) => {
+    setAccessToken(session.accessToken);
+    setSessionRefreshTimestampInMillis(
+      (session.accessTokenExpiration -
+        ONE_MINUTE_IN_SECONDS -
+        secondsSinceEpoch()) *
+        1000
+    );
+  }, []);
 
   return (
     <div className="App">
       <SessionRefresher
         sessionService={sessionService}
-        onSessionRefresh={setAccessToken}
+        onSessionRefresh={logIn}
         onSessionRefreshFail={logOut}
+        sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
         <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
         <Router>
           <Switch>
             <Route path={["/", "/login"]} exact>
-              <Login
-                sessionService={sessionService}
-                onSuccess={setAccessToken}
-              />
+              <Login sessionService={sessionService} onSuccess={logIn} />
             </Route>
             <SessionChecker accessToken={accessToken}>
               <Route path="/home">

@@ -6,14 +6,14 @@ import bodyParser from "koa-bodyparser";
 import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
-import { generateRandomString } from "../random";
+import { generateRandomNumber, generateRandomString } from "../random";
 import {
   REFRESH_TOKEN_COOKIE_KEY,
   SessionRouter,
 } from "../session/session.router";
 import { SessionService } from "../session/session.service";
 import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
-import { SessionTokenBag } from "./session-token-bag";
+import { Session } from "./session";
 
 describe("Session Router (integration)", () => {
   let app: Application;
@@ -45,9 +45,10 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         tokenPayload
@@ -61,9 +62,10 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected = new SessionTokenBag(
+      const expected = new Session(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         expected
@@ -82,9 +84,10 @@ describe("Session Router (integration)", () => {
 
     it("returns with 201 CREATED status", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);
@@ -98,9 +101,10 @@ describe("Session Router (integration)", () => {
 
     it("returns with 403 FORBIDDEN status if no cookie is provided", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);
@@ -111,9 +115,10 @@ describe("Session Router (integration)", () => {
 
     it("returns with the a session as the response", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);

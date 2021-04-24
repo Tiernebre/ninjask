@@ -11,7 +11,7 @@ const getErrorMessage = () =>
 
 it("renders an error message and marks the access key input invalid if it is not filled out", async () => {
   const onSubmit = jest.fn();
-  render(<LoginForm onSubmit={onSubmit} />);
+  render(<LoginForm onSubmit={onSubmit} loading={false} />);
   await act(async () => {
     await user.type(getPasswordInput(), "p@55w0rd");
     await user.click(getSubmitButton());
@@ -23,7 +23,7 @@ it("renders an error message and marks the access key input invalid if it is not
 
 it("renders an error message and marks the password input invalid if it is not filled out", async () => {
   const onSubmit = jest.fn();
-  render(<LoginForm onSubmit={onSubmit} />);
+  render(<LoginForm onSubmit={onSubmit} loading={false} />);
   await act(async () => {
     await user.type(getAccessKeyInput(), "some-access-key-value");
     await user.click(getSubmitButton());
@@ -35,7 +35,7 @@ it("renders an error message and marks the password input invalid if it is not f
 
 it("submits the form when the form is filled out and valid and the user clicks on the login button", async () => {
   const onSubmit = jest.fn();
-  render(<LoginForm onSubmit={onSubmit} />);
+  render(<LoginForm onSubmit={onSubmit} loading={false} />);
   const accessKey = "some-access-key-value";
   const password = "p@55w0rd";
   await act(async () => {
@@ -49,3 +49,8 @@ it("submits the form when the form is filled out and valid and the user clicks o
     password,
   });
 });
+
+it("marks the button as loading", async () => {
+  render(<LoginForm onSubmit={jest.fn()} loading={true} />);
+  expect(getSubmitButton()).toHaveClass('is-loading')
+})

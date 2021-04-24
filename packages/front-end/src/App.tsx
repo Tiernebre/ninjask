@@ -22,7 +22,7 @@ const App = () => {
           <Route path="/home">
             <Home accessToken={accessToken} />
           </Route>
-          <Route path={["/", "/login"]}>
+          <Route path={["/", "/login"]} exact>
             <Login sessionService={sessionService} onSuccess={setAccessToken} />
           </Route>
         </Switch>

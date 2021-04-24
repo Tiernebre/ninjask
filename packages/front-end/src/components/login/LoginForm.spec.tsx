@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { LoginForm } from "./LoginForm";
 import user from "@testing-library/user-event";
+import { LoginForm } from "./LoginForm";
 import { act } from "react-dom/test-utils";
 
 const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);

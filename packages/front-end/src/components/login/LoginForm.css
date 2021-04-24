@@ -1,14 +1,9 @@
 .LoginForm {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
-.LoginForm__input-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-}
-
-.LoginForm__input-group label:first-of-type {
-  margin-bottom: 8px;
+.LoginForm__button {
+  margin-top: 12px;
 }

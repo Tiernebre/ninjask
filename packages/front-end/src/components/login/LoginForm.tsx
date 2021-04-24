@@ -24,9 +24,12 @@ export const LoginForm = (props: LoginFormProps) => {
 
   return (
     <form className="LoginForm" onSubmit={onSubmit}>
-      <div className="LoginForm__input-group">
-        <label htmlFor="LoginForm__access-key">Access Key</label>
+      <div className="field">
+        <label className="label" htmlFor="LoginForm__access-key">
+          Access Key
+        </label>
         <input
+          className={`input ${errors.accessKey ? "is-danger" : ""}`}
           type="text"
           id="LoginForm__access-key"
           aria-invalid={!!errors.accessKey}
@@ -34,9 +37,12 @@ export const LoginForm = (props: LoginFormProps) => {
         />
         {errors.accessKey && <ErrorMessage htmlFor="LoginForm__access-key" />}
       </div>
-      <div className="LoginForm__input-group">
-        <label htmlFor="LoginForm__password">Password</label>
+      <div className="field">
+        <label className="label" htmlFor="LoginForm__password">
+          Password
+        </label>
         <input
+          className={`input ${errors.password ? "is-danger" : ""}`}
           type="password"
           id="LoginForm__password"
           aria-invalid={!!errors.password}
@@ -44,7 +50,11 @@ export const LoginForm = (props: LoginFormProps) => {
         />
         {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
       </div>
-      <button>Login</button>
+      <div className="field">
+        <button className="LoginForm__button button is-success is-fullwidth is-medium">
+          Login
+        </button>
+      </div>
     </form>
   );
 };

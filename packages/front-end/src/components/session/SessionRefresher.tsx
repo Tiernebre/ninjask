@@ -14,7 +14,7 @@ export const SessionRefresher = ({
   onSessionRefreshFail,
   sessionService,
   children,
-  sessionRefreshTimestamp
+  sessionRefreshTimestamp,
 }: SessionRefresherProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,7 +36,10 @@ export const SessionRefresher = ({
   useEffect(() => {
     let refreshTimeout: number;
     if (sessionRefreshTimestamp) {
-      refreshTimeout = window.setTimeout(refreshSession, sessionRefreshTimestamp);
+      refreshTimeout = window.setTimeout(
+        refreshSession,
+        sessionRefreshTimestamp
+      );
     } else {
       // no-op, as a refresh timestamp has not been setup yet.
       refreshTimeout = window.setTimeout(() => {});

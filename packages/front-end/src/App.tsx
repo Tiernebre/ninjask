@@ -19,7 +19,10 @@ const sessionService = new HttpSessionService(backEndHttpClient);
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
-  const [sessionRefreshTimestamp, setSessionRefreshTimestamp] = useState<number>();
+  const [
+    sessionRefreshTimestamp,
+    setSessionRefreshTimestamp,
+  ] = useState<number>();
 
   const logOut = useCallback(async () => {
     setAccessToken(undefined);
@@ -29,8 +32,10 @@ const App = () => {
 
   const logIn = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
-    setSessionRefreshTimestamp((session.accessTokenExpiration - ONE_MINUTE_IN_MS) - Date.now())
-  }, [])
+    setSessionRefreshTimestamp(
+      session.accessTokenExpiration - ONE_MINUTE_IN_MS - Date.now()
+    );
+  }, []);
 
   return (
     <div className="App">
@@ -44,10 +49,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route path={["/", "/login"]} exact>
-              <Login
-                sessionService={sessionService}
-                onSuccess={logIn}
-              />
+              <Login sessionService={sessionService} onSuccess={logIn} />
             </Route>
             <SessionChecker accessToken={accessToken}>
               <Route path="/home">

@@ -10,6 +10,6 @@ export const SessionChecker = (props: SessionCheckerProps) => {
   return props.accessToken ? (
     <Fragment>{props.children}</Fragment>
   ) : (
-    <Redirect to="/" />
+    <Redirect to="/login" />
   );
 };

@@ -25,13 +25,16 @@ it("displays a loading message while a refresh occurs", () => {
   expect(screen.queryByText(childrenMessage)).toBeNull()
 });
 
-it("displays given children components when a refresh completed", async () => {
+it("handles a successful refresh", async () => {
+  const accessToken = 'some-valid-access-token'
   const sessionService = object<SessionService>();
-  when(sessionService.refreshCurrentSession()).thenResolve({ accessToken: 'some-valid-access-token' })
+  const onSessionRefresh = jest.fn()
+  const onSessionRefreshFail = jest.fn()
+  when(sessionService.refreshCurrentSession()).thenResolve({ accessToken })
   render(
     <SessionRefresher
-      onSessionRefresh={jest.fn()}
-      onSessionRefreshFail={jest.fn()}
+      onSessionRefresh={onSessionRefresh}
+      onSessionRefreshFail={onSessionRefreshFail}
       sessionService={sessionService}
     >
       <p>{childrenMessage}</p>
@@ -42,4 +45,29 @@ it("displays given children components when a refresh completed", async () => {
   })
   expect(screen.getByText(childrenMessage)).toBeInTheDocument()
   expect(screen.queryByText(loadingMessage)).toBeNull()
+  expect(onSessionRefresh).toHaveBeenCalledWith(accessToken)
+  expect(onSessionRefreshFail).not.toHaveBeenCalled()
+});
+
+it("handles a failed refresh", async () => {
+  const sessionService = object<SessionService>();
+  const onSessionRefresh = jest.fn()
+  const onSessionRefreshFail = jest.fn()
+  when(sessionService.refreshCurrentSession()).thenReject(new Error())
+  render(
+    <SessionRefresher
+      onSessionRefresh={onSessionRefresh}
+      onSessionRefreshFail={onSessionRefreshFail}
+      sessionService={sessionService}
+    >
+      <p>{childrenMessage}</p>
+    </SessionRefresher>
+  );
+  await act(async () => {
+    await flushPromises()
+  })
+  expect(screen.getByText(childrenMessage)).toBeInTheDocument()
+  expect(screen.queryByText(loadingMessage)).toBeNull()
+  expect(onSessionRefresh).not.toHaveBeenCalled()
+  expect(onSessionRefreshFail).toHaveBeenCalled()
 });

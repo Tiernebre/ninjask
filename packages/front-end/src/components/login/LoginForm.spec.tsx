@@ -17,7 +17,7 @@ it("renders an error message and marks the access key input invalid if it is not
     await user.click(getSubmitButton());
   });
   expect(getAccessKeyInput()).toBeInvalid();
-  expect(getAccessKeyInput()).toHaveClass('is-danger');
+  expect(getAccessKeyInput()).toHaveClass("is-danger");
   expect(getErrorMessage()).toBeInTheDocument();
   expect(onSubmit).toHaveBeenCalledTimes(0);
 });
@@ -30,7 +30,7 @@ it("renders an error message and marks the password input invalid if it is not f
     await user.click(getSubmitButton());
   });
   expect(getPasswordInput()).toBeInvalid();
-  expect(getPasswordInput()).toHaveClass('is-danger');
+  expect(getPasswordInput()).toHaveClass("is-danger");
   expect(getErrorMessage()).toBeInTheDocument();
   expect(onSubmit).toHaveBeenCalledTimes(0);
 });
@@ -50,11 +50,11 @@ it("submits the form when the form is filled out and valid and the user clicks o
     accessKey,
     password,
   });
-  expect(getAccessKeyInput()).not.toHaveClass('is-danger');
-  expect(getPasswordInput()).not.toHaveClass('is-danger');
+  expect(getAccessKeyInput()).not.toHaveClass("is-danger");
+  expect(getPasswordInput()).not.toHaveClass("is-danger");
 });
 
 it("marks the button as loading", async () => {
   render(<LoginForm onSubmit={jest.fn()} loading={true} />);
-  expect(getSubmitButton()).toHaveClass('is-loading')
-})
+  expect(getSubmitButton()).toHaveClass("is-loading");
+});

@@ -52,7 +52,11 @@ export const LoginForm = (props: LoginFormProps) => {
         {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
       </div>
       <div className="field">
-        <button className={`LoginForm__button button is-success is-fullwidth is-medium ${props.loading ? 'is-loading' : '' }`}>
+        <button
+          className={`LoginForm__button button is-success is-fullwidth is-medium ${
+            props.loading ? "is-loading" : ""
+          }`}
+        >
           Login
         </button>
       </div>

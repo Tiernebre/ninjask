@@ -18,7 +18,7 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   const submitLogin = async (sessionRequest: SessionRequest) => {
     try {
       setLoginErrored(false);
-      setLoading(true)
+      setLoading(true);
       const { accessToken } = await sessionService.createOne(sessionRequest);
       onSuccess(accessToken);
       history.push("/home");
@@ -26,7 +26,7 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
       console.error(error);
       setLoginErrored(true);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -39,13 +39,14 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
           tracking your Pokémon challenges!
         </h2>
         <LoginForm onSubmit={submitLogin} loading={loading} />
-        {loginErrored && 
+        {loginErrored && (
           <article role="alert" className="message is-danger mt-3">
             <div className="message-body">
-              The information submitted was incorrect. Please double check and try again.
+              The information submitted was incorrect. Please double check and
+              try again.
             </div>
           </article>
-        }
+        )}
       </div>
     </div>
   );

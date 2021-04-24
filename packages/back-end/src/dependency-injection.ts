@@ -80,9 +80,10 @@ const buildUserService = () => {
   return new UserService(passwordEncoder, userRepository);
 };
 
-const buildSessionRouter = () => {
+const buildSessionRouter = (logger: Logger) => {
   const sessionService = new JwtSessionService(
     buildUserService(),
+    logger,
     process.env.API_JWT_ACCESS_TOKEN_SECRET,
     process.env.API_JWT_REFRESH_TOKEN_SECRET,
   );
@@ -114,7 +115,7 @@ export const injectDependencies = async (
     buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
-    buildSessionRouter(),
+    buildSessionRouter(logger),
     buildUserRouter(),
   ];
   routers.forEach((router) => {

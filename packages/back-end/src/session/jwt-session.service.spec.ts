@@ -8,6 +8,7 @@ import { generateMockUser } from "../user/user.mock";
 import jwt from "jsonwebtoken";
 import { RefreshPayload } from "./refresh-payload";
 import { User } from "../user/user";
+import { Logger } from "pino";
 
 describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;
@@ -21,6 +22,7 @@ describe("JwtSessionService", () => {
     refreshTokenSecret = generateRandomString();
     jwtSessionService = new JwtSessionService(
       userService,
+      object<Logger>(),
       accessTokenSecret,
       refreshTokenSecret
     );
@@ -33,6 +35,7 @@ describe("JwtSessionService", () => {
         expect(() => {
           new JwtSessionService(
             userService,
+            object<Logger>(),
             accessTokenSecret as Secret,
             generateRandomString()
           );
@@ -46,6 +49,7 @@ describe("JwtSessionService", () => {
         expect(() => {
           new JwtSessionService(
             userService,
+            object<Logger>(),
             generateRandomString(),
             refreshTokenSecret as Secret
           );

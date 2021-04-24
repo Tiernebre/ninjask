@@ -49,10 +49,10 @@ export class FetchHttpClient implements HttpClient {
       ...this.getCommonConfiguration(),
       method: "DELETE",
     });
-    this.parseResponse(response);
+    this.checkResponseForErrors(response)
   }
 
-  private parseResponse(response: Response): Promise<any> {
+  private parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
       return response.json();
     } else {
@@ -65,6 +65,18 @@ export class FetchHttpClient implements HttpClient {
           `HTTP Client Error ${response.status} occurred.`
         );
       }
+    }
+  }
+
+  private checkResponseForErrors(response: Response): Promise<void> {
+    if (response.status >= 500) {
+      throw new HttpServerError(
+        `HTTP Server Error ${response.status} occurred.`
+      );
+    } else {
+      throw new HttpClientError(
+        `HTTP Client Error ${response.status} occurred.`
+      );
     }
   }
 

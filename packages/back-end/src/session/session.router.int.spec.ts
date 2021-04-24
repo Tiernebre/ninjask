@@ -9,7 +9,7 @@ import { object, when } from "testdouble";
 import { generateRandomString } from "../random";
 import { REFRESH_TOKEN_COOKIE_KEY, SessionRouter } from "../session/session.router";
 import { SessionService } from "../session/session.service";
-import { CREATED } from "http-status";
+import { CREATED, FORBIDDEN } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
 
 describe("Session Router (integration)", () => {
@@ -91,6 +91,21 @@ describe("Session Router (integration)", () => {
       const response = await httpRequest.send()
 
       expect(response.status).toEqual(CREATED);
+    });
+
+    it("returns with 403 FORBIDDEN status if no cookie is provided", async () => {
+      const refreshToken = generateRandomString()
+      const tokenPayload = new SessionTokenBag(
+        generateRandomString(),
+        generateRandomString()
+      )
+      when(sessionService.refreshOne(refreshToken)).thenResolve(
+        tokenPayload
+      );
+      const httpRequest = request.put(uri)
+      const response = await httpRequest.send()
+
+      expect(response.status).toEqual(FORBIDDEN);
     });
 
     it("returns with the a session as the response", async () => {

@@ -4,10 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.Login__form-window {
-  background-color: lightgray;
-  border-radius: 5px;
-  padding: 50px;
+  flex-direction: column;
+  max-width: 1000px;
 }

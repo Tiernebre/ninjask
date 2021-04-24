@@ -17,10 +17,10 @@ export const Login = ({ sessionService }: LoginProps) => {
   };
 
   return (
-    <div className="Login">
-      <div className="Login__form-window">
-        <LoginForm onSubmit={submitLogin} />
-      </div>
+    <div className="Login columns">
+      <h1 className="title is-spaced">Welcome to Ninjask!</h1>
+      <h2 className="subtitle">Please fill out your login information below to start drafting and tracking your Pokémon challenges!</h2>
+      <LoginForm onSubmit={submitLogin} />
     </div>
   );
 };

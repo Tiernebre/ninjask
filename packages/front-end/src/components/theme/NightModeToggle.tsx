@@ -3,8 +3,8 @@ import Switch from 'react-switch'
 import useLocalStorage from 'react-use-localstorage'
 import './NightModeToggle.css'
 
-const NIGHT_MODE_KEY = 'night-mode'
-const NIGHT_MODE_STYLESHEET_ID = 'night-theme-style'
+export const NIGHT_MODE_KEY = 'night-mode'
+export const NIGHT_MODE_STYLESHEET_ID = 'night-theme-style'
 
 const addNightTheme = () => {
   const nightThemeElement = document.createElement('link')

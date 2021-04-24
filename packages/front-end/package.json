@@ -56,5 +56,11 @@
     "fetch-mock-jest": "^1.5.1",
     "flush-promises": "^1.0.2",
     "testdouble": "^3.16.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": ["node_modules/(?!@react-use-localstorage)/"]
   }
 }

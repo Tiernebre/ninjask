@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { UserService } from "./user.service";
-import { object, verify, when } from "testdouble";
+import { object, when } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUser, generateMockUserEntity } from "./user.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
@@ -107,7 +107,7 @@ describe("UserService", () => {
       const id = generateRandomNumber();
       const user = generateMockUser();
       when(userRepository.findOne(id)).thenResolve(user);
-      userService.incrementTokenVersionForOneWithId = (id) => {
+      userService.incrementTokenVersionForOneWithId = () => {
         const incrementedUser = new User(
           user.id,
           user.accessKey,

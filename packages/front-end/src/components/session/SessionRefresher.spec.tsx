@@ -5,8 +5,8 @@ import { object, when } from "testdouble";
 import { SessionService } from "../../api/session";
 import { SessionRefresher } from "./SessionRefresher";
 
-const loadingMessage = 'Loading...'
-const childrenMessage = 'Session has refreshed'
+const loadingMessage = "Loading...";
+const childrenMessage = "Session has refreshed";
 
 it("displays a loading message while a refresh occurs", () => {
   const sessionService = object<SessionService>();
@@ -22,15 +22,15 @@ it("displays a loading message while a refresh occurs", () => {
     </SessionRefresher>
   );
   expect(screen.getByText(loadingMessage)).toBeInTheDocument();
-  expect(screen.queryByText(childrenMessage)).toBeNull()
+  expect(screen.queryByText(childrenMessage)).toBeNull();
 });
 
 it("handles a successful refresh", async () => {
-  const accessToken = 'some-valid-access-token'
+  const accessToken = "some-valid-access-token";
   const sessionService = object<SessionService>();
-  const onSessionRefresh = jest.fn()
-  const onSessionRefreshFail = jest.fn()
-  when(sessionService.refreshCurrentSession()).thenResolve({ accessToken })
+  const onSessionRefresh = jest.fn();
+  const onSessionRefreshFail = jest.fn();
+  when(sessionService.refreshCurrentSession()).thenResolve({ accessToken });
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}
@@ -41,19 +41,19 @@ it("handles a successful refresh", async () => {
     </SessionRefresher>
   );
   await act(async () => {
-    await flushPromises()
-  })
-  expect(screen.getByText(childrenMessage)).toBeInTheDocument()
-  expect(screen.queryByText(loadingMessage)).toBeNull()
-  expect(onSessionRefresh).toHaveBeenCalledWith(accessToken)
-  expect(onSessionRefreshFail).not.toHaveBeenCalled()
+    await flushPromises();
+  });
+  expect(screen.getByText(childrenMessage)).toBeInTheDocument();
+  expect(screen.queryByText(loadingMessage)).toBeNull();
+  expect(onSessionRefresh).toHaveBeenCalledWith(accessToken);
+  expect(onSessionRefreshFail).not.toHaveBeenCalled();
 });
 
 it("handles a failed refresh", async () => {
   const sessionService = object<SessionService>();
-  const onSessionRefresh = jest.fn()
-  const onSessionRefreshFail = jest.fn()
-  when(sessionService.refreshCurrentSession()).thenReject(new Error())
+  const onSessionRefresh = jest.fn();
+  const onSessionRefreshFail = jest.fn();
+  when(sessionService.refreshCurrentSession()).thenReject(new Error());
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}
@@ -64,10 +64,10 @@ it("handles a failed refresh", async () => {
     </SessionRefresher>
   );
   await act(async () => {
-    await flushPromises()
-  })
-  expect(screen.getByText(childrenMessage)).toBeInTheDocument()
-  expect(screen.queryByText(loadingMessage)).toBeNull()
-  expect(onSessionRefresh).not.toHaveBeenCalled()
-  expect(onSessionRefreshFail).toHaveBeenCalled()
+    await flushPromises();
+  });
+  expect(screen.getByText(childrenMessage)).toBeInTheDocument();
+  expect(screen.queryByText(loadingMessage)).toBeNull();
+  expect(onSessionRefresh).not.toHaveBeenCalled();
+  expect(onSessionRefreshFail).toHaveBeenCalled();
 });

@@ -9,8 +9,8 @@ import { RefreshPayload } from "./refresh-payload";
 import { Logger } from "../logger";
 
 type JsonWebTokenPayload = {
-  exp: number
-}
+  exp: number;
+};
 
 export class JwtSessionService implements SessionService {
   private readonly accessTokenSecret: Secret;
@@ -103,7 +103,14 @@ export class JwtSessionService implements SessionService {
       `User with ID = ${user.id} provided valid information. A session has been created for them.`
     );
 
-    const { exp: accessTokenExpiration } = jwt.verify(accessToken, this.accessTokenSecret) as JsonWebTokenPayload
-    return new SessionTokenBag(accessToken, refreshToken, accessTokenExpiration);
+    const { exp: accessTokenExpiration } = jwt.verify(
+      accessToken,
+      this.accessTokenSecret
+    ) as JsonWebTokenPayload;
+    return new SessionTokenBag(
+      accessToken,
+      refreshToken,
+      accessTokenExpiration
+    );
   }
 }

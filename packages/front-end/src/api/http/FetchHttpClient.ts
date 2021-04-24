@@ -49,7 +49,7 @@ export class FetchHttpClient implements HttpClient {
       ...this.getCommonConfiguration(),
       method: "DELETE",
     });
-    this.checkResponseForErrors(response)
+    this.checkResponseForErrors(response);
   }
 
   private parseResponse<T>(response: Response): Promise<T> {

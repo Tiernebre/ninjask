@@ -142,9 +142,7 @@ describe("FetchHttpClient", () => {
       async (httpClientStatusCode: number) => {
         const uri = "/foo";
         fetchMock.put(`${rootUrl}${uri}`, httpClientStatusCode);
-        await expect(fetchHttpClient.put(uri)).rejects.toThrow(
-          HttpClientError
-        );
+        await expect(fetchHttpClient.put(uri)).rejects.toThrow(HttpClientError);
       }
     );
 
@@ -153,9 +151,7 @@ describe("FetchHttpClient", () => {
       async (httpClientStatusCode: number) => {
         const uri = "/foo";
         fetchMock.put(`${rootUrl}${uri}`, httpClientStatusCode);
-        await expect(fetchHttpClient.put(uri)).rejects.toThrow(
-          HttpServerError
-        );
+        await expect(fetchHttpClient.put(uri)).rejects.toThrow(HttpServerError);
       }
     );
   });

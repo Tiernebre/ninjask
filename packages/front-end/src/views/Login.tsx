@@ -15,19 +15,22 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const submitLogin = useCallback(async (sessionRequest: SessionRequest) => {
-    try {
-      setLoginErrored(false);
-      setLoading(true);
-      const { accessToken } = await sessionService.createOne(sessionRequest);
-      onSuccess(accessToken);
-      history.push("/home");
-    } catch (error) {
-      console.error(error);
-      setLoginErrored(true);
-      setLoading(false);
-    }
-  }, [onSuccess, history, sessionService]);
+  const submitLogin = useCallback(
+    async (sessionRequest: SessionRequest) => {
+      try {
+        setLoginErrored(false);
+        setLoading(true);
+        const { accessToken } = await sessionService.createOne(sessionRequest);
+        onSuccess(accessToken);
+        history.push("/home");
+      } catch (error) {
+        console.error(error);
+        setLoginErrored(true);
+        setLoading(false);
+      }
+    },
+    [onSuccess, history, sessionService]
+  );
 
   return (
     <div className="Login columns is-vcentered is-mobile">

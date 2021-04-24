@@ -1,0 +1,11 @@
+.NightModeToggle {
+  font-size: 1.35rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.NightModeToggle__emoji {
+  margin-right: 6px;
+}

@@ -1,11 +1,10 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { UserService } from "./user.service";
-import { object, when } from "testdouble";
+import { object, when, verify } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUser, generateMockUserEntity } from "./user.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
-import { User } from "./user";
 
 describe("UserService", () => {
   let userService: UserService;
@@ -107,18 +106,11 @@ describe("UserService", () => {
       const id = generateRandomNumber();
       const user = generateMockUser();
       when(userRepository.findOne(id)).thenResolve(user);
-      userService.incrementTokenVersionForOneWithId = () => {
-        const incrementedUser = new User(
-          user.id,
-          user.accessKey,
-          user.tokenVersion + 1
-        );
-        return Promise.resolve(incrementedUser);
-      };
       const updatedUser = await userService.incrementTokenVersionForOneWithId(
         id
       );
-      expect(updatedUser.tokenVersion).toEqual(user.tokenVersion + 1);
+      verify(userRepository.increment({ id }, "tokenVersion", 1));
+      expect(updatedUser).toEqual(user)
     });
   });
 });

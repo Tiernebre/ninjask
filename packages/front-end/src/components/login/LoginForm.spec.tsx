@@ -17,6 +17,7 @@ it("renders an error message and marks the access key input invalid if it is not
     await user.click(getSubmitButton());
   });
   expect(getAccessKeyInput()).toBeInvalid();
+  expect(getAccessKeyInput()).toHaveClass('is-danger');
   expect(getErrorMessage()).toBeInTheDocument();
   expect(onSubmit).toHaveBeenCalledTimes(0);
 });
@@ -29,6 +30,7 @@ it("renders an error message and marks the password input invalid if it is not f
     await user.click(getSubmitButton());
   });
   expect(getPasswordInput()).toBeInvalid();
+  expect(getPasswordInput()).toHaveClass('is-danger');
   expect(getErrorMessage()).toBeInTheDocument();
   expect(onSubmit).toHaveBeenCalledTimes(0);
 });

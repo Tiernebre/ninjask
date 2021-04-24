@@ -55,7 +55,7 @@ describe("User Router (integration)", () => {
       const expected = generateMockUser();
       when(userService.createOne(createUserRequest)).thenResolve(expected);
       const response = await request.post(uri).send(createUserRequest);
-      expect(response.body).toEqual(expected);
+      expect(response.body).toEqual(expected.toJSON());
     });
   });
 });

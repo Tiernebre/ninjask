@@ -6,24 +6,37 @@ import { generateRandomNumber, generateRandomString } from "../random";
 import { SessionRequest } from "./session-request";
 import { generateMockUser } from "../user/user.mock";
 import jwt from "jsonwebtoken";
+import { RefreshPayload } from "./refresh-payload";
+import { User } from "../user/user";
 
-describe("jwt-session", () => {
+describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;
   let userService: UserService;
-  let secret: Secret;
+  let accessTokenSecret: Secret;
+  let refreshTokenSecret: Secret;
 
   beforeEach(() => {
     userService = object<UserService>();
-    secret = generateRandomString();
-    jwtSessionService = new JwtSessionService(userService, secret);
+    accessTokenSecret = generateRandomString();
+    refreshTokenSecret = generateRandomString();
+    jwtSessionService = new JwtSessionService(userService, accessTokenSecret, refreshTokenSecret);
   });
 
   describe("constructor", () => {
     it.each([null, undefined, ""])(
-      "throws an error if secret provided is %p",
-      (secret) => {
+      "throws an error if access token secret provided is %p",
+      (accessTokenSecret) => {
         expect(() => {
-          new JwtSessionService(userService, secret as Secret);
+          new JwtSessionService(userService, accessTokenSecret as Secret, generateRandomString());
+        }).toThrowError();
+      }
+    );
+
+    it.each([null, undefined, ""])(
+      "throws an error if refresh token secret provided is %p",
+      (refreshTokenSecret) => {
+        expect(() => {
+          new JwtSessionService(userService, generateRandomString(), refreshTokenSecret as Secret);
         }).toThrowError();
       }
     );
@@ -43,7 +56,8 @@ describe("jwt-session", () => {
       ).thenResolve(generateMockUser());
       const tokenBag = await jwtSessionService.createOne(request);
       expect(tokenBag.accessToken).toBeTruthy();
-      expect(jwt.verify(tokenBag.accessToken, secret)).toBeTruthy();
+      expect(jwt.verify(tokenBag.accessToken, accessTokenSecret)).toBeTruthy();
+      expect(jwt.verify(tokenBag.refreshToken, refreshTokenSecret)).toBeTruthy();
     });
   });
 
@@ -53,7 +67,7 @@ describe("jwt-session", () => {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
       };
-      const accessToken = jwt.sign(payload, secret);
+      const accessToken = jwt.sign(payload, accessTokenSecret);
       expect(jwtSessionService.verifyOne(accessToken)).toEqual(
         expect.objectContaining({
           id: payload.id,
@@ -78,4 +92,25 @@ describe("jwt-session", () => {
       expect(() => jwtSessionService.verifyOne(accessToken)).toThrowError();
     });
   });
+
+  describe("refreshOne", () => {
+    it('returns a refreshed session if the request is valid', async () => {
+      const refreshPayload: RefreshPayload = {
+        id: generateRandomNumber(),
+        tokenVersion: generateRandomNumber()
+      }
+      const user = new User(
+        refreshPayload.id,
+        generateRandomString(),
+        refreshPayload.tokenVersion
+      )
+      when(userService.findOneWithId(user.id)).thenResolve(user)
+      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret)
+      const refreshedSession = await jwtSessionService.refreshOne(refreshToken)
+      expect(refreshedSession.accessToken).toBeTruthy();
+      expect(jwt.verify(refreshedSession.accessToken, accessTokenSecret)).toBeTruthy();
+      expect(jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)).toBeTruthy();
+      expect(user.tokenVersion).toEqual(refreshPayload.tokenVersion + 1);
+    })
+  })
 });

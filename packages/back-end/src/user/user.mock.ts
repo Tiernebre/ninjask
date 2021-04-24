@@ -14,5 +14,5 @@ export const generateMockUserEntity = (): UserEntity => {
 };
 
 export const generateMockUser = (): User => {
-  return new User(generateRandomNumber(), generateRandomString());
+  return new User(generateRandomNumber(), generateRandomString(), generateRandomNumber());
 };

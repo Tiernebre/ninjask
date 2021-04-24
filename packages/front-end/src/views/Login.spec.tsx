@@ -14,12 +14,12 @@ it("processes a fully valid login", async () => {
   const accessKey = "access-key";
   const password = "p@55w0rd";
   const sessionService = object<SessionService>();
-  const accessToken = 'access-token'
-  const onSuccess = jest.fn()
+  const accessToken = "access-token";
+  const onSuccess = jest.fn();
   when(sessionService.createOne({ accessKey, password })).thenResolve({
-    accessToken
-  })
-  const expectedHomeMessage = 'Hey! The Home Route Loaded Up Properly!'
+    accessToken,
+  });
+  const expectedHomeMessage = "Hey! The Home Route Loaded Up Properly!";
   render(
     <MemoryRouter>
       <Login onSuccess={onSuccess} sessionService={sessionService} />
@@ -36,9 +36,9 @@ it("processes a fully valid login", async () => {
     await user.click(getSubmitButton());
   });
   await flushPromises();
-  expect(onSuccess).toHaveBeenCalledWith(accessToken)
-  expect(screen.getByText(expectedHomeMessage)).toBeInTheDocument()
-})
+  expect(onSuccess).toHaveBeenCalledWith(accessToken);
+  expect(screen.getByText(expectedHomeMessage)).toBeInTheDocument();
+});
 
 it("displays a login error message if the login submission did not work", async () => {
   const accessKey = "access-key";
@@ -47,9 +47,7 @@ it("displays a login error message if the login submission did not work", async 
   when(sessionService.createOne({ accessKey, password })).thenReject(
     new Error()
   );
-  render(
-    <Login onSuccess={jest.fn()} sessionService={sessionService} />
-  );
+  render(<Login onSuccess={jest.fn()} sessionService={sessionService} />);
   await act(async () => {
     await user.type(getAccessKeyInput(), "access-key");
     await user.type(getPasswordInput(), "p@55w0rd");

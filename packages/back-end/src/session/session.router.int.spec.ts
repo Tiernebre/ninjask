@@ -140,7 +140,7 @@ describe("Session Router (integration)", () => {
     it("returns with the refresh token set to be nulled", async () => {
       const response = await request.delete(uri).send()
       const [refreshTokenCookie] = response.headers["set-cookie"];
-      expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY);
+      expect(refreshTokenCookie).toContain(`${REFRESH_TOKEN_COOKIE_KEY}=;`);
       expect(refreshTokenCookie).toContain("httponly");
     });
   });

@@ -1,7 +1,7 @@
 type HomeProps = {
-  accessToken: string;
+  accessToken?: string;
 };
 
-export const Home = ({ accessToken }: HomeProps) => (
-  <p>Welcome {accessToken}</p>
-);
+export const Home = ({ accessToken }: HomeProps) => {
+  return <p>Welcome Home {accessToken}.</p>
+}

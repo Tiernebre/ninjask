@@ -5,6 +5,7 @@ import { HttpSessionService } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 import { Footer } from "./components/layout/Footer";
 import { Home } from "./views/Home";
+import { useState } from "react";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
@@ -12,15 +13,17 @@ const backEndHttpClient = new FetchHttpClient(
 const sessionService = new HttpSessionService(backEndHttpClient);
 
 const App = () => {
+  const [accessToken, setAccessToken] = useState<string>()
+
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path={["/", "/login"]}>
-            <Login sessionService={sessionService} />
-          </Route>
           <Route path="/home">
-            <Home accessToken="some-sample-token" />
+            <Home accessToken={accessToken} />
+          </Route>
+          <Route path={["/", "/login"]}>
+            <Login sessionService={sessionService} onSuccess={setAccessToken} />
           </Route>
         </Switch>
       </Router>

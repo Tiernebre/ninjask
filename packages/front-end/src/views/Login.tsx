@@ -1,3 +1,4 @@
+import { useHistory } from "react-router";
 import { SessionService } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
@@ -5,12 +6,17 @@ import "./Login.css";
 
 type LoginProps = {
   sessionService: SessionService;
+  onSuccess: (accessToken: string) => void;
 };
 
-export const Login = ({ sessionService }: LoginProps) => {
-  const submitLogin = (sessionRequest: SessionRequest) => {
+export const Login = ({ sessionService, onSuccess }: LoginProps) => {
+  const history = useHistory()
+
+  const submitLogin = async (sessionRequest: SessionRequest) => {
     try {
-      sessionService.createOne(sessionRequest);
+      const { accessToken } = await sessionService.createOne(sessionRequest);
+      onSuccess(accessToken)
+      history.push('/home')
     } catch (error) {
       console.error(error);
     }

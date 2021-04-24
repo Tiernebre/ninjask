@@ -4,6 +4,7 @@ import { Login } from "./Login";
 import { object, when } from "testdouble";
 import { SessionService } from "../api/session";
 import flushPromises from "flush-promises";
+import { MemoryRouter, Route, Switch } from "react-router";
 
 const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);
 const getPasswordInput = () => screen.getByLabelText(/Password/i);
@@ -18,8 +19,16 @@ it("processes a fully valid login", async () => {
   when(sessionService.createOne({ accessKey, password })).thenResolve({
     accessToken
   })
+  const expectedHomeMessage = 'Hey! The Home Route Loaded Up Properly!'
   render(
-    <Login onSuccess={onSuccess} sessionService={sessionService} />
+    <MemoryRouter>
+      <Login onSuccess={onSuccess} sessionService={sessionService} />
+      <Switch>
+        <Route path="/home" exact>
+          {expectedHomeMessage}
+        </Route>
+      </Switch>
+    </MemoryRouter>
   );
   await act(async () => {
     await user.type(getAccessKeyInput(), "access-key");
@@ -28,6 +37,7 @@ it("processes a fully valid login", async () => {
   });
   await flushPromises();
   expect(onSuccess).toHaveBeenCalledWith(accessToken)
+  expect(screen.getByText(expectedHomeMessage)).toBeInTheDocument()
 })
 
 it("displays a login error message if the login submission did not work", async () => {

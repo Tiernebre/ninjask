@@ -26,7 +26,7 @@ it("displays a loading message while a refresh occurs", () => {
 });
 
 it("handles a successful refresh", async () => {
-  jest.useFakeTimers()
+  jest.useFakeTimers();
   const accessToken = "some-valid-access-token";
   const accessTokenExpiration = 10000;
   const sessionService = object<SessionService>();
@@ -47,7 +47,7 @@ it("handles a successful refresh", async () => {
   );
   await act(async () => {
     await flushPromises();
-    jest.runAllTimers()
+    jest.runAllTimers();
   });
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
@@ -83,7 +83,7 @@ it("handles a failed refresh", async () => {
 });
 
 it("automatically refreshes at a given timeout in the future", async () => {
-  jest.useFakeTimers()
+  jest.useFakeTimers();
   const accessToken = "some-valid-access-token";
   const accessTokenExpiration = 10000;
   const sessionService = object<SessionService>();
@@ -105,10 +105,10 @@ it("automatically refreshes at a given timeout in the future", async () => {
   );
   await act(async () => {
     await flushPromises();
-    jest.runAllTimers()
+    jest.runAllTimers();
   });
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
-  expect(onSessionRefresh).toHaveBeenCalledTimes(2)
+  expect(onSessionRefresh).toHaveBeenCalledTimes(2);
   expect(onSessionRefreshFail).not.toHaveBeenCalled();
-})
+});

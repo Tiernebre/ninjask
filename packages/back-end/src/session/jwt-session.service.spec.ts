@@ -76,6 +76,8 @@ describe("JwtSessionService", () => {
       expect(
         jwt.verify(tokenBag.refreshToken, refreshTokenSecret)
       ).toBeTruthy();
+      expect(tokenBag.accessTokenExpiration).toBeTruthy()
+      expect(typeof tokenBag.accessTokenExpiration).toEqual('number')
     });
   });
 
@@ -145,6 +147,8 @@ describe("JwtSessionService", () => {
         refreshTokenSecret
       ) as RefreshPayload;
       expect(signedPayload.tokenVersion).toEqual(incrementedUser.tokenVersion);
+      expect(refreshedSession.accessTokenExpiration).toBeTruthy()
+      expect(typeof refreshedSession.accessTokenExpiration).toEqual('number')
     });
 
     it("throws an error if the refresh payload has an invalid token version", async () => {

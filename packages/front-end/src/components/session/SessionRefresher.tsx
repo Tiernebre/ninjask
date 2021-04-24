@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { SessionService } from "../../api/session";
+import useTimeout from "@rooks/use-timeout";
 
 type SessionRefresherProps = {
   onSessionRefresh: (accessToken: string) => void;
@@ -15,6 +16,7 @@ export const SessionRefresher = ({
   children,
 }: SessionRefresherProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshTimestamp, setRefreshTimestamp] = useState()
 
   const refreshSession = useCallback(async () => {
     try {

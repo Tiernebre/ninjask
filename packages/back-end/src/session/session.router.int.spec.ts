@@ -6,7 +6,7 @@ import bodyParser from "koa-bodyparser";
 import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
-import { generateRandomString } from "../random";
+import { generateRandomNumber, generateRandomString } from "../random";
 import {
   REFRESH_TOKEN_COOKIE_KEY,
   SessionRouter,
@@ -47,7 +47,8 @@ describe("Session Router (integration)", () => {
       };
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         tokenPayload
@@ -63,7 +64,8 @@ describe("Session Router (integration)", () => {
       };
       const expected = new SessionTokenBag(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.createOne(createSessionRequest)).thenResolve(
         expected
@@ -84,7 +86,8 @@ describe("Session Router (integration)", () => {
       const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);
@@ -100,7 +103,8 @@ describe("Session Router (integration)", () => {
       const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);
@@ -113,7 +117,8 @@ describe("Session Router (integration)", () => {
       const refreshToken = generateRandomString();
       const tokenPayload = new SessionTokenBag(
         generateRandomString(),
-        generateRandomString()
+        generateRandomString(),
+        generateRandomNumber()
       );
       when(sessionService.refreshOne(refreshToken)).thenResolve(tokenPayload);
       const httpRequest = request.put(uri);

@@ -19,18 +19,25 @@ const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
 
   const logOut = async () => {
-    setAccessToken(undefined)
-    await sessionService.deleteCurrentSession()
-  }
+    setAccessToken(undefined);
+    await sessionService.deleteCurrentSession();
+  };
 
   return (
     <div className="App">
-      <SessionRefresher sessionService={sessionService} onSessionRefresh={setAccessToken} onSessionRefreshFail={logOut}>
-        <Header onLogOut={logOut} isAuthenticated={!!accessToken}/>
+      <SessionRefresher
+        sessionService={sessionService}
+        onSessionRefresh={setAccessToken}
+        onSessionRefreshFail={logOut}
+      >
+        <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
         <Router>
           <Switch>
             <Route path={["/", "/login"]} exact>
-              <Login sessionService={sessionService} onSuccess={setAccessToken} />
+              <Login
+                sessionService={sessionService}
+                onSuccess={setAccessToken}
+              />
             </Route>
             <SessionChecker accessToken={accessToken}>
               <Route path="/home">

@@ -30,7 +30,7 @@ export class FetchHttpClient implements HttpClient {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
       method: "POST",
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     });
     return this.parseResponse(response);
   }
@@ -39,7 +39,7 @@ export class FetchHttpClient implements HttpClient {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
       method: "PUT",
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     });
     return this.parseResponse(response);
   }
@@ -47,9 +47,9 @@ export class FetchHttpClient implements HttpClient {
   public async delete(uri: string): Promise<void> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
-      method: "DELETE"
+      method: "DELETE",
     });
-    this.parseResponse(response)
+    this.parseResponse(response);
   }
 
   private parseResponse(response: Response): Promise<any> {
@@ -73,7 +73,7 @@ export class FetchHttpClient implements HttpClient {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: 'include'
-    }
+      credentials: "include",
+    };
   }
 }

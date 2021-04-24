@@ -7,7 +7,7 @@ export class User {
   constructor(
     public readonly id: number,
     public readonly accessKey: string,
-    public tokenVersion: number
+    public readonly tokenVersion: number
   ) {}
 
   toJSON(): JSONifiedUser {

@@ -1,5 +1,5 @@
 import { SessionRequest } from "./session-request";
-import { SessionTokenBag } from "./session-token-bag";
+import { Session } from "./session";
 
 export interface SessionService {
   /**
@@ -8,7 +8,7 @@ export interface SessionService {
    * @param request The request a user provides to get a session.
    * @returns A session token bag that includes tokens for authentication.
    */
-  createOne(request: SessionRequest): Promise<SessionTokenBag>;
+  createOne(request: SessionRequest): Promise<Session>;
 
   /**
    * Verifies a given token and ensures that it is used for a legitamite session.
@@ -24,5 +24,5 @@ export interface SessionService {
    * @param refreshToken The refresh token to check.
    * @returns A session token bag that includes new tokens to continue an authentication session.
    */
-  refreshOne(refreshToken: string): Promise<SessionTokenBag>;
+  refreshOne(refreshToken: string): Promise<Session>;
 }

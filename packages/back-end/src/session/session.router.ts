@@ -4,7 +4,7 @@ import { SessionService } from "./session.service";
 import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { isProduction } from "../environment";
 import { ParameterizedContext } from "koa";
-import { SessionTokenBag } from "./session-token-bag";
+import { Session } from "./session";
 
 export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
 
@@ -46,7 +46,7 @@ export class SessionRouter extends Router {
 
   private prepareSessionInResponse(
     ctx: ParameterizedContext,
-    createdSession: SessionTokenBag
+    createdSession: Session
   ): void {
     ctx.body = createdSession;
     const expires = new Date();

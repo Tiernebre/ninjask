@@ -13,7 +13,7 @@ import {
 } from "../session/session.router";
 import { SessionService } from "../session/session.service";
 import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
-import { SessionTokenBag } from "./session-token-bag";
+import { Session } from "./session";
 
 describe("Session Router (integration)", () => {
   let app: Application;
@@ -45,7 +45,7 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
         generateRandomString(),
         generateRandomNumber()
@@ -62,7 +62,7 @@ describe("Session Router (integration)", () => {
         accessKey: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected = new SessionTokenBag(
+      const expected = new Session(
         generateRandomString(),
         generateRandomString(),
         generateRandomNumber()
@@ -84,7 +84,7 @@ describe("Session Router (integration)", () => {
 
     it("returns with 201 CREATED status", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
         generateRandomString(),
         generateRandomNumber()
@@ -101,7 +101,7 @@ describe("Session Router (integration)", () => {
 
     it("returns with 403 FORBIDDEN status if no cookie is provided", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
         generateRandomString(),
         generateRandomNumber()
@@ -115,7 +115,7 @@ describe("Session Router (integration)", () => {
 
     it("returns with the a session as the response", async () => {
       const refreshToken = generateRandomString();
-      const tokenPayload = new SessionTokenBag(
+      const tokenPayload = new Session(
         generateRandomString(),
         generateRandomString(),
         generateRandomNumber()

@@ -47,8 +47,9 @@ export class UserService {
     return this.mapEntityToDto(foundUser);
   }
 
-  public async incrementTokenVersionForOneWithId(id: number): Promise<void> {
+  public async incrementTokenVersionForOneWithId(id: number): Promise<User> {
     await this.userRepository.increment({ id }, "tokenVersion", 1);
+    return this.findOneWithId(id);
   }
 
   private mapEntityToDto(entity: UserEntity): User {

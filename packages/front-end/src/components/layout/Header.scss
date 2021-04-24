@@ -1,0 +1,15 @@
+@import "bulma/sass/utilities/initial-variables.sass";
+
+.Header {
+  width: 100%;
+}
+
+.Header__log-out-button {
+  margin-top: 6px;
+}
+
+@media (max-width: $tablet) {
+  .Header__log-out-button {
+    width: 100%;
+  }
+}

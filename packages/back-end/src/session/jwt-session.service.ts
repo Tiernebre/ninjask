@@ -71,10 +71,11 @@ export class JwtSessionService implements SessionService {
       );
     }
 
-    await this.userService.incrementTokenVersionForOneWithId(associatedUser.id);
-    associatedUser.tokenVersion++;
+    const updatedUser = await this.userService.incrementTokenVersionForOneWithId(
+      associatedUser.id
+    );
 
-    return this.signTokensForUser(associatedUser);
+    return this.signTokensForUser(updatedUser);
   }
 
   private signTokensForUser(user: User): SessionTokenBag {

@@ -1,10 +1,11 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
 import { UserService } from "./user.service";
-import { object, verify, when } from "testdouble";
+import { object, when } from "testdouble";
 import { UserEntity } from "./user.entity";
-import { generateMockUserEntity } from "./user.mock";
+import { generateMockUser, generateMockUserEntity } from "./user.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
+import { User } from "./user";
 
 describe("UserService", () => {
   let userService: UserService;
@@ -104,8 +105,20 @@ describe("UserService", () => {
   describe("incrementTokenVersionForOneWithId", () => {
     it("increments the token version for a given id", async () => {
       const id = generateRandomNumber();
-      await userService.incrementTokenVersionForOneWithId(id);
-      verify(userRepository.increment({ id }, "tokenVersion", 1));
+      const user = generateMockUser();
+      when(userRepository.findOne(id)).thenResolve(user);
+      userService.incrementTokenVersionForOneWithId = () => {
+        const incrementedUser = new User(
+          user.id,
+          user.accessKey,
+          user.tokenVersion + 1
+        );
+        return Promise.resolve(incrementedUser);
+      };
+      const updatedUser = await userService.incrementTokenVersionForOneWithId(
+        id
+      );
+      expect(updatedUser.tokenVersion).toEqual(user.tokenVersion + 1);
     });
   });
 });

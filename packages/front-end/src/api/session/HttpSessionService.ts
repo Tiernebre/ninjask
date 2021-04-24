@@ -4,18 +4,20 @@ import { SessionService } from "./SessionService";
 import { SessionTokenBag } from "./SessionTokenBag";
 
 export class HttpSessionService implements SessionService {
+  private readonly URI = "sessions";
+  private readonly CURRENT_SESSION_URI = `${this.URI}/current-session`;
+
   constructor(private readonly httpClient: HttpClient) {}
 
   async createOne(request: SessionRequest): Promise<SessionTokenBag> {
-    console.log(
-      "DEBUG -- Session Request has been received and will be processed. Request = ",
-      request
-    );
-    const tokenBag = await this.httpClient.post<SessionTokenBag>(
-      "sessions",
-      request
-    );
-    console.log("DEBUG -- Got back token bag ", tokenBag);
-    return tokenBag;
+    return this.httpClient.post<SessionTokenBag>(this.URI, request);
+  }
+
+  async refreshCurrentSession(): Promise<SessionTokenBag> {
+    return this.httpClient.put<SessionTokenBag>(this.CURRENT_SESSION_URI);
+  }
+
+  async deleteCurrentSession(): Promise<void> {
+    return this.httpClient.delete(this.CURRENT_SESSION_URI);
   }
 }

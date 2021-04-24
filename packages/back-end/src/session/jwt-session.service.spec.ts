@@ -122,7 +122,15 @@ describe("JwtSessionService", () => {
         generateRandomString(),
         refreshPayload.tokenVersion
       );
+      const incrementedUser = new User(
+        user.id,
+        user.accessKey,
+        user.tokenVersion + 1
+      );
       when(userService.findOneWithId(user.id)).thenResolve(user);
+      when(userService.incrementTokenVersionForOneWithId(user.id)).thenResolve(
+        incrementedUser
+      );
       const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret);
       const refreshedSession = await jwtSessionService.refreshOne(refreshToken);
       expect(refreshedSession.accessToken).toBeTruthy();
@@ -132,7 +140,11 @@ describe("JwtSessionService", () => {
       expect(
         jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)
       ).toBeTruthy();
-      expect(user.tokenVersion).toEqual(refreshPayload.tokenVersion + 1);
+      const signedPayload = jwt.verify(
+        refreshedSession.refreshToken,
+        refreshTokenSecret
+      ) as RefreshPayload;
+      expect(signedPayload.tokenVersion).toEqual(incrementedUser.tokenVersion);
     });
 
     it("throws an error if the refresh payload has an invalid token version", async () => {

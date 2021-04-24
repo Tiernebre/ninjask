@@ -28,13 +28,28 @@ export class FetchHttpClient implements HttpClient {
 
   public async post<T>(uri: string, request?: any): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
       method: "POST",
       body: JSON.stringify(request),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
     return this.parseResponse(response);
+  }
+
+  public async put<T>(uri: string, request?: any): Promise<T> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "PUT",
+      body: JSON.stringify(request),
+    });
+    return this.parseResponse(response);
+  }
+
+  public async delete(uri: string): Promise<void> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "DELETE",
+    });
+    this.parseResponse(response);
   }
 
   private parseResponse(response: Response): Promise<any> {
@@ -51,5 +66,14 @@ export class FetchHttpClient implements HttpClient {
         );
       }
     }
+  }
+
+  private getCommonConfiguration(): RequestInit {
+    return {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
   }
 }

@@ -116,4 +116,47 @@ describe("FetchHttpClient", () => {
       }
     );
   });
+
+  describe("put", () => {
+    it("returns a response from a provided URI", async () => {
+      const uri = "/foo";
+      const expected = { foo: "bar" };
+      fetchMock.post(`${rootUrl}${uri}`, expected);
+      const response = await fetchHttpClient.post(uri);
+      expect(response).toEqual(expected);
+    });
+
+    it("returns a response from a provided URI with a given request body", async () => {
+      const uri = "/foo";
+      const requestBody = { name: "test-name" };
+      const expected = { foo: "bar" };
+      fetchMock.post(`${rootUrl}${uri}`, expected, {
+        body: requestBody,
+      });
+      const response = await fetchHttpClient.post(uri, requestBody);
+      expect(response).toEqual(expected);
+    });
+
+    it.each(HTTP_CLIENT_ERROR_CODES)(
+      "throws an HttpClientError if the response status back was %p",
+      async (httpClientStatusCode: number) => {
+        const uri = "/foo";
+        fetchMock.post(`${rootUrl}${uri}`, httpClientStatusCode);
+        await expect(fetchHttpClient.post(uri)).rejects.toThrow(
+          HttpClientError
+        );
+      }
+    );
+
+    it.each(HTTP_SERVER_ERROR_CODES)(
+      "throws an HttpServerError if the response status back was %p",
+      async (httpClientStatusCode: number) => {
+        const uri = "/foo";
+        fetchMock.post(`${rootUrl}${uri}`, httpClientStatusCode);
+        await expect(fetchHttpClient.post(uri)).rejects.toThrow(
+          HttpServerError
+        );
+      }
+    );
+  });
 });

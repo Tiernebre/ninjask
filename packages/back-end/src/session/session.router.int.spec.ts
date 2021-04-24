@@ -12,7 +12,7 @@ import {
   SessionRouter,
 } from "../session/session.router";
 import { SessionService } from "../session/session.service";
-import { CREATED, FORBIDDEN } from "http-status";
+import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { SessionTokenBag } from "./session-token-bag";
 
 describe("Session Router (integration)", () => {
@@ -77,8 +77,8 @@ describe("Session Router (integration)", () => {
     });
   });
 
-  describe("PUT /sessions", () => {
-    const uri = "/sessions";
+  describe("PUT /sessions/current-session", () => {
+    const uri = "/sessions/current-session";
 
     it("returns with 201 CREATED status", async () => {
       const refreshToken = generateRandomString();
@@ -125,6 +125,22 @@ describe("Session Router (integration)", () => {
       expect(response.body.refreshToken).toBeFalsy();
       const [refreshTokenCookie] = response.headers["set-cookie"];
       expect(refreshTokenCookie).toContain(REFRESH_TOKEN_COOKIE_KEY);
+      expect(refreshTokenCookie).toContain("httponly");
+    });
+  });
+
+  describe("DELETE /sessions/current-session", () => {
+    const uri = "/sessions/current-session";
+
+    it("returns with 204 NO_CONTENT status", async () => {
+      const response = await request.delete(uri).send();
+      expect(response.status).toEqual(NO_CONTENT);
+    });
+
+    it("returns with the refresh token set to be nulled", async () => {
+      const response = await request.delete(uri).send();
+      const [refreshTokenCookie] = response.headers["set-cookie"];
+      expect(refreshTokenCookie).toContain(`${REFRESH_TOKEN_COOKIE_KEY}=;`);
       expect(refreshTokenCookie).toContain("httponly");
     });
   });

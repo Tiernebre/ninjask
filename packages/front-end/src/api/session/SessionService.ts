@@ -9,4 +9,16 @@ export interface SessionService {
    * @returns A session token bag that includes tokens for authentication.
    */
   createOne(request: SessionRequest): Promise<SessionTokenBag>;
+
+  /**
+   * Refreshes the current authenticated session.
+   *
+   * @returns A session token bag that includes tokens for the newly refreshed authentication.
+   */
+  refreshCurrentSession(): Promise<SessionTokenBag>;
+
+  /**
+   * Deletes the current authenticated session.
+   */
+  deleteCurrentSession(): Promise<void>;
 }

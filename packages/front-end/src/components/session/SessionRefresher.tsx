@@ -16,7 +16,7 @@ export const SessionRefresher = ({ onSessionRefresh, sessionService, children }:
         const { accessToken } = await sessionService.refreshOne()
         onSessionRefresh(accessToken)
       } catch (error) {
-        console.error('Refresh failed -- going to treat session as an unauthenticated one.')
+        // TODO: clean logout mechanism would go here.
       } finally {
         setIsLoading(false)
       }

@@ -25,7 +25,6 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
     } catch (error) {
       console.error(error);
       setLoginErrored(true);
-    } finally {
       setLoading(false);
     }
   };

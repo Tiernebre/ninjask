@@ -22,19 +22,19 @@ const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
   const [
-    sessionRefreshTimestamp,
-    setSessionRefreshTimestamp,
+    sessionRefreshTimestampInMillis,
+    setSessionRefreshTimestampInMillis,
   ] = useState<number>();
 
   const logOut = useCallback(async () => {
     setAccessToken(undefined);
-    setSessionRefreshTimestamp(undefined);
+    setSessionRefreshTimestampInMillis(undefined);
     await sessionService.deleteCurrentSession();
   }, []);
 
   const logIn = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
-    setSessionRefreshTimestamp(
+    setSessionRefreshTimestampInMillis(
       (session.accessTokenExpiration -
         ONE_MINUTE_IN_SECONDS -
         secondsSinceEpoch()) *
@@ -48,7 +48,7 @@ const App = () => {
         sessionService={sessionService}
         onSessionRefresh={logIn}
         onSessionRefreshFail={logOut}
-        sessionRefreshTimestamp={sessionRefreshTimestamp}
+        sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
         <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
         <Router>

@@ -112,5 +112,20 @@ describe("JwtSessionService", () => {
       expect(jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)).toBeTruthy();
       expect(user.tokenVersion).toEqual(refreshPayload.tokenVersion + 1);
     })
+
+    it('throws an error if the refresh payload has an invalid token version', async () => {
+      const refreshPayload: RefreshPayload = {
+        id: generateRandomNumber(),
+        tokenVersion: generateRandomNumber()
+      }
+      const user = new User(
+        refreshPayload.id,
+        generateRandomString(),
+        refreshPayload.tokenVersion + 1
+      )
+      when(userService.findOneWithId(user.id)).thenResolve(user)
+      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret)
+      await expect(jwtSessionService.refreshOne(refreshToken)).rejects.toThrowError()
+    })
   })
 });

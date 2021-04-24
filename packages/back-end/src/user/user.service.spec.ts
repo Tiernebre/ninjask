@@ -84,4 +84,16 @@ describe("UserService", () => {
       ).rejects.toThrowError();
     });
   });
+
+  describe("findOneWithId", () => {
+    it("returns a user if one exists with a given id", async () => {
+      const userEntity = generateMockUserEntity();
+      when(userRepository.findOne(userEntity.id)).thenResolve(
+        userEntity
+      );
+      const gottenUser = await userService.findOneWithId(userEntity.id);
+      expect(gottenUser.id).toEqual(userEntity.id);
+      expect(gottenUser.accessKey).toEqual(userEntity.accessKey);
+    });
+  });
 });

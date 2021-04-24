@@ -19,7 +19,11 @@ describe("JwtSessionService", () => {
     userService = object<UserService>();
     accessTokenSecret = generateRandomString();
     refreshTokenSecret = generateRandomString();
-    jwtSessionService = new JwtSessionService(userService, accessTokenSecret, refreshTokenSecret);
+    jwtSessionService = new JwtSessionService(
+      userService,
+      accessTokenSecret,
+      refreshTokenSecret
+    );
   });
 
   describe("constructor", () => {
@@ -27,7 +31,11 @@ describe("JwtSessionService", () => {
       "throws an error if access token secret provided is %p",
       (accessTokenSecret) => {
         expect(() => {
-          new JwtSessionService(userService, accessTokenSecret as Secret, generateRandomString());
+          new JwtSessionService(
+            userService,
+            accessTokenSecret as Secret,
+            generateRandomString()
+          );
         }).toThrowError();
       }
     );
@@ -36,7 +44,11 @@ describe("JwtSessionService", () => {
       "throws an error if refresh token secret provided is %p",
       (refreshTokenSecret) => {
         expect(() => {
-          new JwtSessionService(userService, generateRandomString(), refreshTokenSecret as Secret);
+          new JwtSessionService(
+            userService,
+            generateRandomString(),
+            refreshTokenSecret as Secret
+          );
         }).toThrowError();
       }
     );
@@ -57,7 +69,9 @@ describe("JwtSessionService", () => {
       const tokenBag = await jwtSessionService.createOne(request);
       expect(tokenBag.accessToken).toBeTruthy();
       expect(jwt.verify(tokenBag.accessToken, accessTokenSecret)).toBeTruthy();
-      expect(jwt.verify(tokenBag.refreshToken, refreshTokenSecret)).toBeTruthy();
+      expect(
+        jwt.verify(tokenBag.refreshToken, refreshTokenSecret)
+      ).toBeTruthy();
     });
   });
 
@@ -94,38 +108,44 @@ describe("JwtSessionService", () => {
   });
 
   describe("refreshOne", () => {
-    it('returns a refreshed session if the request is valid', async () => {
+    it("returns a refreshed session if the request is valid", async () => {
       const refreshPayload: RefreshPayload = {
         id: generateRandomNumber(),
-        tokenVersion: generateRandomNumber()
-      }
+        tokenVersion: generateRandomNumber(),
+      };
       const user = new User(
         refreshPayload.id,
         generateRandomString(),
         refreshPayload.tokenVersion
-      )
-      when(userService.findOneWithId(user.id)).thenResolve(user)
-      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret)
-      const refreshedSession = await jwtSessionService.refreshOne(refreshToken)
+      );
+      when(userService.findOneWithId(user.id)).thenResolve(user);
+      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret);
+      const refreshedSession = await jwtSessionService.refreshOne(refreshToken);
       expect(refreshedSession.accessToken).toBeTruthy();
-      expect(jwt.verify(refreshedSession.accessToken, accessTokenSecret)).toBeTruthy();
-      expect(jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)).toBeTruthy();
+      expect(
+        jwt.verify(refreshedSession.accessToken, accessTokenSecret)
+      ).toBeTruthy();
+      expect(
+        jwt.verify(refreshedSession.refreshToken, refreshTokenSecret)
+      ).toBeTruthy();
       expect(user.tokenVersion).toEqual(refreshPayload.tokenVersion + 1);
-    })
+    });
 
-    it('throws an error if the refresh payload has an invalid token version', async () => {
+    it("throws an error if the refresh payload has an invalid token version", async () => {
       const refreshPayload: RefreshPayload = {
         id: generateRandomNumber(),
-        tokenVersion: generateRandomNumber()
-      }
+        tokenVersion: generateRandomNumber(),
+      };
       const user = new User(
         refreshPayload.id,
         generateRandomString(),
         refreshPayload.tokenVersion + 1
-      )
-      when(userService.findOneWithId(user.id)).thenResolve(user)
-      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret)
-      await expect(jwtSessionService.refreshOne(refreshToken)).rejects.toThrowError()
-    })
-  })
+      );
+      when(userService.findOneWithId(user.id)).thenResolve(user);
+      const refreshToken = jwt.sign(refreshPayload, refreshTokenSecret);
+      await expect(
+        jwtSessionService.refreshOne(refreshToken)
+      ).rejects.toThrowError();
+    });
+  });
 });

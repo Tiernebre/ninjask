@@ -1,15 +1,19 @@
 type JSONifiedUser = {
   id: number;
-  accessKey: string
-}
+  accessKey: string;
+};
 
 export class User {
-  constructor(public readonly id: number, public readonly accessKey: string, public tokenVersion: number) {}
+  constructor(
+    public readonly id: number,
+    public readonly accessKey: string,
+    public tokenVersion: number
+  ) {}
 
-  toJSON(): JSONifiedUser { 
+  toJSON(): JSONifiedUser {
     return {
       id: this.id,
-      accessKey: this.accessKey
-    }
+      accessKey: this.accessKey,
+    };
   }
 }

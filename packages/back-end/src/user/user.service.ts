@@ -26,7 +26,7 @@ export class UserService {
     if (!foundUser) {
       throw new Error(`User with id = ${id} does not exist.`);
     }
-    return this.mapEntityToDto(foundUser)
+    return this.mapEntityToDto(foundUser);
   }
 
   public async findOneWithAccessKeyAndPassword(
@@ -48,7 +48,7 @@ export class UserService {
   }
 
   public async incrementTokenVersionForOneWithId(id: number): Promise<void> {
-    await this.userRepository.increment({ id }, 'tokenVersion', 1);
+    await this.userRepository.increment({ id }, "tokenVersion", 1);
   }
 
   private mapEntityToDto(entity: UserEntity): User {

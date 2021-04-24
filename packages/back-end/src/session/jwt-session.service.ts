@@ -34,7 +34,7 @@ export class JwtSessionService implements SessionService {
       password
     );
 
-    return this.signTokensForUser(associatedUser)
+    return this.signTokensForUser(associatedUser);
   }
 
   verifyOne(accessToken: string): SessionPayload {
@@ -42,19 +42,24 @@ export class JwtSessionService implements SessionService {
   }
 
   async refreshOne(refreshToken: string): Promise<SessionTokenBag> {
-    const refreshPayload = jwt.verify(refreshToken, this.refreshTokenSecret) as RefreshPayload
-    const associatedUser = await this.userService.findOneWithId(refreshPayload.id)
+    const refreshPayload = jwt.verify(
+      refreshToken,
+      this.refreshTokenSecret
+    ) as RefreshPayload;
+    const associatedUser = await this.userService.findOneWithId(
+      refreshPayload.id
+    );
 
     if (refreshPayload.tokenVersion !== associatedUser.tokenVersion) {
       throw new Error(
         "Refreshing a session could not be completed due to invalid data."
-      )
+      );
     }
 
-    await this.userService.incrementTokenVersionForOneWithId(associatedUser.id)
-    associatedUser.tokenVersion++
+    await this.userService.incrementTokenVersionForOneWithId(associatedUser.id);
+    associatedUser.tokenVersion++;
 
-    return this.signTokensForUser(associatedUser)
+    return this.signTokensForUser(associatedUser);
   }
 
   private signTokensForUser(user: User): SessionTokenBag {
@@ -66,9 +71,13 @@ export class JwtSessionService implements SessionService {
       }
     );
 
-    const refreshToken = jwt.sign({ id: user.id, tokenVersion: user.tokenVersion }, this.refreshTokenSecret, {
-      expiresIn: "1d",
-    });
+    const refreshToken = jwt.sign(
+      { id: user.id, tokenVersion: user.tokenVersion },
+      this.refreshTokenSecret,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     return {
       accessToken,

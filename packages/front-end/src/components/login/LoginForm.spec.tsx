@@ -50,6 +50,8 @@ it("submits the form when the form is filled out and valid and the user clicks o
     accessKey,
     password,
   });
+  expect(getAccessKeyInput()).not.toHaveClass('is-danger');
+  expect(getPasswordInput()).not.toHaveClass('is-danger');
 });
 
 it("marks the button as loading", async () => {

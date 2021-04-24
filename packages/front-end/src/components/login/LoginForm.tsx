@@ -46,7 +46,9 @@ export const LoginForm = (props: LoginFormProps) => {
         />
         {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
       </div>
-      <button className="button is-success">Login</button>
+      <div className="field">
+        <button className="LoginForm__button button is-success is-fullwidth is-medium">Login</button>
+      </div>
     </form>
   );
 };

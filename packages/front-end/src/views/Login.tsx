@@ -17,8 +17,8 @@ export const Login = ({ sessionService }: LoginProps) => {
   };
 
   return (
-    <div className="Login columns is-vcentered">
-      <div className="column">
+    <div className="Login columns is-vcentered is-mobile">
+      <div className="column is-offset-one-third-desktop is-one-third-desktop">
         <h1 className="title is-spaced">Welcome to Ninjask!</h1>
         <h2 className="subtitle">
           Please fill out your login information below to start drafting and

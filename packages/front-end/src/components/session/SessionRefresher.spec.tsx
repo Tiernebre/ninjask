@@ -78,3 +78,34 @@ it("handles a failed refresh", async () => {
   expect(onSessionRefresh).not.toHaveBeenCalled();
   expect(onSessionRefreshFail).toHaveBeenCalled();
 });
+
+it("automatically refreshes at a given timeout in the future", async () => {
+  jest.useFakeTimers()
+  const accessToken = "some-valid-access-token";
+  const accessTokenExpiration = 10000;
+  const sessionService = object<SessionService>();
+  const onSessionRefresh = jest.fn();
+  const onSessionRefreshFail = jest.fn();
+  when(sessionService.refreshCurrentSession()).thenResolve({
+    accessToken,
+    accessTokenExpiration,
+  });
+  render(
+    <SessionRefresher
+      onSessionRefresh={onSessionRefresh}
+      onSessionRefreshFail={onSessionRefreshFail}
+      sessionService={sessionService}
+      sessionRefreshTimestamp={100000}
+    >
+      <p>{childrenMessage}</p>
+    </SessionRefresher>
+  );
+  await act(async () => {
+    await flushPromises();
+    jest.runAllTimers()
+  });
+  expect(screen.getByText(childrenMessage)).toBeInTheDocument();
+  expect(screen.queryByText(loadingMessage)).toBeNull();
+  expect(onSessionRefresh).toHaveBeenCalledTimes(2)
+  expect(onSessionRefreshFail).not.toHaveBeenCalled();
+})

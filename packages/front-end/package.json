@@ -61,6 +61,8 @@
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     },
-    "transformIgnorePatterns": ["node_modules/(?!@react-use-localstorage)/"]
+    "transformIgnorePatterns": [
+      "node_modules/(?!@react-use-localstorage)/"
+    ]
   }
 }

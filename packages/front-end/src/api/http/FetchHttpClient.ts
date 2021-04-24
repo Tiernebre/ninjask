@@ -64,7 +64,8 @@ export class FetchHttpClient implements HttpClient {
     return {
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+      credentials: 'include'
     }
   }
 }

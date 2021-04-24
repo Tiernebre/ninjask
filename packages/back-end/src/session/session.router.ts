@@ -43,11 +43,14 @@ export class SessionRouter extends Router {
     createdSession: SessionTokenBag
   ): void {
     ctx.body = createdSession;
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 1)
     ctx.cookies.set(REFRESH_TOKEN_COOKIE_KEY, createdSession.refreshToken, {
       httpOnly: true,
       path: this.URI,
       secure: isProduction(),
-    });
+      expires
+    })
     ctx.status = CREATED;
   }
 }

@@ -4,22 +4,18 @@ import { SessionService } from "./SessionService";
 import { SessionTokenBag } from "./SessionTokenBag";
 
 export class HttpSessionService implements SessionService {
+  private readonly URI = "sessions"
+
   constructor(private readonly httpClient: HttpClient) {}
 
   async createOne(request: SessionRequest): Promise<SessionTokenBag> {
-    console.log(
-      "DEBUG -- Session Request has been received and will be processed. Request = ",
+    return this.httpClient.post<SessionTokenBag>(
+      this.URI,
       request
     );
-    const tokenBag = await this.httpClient.post<SessionTokenBag>(
-      "sessions",
-      request
-    );
-    console.log("DEBUG -- Got back token bag ", tokenBag);
-    return tokenBag;
   }
 
   async refreshOne(): Promise<SessionTokenBag> {
-    throw new Error("Method not implemented.");
+    return this.httpClient.put<SessionTokenBag>(this.URI);
   }
 }

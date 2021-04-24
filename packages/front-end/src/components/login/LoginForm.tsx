@@ -47,6 +47,7 @@ export const LoginForm = (props: LoginFormProps) => {
           type="password"
           id="LoginForm__password"
           aria-invalid={!!errors.password}
+          autoComplete="on"
           {...register("password", { required: true })}
         />
         {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}

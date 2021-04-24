@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useHistory } from "react-router";
 import { SessionService } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
@@ -10,15 +11,18 @@ type LoginProps = {
 };
 
 export const Login = ({ sessionService, onSuccess }: LoginProps) => {
-  const history = useHistory()
+  const [loginErrored, setLoginErrored] = useState(false);
+  const history = useHistory();
 
   const submitLogin = async (sessionRequest: SessionRequest) => {
     try {
+      setLoginErrored(false);
       const { accessToken } = await sessionService.createOne(sessionRequest);
-      onSuccess(accessToken)
-      history.push('/home')
+      onSuccess(accessToken);
+      history.push("/home");
     } catch (error) {
       console.error(error);
+      setLoginErrored(true);
     }
   };
 
@@ -31,6 +35,13 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
           tracking your Pokémon challenges!
         </h2>
         <LoginForm onSubmit={submitLogin} />
+        {loginErrored && 
+          <article role="alert" className="message is-danger mt-3">
+            <div className="message-body">
+              The information submitted was incorrect. Please double check and try again.
+            </div>
+          </article>
+        }
       </div>
     </div>
   );

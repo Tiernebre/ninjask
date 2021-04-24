@@ -3,5 +3,5 @@ type HomeProps = {
 };
 
 export const Home = ({ accessToken }: HomeProps) => {
-  return <p>Welcome Home {accessToken}.</p>
-}
+  return <p>Welcome Home {accessToken}.</p>;
+};

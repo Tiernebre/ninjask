@@ -18,6 +18,7 @@ export const SessionChecker = (props: SessionCheckerProps) => {
         props.accessToken &&
         !props.sessionService.accessTokenIsValid(props.accessToken)
       ) {
+        console.log('session expired')
         props.onExpiredSession();
       }
     }, CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS);

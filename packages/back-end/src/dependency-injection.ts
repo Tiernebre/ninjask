@@ -24,6 +24,7 @@ import { JwtSessionService } from "./session/jwt-session.service";
 import { SessionRouter } from "./session/session.router";
 import { UserRouter } from "./user/user.router";
 import { sessionMiddleware } from "./session/session.middleware";
+import { stageMockData } from "./environment";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -128,5 +129,6 @@ export const injectDependencies = async (
     app.use(router.routes());
   });
   app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger, app));
+  await stageMockData(logger);
   return app;
 };

@@ -31,7 +31,7 @@ export class ChallengeEntity {
   description!: string;
 
   @ManyToOne(() => SeasonEntity, (season) => season.challenges)
-  season!: SeasonEntity;
+  season!: Promise<SeasonEntity>;
 
   @CreateDateColumn({ nullable: false, update: false })
   createdAt!: Date;
@@ -49,5 +49,5 @@ export class ChallengeEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.challenges)
   @JoinTable()
-  users!: Promise<UserEntity>;
+  users!: Promise<UserEntity[]>;
 }

@@ -11,6 +11,7 @@ import fs from "fs";
 import https from "https";
 import KoaWebsocket from "koa-websocket";
 import { isProduction } from "./environment";
+import { stageMockData } from "./environment/stage-mock-data";
 
 dotenv.config();
 

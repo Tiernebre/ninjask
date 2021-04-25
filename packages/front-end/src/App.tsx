@@ -56,7 +56,7 @@ const App = () => {
             <Route path={["/", "/login"]} exact>
               <Login sessionService={sessionService} onSuccess={setSession} />
             </Route>
-            <SessionChecker accessToken={accessToken}>
+            <SessionChecker accessToken={accessToken} sessionService={sessionService}>
               <Route path="/home">
                 <Home accessToken={accessToken} />
               </Route>

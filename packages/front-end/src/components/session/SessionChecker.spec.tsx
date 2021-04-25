@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import flushPromises from "flush-promises";
 import { MemoryRouter, Route, Switch } from "react-router";
 import { object, when } from "testdouble";
 import { SessionService } from "../../api/session";

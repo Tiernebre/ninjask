@@ -2,7 +2,6 @@ import { FetchHttpClient } from "./http/fetch-http-client";
 import { HttpClient } from "./http/http-client";
 import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
 import { PokemonService } from "./pokemon/pokemon.service";
-import { PokemonRouter } from "./pokemon/pokemon.router";
 import { createConnection, getConnectionOptions, getRepository } from "typeorm";
 import { LeagueEntity } from "./leagues/league.entity";
 import { LeagueService } from "./leagues/league.service";
@@ -24,6 +23,7 @@ import { UserEntity } from "./user/user.entity";
 import { JwtSessionService } from "./session/jwt-session.service";
 import { SessionRouter } from "./session/session.router";
 import { UserRouter } from "./user/user.router";
+import { sessionMiddleware } from "./session/session.middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -40,10 +40,6 @@ const buildPokeApiHttpClient = (): HttpClient => {
 
 const buildPokemonService = (logger: Logger): PokemonService => {
   return new PokeApiPokemonService(buildPokeApiHttpClient(), logger);
-};
-
-const buildPokemonRouter = (logger: Logger) => {
-  return new PokemonRouter(buildPokemonService(logger));
 };
 
 const buildLeagueRouter = (logger: Logger) => {
@@ -80,20 +76,27 @@ const buildUserService = () => {
   return new UserService(passwordEncoder, userRepository);
 };
 
-const buildSessionRouter = (logger: Logger) => {
-  const sessionService = new JwtSessionService(
+const buildSessionService = (logger: Logger) => {
+  return new JwtSessionService(
     buildUserService(),
     logger,
     process.env.API_JWT_ACCESS_TOKEN_SECRET,
     process.env.API_JWT_REFRESH_TOKEN_SECRET
   );
-  const sessionRouter = new SessionRouter(sessionService);
+}
+
+const buildSessionRouter = (logger: Logger) => {
+  const sessionRouter = new SessionRouter(buildSessionService(logger));
   return sessionRouter;
 };
 
 const buildUserRouter = () => {
   return new UserRouter(buildUserService());
 };
+
+const buildSessionMiddleware = (logger: Logger) => {
+  return sessionMiddleware(buildSessionService(logger))
+}
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -111,11 +114,14 @@ export const injectDependencies = async (
   } catch (error) {
     logger.error(error);
   }
+  // routes below this are public and can be pinged by anyone
+  app.use(buildSessionRouter(logger).routes())
+  // routes below this are protected behind session checks
+  const sessionMiddleware = buildSessionMiddleware(logger)
+  app.use(sessionMiddleware)
   const routers = [
-    buildPokemonRouter(logger),
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
-    buildSessionRouter(logger),
     buildUserRouter(),
   ];
   routers.forEach((router) => {

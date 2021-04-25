@@ -11,6 +11,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "bulma": "^0.9.2",
+    "jsonwebtoken": "^8.5.1",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
     "react": "^17.0.2",
@@ -52,9 +53,12 @@
     ]
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.1",
+    "@types/mockdate": "^2.0.0",
     "@types/react-router-dom": "^5.1.7",
     "fetch-mock-jest": "^1.5.1",
     "flush-promises": "^1.0.2",
+    "mockdate": "^3.0.5",
     "testdouble": "^3.16.1"
   },
   "jest": {

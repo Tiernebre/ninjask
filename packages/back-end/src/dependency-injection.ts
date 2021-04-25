@@ -84,7 +84,7 @@ const buildSessionService = (logger: Logger) => {
     process.env.API_JWT_ACCESS_TOKEN_SECRET,
     process.env.API_JWT_REFRESH_TOKEN_SECRET
   );
-}
+};
 
 const buildSessionRouter = (logger: Logger) => {
   const sessionRouter = new SessionRouter(buildSessionService(logger));
@@ -96,8 +96,8 @@ const buildUserRouter = () => {
 };
 
 const buildSessionMiddleware = (logger: Logger) => {
-  return sessionMiddleware(buildSessionService(logger))
-}
+  return sessionMiddleware(buildSessionService(logger));
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -116,10 +116,10 @@ export const injectDependencies = async (
     logger.error(error);
   }
   // routes below this are public and can be pinged by anyone
-  app.use(buildSessionRouter(logger).routes())
+  app.use(buildSessionRouter(logger).routes());
   // routes below this are protected behind session checks
-  const sessionMiddleware = buildSessionMiddleware(logger)
-  app.use(sessionMiddleware)
+  const sessionMiddleware = buildSessionMiddleware(logger);
+  app.use(sessionMiddleware);
   const routers = [
     buildLeagueRouter(logger),
     buildDraftRouter(logger),

@@ -1,2 +1,2 @@
-export * from './environment'
-export * from './stage-mock-data'
+export * from "./environment";
+export * from "./stage-mock-data";

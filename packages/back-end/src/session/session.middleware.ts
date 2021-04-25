@@ -18,5 +18,5 @@ export const sessionMiddleware = (sessionService: SessionService) => async (
     ctx.status = FORBIDDEN;
     throw new Error("Authentication provided was invalid.");
   }
-  await next()
+  await next();
 };

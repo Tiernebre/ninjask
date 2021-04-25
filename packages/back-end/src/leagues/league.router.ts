@@ -11,8 +11,8 @@ export class LeagueRouter extends Router {
 
   private setupRoutes() {
     this.get("/leagues", async (ctx) => {
-      const leagues = await this.leagueService.getAll();
-      ctx.body = leagues;
+      console.log(await this.leagueService.getAll())
+      ctx.body = await this.leagueService.getAll()
     });
   }
 }

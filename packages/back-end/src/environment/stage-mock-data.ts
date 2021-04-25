@@ -1,12 +1,12 @@
 import { getRepository } from "typeorm"
 import { UserEntity } from "../user/user.entity"
 import { isProduction } from "./environment"
-import { v4 as uuidv4 } from "uuid";
 import { LeagueEntity } from "../leagues/league.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftEntity } from "../draft/draft.entity";
 import { Logger } from "../logger";
+import bcrypt from "bcrypt";
 
 // Test Data to make local development and test environments
 // easier to stand up.
@@ -17,15 +17,16 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   }
 
   const userRepository = getRepository(UserEntity)
-  if (await userRepository.find({ nickname: 'Test-User' })) {
+  const users = await userRepository.find()
+  if (users.length) {
     logger.info('Staging / Seeding of Mock test Data has already occurred, and thus we will skip it.')
     return
   }
 
   let testUser = userRepository.create()
   testUser.nickname = 'Test-User'
-  testUser.password = 'NinjaskTestPassword'
-  testUser.accessKey = uuidv4();
+  testUser.password = await bcrypt.hash('NinjaskTestPassword', 12)
+  testUser.accessKey = '0b86b703-a01f-4549-8b46-d4caa30662e2'
   testUser = await userRepository.save(testUser);
 
   const leagueRepository = getRepository(LeagueEntity)
@@ -47,6 +48,7 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testChallenge.description = 'Test Challenge'
   testChallenge.users = Promise.resolve([testUser])
   testChallenge.season = Promise.resolve(testSeason)
+  testChallenge.versionId = 1
   testChallenge = await challengeRepository.save(testChallenge)
 
   const draftRepository = getRepository(DraftEntity)

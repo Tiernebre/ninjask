@@ -27,7 +27,8 @@ export const SessionChecker = (props: SessionCheckerProps) => {
     };
   }, [props]);
 
-  return props.accessToken ? (
+  return props.accessToken &&
+    props.sessionService.accessTokenIsValid(props.accessToken) ? (
     <Fragment>{props.children}</Fragment>
   ) : (
     <Redirect to="/login" />

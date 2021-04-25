@@ -2,6 +2,11 @@ import { HttpClient } from "../http";
 import { SessionRequest } from "./SessionRequest";
 import { SessionService } from "./SessionService";
 import { Session } from "./SessionTokenBag";
+import jwt from "jsonwebtoken";
+
+type DecodedJsonWebToken = {
+  exp: number;
+};
 
 export class HttpSessionService implements SessionService {
   private readonly URI = "sessions";
@@ -19,5 +24,11 @@ export class HttpSessionService implements SessionService {
 
   async deleteCurrentSession(): Promise<void> {
     return this.httpClient.delete(this.CURRENT_SESSION_URI);
+  }
+
+  accessTokenIsValid(accessToken: string): boolean {
+    const accessTokenDecoded = jwt.decode(accessToken) as DecodedJsonWebToken;
+    const currentEpochInSeconds = Math.floor(Date.now() / 1000);
+    return accessTokenDecoded.exp > currentEpochInSeconds;
   }
 }

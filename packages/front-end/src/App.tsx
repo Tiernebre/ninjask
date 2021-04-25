@@ -32,7 +32,7 @@ const App = () => {
     await sessionService.deleteCurrentSession();
   }, []);
 
-  const logIn = useCallback(async (session: Session) => {
+  const setSession = useCallback(async (session: Session) => {
     setAccessToken(session.accessToken);
     setSessionRefreshTimestampInMillis(
       (session.accessTokenExpiration -
@@ -42,22 +42,35 @@ const App = () => {
     );
   }, []);
 
+  const loginRoutes = ["/login"];
+  const homeRoutes = ["/home"];
+
+  if (accessToken) {
+    homeRoutes.push("/");
+  } else {
+    loginRoutes.push("/");
+  }
+
   return (
     <div className="App">
       <SessionRefresher
         sessionService={sessionService}
-        onSessionRefresh={logIn}
+        onSessionRefresh={setSession}
         onSessionRefreshFail={logOut}
         sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
         <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
         <Router>
           <Switch>
-            <Route path={["/", "/login"]} exact>
-              <Login sessionService={sessionService} onSuccess={logIn} />
+            <Route path={loginRoutes} exact>
+              <Login sessionService={sessionService} onSuccess={setSession} />
             </Route>
-            <SessionChecker accessToken={accessToken}>
-              <Route path="/home">
+            <SessionChecker
+              accessToken={accessToken}
+              sessionService={sessionService}
+              onExpiredSession={logOut}
+            >
+              <Route path={homeRoutes} exact>
                 <Home accessToken={accessToken} />
               </Route>
             </SessionChecker>

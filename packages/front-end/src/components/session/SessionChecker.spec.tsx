@@ -1,14 +1,24 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Switch } from "react-router";
+import { object, when } from "testdouble";
+import { SessionService } from "../../api/session";
 import { SessionChecker } from "./SessionChecker";
 
 it("renders given children elements if an access token is provided", () => {
   const expectedMessage = "Valid Session Token Content.";
   const unexpectedLoginMessage = "Redirected to Login!";
+  const accessToken = "valid-access-token";
+  const sessionService = object<SessionService>();
+  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(true);
+  const onExpiredSession = jest.fn();
 
   const testBed = (
     <MemoryRouter>
-      <SessionChecker accessToken="valid-token">
+      <SessionChecker
+        accessToken={accessToken}
+        sessionService={sessionService}
+        onExpiredSession={onExpiredSession}
+      >
         <p>{expectedMessage}</p>
       </SessionChecker>
       <Switch>
@@ -21,6 +31,67 @@ it("renders given children elements if an access token is provided", () => {
   render(testBed);
   expect(screen.getByText(expectedMessage)).toBeInTheDocument();
   expect(screen.queryByText(unexpectedLoginMessage)).toBeNull();
+  expect(onExpiredSession).not.toHaveBeenCalled();
+});
+
+it("redirects to login if access token provided has expired", () => {
+  const unexpectedMessage = "Valid Session Token Content.";
+  const expectedLoginMessage = "Redirected to Login!";
+  const accessToken = "expired-access-token";
+  const sessionService = object<SessionService>();
+  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(false);
+  const onExpiredSession = jest.fn();
+
+  const testBed = (
+    <MemoryRouter>
+      <SessionChecker
+        accessToken={accessToken}
+        sessionService={sessionService}
+        onExpiredSession={onExpiredSession}
+      >
+        <p>{unexpectedMessage}</p>
+      </SessionChecker>
+      <Switch>
+        <Route path="/login" exact>
+          {expectedLoginMessage}
+        </Route>
+      </Switch>
+    </MemoryRouter>
+  );
+  render(testBed);
+  expect(screen.getByText(expectedLoginMessage)).toBeInTheDocument();
+  expect(screen.queryByText(unexpectedMessage)).toBeNull();
+  expect(onExpiredSession).not.toHaveBeenCalled();
+});
+
+it("periodically checks and handles an expired access token", () => {
+  jest.useFakeTimers();
+  const unexpectedMessage = "Valid Session Token Content.";
+  const expectedLoginMessage = "Redirected to Login!";
+  const accessToken = "expired-access-token";
+  const sessionService = object<SessionService>();
+  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(false);
+  const onExpiredSession = jest.fn();
+
+  const testBed = (
+    <MemoryRouter>
+      <SessionChecker
+        accessToken={accessToken}
+        sessionService={sessionService}
+        onExpiredSession={onExpiredSession}
+      >
+        <p>{unexpectedMessage}</p>
+      </SessionChecker>
+      <Switch>
+        <Route path="/login" exact>
+          {expectedLoginMessage}
+        </Route>
+      </Switch>
+    </MemoryRouter>
+  );
+  render(testBed);
+  jest.advanceTimersByTime(100000);
+  expect(onExpiredSession).toHaveBeenCalled();
 });
 
 it.each(["", undefined])(
@@ -30,7 +101,11 @@ it.each(["", undefined])(
     const expectedLoginMessage = "Redirected to Login!";
     const testBed = (
       <MemoryRouter>
-        <SessionChecker accessToken={accessToken}>
+        <SessionChecker
+          accessToken={accessToken}
+          sessionService={object<SessionService>()}
+          onExpiredSession={jest.fn()}
+        >
           <p>{unexpectedMessage}</p>
         </SessionChecker>
         <Switch>

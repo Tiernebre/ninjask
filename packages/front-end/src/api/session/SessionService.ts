@@ -24,7 +24,7 @@ export interface SessionService {
 
   /**
    * Determines if a given access token is valid.
-   * 
+   *
    * @returns true if the token is not expired and valid, false otherwise.
    */
   accessTokenIsValid(accessToken: string): boolean;

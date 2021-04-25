@@ -9,21 +9,23 @@ type SessionCheckerProps = {
   onExpiredSession: () => void;
 };
 
-const CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS = 5 * 1000 // 5 seconds
+const CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS = 5 * 1000; // 5 seconds
 
 export const SessionChecker = (props: SessionCheckerProps) => {
   useEffect(() => {
     const expiredSessionPulse = setInterval(() => {
-      if (props.accessToken && !props.sessionService.accessTokenIsValid(props.accessToken)) {
-        props.onExpiredSession()
+      if (
+        props.accessToken &&
+        !props.sessionService.accessTokenIsValid(props.accessToken)
+      ) {
+        props.onExpiredSession();
       }
-    }, CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS)
+    }, CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS);
 
     return () => {
-      clearInterval(expiredSessionPulse)
-    }
-  }, [props])
-
+      clearInterval(expiredSessionPulse);
+    };
+  }, [props]);
 
   return props.accessToken ? (
     <Fragment>{props.children}</Fragment>

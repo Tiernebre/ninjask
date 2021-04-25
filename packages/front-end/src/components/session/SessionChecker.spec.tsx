@@ -65,7 +65,7 @@ it("redirects to login if access token provided has expired", () => {
 });
 
 it("periodically checks and handles an expired access token", () => {
-  jest.useFakeTimers()
+  jest.useFakeTimers();
   const unexpectedMessage = "Valid Session Token Content.";
   const expectedLoginMessage = "Redirected to Login!";
   const accessToken = "expired-access-token";
@@ -90,7 +90,7 @@ it("periodically checks and handles an expired access token", () => {
     </MemoryRouter>
   );
   render(testBed);
-  jest.advanceTimersByTime(100000)
+  jest.advanceTimersByTime(100000);
   expect(onExpiredSession).toHaveBeenCalled();
 });
 

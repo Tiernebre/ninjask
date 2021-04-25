@@ -42,13 +42,13 @@ const App = () => {
     );
   }, []);
 
-  const loginRoutes = ["/login"]
-  const homeRoutes = ["/home"]
+  const loginRoutes = ["/login"];
+  const homeRoutes = ["/home"];
 
   if (accessToken) {
-    homeRoutes.push("/")
+    homeRoutes.push("/");
   } else {
-    loginRoutes.push("/")
+    loginRoutes.push("/");
   }
 
   return (

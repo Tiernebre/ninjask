@@ -11,6 +11,7 @@ module.exports = {
     "!src/poke-api/**/*",
     "!src/app.ts",
     "!src/dependency-injection.ts",
+    "!src/environment/stage-mock-data.ts",
   ],
   globals: {
     "ts-jest": {

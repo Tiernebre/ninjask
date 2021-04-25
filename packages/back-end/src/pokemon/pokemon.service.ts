@@ -7,10 +7,4 @@ export interface PokemonService {
    * @returns The found pokemon.
    */
   getOneById(id: number): Promise<Pokemon>;
-
-  /**
-   * Returns a random Pokemon.
-   * @returns A randomized Pokemon from anywhere in the national dex.
-   */
-  getARandomOne(): Promise<Pokemon>;
 }

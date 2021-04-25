@@ -1,5 +1,6 @@
 import { SessionRequest } from "./session-request";
 import { Session } from "./session";
+import { SessionPayload } from "./session-payload";
 
 export interface SessionService {
   /**
@@ -16,7 +17,7 @@ export interface SessionService {
    * @param token The access token to check.
    * @throws An error if the access token provided is invalid.
    */
-  verifyOne(accessToken: string): void;
+  verifyOne(accessToken: string): SessionPayload;
 
   /**
    * Refreshes an existing session by checking the validity of a given refresh token.

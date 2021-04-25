@@ -7,10 +7,10 @@ module.exports = {
     "!src/**/*.entity.ts",
     "!src/**/*.mock.ts",
     "!src/**/index.ts",
-    "!src/**/*.middleware.ts",
     "!src/poke-api/**/*",
-    "!src/app.ts",
-    "!src/dependency-injection.ts",
+    "!src/*.ts",
+    "!src/environment/stage-mock-data.ts",
+    "!src/draft/draft.middleware.ts", // ignoring until WebSockets are more figured out -- this code is not great anyways
   ],
   globals: {
     "ts-jest": {

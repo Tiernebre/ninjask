@@ -2,10 +2,10 @@ import { Context, Next } from "koa";
 import { SessionService } from "./session.service";
 import { UNAUTHORIZED, FORBIDDEN } from "http-status";
 
-export const sessionMiddleware = (sessionService: SessionService) => (
+export const sessionMiddleware = (sessionService: SessionService) => async (
   ctx: Context,
   next: Next
-): void => {
+): Promise<void> => {
   if (!ctx.header.authorization) {
     ctx.status = UNAUTHORIZED;
     throw new Error("Authentication must be provided.");
@@ -18,5 +18,5 @@ export const sessionMiddleware = (sessionService: SessionService) => (
     ctx.status = FORBIDDEN;
     throw new Error("Authentication provided was invalid.");
   }
-  void next();
+  await next();
 };

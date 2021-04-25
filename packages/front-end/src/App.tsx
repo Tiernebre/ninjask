@@ -42,6 +42,15 @@ const App = () => {
     );
   }, []);
 
+  const loginRoutes = ["/login"]
+  const homeRoutes = ["/home"]
+
+  if (accessToken) {
+    homeRoutes.push("/")
+  } else {
+    loginRoutes.push("/")
+  }
+
   return (
     <div className="App">
       <SessionRefresher
@@ -53,7 +62,7 @@ const App = () => {
         <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
         <Router>
           <Switch>
-            <Route path={["/", "/login"]} exact>
+            <Route path={loginRoutes} exact>
               <Login sessionService={sessionService} onSuccess={setSession} />
             </Route>
             <SessionChecker
@@ -61,7 +70,7 @@ const App = () => {
               sessionService={sessionService}
               onExpiredSession={logOut}
             >
-              <Route path="/home">
+              <Route path={homeRoutes} exact>
                 <Home accessToken={accessToken} />
               </Route>
             </SessionChecker>

@@ -2,14 +2,25 @@
 
 .Header {
   width: 100%;
-}
+  padding: 20px 10px;
 
-.Header__log-out-button {
-  margin-top: 6px;
+  .Header__log-out-button-column {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 @media (max-width: $tablet) {
   .Header__log-out-button {
     width: 100%;
+  }
+
+  .Header {
+    .Header__logo-column {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

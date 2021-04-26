@@ -4,11 +4,11 @@ import { Login } from "./views/Login";
 import { HttpSessionService, Session } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 import { Footer } from "./components/layout/Footer";
-import { Home } from "./views/Home";
 import { useCallback, useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
+import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
@@ -52,15 +52,15 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <Router>
       <SessionRefresher
         sessionService={sessionService}
         onSessionRefresh={setSession}
         onSessionRefreshFail={logOut}
         sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
-        <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
-        <Router>
+        <div className="App">
+          <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
           <Switch>
             <Route path={loginRoutes} exact>
               <Login sessionService={sessionService} onSuccess={setSession} />
@@ -70,15 +70,16 @@ const App = () => {
               sessionService={sessionService}
               onExpiredSession={logOut}
             >
-              <Route path={homeRoutes} exact>
-                <Home accessToken={accessToken} />
-              </Route>
+              <AuthenticatedRoutes
+                accessToken={accessToken}
+                homeRoutes={homeRoutes}
+              />
             </SessionChecker>
           </Switch>
-        </Router>
-        <Footer />
+          <Footer />
+        </div>
       </SessionRefresher>
-    </div>
+    </Router>
   );
 };
 

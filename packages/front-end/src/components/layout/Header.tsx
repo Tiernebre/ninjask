@@ -1,4 +1,6 @@
 import "./Header.scss";
+import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   isAuthenticated: boolean;
@@ -6,8 +8,13 @@ interface HeaderProps {
 }
 
 export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
-  <header className="Header columns is-vcentered is-mobile">
-    <div className="control column is-offset-11-desktop is-offset-10-tablet">
+  <header className="Header columns">
+    <div className="column is-11-desktop Header__logo-column">
+      <Link to="/">
+        <img src={logo} alt="Logo" />
+      </Link>
+    </div>
+    <div className="column is-1-desktop Header__log-out-button-column">
       {isAuthenticated && (
         <button
           className="Header__log-out-button button is-danger"

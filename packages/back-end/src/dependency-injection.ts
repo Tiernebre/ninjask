@@ -140,7 +140,7 @@ export const injectDependencies = async (
     app.use(router.routes());
   });
 
-  app.ws.use(liveDraftSocketMiddleware);
+  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), app, logger));
   await stageMockData(logger);
   return app;
 };

@@ -1,6 +1,6 @@
 import route from "koa-route";
 
-export const liveDraftSocketMiddleware = route.all("/test/:id", function (ctx) {
+export const liveDraftSocketMiddleware = route.all("/drafts/:id/live-pool", function (ctx) {
   // `ctx` is the regular koa context created from the `ws` onConnection `socket.upgradeReq` object.
   // the websocket is added to the context on `ctx.websocket`.
   ctx.websocket.send("Hello World");

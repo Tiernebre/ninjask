@@ -22,11 +22,11 @@ export class DraftRouter extends Router {
       ctx.body = pokemon;
     });
 
-    this.get("/drafts/:id/live-pool", async (ctx) => {
-      ctx.body = await this.draftService.getLiveDraftPoolForOneWithId(
-        Number(ctx.params.id)
-      );
-    });
+    // this.get("/drafts/:id/live-pool", async (ctx) => {
+    //   ctx.body = await this.draftService.getLiveDraftPoolForOneWithId(
+    //     Number(ctx.params.id)
+    //   );
+    // });
 
     this.post("/drafts/:id/live-pool/pokemon", async (ctx) => {
       ctx.body = await this.draftService.revealNextPokemonInLivePoolForId(

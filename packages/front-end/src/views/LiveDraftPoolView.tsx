@@ -6,7 +6,7 @@ import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 
 export const LiveDraftPoolView = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    `${process.env.REACT_APP_BACK_END_API_WS_URL}/test/1`
+    `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/1/live-pool`
   );
   const restartDraft = useCallback(() => sendMessage("RESTART"), [sendMessage]);
   const fetchRequest = useCallback(() => sendMessage("NEXT"), [sendMessage]);

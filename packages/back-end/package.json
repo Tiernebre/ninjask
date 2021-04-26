@@ -18,7 +18,7 @@
     "prestart": "yarn compile",
     "start": "node dist/app.js",
     "test": "yarn lint:code && yarn lint:style && jest",
-    "test:unit": "jest"
+    "test:unit": "ts-node ./dockest && jest"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
@@ -50,6 +50,7 @@
     "supertest": "^6.1.3",
     "testdouble": "^3.16.1",
     "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   },
   "dependencies": {

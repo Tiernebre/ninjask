@@ -2,9 +2,7 @@ import Router from "@koa/router";
 import { ChallengeService } from "./challenge.service";
 
 export class ChallengeRouter extends Router {
-  constructor(
-    private readonly challengeService: ChallengeService
-  ) {
+  constructor(private readonly challengeService: ChallengeService) {
     super();
     this.setupRoutes();
   }

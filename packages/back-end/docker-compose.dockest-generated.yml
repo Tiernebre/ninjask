@@ -8,4 +8,4 @@ services:
     - published: 5432
       target: 5432
     restart: always
-version: '3'
+version: '3.8'

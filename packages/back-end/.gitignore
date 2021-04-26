@@ -2,4 +2,4 @@
 .env
 
 # Generated Test Information
-docker-compose.dockest-generated.yml
+*.dockest-generated.yml

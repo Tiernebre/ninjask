@@ -1,11 +1,9 @@
 import Router from "@koa/router";
-import { DraftService } from "../draft/draft.service";
 import { ChallengeService } from "./challenge.service";
 
 export class ChallengeRouter extends Router {
   constructor(
-    private readonly challengeService: ChallengeService,
-    private readonly draftService: DraftService
+    private readonly challengeService: ChallengeService
   ) {
     super();
     this.setupRoutes();
@@ -18,9 +16,5 @@ export class ChallengeRouter extends Router {
         ctx.state.user
       );
     });
-
-    this.get("/challenges/:challengeId/draft", async (ctx) => {
-      ctx.body = await this.draftService.getOneForChallengeId(Number(ctx.params.challngeId))
-    })
   }
 }

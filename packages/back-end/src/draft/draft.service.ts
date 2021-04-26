@@ -7,6 +7,7 @@ import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
+import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 
@@ -36,7 +37,7 @@ export class DraftService {
     );
     const draft = await this.getOneById(id);
     const version = await this.getVersionForDraft(draft);
-    const pokemonUrls = await this.getEligiblePokemonForDraft(draft, version);
+    const pokemonUrls = await this.getEligiblePokemonForDraft(version);
     const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(
       draft,
       version,
@@ -48,7 +49,7 @@ export class DraftService {
       draft
     );
     await this.clearExistingDraftPool(draft);
-    draft.pokemon = pokemonPooled;
+    draft.pokemon = Promise.resolve(pokemonPooled);
     await this.draftRepository.save(draft);
     this.logger.info(
       `Fully saved draft with id = ${id} with new generated pool of Pokemon.`
@@ -58,7 +59,8 @@ export class DraftService {
   public async getPoolOfPokemonForOneWithId(id: number): Promise<Pokemon[]> {
     this.logger.info(`Getting draftable Pokemon from draft with id = ${id}`);
     const draft = await this.getOneById(id);
-    const pokemonIds = draft.pokemon.map(({ pokemonId }) => pokemonId);
+    const associatedDraftPokemon = await draft.pokemon;
+    const pokemonIds = associatedDraftPokemon.map(({ pokemonId }) => pokemonId);
     return Promise.all(
       pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
     );
@@ -79,7 +81,6 @@ export class DraftService {
   }
 
   private async getEligiblePokemonForDraft(
-    draft: DraftEntity,
     version: Version
   ): Promise<string[]> {
     const { pokemonUrls } = await this.versionService.getPokedexFromOne(
@@ -130,11 +131,12 @@ export class DraftService {
   }
 
   private async clearExistingDraftPool(draft: DraftEntity): Promise<void> {
-    if (draft.pokemon.length) {
+    const draftPokemon = await draft.pokemon;
+    if (draftPokemon.length) {
       this.logger.info(
         `Draft with id = ${draft.id} already had an existing pool of Pokemon. Clearing out the existing pool in favor of the newly generated one.`
       );
-      draft.pokemon = [];
+      draft.pokemon = Promise.resolve([]);
       await this.draftRepository.save(draft);
       this.logger.info(`Cleared the pool for draft with id = ${draft.id}`);
     } else {
@@ -142,5 +144,12 @@ export class DraftService {
         `Draft with id = ${draft.id} does not have an existing pool.`
       );
     }
+  }
+
+  private mapFromEntity(entity: DraftEntity): Draft {
+    return {
+      id: entity.id,
+      poolSize: entity.poolSize,
+    };
   }
 }

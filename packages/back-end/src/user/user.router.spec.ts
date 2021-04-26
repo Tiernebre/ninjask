@@ -5,9 +5,9 @@ import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
 import { generateRandomString } from "../random";
-import { generateMockUser } from "../user/user.mock";
-import { UserRouter } from "../user/user.router";
-import { UserService } from "../user/user.service";
+import { generateMockUser } from "./user.mock";
+import { UserRouter } from "./user.router";
+import { UserService } from "./user.service";
 import { CREATED } from "http-status";
 
 describe("User Router (integration)", () => {

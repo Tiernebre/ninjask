@@ -25,5 +25,8 @@ jobs:
     - name: Compile and build packages
       run: yarn compile
 
+    - name: Run linter in each package
+      run: yarn lint
+
     - name: Run tests in each package
       run: yarn test

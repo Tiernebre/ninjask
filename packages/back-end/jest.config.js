@@ -6,11 +6,13 @@ module.exports = {
     "src/**/*.ts",
     "!src/**/*.entity.ts",
     "!src/**/*.mock.ts",
+    "!src/**/*.seed.ts",
     "!src/**/index.ts",
     "!src/poke-api/**/*",
     "!src/*.ts",
     "!src/environment/stage-mock-data.ts",
     "!src/draft/draft.middleware.ts", // ignoring until WebSockets are more figured out -- this code is not great anyways
+    "!src/test/**/*.ts",
   ],
   globals: {
     "ts-jest": {

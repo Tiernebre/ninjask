@@ -5948,6 +5948,19 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
+dockest@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/dockest/-/dockest-2.1.0.tgz#efbeaca7bb6078b9bb0a431a050cdefc5b50f07e"
+  integrity sha512-cEudMXrP9Sl1obedYDEyXoKSePGsmbT8750W2D1/W19szr+EbSlEpaRp3tIl5q8oeZ6UxFnfZjXzD+4nDrVhZw==
+  dependencies:
+    chalk "^3.0.0"
+    execa "^4.0.0"
+    fp-ts "^2.8.3"
+    io-ts "^2.2.10"
+    is-docker "^2.0.0"
+    js-yaml "^3.13.1"
+    rxjs "^6.5.4"
+
 doctrine@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -7098,6 +7111,11 @@ forwarded@~0.1.2:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
 
+fp-ts@^2.8.3:
+  version "2.10.4"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.10.4.tgz#f81f34b1c15b3255d65cdbb39508ebb42922aa0c"
+  integrity sha512-vMTB5zNc9PnE20q145PNbkiL9P9WegwmKVOFloi/NfHnPdAlcob6I3AKqlH/9u3k3/M/GOftZhcJdBrb+NtnDA==
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -8155,6 +8173,11 @@ interpret@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
+
+io-ts@^2.2.10:
+  version "2.2.16"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.16.tgz#597dffa03db1913fc318c9c6df6931cb4ed808b2"
+  integrity sha512-y5TTSa6VP6le0hhmIyN0dqEXkrZeJLeC5KApJq6VLci3UEKF80lZ+KuoUs02RhBxNWlrqSNxzfI7otLX1Euv8Q==
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -13415,7 +13438,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.6.0:
+rxjs@^6.5.4, rxjs@^6.6.0:
   version "6.6.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.7.tgz#90ac018acabf491bf65044235d5863c4dab804c9"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==

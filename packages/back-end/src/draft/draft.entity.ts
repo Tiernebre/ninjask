@@ -23,7 +23,7 @@ export class DraftEntity {
   @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft, {
     cascade: true,
   })
-  pokemon!: DraftPokemonEntity[];
+  pokemon!: Promise<DraftPokemonEntity[]>;
 
   @Column({
     nullable: false,

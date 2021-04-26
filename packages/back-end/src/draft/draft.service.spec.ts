@@ -76,7 +76,7 @@ describe("DraftService", () => {
       const challenge = await draft.challenge;
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
-      draft.pokemon = [];
+      draft.pokemon = Promise.resolve([]);
       draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);
@@ -94,7 +94,7 @@ describe("DraftService", () => {
         return pokemonDraftEntity;
       });
       await draftService.generatePoolOfPokemonForOneWithId(id);
-      draft.pokemon = expectedPokemonSaved;
+      draft.pokemon = Promise.resolve(expectedPokemonSaved);
       verify(draftRepository.save(draft), { times: 1 });
     });
 
@@ -104,7 +104,7 @@ describe("DraftService", () => {
       const challenge = await draft.challenge;
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
-      draft.pokemon = [generateMockDraftPokemonEntity()];
+      draft.pokemon = Promise.resolve([generateMockDraftPokemonEntity()]);
       draft.poolSize = pokedex.pokemonUrls.length;
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);
@@ -125,7 +125,7 @@ describe("DraftService", () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
       const expected: Pokemon[] = [];
-      draft.pokemon.forEach((pokemon) => {
+      (await draft.pokemon).forEach((pokemon) => {
         const expectedPokemon = generateMockPokemon();
         expected.push(expectedPokemon);
         when(pokemonService.getOneById(pokemon.pokemonId)).thenResolve(
@@ -140,7 +140,7 @@ describe("DraftService", () => {
     it("returns an empty array if the draft has no pokemon tied to it", async () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
-      draft.pokemon = [];
+      draft.pokemon = Promise.resolve([]);
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
       const gotten = await draftService.getPoolOfPokemonForOneWithId(id);
       expect(gotten).toEqual([]);

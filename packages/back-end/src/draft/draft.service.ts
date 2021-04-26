@@ -5,7 +5,6 @@ import { PokeApiPokemonSpecies } from "../poke-api";
 import { Pokemon } from "../pokemon/pokemon";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
-import { SessionPayload } from "../session/session-payload";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
 import { Draft } from "./draft";

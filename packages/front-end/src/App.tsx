@@ -71,7 +71,10 @@ const App = () => {
               sessionService={sessionService}
               onExpiredSession={logOut}
             >
-              <AuthenticatedRoutes accessToken={accessToken} homeRoutes={homeRoutes} />
+              <AuthenticatedRoutes
+                accessToken={accessToken}
+                homeRoutes={homeRoutes}
+              />
             </SessionChecker>
           </Switch>
         </Router>

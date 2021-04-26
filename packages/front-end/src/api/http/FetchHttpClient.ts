@@ -11,10 +11,7 @@ import { HttpServerError } from "./HttpServerError";
 export class FetchHttpClient implements HttpClient {
   private readonly rootUrl: string;
 
-  public constructor(
-    rootUrl?: string,
-    private readonly accessToken?: string
-  ) {
+  public constructor(rootUrl?: string, private readonly accessToken?: string) {
     if (!rootUrl) {
       throw new Error(
         "HTTP Client could not be instantiated due to missing rootUrl."
@@ -27,7 +24,7 @@ export class FetchHttpClient implements HttpClient {
   public async get<T>(uri: string): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
-      method: "GET"
+      method: "GET",
     });
     return this.parseResponse(response);
   }
@@ -97,8 +94,8 @@ export class FetchHttpClient implements HttpClient {
     if (this.accessToken) {
       configuration.headers = new Headers({
         ...configuration.headers,
-        Authorization: this.accessToken
-      })
+        Authorization: this.accessToken,
+      });
     }
 
     return configuration;

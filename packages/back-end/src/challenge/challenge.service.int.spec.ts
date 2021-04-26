@@ -1,11 +1,10 @@
-import { createConnection, getRepository, Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import { ChallengeEntity } from "./challenge.entity";
 import { ChallengeService } from "./challenge.service";
 import { seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
-
-const sleep = () => new Promise(res => setTimeout(res, 3000))
+import { establishDbConnection } from '../test/create-db-connection'
 
 describe("ChallengeService (integration)", () => {
   let challengeService: ChallengeService;
@@ -13,17 +12,7 @@ describe("ChallengeService (integration)", () => {
   let userRepository: Repository<UserEntity>;
 
   beforeAll(async () => {
-    await sleep()
-    await createConnection({
-      type: "postgres",
-      username: "postgres",
-      password: "password",
-      port: 5433,
-      entities: ["src/**/*.entity.ts"],
-      synchronize: true,
-      logging: false,
-      connectTimeoutMS: 20000
-    });
+    await establishDbConnection()
     challengeRepository = getRepository(ChallengeEntity);
     userRepository = getRepository(UserEntity);
     await seedChallenges(challengeRepository);

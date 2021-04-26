@@ -6,6 +6,7 @@ module.exports = {
     "src/**/*.ts",
     "!src/**/*.entity.ts",
     "!src/**/*.mock.ts",
+    "!src/**/*.seed.ts",
     "!src/**/index.ts",
     "!src/poke-api/**/*",
     "!src/*.ts",

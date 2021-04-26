@@ -17,6 +17,7 @@
     "node_modules",
     "src/**/*.spec.ts",
     "src/**/*.mock.ts",
-    "src/**/*.seed.ts"
+    "src/**/*.seed.ts",
+    "src/test/**/*.ts"
   ]
 }

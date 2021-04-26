@@ -16,7 +16,7 @@ export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {
   return (
     <div className="PooledPokemon">
       <h2 className="PooledPokemon__heading">Pooled Pokemon</h2>
-      <ol>{pokemon.map(PooledPokemonListing)}</ol>
+      <ol>{[...pokemon, ...pokemon].map(PooledPokemonListing)}</ol>
     </div>
   );
 };

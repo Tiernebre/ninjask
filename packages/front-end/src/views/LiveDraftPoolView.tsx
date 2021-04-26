@@ -1,15 +1,15 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
+import './LiveDraftPoolView.css'
 
 export const LiveDraftPoolView = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/1/live-pool`
   );
-  const restartDraft = useCallback(() => sendMessage("RESTART"), [sendMessage]);
-  const fetchRequest = useCallback(() => sendMessage("NEXT"), [sendMessage]);
+  const getNextPokemon = useCallback(() => sendMessage("NEXT"), [sendMessage]);
 
   const isReady = () => readyState === ReadyState.OPEN;
 
@@ -27,8 +27,7 @@ export const LiveDraftPoolView = () => {
 
   const buttons = isReady() ? (
     <div className="PokemonLiveDraft__buttons">
-      <button onClick={restartDraft}>Restart the Draft!</button>
-      <button onClick={fetchRequest}>See the next available Pokemon!</button>
+      <button onClick={getNextPokemon}>See the next available Pokemon!</button>
     </div>
   ) : (
     <div></div>

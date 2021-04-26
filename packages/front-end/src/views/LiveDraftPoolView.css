@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  overflow: hidden;
+  width: 100%;
 }
 
 .PokemonLiveDraft__buttons {

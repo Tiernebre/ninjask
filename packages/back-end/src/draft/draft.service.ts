@@ -51,6 +51,7 @@ export class DraftService {
     );
     await this.clearExistingDraftPool(draft);
     draft.pokemon = Promise.resolve(pokemonPooled);
+    draft.livePoolPokemonIndex = -1
     await this.draftRepository.save(draft);
     this.logger.info(
       `Fully saved draft with id = ${id} with new generated pool of Pokemon.`

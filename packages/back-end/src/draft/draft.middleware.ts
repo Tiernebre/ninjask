@@ -17,7 +17,7 @@ export const liveDraftSocketMiddleware = (draftService: DraftService, app: KoaWe
     if (message === 'NEXT') {
       void draftService.revealNextPokemonInLivePoolForId(Number(id)).then(draftStatus => {
         app.ws.server?.clients.forEach((client) => {
-          client.send(draftStatus)
+          client.send(JSON.stringify(draftStatus))
         })
       })
     }

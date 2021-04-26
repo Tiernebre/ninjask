@@ -23,7 +23,7 @@ export const Home = ({ accessToken, httpClient }: HomeProps) => {
 
   return (
     <Fragment>
-      <p>Welcome Home {accessToken}.</p>
+      <h1 className="title">Challenges</h1>
       <ChallengeTable challenges={challenges} />
     </Fragment>
   );

@@ -3,7 +3,13 @@ import { Challenge } from "../../api/challenge"
 const ChallengeRow = (challenge: Challenge) => (
   <tr key={challenge.id}>
     <td>
+      {challenge.id}
+    </td>
+    <td>
       {challenge.name}
+    </td>
+    <td>
+      {challenge.description}
     </td>
   </tr>
 )
@@ -16,7 +22,9 @@ export const ChallengeTable = ({ challenges }: ChallengeTableProps) => (
   <table className="table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>

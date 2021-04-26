@@ -9,9 +9,9 @@ interface HeaderProps {
 
 export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
   <header className="Header columns">
-    <div className="column is-11-desktop">
+    <div className="column is-11-desktop Header__logo-column">
       <Link to="/">
-        <img src={logo} className="mt-4 ml-4" alt="Logo" />
+        <img src={logo} alt="Logo" />
       </Link>
     </div>
     <div className="column is-1-desktop Header__log-out-button-column">

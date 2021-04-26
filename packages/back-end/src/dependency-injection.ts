@@ -103,10 +103,10 @@ const buildSessionMiddleware = (logger: Logger) => {
 };
 
 const buildChallengesRouter = () => {
-  const challengeRepository = getRepository(ChallengeEntity)
-  const challengeService = new ChallengeService(challengeRepository)
-  return new ChallengeRouter(challengeService)
-}
+  const challengeRepository = getRepository(ChallengeEntity);
+  const challengeService = new ChallengeService(challengeRepository);
+  return new ChallengeRouter(challengeService);
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -133,7 +133,7 @@ export const injectDependencies = async (
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
     buildUserRouter(),
-    buildChallengesRouter()
+    buildChallengesRouter(),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

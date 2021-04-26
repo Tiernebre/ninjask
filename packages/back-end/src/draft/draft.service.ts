@@ -60,7 +60,7 @@ export class DraftService {
   public async getPoolOfPokemonForOneWithId(id: number): Promise<Pokemon[]> {
     this.logger.info(`Getting draftable Pokemon from draft with id = ${id}`);
     const draft = await this.getOneById(id);
-    const associatedDraftPokemon = await draft.pokemon
+    const associatedDraftPokemon = await draft.pokemon;
     const pokemonIds = associatedDraftPokemon.map(({ pokemonId }) => pokemonId);
     return Promise.all(
       pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
@@ -68,14 +68,16 @@ export class DraftService {
   }
 
   /* istanbul ignore next */
-  public async getAllForCurrentUser(currentUser: SessionPayload): Promise<Draft[]> {
+  public async getAllForCurrentUser(
+    currentUser: SessionPayload
+  ): Promise<Draft[]> {
     const associatedDrafts = await this.draftRepository
       .createQueryBuilder("draft")
       .leftJoinAndSelect("draft.challenge", "challenge")
       .leftJoinAndSelect("challenge.users", "user")
       .where("user.id = :id", { id: currentUser.id })
       .getMany();
-    return associatedDrafts.map((entity) => this.mapFromEntity(entity))
+    return associatedDrafts.map((entity) => this.mapFromEntity(entity));
   }
 
   private async getVersionForDraft(draft: DraftEntity): Promise<Version> {
@@ -144,7 +146,7 @@ export class DraftService {
   }
 
   private async clearExistingDraftPool(draft: DraftEntity): Promise<void> {
-    const draftPokemon = await draft.pokemon
+    const draftPokemon = await draft.pokemon;
     if (draftPokemon.length) {
       this.logger.info(
         `Draft with id = ${draft.id} already had an existing pool of Pokemon. Clearing out the existing pool in favor of the newly generated one.`
@@ -162,7 +164,7 @@ export class DraftService {
   private mapFromEntity(entity: DraftEntity): Draft {
     return {
       id: entity.id,
-      poolSize: entity.poolSize
-    }
+      poolSize: entity.poolSize,
+    };
   }
 }

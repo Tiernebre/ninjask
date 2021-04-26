@@ -137,7 +137,8 @@ export class DraftService {
       draftId: draft.id,
       currentPokemon: mappedCurrentPokemon,
       currentIndex: draft.livePoolPokemonIndex,
-      pooledPokemon: mapPooledPokemon
+      pooledPokemon: mapPooledPokemon,
+      isPoolOver: draft.livePoolPokemonIndex === draft.poolSize - 1
     }
   }
 

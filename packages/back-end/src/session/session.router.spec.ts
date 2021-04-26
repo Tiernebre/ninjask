@@ -7,10 +7,7 @@ import { Server } from "http";
 import supertest from "supertest";
 import { object, when } from "testdouble";
 import { generateRandomNumber, generateRandomString } from "../random";
-import {
-  REFRESH_TOKEN_COOKIE_KEY,
-  SessionRouter,
-} from "./session.router";
+import { REFRESH_TOKEN_COOKIE_KEY, SessionRouter } from "./session.router";
 import { SessionService } from "./session.service";
 import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { Session } from "./session";

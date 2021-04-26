@@ -67,6 +67,7 @@ export class DraftService {
     );
   }
 
+  /* istanbul ignore next */
   public async getDraftsForCurrentUser(currentUser: SessionPayload): Promise<Draft[]> {
     const associatedDrafts = await this.draftRepository
       .createQueryBuilder("draft")

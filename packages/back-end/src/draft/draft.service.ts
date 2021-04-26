@@ -38,7 +38,7 @@ export class DraftService {
     );
     const draft = await this.getOneById(id);
     const version = await this.getVersionForDraft(draft);
-    const pokemonUrls = await this.getEligiblePokemonForDraft(draft, version);
+    const pokemonUrls = await this.getEligiblePokemonForDraft(version);
     const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(
       draft,
       version,
@@ -67,19 +67,6 @@ export class DraftService {
     );
   }
 
-  /* istanbul ignore next */
-  public async getAllForCurrentUser(
-    currentUser: SessionPayload
-  ): Promise<Draft[]> {
-    const associatedDrafts = await this.draftRepository
-      .createQueryBuilder("draft")
-      .leftJoinAndSelect("draft.challenge", "challenge")
-      .leftJoinAndSelect("challenge.users", "user")
-      .where("user.id = :id", { id: currentUser.id })
-      .getMany();
-    return associatedDrafts.map((entity) => this.mapFromEntity(entity));
-  }
-
   private async getVersionForDraft(draft: DraftEntity): Promise<Version> {
     const challenge = await draft.challenge;
     this.logger.info(
@@ -95,7 +82,6 @@ export class DraftService {
   }
 
   private async getEligiblePokemonForDraft(
-    draft: DraftEntity,
     version: Version
   ): Promise<string[]> {
     const { pokemonUrls } = await this.versionService.getPokedexFromOne(

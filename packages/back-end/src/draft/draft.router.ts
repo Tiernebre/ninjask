@@ -21,10 +21,5 @@ export class DraftRouter extends Router {
       );
       ctx.body = pokemon;
     });
-
-    this.get("/drafts", async (ctx) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      ctx.body = await this.draftService.getAllForCurrentUser(ctx.state.user);
-    });
   }
 }

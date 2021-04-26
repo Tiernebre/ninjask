@@ -4,7 +4,7 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";

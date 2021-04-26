@@ -25,7 +25,10 @@ export class FetchHttpClient implements HttpClient {
   }
 
   public async get<T>(uri: string): Promise<T> {
-    const response = await fetch(`${this.rootUrl}${uri}`);
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "GET"
+    });
     return this.parseResponse(response);
   }
 

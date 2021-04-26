@@ -4,7 +4,6 @@ import { Login } from "./views/Login";
 import { HttpSessionService, Session } from "./api/session";
 import { FetchHttpClient } from "./api/http";
 import { Footer } from "./components/layout/Footer";
-import { Home } from "./views/Home";
 import { useCallback, useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";

@@ -12,13 +12,13 @@
     "predebug": "yarn compile",
     "debug": "nodemon --inspect dist/app.js",
     "format": "prettier --write .",
+    "lint": "yarn lint:code && yarn lint:style",
     "lint:fix": "yarn lint:code --fix && yarn format",
     "lint:code": "eslint src/** --ext .ts --max-warnings 0",
     "lint:style": "prettier --check .",
     "prestart": "yarn compile",
     "start": "node dist/app.js",
-    "test": "yarn lint:code && yarn lint:style && jest",
-    "test:code": "ts-node ./dockest && jest"
+    "test": "ts-node ./dockest && jest"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

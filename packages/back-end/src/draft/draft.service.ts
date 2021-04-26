@@ -5,8 +5,10 @@ import { PokeApiPokemonSpecies } from "../poke-api";
 import { Pokemon } from "../pokemon/pokemon";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
+import { SessionPayload } from "../session/session-payload";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
+import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 
@@ -63,6 +65,16 @@ export class DraftService {
     return Promise.all(
       pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
     );
+  }
+
+  public async getDraftsForCurrentUser(currentUser: SessionPayload): Promise<Draft[]> {
+    const associatedDrafts = await this.draftRepository
+      .createQueryBuilder("draft")
+      .leftJoinAndSelect("draft.challenge", "challenge")
+      .leftJoinAndSelect("challenge.users", "user")
+      .where("user.id = :id", { id: currentUser.id })
+      .getMany();
+    return associatedDrafts.map((entity) => this.mapFromEntity(entity))
   }
 
   private async getVersionForDraft(draft: DraftEntity): Promise<Version> {
@@ -143,6 +155,13 @@ export class DraftService {
       this.logger.info(
         `Draft with id = ${draft.id} does not have an existing pool.`
       );
+    }
+  }
+
+  private mapFromEntity(entity: DraftEntity): Draft {
+    return {
+      id: entity.id,
+      poolSize: entity.poolSize
     }
   }
 }

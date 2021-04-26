@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
+import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
@@ -70,9 +71,7 @@ const App = () => {
               sessionService={sessionService}
               onExpiredSession={logOut}
             >
-              <Route path={homeRoutes} exact>
-                <Home accessToken={accessToken} />
-              </Route>
+              <AuthenticatedRoutes accessToken={accessToken} homeRoutes={homeRoutes} />
             </SessionChecker>
           </Switch>
         </Router>

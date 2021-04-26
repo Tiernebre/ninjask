@@ -3,7 +3,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
-import './LiveDraftPoolView.css'
+import "./LiveDraftPoolView.css";
 
 export const LiveDraftPoolView = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
@@ -47,4 +47,4 @@ export const LiveDraftPoolView = () => {
       </div>
     </div>
   );
-}
+};

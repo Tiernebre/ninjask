@@ -24,7 +24,7 @@ export class DraftRouter extends Router {
 
     this.get("/drafts", async (ctx) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      ctx.body = await this.draftService.getDraftsForCurrentUser(ctx.state.user)
+      ctx.body = await this.draftService.getAllForCurrentUser(ctx.state.user)
     })
   }
 }

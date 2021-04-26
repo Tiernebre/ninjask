@@ -25,6 +25,9 @@ import { SessionRouter } from "./session/session.router";
 import { UserRouter } from "./user/user.router";
 import { sessionMiddleware } from "./session/session.middleware";
 import { stageMockData } from "./environment";
+import { ChallengeEntity } from "./challenge/challenge.entity";
+import { ChallengeService } from "./challenge/challenge.service";
+import { ChallengeRouter } from "./challenge/challenge.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -99,6 +102,12 @@ const buildSessionMiddleware = (logger: Logger) => {
   return sessionMiddleware(buildSessionService(logger));
 };
 
+const buildChallengesRouter = () => {
+  const challengeRepository = getRepository(ChallengeEntity)
+  const challengeService = new ChallengeService(challengeRepository)
+  return new ChallengeRouter(challengeService)
+}
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -124,6 +133,7 @@ export const injectDependencies = async (
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
     buildUserRouter(),
+    buildChallengesRouter()
   ];
   routers.forEach((router) => {
     app.use(router.routes());

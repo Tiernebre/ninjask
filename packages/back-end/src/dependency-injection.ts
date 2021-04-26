@@ -138,7 +138,7 @@ export const injectDependencies = async (
   routers.forEach((router) => {
     app.use(router.routes());
   });
-  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger, app));
+  app.ws.use(liveDraftSocketMiddleware(logger));
   await stageMockData(logger);
   return app;
 };

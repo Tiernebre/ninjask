@@ -36,5 +36,5 @@ export class DraftEntity {
     default: -1,
     comment: 'Index for tracking a live pool feed of the draft.'
   })
-  livePoolIndex!: number
+  livePoolPokemonIndex!: number
 }

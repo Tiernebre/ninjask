@@ -18,7 +18,7 @@
     "prestart": "yarn compile",
     "start": "node dist/app.js",
     "test": "yarn lint:code && yarn lint:style && jest",
-    "test:unit": "ts-node ./dockest && jest"
+    "test:code": "ts-node ./dockest && jest"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

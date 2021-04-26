@@ -1,7 +1,7 @@
 import { Dockest } from "dockest";
 
 const dockest = new Dockest({
-  composeFile: 'docker-compose-int'
+  composeFile: 'docker-compose-int.yml'
 });
 
 const dockestServices = [

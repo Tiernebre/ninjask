@@ -25,9 +25,7 @@ export const AuthenticatedRoutes = ({
 
   return (
     <Route path={homeRoutes} exact>
-      {authedHttpClient && (
-        <Home accessToken={accessToken} httpClient={authedHttpClient} />
-      )}
+      <Home accessToken={accessToken} httpClient={authedHttpClient} />
     </Route>
   );
 };

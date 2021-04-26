@@ -126,7 +126,7 @@ export class DraftService {
     const draft = await this.getOneById(id)
     const pokemon = await draft.pokemon
     const currentPokemon = pokemon[draft.livePoolPokemonIndex]
-    const mappedCurrentPokemon = currentPokemon ? await this.pokemonService.getOneById(currentPokemon.id) : null
+    const mappedCurrentPokemon = currentPokemon ? await this.pokemonService.getOneById(currentPokemon.pokemonId) : null
 
     const pooledPokemonIds = pokemon.slice(0, draft.livePoolPokemonIndex + 1).map(({ id }) => id)
     const mapPooledPokemon = await Promise.all(

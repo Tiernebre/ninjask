@@ -10,8 +10,8 @@ import { generateRandomNumber, generateRandomString } from "../random";
 import {
   REFRESH_TOKEN_COOKIE_KEY,
   SessionRouter,
-} from "../session/session.router";
-import { SessionService } from "../session/session.service";
+} from "./session.router";
+import { SessionService } from "./session.service";
 import { CREATED, FORBIDDEN, NO_CONTENT } from "http-status";
 import { Session } from "./session";
 

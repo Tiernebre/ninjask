@@ -1,4 +1,4 @@
-import { Pokemon } from "../pokemon/pokemon";
+import { Pokemon } from "../pokemon";
 
 export interface LiveDraftPool {
   readonly draftId: number;

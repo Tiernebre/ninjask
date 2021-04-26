@@ -1,21 +1,11 @@
-import { Context } from "koa";
-import { Logger } from "../logger";
+import route from "koa-route";
 
-export const liveDraftSocketMiddleware = (
-  logger: Logger,
-) => (ctx: Context): void => {
-  logger.info(`WebSocket Request Received for ctx = ${JSON.stringify(ctx)}`)
-
-  ctx.websocket.on("message", (message: string) => {
-    logger.info(`Received WebSocket Message ${message}`);
-    switch (message.toUpperCase()) {
-      case "NEXT":
-        logger.info(`NEXT called for ${ctx.url}`)
-        break;
-      default:
-        logger.info(
-          `Message received was unparseable -- skipping doing any logic.`
-        );
-    }
+export const liveDraftSocketMiddleware = route.all("/test/:id", function (ctx) {
+  // `ctx` is the regular koa context created from the `ws` onConnection `socket.upgradeReq` object.
+  // the websocket is added to the context on `ctx.websocket`.
+  ctx.websocket.send("Hello World");
+  ctx.websocket.on("message", function (message) {
+    // do something with the message from client
+    console.log(message);
   });
-};
+})

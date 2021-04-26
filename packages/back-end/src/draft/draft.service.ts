@@ -113,33 +113,45 @@ export class DraftService {
     return randomNumbersGenerated;
   }
 
-  public async getLiveDraftPoolForOneWithId(id: number): Promise<LiveDraftPool> {
-    return this.getLiveDraftInformationForOneWithId(id)
+  public async getLiveDraftPoolForOneWithId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    return this.getLiveDraftInformationForOneWithId(id);
   }
 
-  public async revealNextPokemonInLivePoolForId(id: number): Promise<LiveDraftPool> {
-    await this.draftRepository.increment({ id }, 'livePoolPokemonIndex', 1)
-    return this.getLiveDraftInformationForOneWithId(id)
+  public async revealNextPokemonInLivePoolForId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
+    return this.getLiveDraftInformationForOneWithId(id);
   }
 
-  private async getLiveDraftInformationForOneWithId(id: number): Promise<LiveDraftPool> {
-    const draft = await this.getOneById(id)
-    const pokemon = await draft.pokemon
-    const currentPokemon = pokemon[draft.livePoolPokemonIndex]
-    const mappedCurrentPokemon = currentPokemon ? await this.pokemonService.getOneById(currentPokemon.pokemonId) : null
+  private async getLiveDraftInformationForOneWithId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    const draft = await this.getOneById(id);
+    const pokemon = await draft.pokemon;
+    const currentPokemon = pokemon[draft.livePoolPokemonIndex];
+    const mappedCurrentPokemon = currentPokemon
+      ? await this.pokemonService.getOneById(currentPokemon.pokemonId)
+      : null;
 
-    const pooledPokemonIds = pokemon.slice(0, draft.livePoolPokemonIndex + 1).map(({ pokemonId }) => pokemonId)
+    const pooledPokemonIds = pokemon
+      .slice(0, draft.livePoolPokemonIndex + 1)
+      .map(({ pokemonId }) => pokemonId);
     const mapPooledPokemon = await Promise.all(
-      pooledPokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
-    )
+      pooledPokemonIds.map((pokemonId) =>
+        this.pokemonService.getOneById(pokemonId)
+      )
+    );
 
     return {
       draftId: draft.id,
       currentPokemon: mappedCurrentPokemon,
       currentIndex: draft.livePoolPokemonIndex,
       pooledPokemon: mapPooledPokemon,
-      isPoolOver: draft.livePoolPokemonIndex === draft.poolSize - 1
-    }
+      isPoolOver: draft.livePoolPokemonIndex === draft.poolSize - 1,
+    };
   }
 
   private async poolPokemon(

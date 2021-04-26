@@ -34,7 +34,7 @@ export class DraftEntity {
   @Column({
     nullable: false,
     default: -1,
-    comment: 'Index for tracking a live pool feed of the draft.'
+    comment: "Index for tracking a live pool feed of the draft.",
   })
-  livePoolPokemonIndex!: number
+  livePoolPokemonIndex!: number;
 }

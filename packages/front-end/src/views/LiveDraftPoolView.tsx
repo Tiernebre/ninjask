@@ -1,26 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import "./PokemonLiveDraft.css";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { Pokemon } from "../../api/pokemon/Pokemon";
-import { PooledPokemon } from "./PooledPokemon";
-import { PokemonInformation } from "./PokemonInformation";
+import { LiveDraftPool } from "../api/draft/LiveDraftPool";
+import { PokemonInformation } from "../components/pokemon/PokemonInformation";
+import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 
-interface DraftStatus {
-  currentPokemon: Pokemon;
-  pooledPokemon: Pokemon[];
-}
-
-export const PokemonLiveDraft = () => {
+export const LiveDraftPoolView = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    `${process.env.REACT_APP_BACK_END_API_WS_URL}/draft/1/pool/live`
+    `${process.env.REACT_APP_BACK_END_API_WS_URL}/test/1`
   );
-  const restartDraft = useCallback(() => sendMessage("RESTART"), []);
-  const fetchRequest = useCallback(() => sendMessage("NEXT"), []);
+  const restartDraft = useCallback(() => sendMessage("RESTART"), [sendMessage]);
+  const fetchRequest = useCallback(() => sendMessage("NEXT"), [sendMessage]);
 
   const isReady = () => readyState === ReadyState.OPEN;
 
-  let currentDraftStatus: DraftStatus | null = null;
+  let currentDraftStatus: LiveDraftPool | null = null;
   if (isReady() && lastMessage) {
     try {
       currentDraftStatus = JSON.parse(lastMessage.data);
@@ -29,7 +22,7 @@ export const PokemonLiveDraft = () => {
     }
   }
 
-  const currentPokemon = currentDraftStatus?.currentPokemon;
+  const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
   const buttons = isReady() ? (
@@ -55,4 +48,4 @@ export const PokemonLiveDraft = () => {
       </div>
     </div>
   );
-};
+}

@@ -52,15 +52,15 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <Router>
       <SessionRefresher
         sessionService={sessionService}
         onSessionRefresh={setSession}
         onSessionRefreshFail={logOut}
         sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
       >
-        <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
-        <Router>
+        <div className="App">
+          <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
           <Switch>
             <Route path={loginRoutes} exact>
               <Login sessionService={sessionService} onSuccess={setSession} />
@@ -76,10 +76,10 @@ const App = () => {
               />
             </SessionChecker>
           </Switch>
-        </Router>
-        <Footer />
+          <Footer />
+        </div>
       </SessionRefresher>
-    </div>
+    </Router>
   );
 };
 

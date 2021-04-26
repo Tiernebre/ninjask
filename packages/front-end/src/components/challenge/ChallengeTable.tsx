@@ -1,22 +1,16 @@
-import { Challenge } from "../../api/challenge"
+import { Challenge } from "../../api/challenge";
 
 const ChallengeRow = (challenge: Challenge) => (
   <tr key={challenge.id}>
-    <td>
-      {challenge.id}
-    </td>
-    <td>
-      {challenge.name}
-    </td>
-    <td>
-      {challenge.description}
-    </td>
+    <td>{challenge.id}</td>
+    <td>{challenge.name}</td>
+    <td>{challenge.description}</td>
   </tr>
-)
+);
 
 type ChallengeTableProps = {
-  challenges: Challenge[]
-}
+  challenges: Challenge[];
+};
 
 export const ChallengeTable = ({ challenges }: ChallengeTableProps) => (
   <table className="table">
@@ -27,8 +21,6 @@ export const ChallengeTable = ({ challenges }: ChallengeTableProps) => (
         <th>Description</th>
       </tr>
     </thead>
-    <tbody>
-      {challenges.map(ChallengeRow)}
-    </tbody>
+    <tbody>{challenges.map(ChallengeRow)}</tbody>
   </table>
-)
+);

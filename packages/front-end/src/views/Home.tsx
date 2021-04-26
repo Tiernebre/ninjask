@@ -5,21 +5,21 @@ import { ChallengeTable } from "../components/challenge/ChallengeTable";
 
 type HomeProps = {
   accessToken?: string;
-  httpClient: HttpClient
+  httpClient: HttpClient;
 };
 
 export const Home = ({ accessToken, httpClient }: HomeProps) => {
-  const [challenges, setChallenges] = useState<Challenge[]>([])
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {
-    const challengeService = new HttpChallengeService(httpClient)
-    setChallenges(await challengeService.getAllForCurrentUser())
-  }, [httpClient])
+    const challengeService = new HttpChallengeService(httpClient);
+    setChallenges(await challengeService.getAllForCurrentUser());
+  }, [httpClient]);
 
   useEffect(() => {
-    fetchChallenges()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    fetchChallenges();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Fragment>

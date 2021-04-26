@@ -5,13 +5,16 @@ import { seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 
+const sleep = () => new Promise(res => setTimeout(res, 3000))
+
 describe("ChallengeService (integration)", () => {
   let challengeService: ChallengeService;
   let challengeRepository: Repository<ChallengeEntity>;
   let userRepository: Repository<UserEntity>;
 
   beforeAll(async () => {
-    const connection = await createConnection({
+    await sleep()
+    await createConnection({
       type: "postgres",
       username: "postgres",
       password: "password",
@@ -19,8 +22,8 @@ describe("ChallengeService (integration)", () => {
       entities: ["src/**/*.entity.ts"],
       synchronize: true,
       logging: false,
+      connectTimeoutMS: 20000
     });
-    await connection.query("SELECT 1");
     challengeRepository = getRepository(ChallengeEntity);
     userRepository = getRepository(UserEntity);
     await seedChallenges(challengeRepository);

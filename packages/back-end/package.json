@@ -18,7 +18,7 @@
     "lint:style": "prettier --check .",
     "prestart": "yarn compile",
     "start": "node dist/app.js",
-    "test": "ts-node ./dockest && jest"
+    "test": "ts-node ./dockest"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

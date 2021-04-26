@@ -1,12 +1,12 @@
-import { Connection, createConnection } from 'typeorm'
+import { Connection, createConnection } from "typeorm";
 
-let connection: Connection | null = null
+let connection: Connection | null = null;
 
-const sleep = () => new Promise(res => setTimeout(res, 1000))
+const sleep = () => new Promise((res) => setTimeout(res, 1000));
 
 export const establishDbConnection = async (): Promise<Connection> => {
   if (!connection) {
-    await sleep()
+    await sleep();
     connection = await createConnection({
       type: "postgres",
       username: "postgres",
@@ -15,8 +15,8 @@ export const establishDbConnection = async (): Promise<Connection> => {
       entities: ["src/**/*.entity.ts"],
       synchronize: true,
       logging: false,
-      connectTimeoutMS: 20000
+      connectTimeoutMS: 20000,
     });
   }
-  return connection
-}
+  return connection;
+};

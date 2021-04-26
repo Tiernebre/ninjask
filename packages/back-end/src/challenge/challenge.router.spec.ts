@@ -14,7 +14,7 @@ describe("Challenge Router (integration)", () => {
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
   let challengeService: ChallengeService;
-  let session: SessionPayload
+  let session: SessionPayload;
 
   beforeAll(() => {
     app = new Koa();
@@ -22,12 +22,12 @@ describe("Challenge Router (integration)", () => {
     const router = new ChallengeRouter(challengeService);
     session = {
       id: generateRandomNumber(),
-      accessKey: generateRandomString()
-    }
+      accessKey: generateRandomString(),
+    };
     app.use((ctx, next) => {
-      ctx.state.user = session
-      void next()
-    })
+      ctx.state.user = session;
+      void next();
+    });
     app.use(router.routes());
 
     server = app.listen();
@@ -48,10 +48,12 @@ describe("Challenge Router (integration)", () => {
           id: generateRandomNumber(),
           name: generateRandomString(),
           description: generateRandomString(),
-          versionId: generateRandomNumber()
-        }
-      ]
-      when(challengeService.getAllForCurrentUser(session)).thenResolve(challenges)
+          versionId: generateRandomNumber(),
+        },
+      ];
+      when(challengeService.getAllForCurrentUser(session)).thenResolve(
+        challenges
+      );
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
@@ -62,10 +64,12 @@ describe("Challenge Router (integration)", () => {
           id: generateRandomNumber(),
           name: generateRandomString(),
           description: generateRandomString(),
-          versionId: generateRandomNumber()
-        }
-      ]
-      when(challengeService.getAllForCurrentUser(session)).thenResolve(challenges)
+          versionId: generateRandomNumber(),
+        },
+      ];
+      when(challengeService.getAllForCurrentUser(session)).thenResolve(
+        challenges
+      );
       const response = await request.get(uri).send();
       expect(response.body).toEqual(challenges);
     });

@@ -4,7 +4,7 @@ import { ChallengeService } from "./challenge.service";
 import { seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
-import { establishDbConnection } from '../test/create-db-connection'
+import { establishDbConnection } from "../test/create-db-connection";
 
 describe("ChallengeService (integration)", () => {
   let challengeService: ChallengeService;
@@ -12,7 +12,7 @@ describe("ChallengeService (integration)", () => {
   let userRepository: Repository<UserEntity>;
 
   beforeAll(async () => {
-    await establishDbConnection()
+    await establishDbConnection();
     challengeRepository = getRepository(ChallengeEntity);
     userRepository = getRepository(UserEntity);
     await seedChallenges(challengeRepository);

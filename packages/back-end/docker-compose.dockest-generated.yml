@@ -5,7 +5,7 @@ services:
       POSTGRES_PASSWORD: password
     image: postgres:13
     ports:
-    - published: 5433
-      target: 5432
+      - published: 5433
+        target: 5432
     restart: always
-version: '3.8'
+version: "3.8"

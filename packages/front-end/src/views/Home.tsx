@@ -1,14 +1,14 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Challenge, HttpChallengeService } from "../api/challenge";
 import { HttpClient } from "../api/http";
 import { ChallengeTable } from "../components/challenge/ChallengeTable";
+import "./Home.scss";
 
 type HomeProps = {
-  accessToken?: string;
   httpClient: HttpClient;
 };
 
-export const Home = ({ accessToken, httpClient }: HomeProps) => {
+export const Home = ({ httpClient }: HomeProps) => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {
@@ -22,9 +22,9 @@ export const Home = ({ accessToken, httpClient }: HomeProps) => {
   }, []);
 
   return (
-    <Fragment>
+    <main className="Home">
       <h1 className="title">Challenges</h1>
       <ChallengeTable challenges={challenges} />
-    </Fragment>
+    </main>
   );
 };

@@ -1,0 +1,18 @@
+.PokemonInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.PokemonInformation__name {
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.PokemonInformation__image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}

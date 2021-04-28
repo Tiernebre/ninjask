@@ -1,15 +1,22 @@
-import { useCallback } from "react";
+import { Fragment } from "react";
+import { useParams } from "react-router";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
-import "./LiveDraftPoolView.css";
+import "./LiveDraftPoolView.scss";
+
+type DraftParams = {
+  draftId?: string;
+};
 
 export const LiveDraftPoolView = () => {
-  const { sendMessage, lastMessage, readyState } = useWebSocket(
-    `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/1/live-pool`
+  const { draftId } = useParams<DraftParams>();
+  const { lastMessage, readyState } = useWebSocket(
+    `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
+      draftId
+    )}/live-pool`
   );
-  const getNextPokemon = useCallback(() => sendMessage("NEXT"), [sendMessage]);
 
   const isReady = () => readyState === ReadyState.OPEN;
 
@@ -25,28 +32,24 @@ export const LiveDraftPoolView = () => {
   const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
-  const buttons = isReady() ? (
-    <div className="LiveDraftPoolView__buttons">
-      <button className="button" onClick={getNextPokemon}>
-        See the next available Pokemon!
-      </button>
-    </div>
-  ) : (
-    <div></div>
-  );
-
   return (
-    <div className="LiveDraftPoolView">
-      <div className="LiveDraftPoolView__pooled-pokemon-container">
-        <PooledPokemon pokemon={pooledPokemon} />
-      </div>
-      <div className="LiveDraftPoolView__pokemon-information-container">
-        <PokemonInformation
-          pokemon={currentPokemon}
-          emptyPlaceholder="The Pokemon is being loaded..."
-        />
-        {buttons}
-      </div>
-    </div>
+    <Fragment>
+      <h1 className="title">Live Draft Pool</h1>
+      {currentDraftStatus ? (
+        <div className="LiveDraftPoolView columns">
+          <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile">
+            <PooledPokemon pokemon={pooledPokemon} />
+          </div>
+          <div className="column is-10">
+            <PokemonInformation
+              pokemon={currentPokemon}
+              emptyPlaceholder="The Pool is being loaded..."
+            />
+          </div>
+        </div>
+      ) : (
+        <p>Loading Live Draft...</p>
+      )}
+    </Fragment>
   );
 };

@@ -1,5 +1,3 @@
-import "./Footer.css";
-
 export const Footer = () => (
   <footer className="Footer footer">
     <div className="content has-text-centered">

@@ -2,16 +2,19 @@ import { render, screen } from "@testing-library/react";
 import { Pokemon } from "../../api/pokemon";
 import { PokemonInformation } from "./PokemonInformation";
 
-it("renders pokemon name", () => {
+it("renders the given pokemon", () => {
   const pokemon: Pokemon = {
-    id: 1,
-    name: "Pikachu",
-    imageUrl: "foo",
-    iconUrl: "foo",
+    id: 5,
+    name: "Charmander",
+    imageUrl: "charmander.jpg",
+    iconUrl: "charmander-icon.png",
   };
   render(<PokemonInformation pokemon={pokemon} emptyPlaceholder="hello" />);
   const pokemonName = screen.getByText(pokemon.name);
   expect(pokemonName).toBeInTheDocument();
+  const pokemonImage = screen.getByAltText(pokemon.name);
+  expect(pokemonImage).toBeInTheDocument();
+  expect(pokemonImage).toHaveAttribute("src", pokemon.imageUrl);
 });
 
 it("renders a provided empty placeholder if a pokemon is not provided", () => {
@@ -20,5 +23,3 @@ it("renders a provided empty placeholder if a pokemon is not provided", () => {
   const emptyPlaceholder = screen.getByText(emptyPlaceholderText);
   expect(emptyPlaceholder).toBeInTheDocument();
 });
-
-it("submits the form when the form is filled out and valid and the user clicks on the login button", () => {});

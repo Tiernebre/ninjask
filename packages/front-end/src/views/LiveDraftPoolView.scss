@@ -1,17 +1,17 @@
+@import "bulma/sass/utilities/initial-variables.sass";
+
 .LiveDraftPoolView {
-  height: 100%;
   width: 100%;
-}
-
-.LiveDraftPoolView__buttons {
+  height: 100%;
+  overflow: hidden;
   display: flex;
-  margin-top: 34px;
-
-  button {
-    margin: 4px;
-    padding: 12px;
-  }
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
 }
 
-.LiveDraftPoolView__pooled-pokemon-column {
+@media (min-width: $tablet) {
+  .LiveDraftPoolView {
+    flex-direction: row;
+  }
 }

@@ -1,14 +1,11 @@
 @import "bulma/css/bulma.css";
 
-body,
-html {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+body {
+  min-height: 100vh;
 }
 
-#root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
 }

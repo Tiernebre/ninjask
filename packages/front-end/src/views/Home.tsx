@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Challenge, HttpChallengeService } from "../api/challenge";
 import { HttpClient } from "../api/http";
 import { ChallengeTable } from "../components/challenge/ChallengeTable";
-import './Home.scss'
+import "./Home.scss";
 
 type HomeProps = {
   httpClient: HttpClient;

@@ -8,7 +8,7 @@ import { SessionChecker } from "./components/session/SessionChecker";
 import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
 import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
-import './App.scss';
+import "./App.scss";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 

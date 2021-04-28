@@ -12,9 +12,9 @@ it("renders the given pokemon", () => {
   render(<PokemonInformation pokemon={pokemon} emptyPlaceholder="hello" />);
   const pokemonName = screen.getByText(pokemon.name);
   expect(pokemonName).toBeInTheDocument();
-  const pokemonImage = screen.getByAltText(pokemon.name)
-  expect(pokemonImage).toBeInTheDocument()
-  expect(pokemonImage).toHaveAttribute('src', pokemon.imageUrl)
+  const pokemonImage = screen.getByAltText(pokemon.name);
+  expect(pokemonImage).toBeInTheDocument();
+  expect(pokemonImage).toHaveAttribute("src", pokemon.imageUrl);
 });
 
 it("renders a provided empty placeholder if a pokemon is not provided", () => {

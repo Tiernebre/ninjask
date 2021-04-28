@@ -15,9 +15,9 @@ export const PokemonInformation = ({
       <img
         className="PokemonInformation__image"
         src={pokemon.imageUrl}
-        alt={`${pokemon.name}`}
+        alt={pokemon.name}
       ></img>
-      <p className="PokemonInformation__name">{pokemon.name}</p>
+      <p className="PokemonInformation__name mt-5">{pokemon.name}</p>
     </div>
   ) : (
     <p>{emptyPlaceholder}</p>

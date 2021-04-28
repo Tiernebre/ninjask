@@ -6,13 +6,12 @@
 }
 
 .PokemonInformation__image {
-  max-width: 600px;
+  max-width: 450px;
 }
 
 .PokemonInformation__name {
   font-size: 48px;
   font-weight: bold;
-  margin: 0;
 }
 
 .PokemonInformation__name::first-letter {

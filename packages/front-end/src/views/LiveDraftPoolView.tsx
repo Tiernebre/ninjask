@@ -27,7 +27,7 @@ export const LiveDraftPoolView = () => {
 
   const buttons = isReady() ? (
     <div className="LiveDraftPoolView__buttons">
-      <button onClick={getNextPokemon}>See the next available Pokemon!</button>
+      <button className="button" onClick={getNextPokemon}>See the next available Pokemon!</button>
     </div>
   ) : (
     <div></div>

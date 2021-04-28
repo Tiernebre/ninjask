@@ -7,9 +7,9 @@ import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
-import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
+import { LiveDraftPool } from "./live-draft-pool";
 
 export class DraftService {
   constructor(
@@ -50,6 +50,7 @@ export class DraftService {
     );
     await this.clearExistingDraftPool(draft);
     draft.pokemon = Promise.resolve(pokemonPooled);
+    draft.livePoolPokemonIndex = -1;
     await this.draftRepository.save(draft);
     this.logger.info(
       `Fully saved draft with id = ${id} with new generated pool of Pokemon.`
@@ -89,6 +90,19 @@ export class DraftService {
     return pokemonUrls;
   }
 
+  public async getLiveDraftPoolForOneWithId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    return this.getLiveDraftInformationForOneWithId(id);
+  }
+
+  public async revealNextPokemonInLivePoolForId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
+    return this.getLiveDraftInformationForOneWithId(id);
+  }
+
   private generateRandomPokemonIndicesForDraft(
     draft: DraftEntity,
     version: Version,
@@ -110,6 +124,34 @@ export class DraftService {
       )}`
     );
     return randomNumbersGenerated;
+  }
+
+  private async getLiveDraftInformationForOneWithId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    const draft = await this.getOneById(id);
+    const pokemon = await draft.pokemon;
+    const currentPokemon = pokemon[draft.livePoolPokemonIndex];
+    const mappedCurrentPokemon = currentPokemon
+      ? await this.pokemonService.getOneById(currentPokemon.pokemonId)
+      : null;
+
+    const pooledPokemonIds = pokemon
+      .slice(0, draft.livePoolPokemonIndex + 1)
+      .map(({ pokemonId }) => pokemonId);
+    const mapPooledPokemon = await Promise.all(
+      pooledPokemonIds.map((pokemonId) =>
+        this.pokemonService.getOneById(pokemonId)
+      )
+    );
+
+    return {
+      draftId: draft.id,
+      currentPokemon: mappedCurrentPokemon,
+      currentIndex: draft.livePoolPokemonIndex,
+      pooledPokemon: mapPooledPokemon,
+      isPoolOver: draft.livePoolPokemonIndex === draft.poolSize - 1,
+    };
   }
 
   private async poolPokemon(
@@ -144,12 +186,5 @@ export class DraftService {
         `Draft with id = ${draft.id} does not have an existing pool.`
       );
     }
-  }
-
-  private mapFromEntity(entity: DraftEntity): Draft {
-    return {
-      id: entity.id,
-      poolSize: entity.poolSize,
-    };
   }
 }

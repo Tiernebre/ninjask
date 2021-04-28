@@ -16,7 +16,6 @@ import { DraftRouter } from "./draft/draft.router";
 import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
-import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
 import { UserService } from "./user/user.service";
 import { BCryptPasswordEncoder } from "./crypto/bcrypt-password-encoder";
 import { UserEntity } from "./user/user.entity";
@@ -28,6 +27,7 @@ import { stageMockData } from "./environment";
 import { ChallengeEntity } from "./challenge/challenge.entity";
 import { ChallengeService } from "./challenge/challenge.service";
 import { ChallengeRouter } from "./challenge/challenge.router";
+import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -138,7 +138,8 @@ export const injectDependencies = async (
   routers.forEach((router) => {
     app.use(router.routes());
   });
-  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), logger, app));
+
+  app.ws.use(liveDraftSocketMiddleware(buildDraftService(logger), app, logger));
   await stageMockData(logger);
   return app;
 };

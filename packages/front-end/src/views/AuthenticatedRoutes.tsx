@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
 import { Home } from "./Home";
+import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
 type AuthenticatedRoutesProps = {
   accessToken?: string;
@@ -24,8 +25,13 @@ export const AuthenticatedRoutes = ({
   }, [accessToken]);
 
   return (
-    <Route path={homeRoutes} exact>
-      <Home accessToken={accessToken} httpClient={authedHttpClient} />
-    </Route>
+    <Fragment>
+      <Route path={homeRoutes} exact>
+        <Home accessToken={accessToken} httpClient={authedHttpClient} />
+      </Route>
+      <Route path="/draft/:draftId/live-pool">
+        <LiveDraftPoolView />
+      </Route>
+    </Fragment>
   );
 };

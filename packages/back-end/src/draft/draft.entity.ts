@@ -30,4 +30,11 @@ export class DraftEntity {
     comment: "The amount of pokemon this draft should have.",
   })
   poolSize!: number;
+
+  @Column({
+    nullable: false,
+    default: -1,
+    comment: "Index for tracking a live pool feed of the draft.",
+  })
+  livePoolPokemonIndex!: number;
 }

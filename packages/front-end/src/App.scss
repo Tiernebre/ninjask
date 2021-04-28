@@ -4,3 +4,11 @@
   flex: 1 1 auto;
   flex-direction: column;
 }
+
+.App__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

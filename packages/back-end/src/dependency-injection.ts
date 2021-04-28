@@ -34,7 +34,7 @@ const setupTypeOrmConnection = async (): Promise<void> => {
   const connection = await createConnection({
     ...existingConfiguration,
     namingStrategy: new SnakeNamingStrategy(),
-    synchronize: false
+    synchronize: false,
   });
   await connection.runMigrations();
 };

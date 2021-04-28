@@ -11,6 +11,9 @@ import { UserService } from "./user.service";
 import { CREATED } from "http-status";
 
 describe("User Router (integration)", () => {
+  const username = 'admin'
+  const password = 'password'
+
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
@@ -20,7 +23,7 @@ describe("User Router (integration)", () => {
     app = new Koa();
     app.use(bodyParser());
     userService = object<UserService>();
-    const router = new UserRouter(userService);
+    const router = new UserRouter(userService, username, password);
     app.use(router.routes());
 
     server = app.listen();
@@ -43,7 +46,7 @@ describe("User Router (integration)", () => {
       when(userService.createOne(createUserRequest)).thenResolve(
         generateMockUser()
       );
-      const response = await request.post(uri).send(createUserRequest);
+      const response = await request.post(uri).auth(username, password).send(createUserRequest)
       expect(response.status).toEqual(CREATED);
     });
 
@@ -54,7 +57,7 @@ describe("User Router (integration)", () => {
       };
       const expected = generateMockUser();
       when(userService.createOne(createUserRequest)).thenResolve(expected);
-      const response = await request.post(uri).send(createUserRequest);
+      const response = await request.post(uri).auth(username, password).send(createUserRequest)
       expect(response.body).toEqual(expected.toJSON());
     });
   });

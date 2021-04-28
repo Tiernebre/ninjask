@@ -3,7 +3,7 @@ import Application from "koa";
 import bodyParser from "koa-bodyparser";
 import { Server } from "http";
 import supertest from "supertest";
-import { object, when } from "testdouble";
+import { object, verify, when } from "testdouble";
 import { generateRandomString } from "../random";
 import { generateMockUser } from "./user.mock";
 import { UserRouter } from "./user.router";
@@ -92,11 +92,10 @@ describe("User Router (integration)", () => {
         nickname: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected = generateMockUser();
-      when(userService.createOne(createUserRequest)).thenResolve(expected);
       const response = await request.post(uri).send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
+      verify(userService.createOne(createUserRequest), { times: 0 })
     });
 
     it("returns with 4xx error if the credentials provided are incorrect (username)", async () => {
@@ -104,14 +103,13 @@ describe("User Router (integration)", () => {
         nickname: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected = generateMockUser();
-      when(userService.createOne(createUserRequest)).thenResolve(expected);
       const response = await request
         .post(uri)
         .auth(username + "foo", password)
         .send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
+      verify(userService.createOne(createUserRequest), { times: 0 })
     });
 
     it("returns with 4xx error if the credentials provided are incorrect (password)", async () => {
@@ -119,14 +117,13 @@ describe("User Router (integration)", () => {
         nickname: generateRandomString(),
         password: generateRandomString(),
       };
-      const expected = generateMockUser();
-      when(userService.createOne(createUserRequest)).thenResolve(expected);
       const response = await request
         .post(uri)
         .auth(username, password + "foo")
         .send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
+      verify(userService.createOne(createUserRequest), { times: 0 })
     });
   });
 });

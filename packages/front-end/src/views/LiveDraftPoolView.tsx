@@ -3,7 +3,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
-import "./LiveDraftPoolView.css";
+import "./LiveDraftPoolView.scss";
 
 export const LiveDraftPoolView = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
@@ -36,11 +36,11 @@ export const LiveDraftPoolView = () => {
   );
 
   return (
-    <div className="LiveDraftPoolView">
-      <div className="LiveDraftPoolView__pooled-pokemon-container">
+    <div className="LiveDraftPoolView columns">
+      <div className="column is-2 LiveDraftPoolView__pooled-pokemon-container">
         <PooledPokemon pokemon={pooledPokemon} />
       </div>
-      <div className="LiveDraftPoolView__pokemon-information-container">
+      <div className="column is-10 LiveDraftPoolView__pokemon-information-container">
         <PokemonInformation
           pokemon={currentPokemon}
           emptyPlaceholder="The Pokemon is being loaded..."

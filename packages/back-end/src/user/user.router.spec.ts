@@ -95,7 +95,7 @@ describe("User Router (integration)", () => {
       const response = await request.post(uri).send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
-      verify(userService.createOne(createUserRequest), { times: 0 })
+      verify(userService.createOne(createUserRequest), { times: 0 });
     });
 
     it("returns with 4xx error if the credentials provided are incorrect (username)", async () => {
@@ -109,7 +109,7 @@ describe("User Router (integration)", () => {
         .send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
-      verify(userService.createOne(createUserRequest), { times: 0 })
+      verify(userService.createOne(createUserRequest), { times: 0 });
     });
 
     it("returns with 4xx error if the credentials provided are incorrect (password)", async () => {
@@ -123,7 +123,7 @@ describe("User Router (integration)", () => {
         .send(createUserRequest);
       expect(response.status).toBeGreaterThanOrEqual(400);
       expect(response.status).toBeLessThan(500);
-      verify(userService.createOne(createUserRequest), { times: 0 })
+      verify(userService.createOne(createUserRequest), { times: 0 });
     });
   });
 });

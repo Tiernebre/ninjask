@@ -16,6 +16,6 @@ export const generateMockDraftEntity = (): DraftEntity => {
   draftEntity.poolSize = generateRandomNumber();
   draftEntity.pokemon = Promise.resolve([generateMockDraftPokemonEntity()]);
   draftEntity.challenge = Promise.resolve(generateMockChallenge());
-  draftEntity.livePoolPokemonIndex = -1
+  draftEntity.livePoolPokemonIndex = -1;
   return draftEntity;
 };

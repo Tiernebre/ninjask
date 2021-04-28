@@ -35,6 +35,16 @@ describe("User Router (integration)", () => {
     server.close();
   });
 
+  describe('constructor', () => {
+    it.each(['', undefined])('errors out if the username provided is %p', errorUsername => {
+      expect(() => new UserRouter(userService, errorUsername, password)).toThrowError()
+    })
+
+    it.each(['', undefined])('errors out if the password provided is %p', errorPassword => {
+      expect(() => new UserRouter(userService, username, errorPassword)).toThrowError()
+    })
+  })
+
   describe("POST /users", () => {
     const uri = "/users";
 

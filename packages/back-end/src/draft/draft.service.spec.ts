@@ -26,6 +26,7 @@ import {
   generateMockVersion,
 } from "../version/version.mock";
 import { Logger } from "../logger";
+import { LiveDraftPool } from "./live-draft-pool";
 
 const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
 
@@ -146,4 +147,29 @@ describe("DraftService", () => {
       expect(gotten).toEqual([]);
     });
   });
+
+  describe("getLiveDraftPoolForOneWithId", () => {
+    it("returns the current state of live draft pool for a given draft id", async () => {
+      const id = generateRandomNumber();
+      const draft = generateMockDraftEntity();
+      draft.livePoolPokemonIndex = 0
+      const draftPokemon: Pokemon[] = (await draft.pokemon).map((pokemon) => {
+        const expectedPokemon = generateMockPokemon();
+        when(pokemonService.getOneById(pokemon.pokemonId)).thenResolve(
+          expectedPokemon
+        );
+        return expectedPokemon
+      });
+      when(draftRepository.findOne(id, matchers.anything())).thenResolve(draft);
+      const expected: LiveDraftPool = {
+        draftId: draft.id,
+        currentPokemon: draftPokemon[draft.livePoolPokemonIndex],
+        currentIndex: draft.livePoolPokemonIndex,
+        pooledPokemon: [draftPokemon[0]],
+        isPoolOver: false
+      }
+      const gotten = await draftService.getLiveDraftPoolForOneWithId(id);
+      expect(gotten).toEqual(expected)
+    })
+  })
 });

@@ -91,6 +91,19 @@ export class DraftService {
     return pokemonUrls;
   }
 
+  public async getLiveDraftPoolForOneWithId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    return this.getLiveDraftInformationForOneWithId(id);
+  }
+
+  public async revealNextPokemonInLivePoolForId(
+    id: number
+  ): Promise<LiveDraftPool> {
+    await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
+    return this.getLiveDraftInformationForOneWithId(id);
+  }
+
   private generateRandomPokemonIndicesForDraft(
     draft: DraftEntity,
     version: Version,
@@ -112,19 +125,6 @@ export class DraftService {
       )}`
     );
     return randomNumbersGenerated;
-  }
-
-  public async getLiveDraftPoolForOneWithId(
-    id: number
-  ): Promise<LiveDraftPool> {
-    return this.getLiveDraftInformationForOneWithId(id);
-  }
-
-  public async revealNextPokemonInLivePoolForId(
-    id: number
-  ): Promise<LiveDraftPool> {
-    await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
-    return this.getLiveDraftInformationForOneWithId(id);
   }
 
   private async getLiveDraftInformationForOneWithId(

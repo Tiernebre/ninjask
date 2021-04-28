@@ -2808,6 +2808,13 @@
   resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.2.tgz#513abfd256d7ad0bf1ee1873606317b33b1b2a72"
   integrity sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==
 
+"@types/koa-basic-auth@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/koa-basic-auth/-/koa-basic-auth-2.0.3.tgz#8b39299b3ec2e52b694b21dce2d653467f78e4c6"
+  integrity sha512-dQK5eVgiwi1sAXh5u35ptP7Fpqw0iEjuWtMtLc+8Z9y9rvU8766t3YgWE7ukV1lPlOSq8a1Xqeq/TQzc+GfxAw==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/koa-bodyparser@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-4.3.0.tgz#54ecd662c45f3a4fa9de849528de5fc8ab269ba5"

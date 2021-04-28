@@ -7,7 +7,6 @@ import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
-import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 import { LiveDraftPool } from "./live-draft-pool";

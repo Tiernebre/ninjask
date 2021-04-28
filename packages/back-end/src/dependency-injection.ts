@@ -27,7 +27,6 @@ import { stageMockData } from "./environment";
 import { ChallengeEntity } from "./challenge/challenge.entity";
 import { ChallengeService } from "./challenge/challenge.service";
 import { ChallengeRouter } from "./challenge/challenge.router";
-import { loggingMiddleware } from "./logger/logging.middleware";
 import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {

@@ -188,11 +188,4 @@ export class DraftService {
       );
     }
   }
-
-  private mapFromEntity(entity: DraftEntity): Draft {
-    return {
-      id: entity.id,
-      poolSize: entity.poolSize,
-    };
-  }
 }

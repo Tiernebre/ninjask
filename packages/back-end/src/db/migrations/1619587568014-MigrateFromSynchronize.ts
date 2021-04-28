@@ -1,8 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class MigrateFromSynchronize1619587568014 implements MigrationInterface {
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `
 CREATE TABLE IF NOT EXISTS user (
     id BIGSERIAL PRIMARY KEY,
     access_key uuid NOT NULL UNIQUE,
@@ -59,11 +60,12 @@ CREATE TABLE IF NOT EXISTS version_denied_pokemon (
     version_id INTEGER NOT NULL,
     pokemon_id INTEGER NOT NULL
 );
-      `.trim())
-    }
+      `.trim()
+    );
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> { 
-        await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
             DROP TABLE IF EXISTS version_denied_pokemon;
             DROP TABLE IF EXISTS draft_pokemon;
             DROP TABLE IF EXISTS draft;
@@ -72,6 +74,6 @@ CREATE TABLE IF NOT EXISTS version_denied_pokemon (
             DROP TABLE IF EXISTS season;
             DROP TABLE IF EXISTS league;
             DROP TABLE IF EXISTS user;
-        `)
-    }
+        `);
+  }
 }

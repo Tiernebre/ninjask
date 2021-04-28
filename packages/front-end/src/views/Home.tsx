@@ -5,11 +5,10 @@ import { ChallengeTable } from "../components/challenge/ChallengeTable";
 import './Home.scss'
 
 type HomeProps = {
-  accessToken?: string;
   httpClient: HttpClient;
 };
 
-export const Home = ({ accessToken, httpClient }: HomeProps) => {
+export const Home = ({ httpClient }: HomeProps) => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {

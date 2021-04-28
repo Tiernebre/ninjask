@@ -127,13 +127,13 @@ export const injectDependencies = async (
   }
   // routes below this are public and can be pinged by anyone
   app.use(buildSessionRouter(logger).routes());
+  app.use(buildUserRouter().routes());
   // routes below this are protected behind session checks
   const sessionMiddleware = buildSessionMiddleware(logger);
   app.use(sessionMiddleware);
   const routers = [
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
-    buildUserRouter(),
     buildChallengesRouter(),
   ];
   routers.forEach((router) => {

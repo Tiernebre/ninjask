@@ -27,11 +27,11 @@ export const LiveDraftPoolView = () => {
   return (
     <Fragment>
       <h1 className="title">Live Draft Pool</h1>
-      <div className="LiveDraftPoolView columns">
-        <div className="column is-2">
+      <div className="LiveDraftPoolView columns is-mobile">
+        <div className="column is-12-mobile">
           <PooledPokemon pokemon={pooledPokemon} />
         </div>
-        <div className="column is-10">
+        <div className="column">
           <PokemonInformation
             pokemon={currentPokemon}
             emptyPlaceholder="The Pool is being loaded..."

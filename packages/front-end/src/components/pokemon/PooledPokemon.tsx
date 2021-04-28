@@ -1,4 +1,5 @@
 import { Pokemon } from "../../api/pokemon/Pokemon";
+import "./PooledPokemon.scss";
 
 type PooledPokemonProps = {
   pokemon: Pokemon[];

@@ -96,7 +96,11 @@ const buildSessionRouter = (logger: Logger) => {
 };
 
 const buildUserRouter = () => {
-  return new UserRouter(buildUserService());
+  return new UserRouter(
+    buildUserService(),
+    process.env.API_USERS_AUTH_USERNAME,
+    process.env.API_USERS_AUTH_PASSWORD,
+  );
 };
 
 const buildSessionMiddleware = (logger: Logger) => {

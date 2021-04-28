@@ -42,11 +42,14 @@ CREATE TABLE challenge_users_users (
     users_id BIGINT REFERENCES users (id) NOT NULL,
     PRIMARY KEY (challenge_id, users_id)
 );
+CREATE INDEX challenge_users_users_challenge_id_idx on challenge_users_users (challenge_id);
+CREATE INDEX challenge_users_users_user_id_idx on challenge_users_users (users_id);
+
 CREATE TABLE IF NOT EXISTS draft (
     id BIGSERIAL PRIMARY KEY,
     pool_size INTEGER NOT NULL DEFAULT 20,
     live_pool_pokemon_index INTEGER DEFAULT '-1'::integer NOT NULL,
-    challenge_id BIGINT REFERENCES challenge (id)
+    challenge_id BIGINT REFERENCES challenge (id) UNIQUE
 );
 CREATE TABLE IF NOT EXISTS draft_pokemon (
     id BIGSERIAL PRIMARY KEY,

@@ -1,4 +1,5 @@
 import { Connection, createConnection } from "typeorm";
+import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 let connection: Connection | null = null;
 
@@ -13,10 +14,15 @@ export const establishDbConnection = async (): Promise<Connection> => {
       password: "password",
       port: 5433,
       entities: ["src/**/*.entity.ts"],
-      synchronize: true,
+      migrations: ["src/db/migrations/*.ts"],
+      synchronize: false,
       logging: false,
       connectTimeoutMS: 20000,
+      namingStrategy: new SnakeNamingStrategy()
     });
+    console.log('running some migrations...')
+    await connection.runMigrations()
+    console.log('ran the migrations.')
   }
   return connection;
 };

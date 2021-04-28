@@ -86,5 +86,47 @@ describe("User Router (integration)", () => {
         .send(createUserRequest);
       expect(response.body).toEqual(expected.toJSON());
     });
+
+    it("returns with 4xx error if the credentials provided are missing", async () => {
+      const createUserRequest = {
+        nickname: generateRandomString(),
+        password: generateRandomString(),
+      };
+      const expected = generateMockUser();
+      when(userService.createOne(createUserRequest)).thenResolve(expected);
+      const response = await request.post(uri).send(createUserRequest);
+      expect(response.status).toBeGreaterThanOrEqual(400);
+      expect(response.status).toBeLessThan(500);
+    });
+
+    it("returns with 4xx error if the credentials provided are incorrect (username)", async () => {
+      const createUserRequest = {
+        nickname: generateRandomString(),
+        password: generateRandomString(),
+      };
+      const expected = generateMockUser();
+      when(userService.createOne(createUserRequest)).thenResolve(expected);
+      const response = await request
+        .post(uri)
+        .auth(username + "foo", password)
+        .send(createUserRequest);
+      expect(response.status).toBeGreaterThanOrEqual(400);
+      expect(response.status).toBeLessThan(500);
+    });
+
+    it("returns with 4xx error if the credentials provided are incorrect (password)", async () => {
+      const createUserRequest = {
+        nickname: generateRandomString(),
+        password: generateRandomString(),
+      };
+      const expected = generateMockUser();
+      when(userService.createOne(createUserRequest)).thenResolve(expected);
+      const response = await request
+        .post(uri)
+        .auth(username, password + "foo")
+        .send(createUserRequest);
+      expect(response.status).toBeGreaterThanOrEqual(400);
+      expect(response.status).toBeLessThan(500);
+    });
   });
 });

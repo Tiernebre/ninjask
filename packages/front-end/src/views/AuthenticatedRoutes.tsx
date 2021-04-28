@@ -29,7 +29,7 @@ export const AuthenticatedRoutes = ({
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
       </Route>
-      <Route path="/draft/:draftId/live-pool">
+      <Route path="/drafts/:draftId/live-pool" exact>
         <LiveDraftPoolView />
       </Route>
     </Fragment>

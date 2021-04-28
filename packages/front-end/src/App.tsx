@@ -77,6 +77,7 @@ const App = () => {
                 />
               </SessionChecker>
             </Switch>
+            <Route></Route>
           </main>
           <Footer />
         </SessionRefresher>

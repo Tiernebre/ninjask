@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 
-@Entity({ name: "user" })
+@Entity({ name: "users" })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;

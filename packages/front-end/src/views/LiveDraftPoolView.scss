@@ -1,44 +1,10 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
 .LiveDraftPoolView {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  margin: 0 !important;
-}
-
-.LiveDraftPoolView__buttons {
-  display: flex;
-  margin-top: 34px;
-}
-
-.LiveDraftPoolView__buttons button {
-  margin: 4px;
-  padding: 12px;
-}
-
-
-.LiveDraftPoolView__pooled-pokemon-container {
-  width: 300px;
-  height: 100%;
-  padding: 0 !important;
-}
-
-.LiveDraftPoolView__pokemon-information-container {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-}
-
-@media (max-width: $tablet) {
-  .LiveDraftPoolView {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
 }

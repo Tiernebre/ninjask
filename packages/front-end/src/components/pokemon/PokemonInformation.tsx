@@ -1,4 +1,5 @@
 import { Pokemon } from "../../api/pokemon/Pokemon";
+import "./PokemonInformation.scss";
 
 type PokemonInformationProps = {
   pokemon?: Pokemon;

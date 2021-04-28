@@ -1,0 +1,12 @@
+.PokemonInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.PokemonInformation__name {
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}

@@ -18,9 +18,9 @@ export const establishDbConnection = async (): Promise<Connection> => {
       synchronize: false,
       logging: false,
       connectTimeoutMS: 20000,
-      namingStrategy: new SnakeNamingStrategy()
+      namingStrategy: new SnakeNamingStrategy(),
     });
-    await connection.runMigrations()
+    await connection.runMigrations();
   }
   return connection;
 };

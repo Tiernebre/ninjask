@@ -26,7 +26,7 @@ export const LiveDraftPoolView = () => {
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
   const buttons = isReady() ? (
-    <div className="PokemonLiveDraft__buttons">
+    <div className="LiveDraftPoolView__buttons">
       <button onClick={getNextPokemon}>See the next available Pokemon!</button>
     </div>
   ) : (
@@ -34,11 +34,11 @@ export const LiveDraftPoolView = () => {
   );
 
   return (
-    <div className="PokemonLiveDraft">
-      <div className="PokemonLiveDraft__pooled-pokemon-container">
+    <div className="LiveDraftPoolView">
+      <div className="LiveDraftPoolView__pooled-pokemon-container">
         <PooledPokemon pokemon={pooledPokemon} />
       </div>
-      <div className="PokemonLiveDraft__pokemon-information-container">
+      <div className="LiveDraftPoolView__pokemon-information-container">
         <PokemonInformation
           pokemon={currentPokemon}
           emptyPlaceholder="The Pokemon is being loaded..."

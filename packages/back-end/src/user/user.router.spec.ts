@@ -11,8 +11,8 @@ import { UserService } from "./user.service";
 import { CREATED } from "http-status";
 
 describe("User Router (integration)", () => {
-  const username = 'admin'
-  const password = 'password'
+  const username = "admin";
+  const password = "password";
 
   let app: Application;
   let server: Server;
@@ -35,15 +35,25 @@ describe("User Router (integration)", () => {
     server.close();
   });
 
-  describe('constructor', () => {
-    it.each(['', undefined])('errors out if the username provided is %p', errorUsername => {
-      expect(() => new UserRouter(userService, errorUsername, password)).toThrowError()
-    })
+  describe("constructor", () => {
+    it.each(["", undefined])(
+      "errors out if the username provided is %p",
+      (errorUsername) => {
+        expect(
+          () => new UserRouter(userService, errorUsername, password)
+        ).toThrowError();
+      }
+    );
 
-    it.each(['', undefined])('errors out if the password provided is %p', errorPassword => {
-      expect(() => new UserRouter(userService, username, errorPassword)).toThrowError()
-    })
-  })
+    it.each(["", undefined])(
+      "errors out if the password provided is %p",
+      (errorPassword) => {
+        expect(
+          () => new UserRouter(userService, username, errorPassword)
+        ).toThrowError();
+      }
+    );
+  });
 
   describe("POST /users", () => {
     const uri = "/users";
@@ -56,7 +66,10 @@ describe("User Router (integration)", () => {
       when(userService.createOne(createUserRequest)).thenResolve(
         generateMockUser()
       );
-      const response = await request.post(uri).auth(username, password).send(createUserRequest)
+      const response = await request
+        .post(uri)
+        .auth(username, password)
+        .send(createUserRequest);
       expect(response.status).toEqual(CREATED);
     });
 
@@ -67,7 +80,10 @@ describe("User Router (integration)", () => {
       };
       const expected = generateMockUser();
       when(userService.createOne(createUserRequest)).thenResolve(expected);
-      const response = await request.post(uri).auth(username, password).send(createUserRequest)
+      const response = await request
+        .post(uri)
+        .auth(username, password)
+        .send(createUserRequest);
       expect(response.body).toEqual(expected.toJSON());
     });
   });

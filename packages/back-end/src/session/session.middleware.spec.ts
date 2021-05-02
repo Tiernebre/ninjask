@@ -1,7 +1,7 @@
 import { sessionMiddleware } from "./session.middleware";
 import { object, when } from "testdouble";
 import { SessionService } from "./session.service";
-import { Context, Next, ParameterizedContext } from "koa";
+import { Next, ParameterizedContext } from "koa";
 import { FORBIDDEN, OK, UNAUTHORIZED } from "http-status";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { SessionPayload } from "./session-payload";

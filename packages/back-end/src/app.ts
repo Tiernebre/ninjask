@@ -49,7 +49,11 @@ const getHttpsCredentials = (): https.ServerOptions => {
 
 let sockifiedApp: KoaWebsocket.App<ContextState>;
 if (isProduction()) {
-  sockifiedApp = websockify<ContextState>(app, undefined, getHttpsCredentials());
+  sockifiedApp = websockify<ContextState>(
+    app,
+    undefined,
+    getHttpsCredentials()
+  );
 } else {
   sockifiedApp = websockify<ContextState>(app);
 }

@@ -7,9 +7,7 @@ export class ChallengeService {
     private readonly challengeRepository: Repository<ChallengeEntity>
   ) {}
 
-  async getAllForUserWithId(
-    id: number
-  ): Promise<Challenge[]> {
+  async getAllForUserWithId(id: number): Promise<Challenge[]> {
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .leftJoinAndSelect("challenge.users", "user")

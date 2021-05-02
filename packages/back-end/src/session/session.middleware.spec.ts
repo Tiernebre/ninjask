@@ -9,7 +9,10 @@ import { ContextState } from "../types/state";
 
 describe("sessionMiddleware", () => {
   let sessionService: SessionService;
-  let sessionMiddlewareToTest: (ctx: ParameterizedContext<ContextState>, next: Next) => Promise<void>;
+  let sessionMiddlewareToTest: (
+    ctx: ParameterizedContext<ContextState>,
+    next: Next
+  ) => Promise<void>;
 
   beforeEach(() => {
     sessionService = object<SessionService>();

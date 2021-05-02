@@ -31,7 +31,9 @@ describe("ChallengeService (integration)", () => {
         challenge.users = Promise.resolve([user]);
       });
       await challengeRepository.save(challenges);
-      const challengesFound = await challengeService.getAllForUserWithId(user.id);
+      const challengesFound = await challengeService.getAllForUserWithId(
+        user.id
+      );
       expect(challengesFound).toHaveLength(2);
       const [firstChallenge, secondChallenge] = challengesFound;
       expect(firstChallenge.id).toEqual(challenges[0].id);

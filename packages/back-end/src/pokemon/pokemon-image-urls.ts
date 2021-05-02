@@ -1,5 +1,5 @@
 export interface PokemonImageUrls {
   readonly icon: string
-  readonly highResImage: string
-  readonly thumbnailImage: string
+  readonly image: string
+  readonly thumbnail: string
 }

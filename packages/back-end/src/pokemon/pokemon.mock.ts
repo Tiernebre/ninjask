@@ -4,8 +4,8 @@ import { PokemonImageUrls } from "./pokemon-image-urls";
 
 const generateMockPokemonImageUrls = (): PokemonImageUrls => ({
   icon: generateRandomString(),
-  highResImage: generateRandomString(),
-  thumbnailImage: generateRandomString()
+  image: generateRandomString(),
+  thumbnail: generateRandomString()
 })
 
 export const generateMockPokemon = (): Pokemon => ({

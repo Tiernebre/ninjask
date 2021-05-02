@@ -7,7 +7,7 @@ const POKEMON_IMAGE_URL =
 const POKEMON_ICON_IMAGE_URL =
   "https://raw.githubusercontent.com/msikma/pokesprite/master/icons/pokemon/regular";
 const POKEMON_THUMBNAIL_IMAGE_URL =
-  "https://github.com/HybridShivam/Pokemon/tree/master/assets/thumbnails-compressed";
+  "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed";
 
 const getPaddedPokemonId = (pokemon: PokeApiPokemonSpecies): string => {
   const id = pokemon.id.toString();
@@ -29,8 +29,8 @@ const getThumbnailImageUrlForPokemon = (pokemon: PokeApiPokemonSpecies): string 
 const getImageUrlsForPokeApiPokemon = (pokeApiPokemon: PokeApiPokemonSpecies): PokemonImageUrls => {
   return {
     icon: getIconImageUrlForPokemon(pokeApiPokemon),
-    highResImage: getImageUrlForPokemon(pokeApiPokemon),
-    thumbnailImage: getThumbnailImageUrlForPokemon(pokeApiPokemon)
+    image: getImageUrlForPokemon(pokeApiPokemon),
+    thumbnail: getThumbnailImageUrlForPokemon(pokeApiPokemon)
   }
 }
 

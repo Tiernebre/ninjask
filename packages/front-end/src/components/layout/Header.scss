@@ -1,26 +1,2 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
-.Header {
-  width: 100%;
-  margin: 0 !important;
-
-  .Header__log-out-button-column {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-}
-
-@media (max-width: $tablet) {
-  .Header__log-out-button {
-    width: 100%;
-  }
-
-  .Header {
-    .Header__logo-column {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-}

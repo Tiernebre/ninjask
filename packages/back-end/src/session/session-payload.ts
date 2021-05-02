@@ -1,4 +1,4 @@
 export interface SessionPayload {
-  readonly id: number;
+  readonly userId: number;
   readonly accessKey: string;
 }

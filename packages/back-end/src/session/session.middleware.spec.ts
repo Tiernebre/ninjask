@@ -53,7 +53,7 @@ describe("sessionMiddleware", () => {
     };
     mockCtx.state = {};
     const sessionPayload: SessionPayload = {
-      id: generateRandomNumber(),
+      userId: generateRandomNumber(),
       accessKey: generateRandomString(),
     };
     when(sessionService.verifyOne(authorization)).thenReturn(sessionPayload);

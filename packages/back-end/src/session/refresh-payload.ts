@@ -1,4 +1,4 @@
 export interface RefreshPayload {
-  id: number;
-  tokenVersion: number;
+  readonly userId: number;
+  readonly tokenVersion: number;
 }

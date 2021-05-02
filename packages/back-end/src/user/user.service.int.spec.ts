@@ -34,8 +34,7 @@ describe("UserService (integration)", () => {
       when(passwordEncoder.encode(createUserRequest.password)).thenResolve(createUserRequest.password)
       const createdUser = await userService.createOne(createUserRequest)
       expect(createdUser.accessKey).toBeTruthy()
-      // string because of bigint -- moving to int in next commit
-      expect(createdUser.tokenVersion).toEqual("0")
+      expect(createdUser.tokenVersion).toEqual(0)
     })
   })
 })

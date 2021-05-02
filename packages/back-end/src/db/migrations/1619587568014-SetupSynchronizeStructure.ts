@@ -47,21 +47,21 @@ CREATE INDEX challenge_users_users_user_id_idx on challenge_users_users (users_i
 
 CREATE TABLE IF NOT EXISTS draft (
     id SERIAL PRIMARY KEY,
-    pool_size INTEGEREGER NOT NULL DEFAULT 20,
-    live_pool_pokemon_index INTEGEREGER DEFAULT '-1'::integer NOT NULL,
+    pool_size INTEGER NOT NULL DEFAULT 20,
+    live_pool_pokemon_index INTEGER DEFAULT '-1'::integer NOT NULL,
     challenge_id INTEGER REFERENCES challenge (id) UNIQUE
 );
 CREATE TABLE IF NOT EXISTS draft_pokemon (
     id SERIAL PRIMARY KEY,
-    pokemon_id INTEGEREGER NOT NULL,
+    pokemon_id SMALLINT NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     draft_id INTEGER REFERENCES draft (id)
 );
 CREATE TABLE IF NOT EXISTS version_denied_pokemon (
     id SERIAL PRIMARY KEY,
-    version_id INTEGEREGER NOT NULL,
-    pokemon_id INTEGEREGER NOT NULL
+    version_id INTEGER NOT NULL,
+    pokemon_id INTEGER NOT NULL
 );
       `.trim()
     );

@@ -1,11 +1,9 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
-
 .Header__log-out-button-column {
   display: flex;
   justify-content: flex-end;
 }
-
 
 @media (max-width: $tablet) {
   .Header__log-out-button {

@@ -9,12 +9,12 @@ interface HeaderProps {
 
 export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
   <header className="Header columns p-3">
-    <div className="column">
+    <div className="column is-11">
       <Link to="/">
         <img src={logo} alt="Logo" />
       </Link>
     </div>
-    <div className="column">
+    <div className="column is-1">
       {isAuthenticated && (
         <button
           className="Header__log-out-button button is-danger"

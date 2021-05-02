@@ -5,63 +5,63 @@ export class MigrateFromSynchronize1619587568014 implements MigrationInterface {
     await queryRunner.query(
       `
 CREATE TABLE IF NOT EXISTS users (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     access_key uuid NOT NULL UNIQUE,
     nickname TEXT NOT NULL,
     password TEXT NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    token_version BIGINT DEFAULT 0 NOT NULL
+    token_version INTEGER DEFAULT 0 NOT NULL
 );
 CREATE TABLE IF NOT EXISTS league (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 CREATE TABLE IF NOT EXISTS season (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    league_id BIGINT REFERENCES league (id)
+    league_id INTEGER REFERENCES league (id)
 );
 CREATE TABLE IF NOT EXISTS challenge (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    version_id BIGINT NOT NULL,
-    season_id BIGINT REFERENCES season (id)
+    version_id INTEGER NOT NULL,
+    season_id INTEGER REFERENCES season (id)
 );
 CREATE TABLE challenge_users_users (
-    challenge_id BIGINT REFERENCES challenge (id) NOT NULL,
-    users_id BIGINT REFERENCES users (id) NOT NULL,
+    challenge_id INTEGER REFERENCES challenge (id) NOT NULL,
+    users_id INTEGER REFERENCES users (id) NOT NULL,
     PRIMARY KEY (challenge_id, users_id)
 );
 CREATE INDEX challenge_users_users_challenge_id_idx on challenge_users_users (challenge_id);
 CREATE INDEX challenge_users_users_user_id_idx on challenge_users_users (users_id);
 
 CREATE TABLE IF NOT EXISTS draft (
-    id BIGSERIAL PRIMARY KEY,
-    pool_size INTEGER NOT NULL DEFAULT 20,
-    live_pool_pokemon_index INTEGER DEFAULT '-1'::integer NOT NULL,
-    challenge_id BIGINT REFERENCES challenge (id) UNIQUE
+    id SERIAL PRIMARY KEY,
+    pool_size INTEGEREGER NOT NULL DEFAULT 20,
+    live_pool_pokemon_index INTEGEREGER DEFAULT '-1'::integer NOT NULL,
+    challenge_id INTEGER REFERENCES challenge (id) UNIQUE
 );
 CREATE TABLE IF NOT EXISTS draft_pokemon (
-    id BIGSERIAL PRIMARY KEY,
-    pokemon_id INTEGER NOT NULL,
+    id SERIAL PRIMARY KEY,
+    pokemon_id INTEGEREGER NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    draft_id BIGINT REFERENCES draft (id)
+    draft_id INTEGER REFERENCES draft (id)
 );
 CREATE TABLE IF NOT EXISTS version_denied_pokemon (
-    id BIGSERIAL PRIMARY KEY,
-    version_id INTEGER NOT NULL,
-    pokemon_id INTEGER NOT NULL
+    id SERIAL PRIMARY KEY,
+    version_id INTEGEREGER NOT NULL,
+    pokemon_id INTEGEREGER NOT NULL
 );
       `.trim()
     );

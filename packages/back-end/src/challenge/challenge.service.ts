@@ -14,7 +14,7 @@ export class ChallengeService {
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .leftJoinAndSelect("challenge.users", "user")
-      .where("user.id = :id", { id: currentUser.id })
+      .where("user.id = :id", { id: currentUser.userId })
       .getMany();
     return challenges.map((entity) => this.mapFromEntity(entity));
   }

@@ -57,7 +57,7 @@ export class JwtSessionService implements SessionService {
       this.refreshTokenSecret
     ) as RefreshPayload;
     const associatedUser = await this.userService.findOneWithId(
-      refreshPayload.id
+      refreshPayload.userId
     );
     this.logger.info(
       `Found tied to user for Session Refresh Attempt with id = ${associatedUser.id}`
@@ -81,7 +81,7 @@ export class JwtSessionService implements SessionService {
 
   private signTokensForUser(user: User): Session {
     const accessToken = jwt.sign(
-      { id: user.id, accessKey: user.accessKey },
+      { userId: user.id, accessKey: user.accessKey },
       this.accessTokenSecret,
       {
         expiresIn: "30 minutes",
@@ -89,7 +89,7 @@ export class JwtSessionService implements SessionService {
     );
 
     const refreshToken = jwt.sign(
-      { id: user.id, tokenVersion: user.tokenVersion },
+      { userId: user.id, tokenVersion: user.tokenVersion },
       this.refreshTokenSecret,
       {
         expiresIn: "1 day",

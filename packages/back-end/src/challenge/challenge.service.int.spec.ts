@@ -32,7 +32,7 @@ describe("ChallengeService (integration)", () => {
       });
       await challengeRepository.save(challenges);
       const challengesFound = await challengeService.getAllForCurrentUser({
-        id: user.id,
+        userId: user.id,
         accessKey: user.accessKey,
       });
       expect(challengesFound).toHaveLength(2);

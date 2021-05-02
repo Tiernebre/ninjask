@@ -116,11 +116,11 @@ describe("JwtSessionService", () => {
   describe("refreshOne", () => {
     it("returns a refreshed session if the request is valid", async () => {
       const refreshPayload: RefreshPayload = {
-        id: generateRandomNumber(),
+        userId: generateRandomNumber(),
         tokenVersion: generateRandomNumber(),
       };
       const user = new User(
-        refreshPayload.id,
+        refreshPayload.userId,
         generateRandomString(),
         refreshPayload.tokenVersion
       );
@@ -153,11 +153,11 @@ describe("JwtSessionService", () => {
 
     it("throws an error if the refresh payload has an invalid token version", async () => {
       const refreshPayload: RefreshPayload = {
-        id: generateRandomNumber(),
+        userId: generateRandomNumber(),
         tokenVersion: generateRandomNumber(),
       };
       const user = new User(
-        refreshPayload.id,
+        refreshPayload.userId,
         generateRandomString(),
         refreshPayload.tokenVersion + 1
       );

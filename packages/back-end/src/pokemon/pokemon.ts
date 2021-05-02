@@ -1,8 +1,7 @@
-export class Pokemon {
-  constructor(
-    public readonly id: number,
-    public readonly name: string,
-    public readonly imageUrl: string,
-    public readonly iconUrl: string
-  ) {}
+import { PokemonImageUrls } from "./pokemon-image-urls";
+
+export interface Pokemon {
+  readonly id: number;
+  readonly name: string;
+  readonly imageUrls: PokemonImageUrls;
 }

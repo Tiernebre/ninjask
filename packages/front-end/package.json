@@ -30,7 +30,7 @@
     "start": "react-scripts start",
     "compile": "react-scripts build",
     "test:unit": "react-scripts test --watchAll=false",
-    "test": "yarn lint:style && yarn test:unit",
+    "test": "yarn test:unit",
     "lint": "yarn lint:style",
     "lint:style": "prettier --check .",
     "eject": "react-scripts eject",

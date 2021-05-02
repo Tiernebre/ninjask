@@ -10,10 +10,13 @@ describe("pokemon.mapper", () => {
       const pokemonCreated = mapFromPokeApi(pokeApiPokemon);
       expect(pokemonCreated.id).toEqual(pokeApiPokemon.id);
       expect(pokemonCreated.name).toEqual(pokeApiPokemon.name);
-      expect(pokemonCreated.imageUrl).toEqual(
+      expect(pokemonCreated.imageUrls.image).toEqual(
         "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/001.png"
       );
-      expect(pokemonCreated.iconUrl).toEqual(
+      expect(pokemonCreated.imageUrls.thumbnail).toEqual(
+        "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/001.png"
+      );
+      expect(pokemonCreated.imageUrls.icon).toEqual(
         "https://raw.githubusercontent.com/msikma/pokesprite/master/icons/pokemon/regular/pikachu.png"
       );
     });
@@ -22,8 +25,11 @@ describe("pokemon.mapper", () => {
       const pokeApiPokemon = generateMockPokeApiPokemonSpecies();
       pokeApiPokemon.id = 15;
       const pokemonCreated = mapFromPokeApi(pokeApiPokemon);
-      expect(pokemonCreated.imageUrl).toEqual(
+      expect(pokemonCreated.imageUrls.image).toEqual(
         "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/015.png"
+      );
+      expect(pokemonCreated.imageUrls.thumbnail).toEqual(
+        "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/015.png"
       );
     });
 
@@ -31,8 +37,11 @@ describe("pokemon.mapper", () => {
       const pokeApiPokemon = generateMockPokeApiPokemonSpecies();
       pokeApiPokemon.id = 354;
       const pokemonCreated = mapFromPokeApi(pokeApiPokemon);
-      expect(pokemonCreated.imageUrl).toEqual(
+      expect(pokemonCreated.imageUrls.image).toEqual(
         "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/354.png"
+      );
+      expect(pokemonCreated.imageUrls.thumbnail).toEqual(
+        "https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/354.png"
       );
     });
   });

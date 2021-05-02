@@ -26,7 +26,7 @@ describe("UserService (integration)", () => {
   });
 
   describe("createOne", () => {
-    it('creates an access key for the user', async () => {
+    it('returns all auto generated columns on a user table', async () => {
       const createUserRequest: CreateUserRequest = {
         nickname: `Test User ${generateRandomNumber()}`,
         password: generateRandomString()
@@ -34,6 +34,8 @@ describe("UserService (integration)", () => {
       when(passwordEncoder.encode(createUserRequest.password)).thenResolve(createUserRequest.password)
       const createdUser = await userService.createOne(createUserRequest)
       expect(createdUser.accessKey).toBeTruthy()
+      // string because of bigint -- moving to int in next commit
+      expect(createdUser.tokenVersion).toEqual("0")
     })
   })
 })

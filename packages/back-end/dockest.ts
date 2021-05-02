@@ -6,7 +6,7 @@ const dockest = new Dockest({
 
 const dockestServices = [
   {
-    serviceName: "db",
+    serviceName: "db-integration-test",
   },
 ];
 

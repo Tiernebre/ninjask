@@ -19,7 +19,7 @@ export const Home = ({ httpClient }: HomeProps) => {
 
   useDidMount(() => {
     fetchChallenges();
-  })
+  });
 
   return (
     <main className="Home">

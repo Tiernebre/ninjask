@@ -1,9 +1,10 @@
-import { Context, Next } from "koa";
+import { Next, ParameterizedContext } from "koa";
 import { SessionService } from "./session.service";
 import { UNAUTHORIZED, FORBIDDEN } from "http-status";
+import { ContextState } from "../types/state";
 
 export const sessionMiddleware = (sessionService: SessionService) => async (
-  ctx: Context,
+  ctx: ParameterizedContext<ContextState>,
   next: Next
 ): Promise<void> => {
   if (!ctx.header.authorization) {
@@ -12,8 +13,8 @@ export const sessionMiddleware = (sessionService: SessionService) => async (
   }
 
   try {
-    const user = sessionService.verifyOne(ctx.header.authorization);
-    ctx.state.user = user;
+    const session = sessionService.verifyOne(ctx.header.authorization);
+    ctx.state.session = session;
   } catch (error) {
     ctx.status = FORBIDDEN;
     throw new Error("Authentication provided was invalid.");

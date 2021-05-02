@@ -1,14 +1,15 @@
 import { sessionMiddleware } from "./session.middleware";
 import { object, when } from "testdouble";
 import { SessionService } from "./session.service";
-import { Context, Next } from "koa";
+import { Context, Next, ParameterizedContext } from "koa";
 import { FORBIDDEN, OK, UNAUTHORIZED } from "http-status";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { SessionPayload } from "./session-payload";
+import { ContextState } from "../types/state";
 
 describe("sessionMiddleware", () => {
   let sessionService: SessionService;
-  let sessionMiddlewareToTest: (ctx: Context, next: Next) => Promise<void>;
+  let sessionMiddlewareToTest: (ctx: ParameterizedContext<ContextState>, next: Next) => Promise<void>;
 
   beforeEach(() => {
     sessionService = object<SessionService>();
@@ -16,7 +17,7 @@ describe("sessionMiddleware", () => {
   });
 
   it("throws error if no credentials are provided", async () => {
-    const mockCtx = object<Context>();
+    const mockCtx = object<ParameterizedContext<ContextState>>();
     const mockNext = jest.fn();
     mockCtx.header = {
       authorization: undefined,
@@ -29,7 +30,7 @@ describe("sessionMiddleware", () => {
   });
 
   it("throws an error if the access token provided is invalid", async () => {
-    const mockCtx = object<Context>();
+    const mockCtx = object<ParameterizedContext<ContextState>>();
     const mockNext = jest.fn();
     const authorization = "some-invalid-token";
     mockCtx.header = {
@@ -44,14 +45,13 @@ describe("sessionMiddleware", () => {
   });
 
   it("resumes and goes through the middleware if the access token provided is valid", async () => {
-    const mockCtx = object<Context>();
+    const mockCtx = object<ParameterizedContext<ContextState>>();
     const mockNext = jest.fn();
     const authorization = "some-invalid-token";
     mockCtx.status = OK;
     mockCtx.header = {
       authorization,
     };
-    mockCtx.state = {};
     const sessionPayload: SessionPayload = {
       userId: generateRandomNumber(),
       accessKey: generateRandomString(),
@@ -62,6 +62,6 @@ describe("sessionMiddleware", () => {
     ).resolves.not.toThrowError();
     expect(mockCtx.status).toEqual(OK);
     expect(mockNext).toHaveBeenCalled();
-    expect(mockCtx.state.user).toEqual(sessionPayload);
+    expect(mockCtx.state.session).toEqual(sessionPayload);
   });
 });

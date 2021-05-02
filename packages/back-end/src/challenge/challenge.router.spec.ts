@@ -21,7 +21,7 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     const router = new ChallengeRouter(challengeService);
     session = {
-      id: generateRandomNumber(),
+      userId: generateRandomNumber(),
       accessKey: generateRandomString(),
     };
     app.use((ctx, next) => {

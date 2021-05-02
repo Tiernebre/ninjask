@@ -1,5 +1,4 @@
 import { Repository } from "typeorm";
-import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { ChallengeEntity } from "./challenge.entity";
 
@@ -8,13 +7,11 @@ export class ChallengeService {
     private readonly challengeRepository: Repository<ChallengeEntity>
   ) {}
 
-  async getAllForCurrentUser(
-    currentUser: SessionPayload
-  ): Promise<Challenge[]> {
+  async getAllForUserWithId(id: number): Promise<Challenge[]> {
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .leftJoinAndSelect("challenge.users", "user")
-      .where("user.id = :id", { id: currentUser.userId })
+      .where("user.id = :id", { id })
       .getMany();
     return challenges.map((entity) => this.mapFromEntity(entity));
   }

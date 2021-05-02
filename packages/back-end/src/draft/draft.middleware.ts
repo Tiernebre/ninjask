@@ -3,10 +3,11 @@ import route from "koa-route";
 import { DraftService } from "./draft.service";
 import KoaWebsocket from "koa-websocket";
 import { Logger } from "../logger";
+import { ContextState } from "../types/state";
 
 export const liveDraftSocketMiddleware = (
   draftService: DraftService,
-  app: KoaWebsocket.App,
+  app: KoaWebsocket.App<ContextState>,
   logger: Logger
 ): Middleware =>
   route.all("/drafts/:id/live-pool", (ctx: Context, id: string) => {

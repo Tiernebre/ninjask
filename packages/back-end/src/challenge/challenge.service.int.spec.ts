@@ -23,7 +23,7 @@ describe("ChallengeService (integration)", () => {
     challengeService = new ChallengeService(challengeRepository);
   });
 
-  describe("getAllForCurrentUser", () => {
+  describe("getAllForUserWithId", () => {
     it("returns all of the challenges that are only tied to a user", async () => {
       const challenges = await challengeRepository.findByIds([1, 3]);
       const user = (await userRepository.findOne()) as UserEntity;
@@ -31,10 +31,9 @@ describe("ChallengeService (integration)", () => {
         challenge.users = Promise.resolve([user]);
       });
       await challengeRepository.save(challenges);
-      const challengesFound = await challengeService.getAllForCurrentUser({
-        userId: user.id,
-        accessKey: user.accessKey,
-      });
+      const challengesFound = await challengeService.getAllForUserWithId(
+        user.id
+      );
       expect(challengesFound).toHaveLength(2);
       const [firstChallenge, secondChallenge] = challengesFound;
       expect(firstChallenge.id).toEqual(challenges[0].id);

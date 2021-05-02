@@ -25,7 +25,7 @@ describe("Challenge Router (integration)", () => {
       accessKey: generateRandomString(),
     };
     app.use((ctx, next) => {
-      ctx.state.user = session;
+      ctx.state.session = session;
       void next();
     });
     app.use(router.routes());
@@ -51,7 +51,7 @@ describe("Challenge Router (integration)", () => {
           versionId: generateRandomNumber(),
         },
       ];
-      when(challengeService.getAllForCurrentUser(session)).thenResolve(
+      when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
       const response = await request.get(uri).send();
@@ -67,7 +67,7 @@ describe("Challenge Router (integration)", () => {
           versionId: generateRandomNumber(),
         },
       ];
-      when(challengeService.getAllForCurrentUser(session)).thenResolve(
+      when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
       const response = await request.get(uri).send();

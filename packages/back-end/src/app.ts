@@ -11,6 +11,7 @@ import fs from "fs";
 import https from "https";
 import KoaWebsocket from "koa-websocket";
 import { isProduction } from "./environment";
+import { ContextState } from "./types/state";
 
 dotenv.config();
 
@@ -46,11 +47,15 @@ const getHttpsCredentials = (): https.ServerOptions => {
   };
 };
 
-let sockifiedApp: KoaWebsocket.App;
+let sockifiedApp: KoaWebsocket.App<ContextState>;
 if (isProduction()) {
-  sockifiedApp = websockify(app, undefined, getHttpsCredentials());
+  sockifiedApp = websockify<ContextState>(
+    app,
+    undefined,
+    getHttpsCredentials()
+  );
 } else {
-  sockifiedApp = websockify(app);
+  sockifiedApp = websockify<ContextState>(app);
 }
 
 void injectDependencies(sockifiedApp, logger).then((injectedApp) => {

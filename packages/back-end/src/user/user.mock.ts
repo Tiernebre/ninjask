@@ -1,7 +1,7 @@
 import { UserEntity } from "./user.entity";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { User } from "./user";
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from "uuid";
 
 export const generateMockUserEntity = (): UserEntity => {
   const userEntity = new UserEntity();

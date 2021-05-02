@@ -30,7 +30,7 @@ describe("UserService", () => {
       const userEntity = generateMockUserEntity();
       when(userRepository.create()).thenReturn(userEntity);
       when(userRepository.save(userEntity)).thenResolve(userEntity);
-      when(userRepository.findOne(userEntity.id)).thenResolve(userEntity)
+      when(userRepository.findOne(userEntity.id)).thenResolve(userEntity);
       const createdUser = await userService.createOne(request);
       expect(createdUser.id).toEqual(userEntity.id);
       expect(createdUser.accessKey).toBeTruthy();

@@ -15,7 +15,9 @@ export class UserService {
     userEntity.nickname = request.nickname;
     userEntity.password = await this.passwordEncoder.encode(request.password);
     const savedUserEntity = await this.userRepository.save(userEntity);
-    const reloadedUser = await this.userRepository.findOne(savedUserEntity.id) as UserEntity
+    const reloadedUser = (await this.userRepository.findOne(
+      savedUserEntity.id
+    )) as UserEntity;
     return this.mapEntityToDto(reloadedUser);
   }
 

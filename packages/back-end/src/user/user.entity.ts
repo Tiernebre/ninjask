@@ -13,30 +13,24 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // TODO: Auto-Gen this using PG instead of managing it within the app.
-  @Column({ unique: true, type: "uuid" })
+  @Column({ type: "uuid" })
   accessKey!: string;
 
   @Column()
   nickname!: string;
 
-  @Column({ nullable: false })
+  @Column()
   password!: string;
 
-  @CreateDateColumn({ update: false, nullable: false })
+  @CreateDateColumn({ update: false })
   createdAt!: Date;
 
-  @UpdateDateColumn({ nullable: false })
+  @UpdateDateColumn()
   updatedAt!: Date;
 
   @ManyToMany(() => ChallengeEntity, (challenge) => challenge.users)
   challenges!: Promise<ChallengeEntity[]>;
 
-  @Column({
-    nullable: false,
-    default: 0,
-    comment:
-      "Used to version refresh tokens and much more easily revoke out-in-the-wild access/refresh tokens",
-  })
+  @Column()
   tokenVersion!: number;
 }

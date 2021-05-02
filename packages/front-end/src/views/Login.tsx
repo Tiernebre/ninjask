@@ -33,24 +33,23 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   );
 
   return (
-    <div className="Login">login</div>
-    // <div className="Login columns is-vcentered is-mobile">
-    //   <div className="column is-offset-one-third-desktop is-one-third-desktop">
-    //     <h1 className="Login__heading title is-spaced">Welcome to Ninjask!</h1>
-    //     <h2 className="subtitle">
-    //       Please fill out your login information below to start drafting and
-    //       tracking your Pokémon challenges!
-    //     </h2>
-    //     <LoginForm onSubmit={submitLogin} loading={loading} />
-    //     {loginErrored && (
-    //       <article role="alert" className="message is-danger mt-3">
-    //         <div className="message-body">
-    //           The information submitted was incorrect. Please double check and
-    //           try again.
-    //         </div>
-    //       </article>
-    //     )}
-    //   </div>
-    // </div>
+    <div className="Login columns is-vcentered is-mobile p-5">
+      <div className="column is-offset-one-third-desktop is-one-third-desktop">
+        <h1 className="Login__heading title is-spaced">Welcome to Ninjask!</h1>
+        <h2 className="subtitle">
+          Please fill out your login information below to start drafting and
+          tracking your Pokémon challenges!
+        </h2>
+        <LoginForm onSubmit={submitLogin} loading={loading} />
+        {loginErrored && (
+          <article role="alert" className="message is-danger mt-3">
+            <div className="message-body">
+              The information submitted was incorrect. Please double check and
+              try again.
+            </div>
+          </article>
+        )}
+      </div>
+    </div>
   );
 };

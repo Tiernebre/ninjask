@@ -4,7 +4,6 @@ interface PokemonImageUrls {
   readonly thumbnail: string;
 }
 
-
 export interface Pokemon {
   readonly id: number;
   readonly name: string;

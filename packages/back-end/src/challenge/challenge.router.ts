@@ -1,4 +1,6 @@
 import Router from "@koa/router";
+import { ParameterizedContext } from "koa";
+import { ContextState } from "../types/state";
 import { ChallengeService } from "./challenge.service";
 
 export class ChallengeRouter extends Router {
@@ -8,10 +10,9 @@ export class ChallengeRouter extends Router {
   }
 
   private setupRoutes(): void {
-    this.get("/challenges", async (ctx) => {
-      ctx.body = await this.challengeService.getAllForCurrentUser(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        ctx.state.user
+    this.get("/challenges", async (ctx: ParameterizedContext<ContextState>) => {
+      ctx.body = await this.challengeService.getAllForUserWithId(
+        ctx.state.session.userId
       );
     });
   }

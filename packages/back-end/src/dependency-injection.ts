@@ -28,6 +28,7 @@ import { ChallengeEntity } from "./challenge/challenge.entity";
 import { ChallengeService } from "./challenge/challenge.service";
 import { ChallengeRouter } from "./challenge/challenge.router";
 import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
+import { ContextState } from "./types/state";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -121,9 +122,9 @@ const buildChallengesRouter = () => {
  * @returns Fully dependency injected Koa routers that can then be used in a Koa application.
  */
 export const injectDependencies = async (
-  app: KoaWebsocket.App,
+  app: KoaWebsocket.App<ContextState>,
   logger: Logger
-): Promise<Koa> => {
+): Promise<Koa<ContextState>> => {
   try {
     await setupTypeOrmConnection();
   } catch (error) {

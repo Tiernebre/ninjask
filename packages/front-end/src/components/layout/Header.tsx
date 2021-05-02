@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
-  <header className="Header columns p-3">
+  <header className="Header columns px-3 pt-3">
     <div className="column Header__logo-column">
       <Link to="/">
         <img src={logo} alt="Logo" />

@@ -1,14 +1,12 @@
 .App {
   min-height: 100vh;
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
 }
 
 .App__content {
-  flex: 1;
+  flex-grow: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: stretch;
 }

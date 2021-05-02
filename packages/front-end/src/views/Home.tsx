@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../api/challenge";
 import { HttpClient } from "../api/http";
 import { ChallengeTable } from "../components/challenge/ChallengeTable";
@@ -16,14 +17,13 @@ export const Home = ({ httpClient }: HomeProps) => {
     setChallenges(await challengeService.getAllForCurrentUser());
   }, [httpClient]);
 
-  useEffect(() => {
+  useDidMount(() => {
     fetchChallenges();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <main className="Home">
-      <h1 className="title">Challenges</h1>
+      <h1 className="title">Home</h1>
       <ChallengeTable challenges={challenges} />
     </main>
   );

@@ -7,7 +7,7 @@ type PooledPokemonProps = {
 
 const PooledPokemonListing = (pokemon: Pokemon) => (
   <li className="PooledPokemon__pokemon" key={pokemon.id}>
-    <img src={pokemon.iconUrl} alt={pokemon.name}></img>
+    <img src={pokemon.imageUrls.icon} alt={pokemon.name}></img>
     <p>{pokemon.name}</p>
   </li>
 );

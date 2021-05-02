@@ -7,14 +7,20 @@ it("correctly renders the pokemon given to it", () => {
     {
       id: 1,
       name: "Pikachu",
-      imageUrl: "pikachu.jpg",
-      iconUrl: "pikachu-icon.png",
+      imageUrls: {
+        thumbnail: "pikachu-thumbnail.jpg",
+        image: "pikachu.jpg",
+        icon: "pikachu-icon.png",
+      },
     },
     {
       id: 2,
       name: "Squirtle",
-      imageUrl: "squirtle.jpg",
-      iconUrl: "squirtle-icon.png",
+      imageUrls: {
+        thumbnail: "squirtle-thumbnail.jpg",
+        image: "squirtle.jpg",
+        icon: "squirtle-icon.png",
+      },
     },
   ];
   render(<PooledPokemon pokemon={pokemon} />);
@@ -22,6 +28,9 @@ it("correctly renders the pokemon given to it", () => {
     expect(screen.getByText(individualPokemon.name)).toBeInTheDocument();
     const pokemonImage = screen.getByAltText(individualPokemon.name);
     expect(pokemonImage).toBeInTheDocument();
-    expect(pokemonImage).toHaveAttribute("src", individualPokemon.iconUrl);
+    expect(pokemonImage).toHaveAttribute(
+      "src",
+      individualPokemon.imageUrls.icon
+    );
   });
 });

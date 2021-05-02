@@ -14,7 +14,7 @@ export const PokemonInformation = ({
     <div className="PokemonInformation">
       <img
         className="PokemonInformation__image"
-        src={pokemon.imageUrl}
+        src={pokemon.imageUrls.image}
         alt={pokemon.name}
       ></img>
       <h3 className="PokemonInformation__name mt-5 title">{pokemon.name}</h3>

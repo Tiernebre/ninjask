@@ -33,7 +33,7 @@ export const Login = ({ sessionService, onSuccess }: LoginProps) => {
   );
 
   return (
-    <div className="Login columns is-vcentered is-mobile">
+    <div className="Login columns is-vcentered is-mobile p-5">
       <div className="column is-offset-one-third-desktop is-one-third-desktop">
         <h1 className="Login__heading title is-spaced">Welcome to Ninjask!</h1>
         <h2 className="subtitle">

@@ -12,7 +12,7 @@ const POKEMON_THUMBNAIL_IMAGE_URL =
 const getPaddedPokemonId = (pokemon: PokeApiPokemonSpecies): string => {
   const id = pokemon.id.toString();
   return id.padStart(3, "0");
-}
+};
 
 const getImageUrlForPokemon = (pokemon: PokeApiPokemonSpecies): string => {
   return `${POKEMON_IMAGE_URL}/${getPaddedPokemonId(pokemon)}.png`;
@@ -22,22 +22,26 @@ const getIconImageUrlForPokemon = (pokemon: PokeApiPokemonSpecies): string => {
   return `${POKEMON_ICON_IMAGE_URL}/${pokemon.name.toLowerCase()}.png`;
 };
 
-const getThumbnailImageUrlForPokemon = (pokemon: PokeApiPokemonSpecies): string => {
+const getThumbnailImageUrlForPokemon = (
+  pokemon: PokeApiPokemonSpecies
+): string => {
   return `${POKEMON_THUMBNAIL_IMAGE_URL}/${getPaddedPokemonId(pokemon)}.png`;
 };
 
-const getImageUrlsForPokeApiPokemon = (pokeApiPokemon: PokeApiPokemonSpecies): PokemonImageUrls => {
+const getImageUrlsForPokeApiPokemon = (
+  pokeApiPokemon: PokeApiPokemonSpecies
+): PokemonImageUrls => {
   return {
     icon: getIconImageUrlForPokemon(pokeApiPokemon),
     image: getImageUrlForPokemon(pokeApiPokemon),
-    thumbnail: getThumbnailImageUrlForPokemon(pokeApiPokemon)
-  }
-}
+    thumbnail: getThumbnailImageUrlForPokemon(pokeApiPokemon),
+  };
+};
 
 export const mapFromPokeApi = (
   pokeApiPokemon: PokeApiPokemonSpecies
 ): Pokemon => ({
   id: pokeApiPokemon.id,
   name: pokeApiPokemon.name,
-  imageUrls: getImageUrlsForPokeApiPokemon(pokeApiPokemon)
+  imageUrls: getImageUrlsForPokeApiPokemon(pokeApiPokemon),
 });

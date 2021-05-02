@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import { SessionService, Session } from "../api/session";
 import { SessionRequest } from "../api/session/SessionRequest";
 import { LoginForm } from "../components/login/LoginForm";
-import "./Login.css";
+import "./Login.scss";
 
 type LoginProps = {
   sessionService: SessionService;

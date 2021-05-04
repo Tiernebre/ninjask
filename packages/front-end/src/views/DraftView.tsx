@@ -1,6 +1,6 @@
 import "./DraftView.scss";
 import { Fragment, useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { Draft } from "../api/draft/Draft";
 import { HttpDraftService } from "../api/draft/HttpDraftService";
@@ -31,9 +31,8 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
     <div className="DraftView">
       {draft ? (
         <Fragment>
-          <h1>Draft</h1>
-          <p>{draft.id}</p>
-          <p>{draft.poolSize}</p>
+          <h1 className="title">Draft</h1>
+          <Link className="button is-link" to={`/drafts/${draft.id}/live-pool`}>Live Pool</Link>
         </Fragment>
       ) : (
         <p>Loading Draft...</p>

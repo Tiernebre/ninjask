@@ -1,0 +1,19 @@
+@use "sass:map";
+
+$pokemon-version-stylings: (
+  "red": (
+    "background-color": #F8686A,
+    "color": black
+  ),
+  "blue": (
+    "background-color": #858DFF,
+    "color": black
+  )
+);
+
+@each $version, $styling in $pokemon-version-stylings {
+  .VersionTag__#{$version} {
+    color: map-get($styling, "color") !important;
+    background-color: map-get($styling, "background-color") !important;
+  }
+}

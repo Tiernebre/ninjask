@@ -20,8 +20,7 @@ describe("DraftService (integration)", () => {
     challengeRepository = getRepository(ChallengeEntity);
     draftRepository = getRepository(DraftEntity);
     await seedChallenges(challengeRepository);
-    const results = await seedDrafts(draftRepository);
-    console.log("results = ", results);
+    await seedDrafts(draftRepository);
   });
 
   beforeEach(() => {
@@ -35,8 +34,6 @@ describe("DraftService (integration)", () => {
 
   describe("getOneForChallengeId", () => {
     it("returns the draft that is associated with a given challenge id", async () => {
-      const result = await seedDrafts(draftRepository, 1);
-      console.log("result = ", result);
       let draft = (await draftRepository.findOne()) as DraftEntity;
       const challenge = (await challengeRepository.findOne()) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);

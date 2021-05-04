@@ -8,12 +8,40 @@ $pokemon-version-stylings: (
   "blue": (
     "background-color": #858DFF,
     "color": black
+  ),
+  "yellow": (
+    "background-color": #FDFF80,
+    "color": black
+  ),
+  "gold": (
+    "background-color": #FFD642,
+    "color": black
+  ),
+  "silver": (
+    "background-color": #E3E3E3,
+    "color": black
+  ),
+  "crystal": (
+    "background-color": #71FAFE,
+    "color": black
+  ),
+  "ruby": (
+    "background-color": #990800,
+    "color": white
+  ),
+  "sapphire": (
+    "background-color": #003B99,
+    "color": white
+  ),
+  "emerald": (
+    "background-color": #00AD23,
+    "color": black
   )
 );
 
 @each $version, $styling in $pokemon-version-stylings {
   .VersionTag__#{$version} {
-    color: map-get($styling, "color") !important;
+    color: black !important;
     background-color: map-get($styling, "background-color") !important;
   }
 }

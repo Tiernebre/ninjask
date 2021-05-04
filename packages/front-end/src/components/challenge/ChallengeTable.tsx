@@ -16,7 +16,7 @@ type ChallengeTableProps = {
 };
 
 export const ChallengeTable = ({ challenges }: ChallengeTableProps) => (
-  <table className="ChallengeTable table table-is-striped table-is-fullwidth">
+  <table className="ChallengeTable table is-striped is-fullwidth">
     <thead>
       <tr>
         <th>ID</th>

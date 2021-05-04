@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter, Route } from "react-router";
 import { Challenge } from "../../api/challenge";
 import { ChallengeTable } from "./ChallengeTable";
+import user from "@testing-library/user-event";
 
 it("renders given challenges", () => {
   const challenges: Challenge[] = [
@@ -17,9 +19,22 @@ it("renders given challenges", () => {
       versionId: 2,
     },
   ];
-  render(<ChallengeTable challenges={challenges} />);
-  challenges.forEach((challenge) => {
+
+  render(
+    <MemoryRouter>
+      <ChallengeTable challenges={challenges} />
+      {challenges.map((challenge) => (
+        <Route key={challenge.id} path={`/challenges/${challenge.id}/draft`}>
+          {challenge.name} Draft
+        </Route>
+      ))}
+    </MemoryRouter>
+  );
+  challenges.forEach((challenge, index) => {
     expect(screen.getByText(challenge.name)).toBeInTheDocument();
     expect(screen.getByText(challenge.description)).toBeInTheDocument();
+    const links = screen.getAllByRole("link", { name: /draft/i });
+    user.click(links[index]);
+    expect(screen.getByText(`${challenge.name} Draft`)).toBeInTheDocument();
   });
 });

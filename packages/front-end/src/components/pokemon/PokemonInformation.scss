@@ -6,9 +6,7 @@
 }
 
 .PokemonInformation__name {
-  &::first-letter {
-    text-transform: uppercase;
-  }
+  text-transform: capitalize;
 }
 
 .PokemonInformation__image {

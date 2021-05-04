@@ -108,10 +108,10 @@ const buildSessionMiddleware = (logger: Logger) => {
   return sessionMiddleware(buildSessionService(logger));
 };
 
-const buildChallengesRouter = () => {
+const buildChallengesRouter = (logger: Logger) => {
   const challengeRepository = getRepository(ChallengeEntity);
   const challengeService = new ChallengeService(challengeRepository);
-  return new ChallengeRouter(challengeService);
+  return new ChallengeRouter(challengeService, buildDraftService(logger));
 };
 
 /**
@@ -139,7 +139,7 @@ export const injectDependencies = async (
   const routers = [
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
-    buildChallengesRouter(),
+    buildChallengesRouter(logger),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

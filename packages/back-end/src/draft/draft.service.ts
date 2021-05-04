@@ -33,16 +33,16 @@ export class DraftService {
   }
 
   public async getOneForChallengeId(id: number): Promise<Draft> {
-    this.logger.info(`Fetching draft for challenge with id = ${id}`)
+    this.logger.info(`Fetching draft for challenge with id = ${id}`);
     const draft = await this.draftRepository
       .createQueryBuilder("draft")
       .leftJoin("draft.challenge", "challenge")
       .where("challenge.id = :id", { id })
       .getOne();
     if (!draft) {
-      throw new Error(`Draft was not found for challenge with id = ${id}`)
+      throw new Error(`Draft was not found for challenge with id = ${id}`);
     }
-    return this.mapFromEntity(draft)
+    return this.mapFromEntity(draft);
   }
 
   public async generatePoolOfPokemonForOneWithId(id: number): Promise<void> {
@@ -205,7 +205,7 @@ export class DraftService {
   private mapFromEntity(entity: DraftEntity): Draft {
     return {
       id: entity.id,
-      poolSize: entity.poolSize
-    }
+      poolSize: entity.poolSize,
+    };
   }
 }

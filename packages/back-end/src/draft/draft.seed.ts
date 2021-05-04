@@ -9,7 +9,7 @@ export const seedDrafts = async (
   const drafts = [];
   for (let i = 0; i < count; i++) {
     const draft = repository.create();
-    draft.poolSize = getRandomInt(1, 40)
+    draft.poolSize = getRandomInt(1, 40);
     drafts.push(draft);
   }
   return repository.save(drafts);

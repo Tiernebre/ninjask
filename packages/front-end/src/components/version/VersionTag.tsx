@@ -20,8 +20,8 @@ type VersionTagProps = {
 export const VersionTag = ({ id }: VersionTagProps) => {
   const versionName = pokemonVersionCopyMap.get(id);
   return (
-    <span className={`tag VersionTag__${versionName} is-medium`}>
+    <p className={`tag VersionTag VersionTag__${versionName} is-medium`}>
       {versionName}
-    </span>
+    </p>
   );
 };

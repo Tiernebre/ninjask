@@ -1,5 +1,10 @@
 @use "sass:map";
 
+.VersionTag {
+  margin: 0;
+  text-transform: capitalize;
+}
+
 $pokemon-version-stylings: (
   "red": (
     "background-color": #f8686a,

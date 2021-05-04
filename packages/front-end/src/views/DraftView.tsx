@@ -38,5 +38,5 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
         <p>Loading Draft...</p>
       )}
     </div>
-  )
+  );
 };

@@ -8,7 +8,7 @@ const ChallengeRow = (challenge: Challenge) => (
     <td>{challenge.name}</td>
     <td>{challenge.description}</td>
     <td>
-      <VersionTag />
+      <VersionTag id={challenge.versionId} />
     </td>
     <td>
       <Link className="button is-link is-light" to="/challenges">

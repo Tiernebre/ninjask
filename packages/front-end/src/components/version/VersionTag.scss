@@ -2,41 +2,41 @@
 
 $pokemon-version-stylings: (
   "red": (
-    "background-color": #F8686A,
-    "color": black
+    "background-color": #f8686a,
+    "color": black,
   ),
   "blue": (
-    "background-color": #858DFF,
-    "color": black
+    "background-color": #858dff,
+    "color": black,
   ),
   "yellow": (
-    "background-color": #FDFF80,
-    "color": black
+    "background-color": #fdff80,
+    "color": black,
   ),
   "gold": (
-    "background-color": #FFD642,
-    "color": black
+    "background-color": #ffd642,
+    "color": black,
   ),
   "silver": (
-    "background-color": #E3E3E3,
-    "color": black
+    "background-color": #e3e3e3,
+    "color": black,
   ),
   "crystal": (
-    "background-color": #71FAFE,
-    "color": black
+    "background-color": #71fafe,
+    "color": black,
   ),
   "ruby": (
     "background-color": #990800,
-    "color": white
+    "color": white,
   ),
   "sapphire": (
-    "background-color": #003B99,
-    "color": white
+    "background-color": #003b99,
+    "color": white,
   ),
   "emerald": (
-    "background-color": #00AD23,
-    "color": black
-  )
+    "background-color": #00ad23,
+    "color": black,
+  ),
 );
 
 @each $version, $styling in $pokemon-version-stylings {

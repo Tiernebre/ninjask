@@ -22,7 +22,7 @@ describe("Challenge Router (integration)", () => {
   beforeAll(() => {
     app = new Koa();
     challengeService = object<ChallengeService>();
-    draftService = object<DraftService>()
+    draftService = object<DraftService>();
     const router = new ChallengeRouter(challengeService, draftService);
     session = {
       userId: generateRandomNumber(),
@@ -80,19 +80,19 @@ describe("Challenge Router (integration)", () => {
   });
 
   describe("GET /challenges/:id/draft", () => {
-    const id = 1
+    const id = 1;
     const uri = `/challenges/${id.toString()}/draft`;
 
     it("returns with 200 OK status", async () => {
-      const draft = generateMockDraft()
-      when(draftService.getOneForChallengeId(id)).thenResolve(draft)
+      const draft = generateMockDraft();
+      when(draftService.getOneForChallengeId(id)).thenResolve(draft);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with found draft in the response body", async () => {
-      const draft = generateMockDraft()
-      when(draftService.getOneForChallengeId(id)).thenResolve(draft)
+      const draft = generateMockDraft();
+      when(draftService.getOneForChallengeId(id)).thenResolve(draft);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(draft);
     });

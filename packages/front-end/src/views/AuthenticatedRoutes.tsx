@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
+import { Draft } from "./Draft";
 import { Home } from "./Home";
 import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
@@ -28,6 +29,9 @@ export const AuthenticatedRoutes = ({
     <Fragment>
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
+      </Route>
+      <Route path="/challenges/:challengeId/draft">
+        <Draft />
       </Route>
       <Route path="/drafts/:draftId/live-pool" exact>
         <LiveDraftPoolView />

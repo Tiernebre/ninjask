@@ -10,21 +10,21 @@ type DraftViewParams = {
 };
 
 type DraftViewProps = {
-  httpClient: HttpClient
-}
+  httpClient: HttpClient;
+};
 
 export const DraftView = ({ httpClient }: DraftViewProps) => {
-  const [draft, setDraft] = useState<Draft>()
+  const [draft, setDraft] = useState<Draft>();
   const { challengeId } = useParams<DraftViewParams>();
 
   const fetchDraft = useCallback(async () => {
-    const draftService = new HttpDraftService(httpClient)
-    setDraft(await draftService.getOneForChallengeId(Number(challengeId)))
-  }, [challengeId, httpClient])
+    const draftService = new HttpDraftService(httpClient);
+    setDraft(await draftService.getOneForChallengeId(Number(challengeId)));
+  }, [challengeId, httpClient]);
 
   useDidMount(() => {
-    fetchDraft()
-  })
+    fetchDraft();
+  });
 
   return draft ? (
     <div>
@@ -34,5 +34,5 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
     </div>
   ) : (
     <p>Loading Draft...</p>
-  )
-}
+  );
+};

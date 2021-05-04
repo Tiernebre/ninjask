@@ -8,18 +8,22 @@ import { object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Challenge } from "./challenge";
+import { generateMockDraft } from "../draft/draft.mock";
+import { DraftService } from "../draft/draft.service";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
   let challengeService: ChallengeService;
+  let draftService: DraftService;
   let session: SessionPayload;
 
   beforeAll(() => {
     app = new Koa();
     challengeService = object<ChallengeService>();
-    const router = new ChallengeRouter(challengeService);
+    draftService = object<DraftService>();
+    const router = new ChallengeRouter(challengeService, draftService);
     session = {
       userId: generateRandomNumber(),
       accessKey: generateRandomString(),
@@ -72,6 +76,25 @@ describe("Challenge Router (integration)", () => {
       );
       const response = await request.get(uri).send();
       expect(response.body).toEqual(challenges);
+    });
+  });
+
+  describe("GET /challenges/:id/draft", () => {
+    const id = 1;
+    const uri = `/challenges/${id.toString()}/draft`;
+
+    it("returns with 200 OK status", async () => {
+      const draft = generateMockDraft();
+      when(draftService.getOneForChallengeId(id)).thenResolve(draft);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(200);
+    });
+
+    it("returns with found draft in the response body", async () => {
+      const draft = generateMockDraft();
+      when(draftService.getOneForChallengeId(id)).thenResolve(draft);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(draft);
     });
   });
 });

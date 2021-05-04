@@ -10,7 +10,7 @@ export class ChallengeService {
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
-      .leftJoinAndSelect("challenge.users", "user")
+      .innerJoin("challenge.users", "user")
       .where("user.id = :id", { id })
       .getMany();
     return challenges.map((entity) => this.mapFromEntity(entity));

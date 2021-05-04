@@ -7,6 +7,7 @@ import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
+import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 import { LiveDraftPool } from "./live-draft-pool";
@@ -29,6 +30,19 @@ export class DraftService {
     }
     this.logger.info(`Returning draft ${JSON.stringify(draft)}`);
     return draft;
+  }
+
+  public async getOneForChallengeId(id: number): Promise<Draft> {
+    this.logger.info(`Fetching draft for challenge with id = ${id}`);
+    const draft = await this.draftRepository
+      .createQueryBuilder("draft")
+      .innerJoin("draft.challenge", "challenge")
+      .where("challenge.id = :id", { id })
+      .getOne();
+    if (!draft) {
+      throw new Error(`Draft was not found for challenge with id = ${id}`);
+    }
+    return this.mapFromEntity(draft);
   }
 
   public async generatePoolOfPokemonForOneWithId(id: number): Promise<void> {
@@ -186,5 +200,12 @@ export class DraftService {
         `Draft with id = ${draft.id} does not have an existing pool.`
       );
     }
+  }
+
+  private mapFromEntity(entity: DraftEntity): Draft {
+    return {
+      id: entity.id,
+      poolSize: entity.poolSize,
+    };
   }
 }

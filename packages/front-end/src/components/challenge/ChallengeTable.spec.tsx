@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import { Challenge } from "../../api/challenge";
 import { ChallengeTable } from "./ChallengeTable";
 
@@ -17,7 +18,11 @@ it("renders given challenges", () => {
       versionId: 2,
     },
   ];
-  render(<ChallengeTable challenges={challenges} />);
+  render(
+    <MemoryRouter>
+      <ChallengeTable challenges={challenges} />
+    </MemoryRouter>
+  );
   challenges.forEach((challenge) => {
     expect(screen.getByText(challenge.name)).toBeInTheDocument();
     expect(screen.getByText(challenge.description)).toBeInTheDocument();

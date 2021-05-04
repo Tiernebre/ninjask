@@ -24,7 +24,7 @@ it("renders given challenges", () => {
     <MemoryRouter>
       <ChallengeTable challenges={challenges} />
       {challenges.map(challenge => (
-        <Route path={`/challenges/${challenge.id}/draft`}>
+        <Route key={challenge.id} path={`/challenges/${challenge.id}/draft`}>
           {challenge.name} Draft
         </Route>
       ))}

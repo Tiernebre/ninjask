@@ -1,5 +1,6 @@
 import { generateMockChallenge } from "../challenge/challenge.mock";
 import { generateRandomNumber } from "../random";
+import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 
@@ -19,3 +20,8 @@ export const generateMockDraftEntity = (): DraftEntity => {
   draftEntity.livePoolPokemonIndex = -1;
   return draftEntity;
 };
+
+export const generateMockDraft = (): Draft => ({
+  id: generateRandomNumber(),
+  poolSize: generateRandomNumber()
+})

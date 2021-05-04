@@ -11,7 +11,7 @@ const ChallengeRow = (challenge: Challenge) => (
       <VersionTag id={challenge.versionId} />
     </td>
     <td>
-      <Link className="button is-link is-light" to="/challenges">
+      <Link className="button is-link is-light" to={`/challenges/${challenge.id}/draft`}>
         Visit Draft
       </Link>
     </td>

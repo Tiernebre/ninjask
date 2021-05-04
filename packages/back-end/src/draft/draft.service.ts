@@ -36,7 +36,7 @@ export class DraftService {
     this.logger.info(`Fetching draft for challenge with id = ${id}`);
     const draft = await this.draftRepository
       .createQueryBuilder("draft")
-      .leftJoin("draft.challenge", "challenge")
+      .innerJoin("draft.challenge", "challenge")
       .where("challenge.id = :id", { id })
       .getOne();
     if (!draft) {

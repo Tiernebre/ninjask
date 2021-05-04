@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { Draft } from "../api/draft/Draft";
@@ -26,13 +26,17 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
     fetchDraft();
   });
 
-  return draft ? (
-    <div>
-      <h1>Draft</h1>
-      <p>{draft.id}</p>
-      <p>{draft.poolSize}</p>
+  return (
+    <div className="DraftView">
+      {draft ? (
+        <Fragment>
+          <h1>Draft</h1>
+          <p>{draft.id}</p>
+          <p>{draft.poolSize}</p>
+        </Fragment>
+      ) : (
+        <p>Loading Draft...</p>
+      )}
     </div>
-  ) : (
-    <p>Loading Draft...</p>
-  );
+  )
 };

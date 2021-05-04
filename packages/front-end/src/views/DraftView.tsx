@@ -32,7 +32,9 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
       {draft ? (
         <Fragment>
           <h1 className="title">Draft</h1>
-          <Link className="button is-link" to={`/drafts/${draft.id}/live-pool`}>Live Pool</Link>
+          <Link className="button is-link" to={`/drafts/${draft.id}/live-pool`}>
+            Live Pool
+          </Link>
         </Fragment>
       ) : (
         <p>Loading Draft...</p>

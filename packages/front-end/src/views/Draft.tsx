@@ -1,5 +1,7 @@
-export const Draft = () => (
-  <div>
-    Draft.
-  </div>
-)
+export const Draft = () => {
+  return (
+    <div>
+      Draft.
+    </div>
+  )
+}

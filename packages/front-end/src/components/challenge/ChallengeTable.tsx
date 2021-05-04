@@ -12,7 +12,7 @@ const ChallengeRow = (challenge: Challenge) => (
     </td>
     <td>
       <Link
-        className="button is-link is-light"
+        className="button is-link is-light is-fullwidth"
         to={`/challenges/${challenge.id}/draft`}
       >
         Draft

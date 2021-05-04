@@ -1,3 +1,4 @@
+import "./DraftView.scss";
 import { Fragment, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";

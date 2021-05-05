@@ -9,6 +9,17 @@
   justify-content: flex-start;
 }
 
+.LiveDraftPoolView__pokemon-information-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .LiveDraftPoolView__title {
+    justify-self: flex-start;
+  }
+}
+
 @media (min-width: $tablet) {
   .LiveDraftPoolView {
     flex-direction: row;

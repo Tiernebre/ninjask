@@ -39,8 +39,7 @@ export const LiveDraftPoolView = () => {
           <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile">
             <PooledPokemon pokemon={pooledPokemon} />
           </div>
-          <div className="column is-10">
-            <h1 className="title has-text-centered">Live Draft Pool</h1>
+          <div className="LiveDraftPoolView__pokemon-information-column column is-10">
             <PokemonInformation
               pokemon={currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."

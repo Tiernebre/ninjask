@@ -1,6 +1,7 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
 .PooledPokemon {
+  height: 100%;
   width: 100%;
   background-color: snow;
 
@@ -50,10 +51,6 @@
 }
 
 @media (min-width: $desktop) {
-  .PooledPokemon {
-    height: 1000px;
-  }
-
   .PooledPokemon__pokemon {
     justify-content: flex-start;
   }

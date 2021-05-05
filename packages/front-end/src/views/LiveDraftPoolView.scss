@@ -1,12 +1,12 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
 .LiveDraftPoolView {
-  max-height: inherit;
+  flex-grow: 1;
+  height: 1px;
   overflow: hidden;
   display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 @media (min-width: $tablet) {

@@ -35,11 +35,12 @@ export const LiveDraftPoolView = () => {
   return (
     <Fragment>
       {currentDraftStatus ? (
-        <div className="LiveDraftPoolView columns">
-          <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile">
+        <div className="LiveDraftPoolView columns is-marginless">
+          <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile p-0">
             <PooledPokemon pokemon={pooledPokemon} />
           </div>
           <div className="LiveDraftPoolView__pokemon-information-column column is-10">
+            <h1 className="LiveDraftPoolView__title title has-text-centered">Live Draft Pool</h1>
             <PokemonInformation
               pokemon={currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."
@@ -47,7 +48,9 @@ export const LiveDraftPoolView = () => {
           </div>
         </div>
       ) : (
-        <p>Loading Live Draft...</p>
+        <div className="LiveDraftPoolView__loading">
+          <p>Loading Live Draft...</p>
+        </div>
       )}
     </Fragment>
   );

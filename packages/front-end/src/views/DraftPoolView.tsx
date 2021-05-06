@@ -1,3 +1,4 @@
+import "./DraftPoolView.scss";
 import { useCallback, useState } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
@@ -28,11 +29,14 @@ export const DraftPoolView = ({ httpClient }: DraftPoolViewProps) => {
   });
 
   return (
-    <div>
-      Draft Pool.
-      {pokemon.map((individualPokemon) => (
-        <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />
-      ))}
+    <div className="DraftPoolView">
+      <h1 className="title has-text-centered">Draft Pool</h1>
+      <p className="subtitle has-text-centered">Below are the pokemon that are pooled for Draft {draftId}.</p>
+      <div className="DraftPoolView__pokemon p-5">
+        {pokemon.map((individualPokemon) => (
+          <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />
+        ))}
+      </div>
     </div>
   );
 };

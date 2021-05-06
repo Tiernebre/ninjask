@@ -1,3 +1,4 @@
+import "./PokemonCard.scss";
 import { Pokemon } from "../../api/pokemon";
 
 type PokemonCardProps = {
@@ -6,9 +7,9 @@ type PokemonCardProps = {
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   return (
-    <div className="PokemonCard">
-      <img src={pokemon.imageUrls.thumbnail} alt={pokemon.name} />
-      <h4>{ pokemon.name }</h4>
+    <div className="PokemonCard p-5">
+      <img src={pokemon.imageUrls.thumbnail} alt={pokemon.name} className="mb-3"/>
+      <h4 className="PokemonCard__name">{ pokemon.name }</h4>
     </div>
   );
 };

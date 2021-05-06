@@ -1,9 +1,10 @@
-import { Fragment, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { Draft } from "../api/draft/Draft";
 import { HttpDraftService } from "../api/draft/HttpDraftService";
 import { HttpClient } from "../api/http";
+import { DraftPoolView } from "./DraftPoolView";
 import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
 type DraftViewParams = {
@@ -27,15 +28,13 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
     fetchDraft();
   });
 
-  return (
-    <Fragment>
-      {draft ? (
-        <Fragment>
-          <LiveDraftPoolView draftId={draft.id} />
-        </Fragment>
-      ) : (
-        <p>Loading Draft...</p>
-      )}
-    </Fragment>
-  );
+  let draftView: JSX.Element
+
+  if (draft) {
+    draftView = draft.livePoolingHasFinished ? <DraftPoolView draftId={draft.id} httpClient={httpClient} /> : <LiveDraftPoolView draftId={draft.id} />
+  } else {
+    draftView = <p>Loading Draft...</p>
+  }
+  
+  return draftView;
 };

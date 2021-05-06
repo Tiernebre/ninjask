@@ -1,22 +1,17 @@
 import "./DraftPoolView.scss";
 import { useCallback, useState } from "react";
-import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { HttpDraftService } from "../api/draft/HttpDraftService";
 import { HttpClient } from "../api/http";
 import { Pokemon } from "../api/pokemon/Pokemon";
 import { PokemonCard } from "../components/pokemon/PokemonCard";
 
-type DraftPoolViewParams = {
-  draftId: string;
-};
-
 type DraftPoolViewProps = {
   httpClient: HttpClient;
+  draftId: number
 };
 
-export const DraftPoolView = ({ httpClient }: DraftPoolViewProps) => {
-  const { draftId } = useParams<DraftPoolViewParams>();
+export const DraftPoolView = ({ httpClient, draftId }: DraftPoolViewProps) => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   const fetchPokemon = useCallback(async () => {

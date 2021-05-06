@@ -206,6 +206,7 @@ export class DraftService {
     return {
       id: entity.id,
       poolSize: entity.poolSize,
+      livePoolingIsFinished: entity.livePoolPokemonIndex + 1 === entity.poolSize
     };
   }
 }

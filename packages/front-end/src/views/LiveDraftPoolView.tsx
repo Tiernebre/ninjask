@@ -1,17 +1,15 @@
 import { Fragment } from "react";
-import { useParams } from "react-router";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 import "./LiveDraftPoolView.scss";
 
-type DraftParams = {
-  draftId?: string;
-};
+type LiveDraftPoolViewProps = {
+  draftId: number
+}
 
-export const LiveDraftPoolView = () => {
-  const { draftId } = useParams<DraftParams>();
+export const LiveDraftPoolView = ({ draftId }: LiveDraftPoolViewProps) => {
   const { lastMessage, readyState } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
       draftId

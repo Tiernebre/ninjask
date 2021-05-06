@@ -1,10 +1,10 @@
-import "./DraftView.scss";
 import { Fragment, useCallback, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { Draft } from "../api/draft/Draft";
 import { HttpDraftService } from "../api/draft/HttpDraftService";
 import { HttpClient } from "../api/http";
+import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
 type DraftViewParams = {
   challengeId?: string;
@@ -28,17 +28,14 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
   });
 
   return (
-    <div className="DraftView">
+    <Fragment>
       {draft ? (
         <Fragment>
-          <h1 className="title">Draft</h1>
-          <Link className="button is-link" to={`/drafts/${draft.id}/live-pool`}>
-            Live Pool
-          </Link>
+          <LiveDraftPoolView draftId={draft.id} />
         </Fragment>
       ) : (
         <p>Loading Draft...</p>
       )}
-    </div>
+    </Fragment>
   );
 };

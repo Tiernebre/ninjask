@@ -16,7 +16,6 @@ export const liveDraftSocketMiddleware = (
     void draftService
       .getLiveDraftPoolForOneWithId(Number(id))
       .then((draftStatus) => {
-        logger.info(`EMITTING DRAFT STATUS = ${JSON.stringify(draftStatus)}`);
         ctx.websocket.send(JSON.stringify(draftStatus));
       });
 

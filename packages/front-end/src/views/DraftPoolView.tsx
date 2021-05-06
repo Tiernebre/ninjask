@@ -31,7 +31,9 @@ export const DraftPoolView = ({ httpClient }: DraftPoolViewProps) => {
   return (
     <div className="DraftPoolView">
       <h1 className="title has-text-centered">Draft Pool</h1>
-      <p className="subtitle has-text-centered">Below are the pokemon that are pooled for Draft {draftId}.</p>
+      <p className="subtitle has-text-centered">
+        Below are the pokemon that are pooled for Draft {draftId}.
+      </p>
       <div className="DraftPoolView__pokemon p-5">
         {pokemon.map((individualPokemon) => (
           <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />

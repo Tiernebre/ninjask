@@ -31,7 +31,6 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
   let draftView: JSX.Element
 
   if (draft) {
-    console.log(draft.livePoolingHasFinished)
     draftView = draft.livePoolingHasFinished ? <DraftPoolView draftId={draft.id} httpClient={httpClient} /> : <LiveDraftPoolView draftId={draft.id} />
   } else {
     draftView = <p>Loading Draft...</p>

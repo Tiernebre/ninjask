@@ -38,7 +38,7 @@ export const AuthenticatedRoutes = ({
         <LiveDraftPoolView />
       </Route>
       <Route path="/drafts/:draftId/pool" exact>
-        <DraftPoolView />
+        <DraftPoolView httpClient={authedHttpClient} />
       </Route>
     </Fragment>
   );

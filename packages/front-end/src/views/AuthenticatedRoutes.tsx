@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
+import { DraftPoolView } from "./DraftPoolView";
 import { DraftView } from "./DraftView";
 import { Home } from "./Home";
 import { LiveDraftPoolView } from "./LiveDraftPoolView";
@@ -35,6 +36,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/drafts/:draftId/live-pool" exact>
         <LiveDraftPoolView />
+      </Route>
+      <Route path="/drafts/:draftId/pool" exact>
+        <DraftPoolView />
       </Route>
     </Fragment>
   );

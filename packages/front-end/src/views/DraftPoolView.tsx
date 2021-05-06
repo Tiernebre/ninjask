@@ -4,6 +4,7 @@ import { useDidMount } from "rooks";
 import { HttpDraftService } from "../api/draft/HttpDraftService";
 import { HttpClient } from "../api/http";
 import { Pokemon } from "../api/pokemon/Pokemon";
+import { PokemonCard } from "../components/pokemon/PokemonCard";
 
 type DraftPoolViewParams = {
   draftId: string;
@@ -30,7 +31,7 @@ export const DraftPoolView = ({ httpClient }: DraftPoolViewProps) => {
     <div>
       Draft Pool.
       {pokemon.map((individualPokemon) => (
-        <div key={individualPokemon.id}>{individualPokemon.name}</div>
+        <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />
       ))}
     </div>
   );

@@ -29,6 +29,11 @@ export const DraftPoolView = ({ httpClient }: DraftPoolViewProps) => {
   return (
     <div>
       Draft Pool.
+      {
+        pokemon.map(individualPokemon => (
+          <div key={individualPokemon.id}>{individualPokemon.name}</div>
+        ))
+      }
     </div>
   )
 }

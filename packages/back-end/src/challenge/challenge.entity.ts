@@ -21,28 +21,22 @@ export class ChallengeEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   name!: string;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   description!: string;
 
   @ManyToOne(() => SeasonEntity, (season) => season.challenges)
   season!: Promise<SeasonEntity>;
 
-  @CreateDateColumn({ nullable: false, update: false })
+  @CreateDateColumn({ update: false })
   createdAt!: Date;
 
-  @UpdateDateColumn({ nullable: false })
+  @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   versionId!: number;
 
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
@@ -57,4 +51,7 @@ export class ChallengeEntity {
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })
   creator!: Promise<UserEntity>;
+
+  @Column()
+  creatorId!: number
 }

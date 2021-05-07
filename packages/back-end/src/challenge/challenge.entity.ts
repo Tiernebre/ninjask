@@ -8,6 +8,7 @@ import {
   OneToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from "typeorm";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
@@ -52,4 +53,8 @@ export class ChallengeEntity {
     name: "user_challenges",
   })
   users!: Promise<UserEntity[]>;
+
+  @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
+  @JoinColumn({ name: 'creator_id' })
+  creator!: Promise<UserEntity>;
 }

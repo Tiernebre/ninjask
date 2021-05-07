@@ -35,7 +35,9 @@ describe("DraftService (integration)", () => {
   describe("getOneForChallengeId", () => {
     it("returns the draft that is associated with a given challenge id", async () => {
       let draft = (await draftRepository.findOne(1)) as DraftEntity;
-      const challenge = (await challengeRepository.findOne(1)) as ChallengeEntity;
+      const challenge = (await challengeRepository.findOne(
+        1
+      )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
@@ -46,9 +48,11 @@ describe("DraftService (integration)", () => {
 
     it("returns that draft has finished live pooling if it did", async () => {
       let draft = (await draftRepository.findOne(2)) as DraftEntity;
-      const challenge = (await challengeRepository.findOne(2)) as ChallengeEntity;
+      const challenge = (await challengeRepository.findOne(
+        2
+      )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
-      draft.livePoolPokemonIndex = draft.poolSize - 1
+      draft.livePoolPokemonIndex = draft.poolSize - 1;
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
       expect(draftGotten.livePoolingHasFinished).toEqual(true);

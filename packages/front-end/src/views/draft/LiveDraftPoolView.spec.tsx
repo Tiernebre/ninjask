@@ -21,7 +21,7 @@ beforeEach(() => {
   mockedUseWebsocket.mockReset()
 })
 
-it('displays a loading message if loading', async () => {
+it.each([ReadyState.UNINSTANTIATED, ReadyState.CONNECTING, ReadyState.CLOSING, ReadyState.CLOSED])('displays a loading message if web socket status is %p', async (status: ReadyState) => {
   const draft: Draft = {
     id: 1,
     poolSize: 2,
@@ -29,7 +29,7 @@ it('displays a loading message if loading', async () => {
   }
   const challengeOwnerId = 1
   mockedUseWebsocket.mockResolvedValue({
-    readyState: ReadyState.CONNECTING
+    readyState: status
   })
   await act(async () => {
     render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()}/>)

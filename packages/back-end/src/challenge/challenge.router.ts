@@ -23,7 +23,7 @@ export class ChallengeRouter extends Router {
     this.get(
       "/challenges/:id",
       async (ctx: ParameterizedContext<ContextState>) => {
-        ctx.body = await this.challengeService.getAllForUserWithId(
+        ctx.body = await this.challengeService.getOneById(
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
         );

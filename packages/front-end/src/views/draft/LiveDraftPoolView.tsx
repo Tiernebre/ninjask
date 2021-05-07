@@ -9,7 +9,7 @@ import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewProps = {
   draft: Draft;
-  challengeOwnerId?: number;
+  challengeOwnerId: number;
   sessionPayload?: SessionPayload;
   onFinished: () => void;
 };

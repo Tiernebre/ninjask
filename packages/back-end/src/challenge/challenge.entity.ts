@@ -55,6 +55,6 @@ export class ChallengeEntity {
   users!: Promise<UserEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
-  @JoinColumn({ name: 'creator_id' })
+  @JoinColumn({ name: "creator_id" })
   creator!: Promise<UserEntity>;
 }

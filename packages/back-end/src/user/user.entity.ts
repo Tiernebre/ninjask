@@ -36,5 +36,5 @@ export class UserEntity {
   tokenVersion!: number;
 
   @OneToMany(() => ChallengeEntity, (challenge) => challenge.creator)
-  createdChallenges!: Promise<ChallengeEntity[]>
+  createdChallenges!: Promise<ChallengeEntity[]>;
 }

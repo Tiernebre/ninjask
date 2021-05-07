@@ -46,7 +46,7 @@ $pokemon-version-stylings: (
 
 @each $version, $styling in $pokemon-version-stylings {
   .VersionTag__#{$version} {
-    color: black !important;
+    color: map-get($styling, "color") !important;
     background-color: map-get($styling, "background-color") !important;
   }
 }

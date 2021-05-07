@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { Nullish, render, screen } from "@testing-library/react";
 import { Pokemon } from "../../api/pokemon";
 import { PooledPokemon } from "./PooledPokemon";
 
@@ -23,7 +23,7 @@ it("correctly renders the pokemon given to it", () => {
       },
     },
   ];
-  render(<PooledPokemon pokemon={pokemon} />);
+  render(<PooledPokemon pokemon={pokemon} poolSize={3} />);
   pokemon.forEach((individualPokemon) => {
     expect(screen.getByText(individualPokemon.name)).toBeInTheDocument();
     const pokemonImage = screen.getByAltText(individualPokemon.name);
@@ -58,5 +58,6 @@ it('displays the number of pooled pokemon out of the pool size', () => {
   ];
   const poolSize = 5
   render(<PooledPokemon pokemon={pokemon} poolSize={poolSize}/>);
-  expect(screen.getByText(`${pokemon.length}/${poolSize}`)).toBeInTheDocument()
+  const banner = screen.getByRole('banner')
+  expect(banner).toHaveTextContent(`Pooled Pokemon (${pokemon.length} / ${poolSize})`)
 })

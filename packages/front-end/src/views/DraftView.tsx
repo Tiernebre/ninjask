@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { Draft } from "../api/draft/Draft";
@@ -18,6 +18,7 @@ type DraftViewProps = {
 export const DraftView = ({ httpClient }: DraftViewProps) => {
   const [draft, setDraft] = useState<Draft>();
   const { challengeId } = useParams<DraftViewParams>();
+  const draftService = useMemo(() => new HttpDraftService(httpClient), [httpClient])
 
   const fetchDraft = useCallback(async () => {
     const draftService = new HttpDraftService(httpClient);
@@ -31,7 +32,7 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
   let draftView
 
   if (draft) {
-    draftView = draft.livePoolingHasFinished ? <DraftPoolView draftId={draft.id} httpClient={httpClient} /> : <LiveDraftPoolView draftId={draft.id} />
+    draftView = draft.livePoolingHasFinished ? <DraftPoolView draftId={draft.id} draftService={draftService} /> : <LiveDraftPoolView draftId={draft.id} />
   } else {
     draftView = <p>Loading Draft...</p>
   }

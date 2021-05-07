@@ -32,7 +32,7 @@ export interface SessionService {
 
   /**
    * Returns a decoded session payload from a given access token.
-   * 
+   *
    * @param accessToken The access token to parse a session payload out of.
    * @returns The decoded session payload from the given access token.
    */

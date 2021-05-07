@@ -34,6 +34,6 @@ export class HttpSessionService implements SessionService {
   }
 
   getSessionPayloadFromAccessToken(accessToken: string): SessionPayload {
-    return jwt.decode(accessToken) as SessionPayload
+    return jwt.decode(accessToken) as SessionPayload;
   }
 }

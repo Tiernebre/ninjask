@@ -15,7 +15,7 @@ type DraftViewParams = {
 
 type DraftViewProps = {
   httpClient: HttpClient;
-  sessionPayload?: SessionPayload
+  sessionPayload?: SessionPayload;
 };
 
 export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
@@ -32,9 +32,9 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
   }, [challengeId, httpClient]);
 
   const fetchChallenge = useCallback(async () => {
-    const challengeService = new HttpChallengeService(httpClient)
-    setChallenge(await challengeService.getOneById(Number(challengeId)))
-  }, [challengeId, httpClient])
+    const challengeService = new HttpChallengeService(httpClient);
+    setChallenge(await challengeService.getOneById(Number(challengeId)));
+  }, [challengeId, httpClient]);
 
   useDidMount(() => {
     fetchDraft();
@@ -47,7 +47,11 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
     draftView = draft.livePoolingHasFinished ? (
       <DraftPoolView draftId={draft.id} draftService={draftService} />
     ) : (
-      <LiveDraftPoolView draftId={draft.id} challengeOwnerId={challenge.creatorId} sessionPayload={sessionPayload} />
+      <LiveDraftPoolView
+        draftId={draft.id}
+        challengeOwnerId={challenge.creatorId}
+        sessionPayload={sessionPayload}
+      />
     );
   } else {
     draftView = <p>Loading Draft...</p>;

@@ -20,7 +20,7 @@ export const AuthenticatedRoutes = ({
   const [authedHttpClient, setAuthedHttpClient] = useState<HttpClient>(
     buildAuthedHttpClient(accessToken)
   );
-  const [sessionPayload, setSessionPayload] = useState<SessionPayload>()
+  const [sessionPayload, setSessionPayload] = useState<SessionPayload>();
 
   useEffect(() => {
     setAuthedHttpClient(buildAuthedHttpClient(accessToken));
@@ -28,10 +28,12 @@ export const AuthenticatedRoutes = ({
 
   useEffect(() => {
     if (authedHttpClient && accessToken) {
-      const sessionService = new HttpSessionService(authedHttpClient)
-      setSessionPayload(sessionService.getSessionPayloadFromAccessToken(accessToken))
+      const sessionService = new HttpSessionService(authedHttpClient);
+      setSessionPayload(
+        sessionService.getSessionPayloadFromAccessToken(accessToken)
+      );
     }
-  }, [authedHttpClient, accessToken])
+  }, [authedHttpClient, accessToken]);
 
   return (
     <Fragment>
@@ -39,7 +41,10 @@ export const AuthenticatedRoutes = ({
         <Home httpClient={authedHttpClient} />
       </Route>
       <Route path="/challenges/:challengeId/draft">
-        <DraftView httpClient={authedHttpClient} sessionPayload={sessionPayload} />
+        <DraftView
+          httpClient={authedHttpClient}
+          sessionPayload={sessionPayload}
+        />
       </Route>
     </Fragment>
   );

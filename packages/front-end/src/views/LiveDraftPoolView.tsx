@@ -12,7 +12,11 @@ type LiveDraftPoolViewProps = {
   sessionPayload?: SessionPayload;
 };
 
-export const LiveDraftPoolView = ({ draftId, sessionPayload, challengeOwnerId }: LiveDraftPoolViewProps) => {
+export const LiveDraftPoolView = ({
+  draftId,
+  sessionPayload,
+  challengeOwnerId,
+}: LiveDraftPoolViewProps) => {
   const { lastMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
       draftId
@@ -20,8 +24,8 @@ export const LiveDraftPoolView = ({ draftId, sessionPayload, challengeOwnerId }:
   );
 
   const getNextPokemon = useCallback(() => {
-    sendMessage("NEXT")
-  }, [sendMessage])
+    sendMessage("NEXT");
+  }, [sendMessage]);
 
   const isReady = () => readyState === ReadyState.OPEN;
 
@@ -37,7 +41,7 @@ export const LiveDraftPoolView = ({ draftId, sessionPayload, challengeOwnerId }:
   const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
-  const userIsCreator = sessionPayload?.userId === challengeOwnerId
+  const userIsCreator = sessionPayload?.userId === challengeOwnerId;
 
   return (
     <Fragment>
@@ -51,9 +55,11 @@ export const LiveDraftPoolView = ({ draftId, sessionPayload, challengeOwnerId }:
               pokemon={currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."
             />
-            {
-              userIsCreator && <button className="button" onClick={getNextPokemon}>Next</button>
-            }
+            {userIsCreator && (
+              <button className="button" onClick={getNextPokemon}>
+                Next
+              </button>
+            )}
           </div>
         </div>
       ) : (

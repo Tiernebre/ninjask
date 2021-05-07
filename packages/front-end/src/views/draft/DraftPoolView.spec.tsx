@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { object, when } from "testdouble";
-import { DraftService } from "../api/draft/DraftService";
-import { Pokemon } from "../api/pokemon";
+import { DraftService } from "../../api/draft/DraftService";
+import { Pokemon } from "../../api/pokemon";
 import { DraftPoolView } from "./DraftPoolView";
 
 it("displays each of the pokemon in a draft pool", async () => {

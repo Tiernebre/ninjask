@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
-import { Challenge, HttpChallengeService } from "../api/challenge";
-import { Draft } from "../api/draft/Draft";
-import { HttpDraftService } from "../api/draft/HttpDraftService";
-import { HttpClient } from "../api/http";
-import { SessionPayload } from "../api/session";
+import { Challenge, HttpChallengeService } from "../../api/challenge";
+import { Draft } from "../../api/draft/Draft";
+import { HttpDraftService } from "../../api/draft/HttpDraftService";
+import { HttpClient } from "../../api/http";
+import { SessionPayload } from "../../api/session";
 import { DraftPoolView } from "./DraftPoolView";
 import { LiveDraftPoolView } from "./LiveDraftPoolView";
 

@@ -1,10 +1,10 @@
 import { Fragment, useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { Draft } from "../api/draft/Draft";
-import { LiveDraftPool } from "../api/draft/LiveDraftPool";
-import { SessionPayload } from "../api/session";
-import { PokemonInformation } from "../components/pokemon/PokemonInformation";
-import { PooledPokemon } from "../components/pokemon/PooledPokemon";
+import { Draft } from "../../api/draft/Draft";
+import { LiveDraftPool } from "../../api/draft/LiveDraftPool";
+import { SessionPayload } from "../../api/session";
+import { PokemonInformation } from "../../components/pokemon/PokemonInformation";
+import { PooledPokemon } from "../../components/pokemon/PooledPokemon";
 import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewProps = {

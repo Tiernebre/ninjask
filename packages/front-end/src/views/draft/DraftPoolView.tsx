@@ -1,9 +1,9 @@
 import "./DraftPoolView.scss";
 import { useCallback, useState } from "react";
 import { useDidMount } from "rooks";
-import { Pokemon } from "../api/pokemon/Pokemon";
-import { PokemonCard } from "../components/pokemon/PokemonCard";
-import { DraftService } from "../api/draft/DraftService";
+import { Pokemon } from "../../api/pokemon/Pokemon";
+import { PokemonCard } from "../../components/pokemon/PokemonCard";
+import { DraftService } from "../../api/draft/DraftService";
 
 type DraftPoolViewProps = {
   draftService: DraftService;

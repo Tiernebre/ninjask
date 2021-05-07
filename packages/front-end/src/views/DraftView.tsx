@@ -18,7 +18,9 @@ type DraftViewProps = {
 export const DraftView = ({ httpClient }: DraftViewProps) => {
   const [draft, setDraft] = useState<Draft>();
   const { challengeId } = useParams<DraftViewParams>();
-  const draftService = useMemo(() => new HttpDraftService(httpClient), [httpClient])
+  const draftService = useMemo(() => new HttpDraftService(httpClient), [
+    httpClient,
+  ]);
 
   const fetchDraft = useCallback(async () => {
     const draftService = new HttpDraftService(httpClient);
@@ -29,13 +31,17 @@ export const DraftView = ({ httpClient }: DraftViewProps) => {
     fetchDraft();
   });
 
-  let draftView
+  let draftView;
 
   if (draft) {
-    draftView = draft.livePoolingHasFinished ? <DraftPoolView draftId={draft.id} draftService={draftService} /> : <LiveDraftPoolView draftId={draft.id} />
+    draftView = draft.livePoolingHasFinished ? (
+      <DraftPoolView draftId={draft.id} draftService={draftService} />
+    ) : (
+      <LiveDraftPoolView draftId={draft.id} />
+    );
   } else {
-    draftView = <p>Loading Draft...</p>
+    draftView = <p>Loading Draft...</p>;
   }
-  
+
   return draftView;
 };

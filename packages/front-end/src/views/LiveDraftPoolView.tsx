@@ -6,8 +6,8 @@ import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewProps = {
-  draftId: number
-}
+  draftId: number;
+};
 
 export const LiveDraftPoolView = ({ draftId }: LiveDraftPoolViewProps) => {
   const { lastMessage, readyState } = useWebSocket(

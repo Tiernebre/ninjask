@@ -6,11 +6,14 @@ import { PokemonCard } from "../components/pokemon/PokemonCard";
 import { DraftService } from "../api/draft/DraftService";
 
 type DraftPoolViewProps = {
-  draftService: DraftService
-  draftId: number
+  draftService: DraftService;
+  draftId: number;
 };
 
-export const DraftPoolView = ({ draftService, draftId }: DraftPoolViewProps) => {
+export const DraftPoolView = ({
+  draftService,
+  draftId,
+}: DraftPoolViewProps) => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   const fetchPokemon = useCallback(async () => {

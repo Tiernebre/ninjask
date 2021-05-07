@@ -48,6 +48,8 @@ export class ChallengeEntity {
   draft!: Promise<DraftEntity>;
 
   @ManyToMany(() => UserEntity, (user) => user.challenges)
-  @JoinTable()
+  @JoinTable({
+    name: 'user_challenges'
+  })
   users!: Promise<UserEntity[]>;
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from "../http";
 import { SessionRequest } from "./SessionRequest";
 import { SessionService } from "./SessionService";
-import { Session } from "./SessionTokenBag";
+import { Session } from "./Session";
 import jwt from "jsonwebtoken";
 
 type DecodedJsonWebToken = {

@@ -1,5 +1,5 @@
 import { SessionRequest } from "./SessionRequest";
-import { Session } from "./SessionTokenBag";
+import { Session } from "./Session";
 
 export interface SessionService {
   /**

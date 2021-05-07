@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react'
 import { Draft } from '../../api/draft/Draft'
 import { LiveDraftPoolView } from './LiveDraftPoolView'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { LiveDraftPool } from '../../api/draft/LiveDraftPool'
 
 jest.mock('react-use-websocket', () => ({
   __esModule: true,
@@ -28,11 +29,37 @@ it.each([ReadyState.UNINSTANTIATED, ReadyState.CONNECTING, ReadyState.CLOSING, R
     livePoolingHasFinished: false
   }
   const challengeOwnerId = 1
-  mockedUseWebsocket.mockResolvedValue({
+  mockedUseWebsocket.mockReturnValue({
     readyState: status
   })
   await act(async () => {
     render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()}/>)
   })
   expect(screen.getByText('Loading Live Draft...')).toBeInTheDocument()
+})
+
+it('displays a draft that is gotten from a live feed', async () => {
+  const draft: Draft = {
+    id: 1,
+    poolSize: 2,
+    livePoolingHasFinished: false
+  }
+  const draftStatus: LiveDraftPool = {
+    draftId: draft.id,
+    currentPokemon: null,
+    currentIndex: -1,
+    pooledPokemon: [],
+    isPoolOver: false
+  }
+  const challengeOwnerId = 1
+  mockedUseWebsocket.mockReturnValue({
+    readyState: ReadyState.OPEN,
+    lastMessage: {
+      data: JSON.stringify(draftStatus)
+    }
+  })
+  await act(async () => {
+    render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()}/>)
+  })
+  expect(screen.getByText('The Pool is being loaded...')).toBeInTheDocument()
 })

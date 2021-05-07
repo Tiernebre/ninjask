@@ -49,7 +49,7 @@ export class ChallengeEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.challenges)
   @JoinTable({
-    name: 'user_challenges'
+    name: "user_challenges",
   })
   users!: Promise<UserEntity[]>;
 }

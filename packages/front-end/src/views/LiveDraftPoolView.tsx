@@ -18,6 +18,7 @@ export const LiveDraftPoolView = ({
   draft,
   sessionPayload,
   challengeOwnerId,
+  onFinished,
 }: LiveDraftPoolViewProps) => {
   const { lastMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
@@ -62,8 +63,8 @@ export const LiveDraftPoolView = ({
                 Next
               </button>
             )}
-            {userIsCreator && currentDraftStatus.isPoolOver &&
-              <button className="button is-primary" onClick={getNextPokemon}>
+            {currentDraftStatus.isPoolOver &&
+              <button className="button is-primary" onClick={onFinished}>
                 Finish
               </button>
             }

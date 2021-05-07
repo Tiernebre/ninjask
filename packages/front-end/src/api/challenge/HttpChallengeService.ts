@@ -8,4 +8,8 @@ export class HttpChallengeService implements ChallengeService {
   getAllForCurrentUser(): Promise<Challenge[]> {
     return this.httpClient.get("challenges");
   }
+
+  getOneById(id: number): Promise<Challenge> {
+    return this.httpClient.get(`challenges/${id}`);
+  }
 }

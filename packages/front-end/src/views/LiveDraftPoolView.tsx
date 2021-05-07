@@ -1,20 +1,31 @@
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
+import { SessionPayload } from "../api/session";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
 import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewProps = {
   draftId: number;
+  challengeOwnerId?: number;
+  sessionPayload?: SessionPayload;
 };
 
-export const LiveDraftPoolView = ({ draftId }: LiveDraftPoolViewProps) => {
-  const { lastMessage, readyState } = useWebSocket(
+export const LiveDraftPoolView = ({
+  draftId,
+  sessionPayload,
+  challengeOwnerId,
+}: LiveDraftPoolViewProps) => {
+  const { lastMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
       draftId
     )}/live-pool`
   );
+
+  const getNextPokemon = useCallback(() => {
+    sendMessage("NEXT");
+  }, [sendMessage]);
 
   const isReady = () => readyState === ReadyState.OPEN;
 
@@ -30,6 +41,8 @@ export const LiveDraftPoolView = ({ draftId }: LiveDraftPoolViewProps) => {
   const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
 
+  const userIsCreator = sessionPayload?.userId === challengeOwnerId;
+
   return (
     <Fragment>
       {currentDraftStatus ? (
@@ -42,6 +55,11 @@ export const LiveDraftPoolView = ({ draftId }: LiveDraftPoolViewProps) => {
               pokemon={currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."
             />
+            {userIsCreator && (
+              <button className="button" onClick={getNextPokemon}>
+                Next
+              </button>
+            )}
           </div>
         </div>
       ) : (

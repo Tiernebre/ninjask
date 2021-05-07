@@ -1,4 +1,5 @@
 export * from "./HttpSessionService";
 export * from "./SessionService";
-export * from "./SessionTokenBag";
+export * from "./Session";
 export * from "./SessionRequest";
+export * from "./SessionPayload";

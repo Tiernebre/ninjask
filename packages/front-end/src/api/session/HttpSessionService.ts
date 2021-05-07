@@ -1,8 +1,9 @@
 import { HttpClient } from "../http";
 import { SessionRequest } from "./SessionRequest";
 import { SessionService } from "./SessionService";
-import { Session } from "./SessionTokenBag";
+import { Session } from "./Session";
 import jwt from "jsonwebtoken";
+import { SessionPayload } from "./SessionPayload";
 
 type DecodedJsonWebToken = {
   exp: number;
@@ -30,5 +31,9 @@ export class HttpSessionService implements SessionService {
     const accessTokenDecoded = jwt.decode(accessToken) as DecodedJsonWebToken;
     const currentEpochInSeconds = Math.floor(Date.now() / 1000);
     return accessTokenDecoded.exp > currentEpochInSeconds;
+  }
+
+  getSessionPayloadFromAccessToken(accessToken: string): SessionPayload {
+    return jwt.decode(accessToken) as SessionPayload;
   }
 }

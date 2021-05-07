@@ -25,16 +25,9 @@ export class DraftEntity {
   })
   pokemon!: Promise<DraftPokemonEntity[]>;
 
-  @Column({
-    nullable: false,
-    comment: "The amount of pokemon this draft should have.",
-  })
+  @Column()
   poolSize!: number;
 
-  @Column({
-    nullable: false,
-    default: -1,
-    comment: "Index for tracking a live pool feed of the draft.",
-  })
+  @Column()
   livePoolPokemonIndex!: number;
 }

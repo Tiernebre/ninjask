@@ -1,10 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
-import { DraftPoolView } from "./DraftPoolView";
 import { DraftView } from "./DraftView";
 import { Home } from "./Home";
-import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
 type AuthenticatedRoutesProps = {
   accessToken?: string;
@@ -33,12 +31,6 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/challenges/:challengeId/draft">
         <DraftView httpClient={authedHttpClient} />
-      </Route>
-      <Route path="/drafts/:draftId/live-pool" exact>
-        <LiveDraftPoolView />
-      </Route>
-      <Route path="/drafts/:draftId/pool" exact>
-        <DraftPoolView httpClient={authedHttpClient} />
       </Route>
     </Fragment>
   );

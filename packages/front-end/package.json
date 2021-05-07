@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.1",
-    "@types/mockdate": "^2.0.0",
+    "@types/mockdate": "^3.0.0",
     "@types/react-router-dom": "^5.1.7",
     "fetch-mock-jest": "^1.5.1",
     "flush-promises": "^1.0.2",

@@ -1,5 +1,6 @@
 import { SessionRequest } from "./SessionRequest";
 import { Session } from "./Session";
+import { SessionPayload } from ".";
 
 export interface SessionService {
   /**
@@ -28,4 +29,12 @@ export interface SessionService {
    * @returns true if the token is not expired and valid, false otherwise.
    */
   accessTokenIsValid(accessToken: string): boolean;
+
+  /**
+   * Returns a decoded session payload from a given access token.
+   * 
+   * @param accessToken The access token to parse a session payload out of.
+   * @returns The decoded session payload from the given access token.
+   */
+  getSessionPayloadFromAccessToken(accessToken: string): SessionPayload;
 }

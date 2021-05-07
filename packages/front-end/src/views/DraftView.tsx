@@ -45,7 +45,11 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
 
   if (draft && challenge) {
     draftView = draft.livePoolingHasFinished ? (
-      <DraftPoolView draftId={draft.id} draftService={draftService} />
+      <DraftPoolView
+        challengeName={challenge.name}
+        draftId={draft.id}
+        draftService={draftService}
+      />
     ) : (
       <LiveDraftPoolView
         draft={draft}

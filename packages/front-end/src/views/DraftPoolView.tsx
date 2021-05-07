@@ -8,11 +8,13 @@ import { DraftService } from "../api/draft/DraftService";
 type DraftPoolViewProps = {
   draftService: DraftService;
   draftId: number;
+  challengeName: string;
 };
 
 export const DraftPoolView = ({
   draftService,
   draftId,
+  challengeName,
 }: DraftPoolViewProps) => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
@@ -26,10 +28,12 @@ export const DraftPoolView = ({
 
   return (
     <div className="DraftPoolView">
-      <h1 className="title has-text-centered">Draft Pool</h1>
-      <p className="subtitle has-text-centered">
-        Below are the pokemon that are pooled for Draft {draftId}.
-      </p>
+      <header>
+        <h1 className="title has-text-centered">Draft Pool</h1>
+        <p role="doc-subtitle" className="subtitle has-text-centered">
+          Below are the pokemon that are pooled for {challengeName}.
+        </p>
+      </header>
       <div className="DraftPoolView__pokemon p-5">
         {pokemon.map((individualPokemon) => (
           <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />

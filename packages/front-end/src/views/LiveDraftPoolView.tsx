@@ -11,6 +11,7 @@ type LiveDraftPoolViewProps = {
   draft: Draft;
   challengeOwnerId?: number;
   sessionPayload?: SessionPayload;
+  onFinished: () => void;
 };
 
 export const LiveDraftPoolView = ({
@@ -61,6 +62,11 @@ export const LiveDraftPoolView = ({
                 Next
               </button>
             )}
+            {userIsCreator && currentDraftStatus.isPoolOver &&
+              <button className="button is-primary" onClick={getNextPokemon}>
+                Finish
+              </button>
+            }
           </div>
         </div>
       ) : (

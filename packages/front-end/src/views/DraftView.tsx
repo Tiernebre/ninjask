@@ -51,6 +51,7 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
         draft={draft}
         challengeOwnerId={challenge.creatorId}
         sessionPayload={sessionPayload}
+        onFinished={() => null}
       />
     );
   } else {

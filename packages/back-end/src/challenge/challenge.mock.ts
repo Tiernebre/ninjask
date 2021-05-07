@@ -18,5 +18,5 @@ export const generateMockChallengeDto = (): Challenge => ({
   name: generateRandomString(),
   description: generateRandomString(),
   versionId: generateRandomNumber(),
-  creatorId: generateRandomNumber()
-})
+  creatorId: generateRandomNumber(),
+});

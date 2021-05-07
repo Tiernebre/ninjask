@@ -8,6 +8,7 @@ import {
   OneToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from "typeorm";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
@@ -20,34 +21,37 @@ export class ChallengeEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   name!: string;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   description!: string;
 
   @ManyToOne(() => SeasonEntity, (season) => season.challenges)
   season!: Promise<SeasonEntity>;
 
-  @CreateDateColumn({ nullable: false, update: false })
+  @CreateDateColumn({ update: false })
   createdAt!: Date;
 
-  @UpdateDateColumn({ nullable: false })
+  @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column({
-    nullable: false,
-  })
+  @Column()
   versionId!: number;
 
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 
   @ManyToMany(() => UserEntity, (user) => user.challenges)
-  @JoinTable()
+  @JoinTable({
+    name: "user_challenges",
+  })
   users!: Promise<UserEntity[]>;
+
+  @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
+  @JoinColumn({ name: "creator_id" })
+  creator!: Promise<UserEntity>;
+
+  @Column()
+  creatorId!: number;
 }

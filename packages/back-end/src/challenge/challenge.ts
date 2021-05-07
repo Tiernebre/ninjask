@@ -3,4 +3,5 @@ export interface Challenge {
   readonly name: string;
   readonly description: string;
   readonly versionId: number;
+  readonly creatorId: number;
 }

@@ -10,6 +10,7 @@ import { generateRandomNumber, generateRandomString } from "../random";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
+import { generateMockChallengeDto } from "./challenge.mock";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;
@@ -47,14 +48,7 @@ describe("Challenge Router (integration)", () => {
     const uri = "/challenges";
 
     it("returns with 200 OK status", async () => {
-      const challenges: Challenge[] = [
-        {
-          id: generateRandomNumber(),
-          name: generateRandomString(),
-          description: generateRandomString(),
-          versionId: generateRandomNumber(),
-        },
-      ];
+      const challenges: Challenge[] = [generateMockChallengeDto()];
       when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
@@ -63,14 +57,7 @@ describe("Challenge Router (integration)", () => {
     });
 
     it("returns with found challenges in the response body", async () => {
-      const challenges: Challenge[] = [
-        {
-          id: generateRandomNumber(),
-          name: generateRandomString(),
-          description: generateRandomString(),
-          versionId: generateRandomNumber(),
-        },
-      ];
+      const challenges: Challenge[] = [generateMockChallengeDto()];
       when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
@@ -95,6 +82,25 @@ describe("Challenge Router (integration)", () => {
       when(draftService.getOneForChallengeId(id)).thenResolve(draft);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(draft);
+    });
+  });
+
+  describe("GET /challenges/:id", () => {
+    const id = 5;
+    const uri = `/challenges/${id}`;
+
+    it("returns with 200 OK status", async () => {
+      const challenge = generateMockChallengeDto();
+      when(challengeService.getOneById(id)).thenResolve(challenge);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(200);
+    });
+
+    it("returns with found draft in the response body", async () => {
+      const challenge = generateMockChallengeDto();
+      when(challengeService.getOneById(id)).thenResolve(challenge);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(challenge);
     });
   });
 });

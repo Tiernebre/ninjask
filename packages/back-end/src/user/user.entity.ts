@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -33,4 +34,7 @@ export class UserEntity {
 
   @Column()
   tokenVersion!: number;
+
+  @OneToMany(() => ChallengeEntity, (challenge) => challenge.creator)
+  createdChallenges!: Promise<ChallengeEntity[]>;
 }

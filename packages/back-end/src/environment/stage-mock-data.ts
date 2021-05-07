@@ -53,6 +53,7 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testChallenge.users = Promise.resolve([testUser]);
   testChallenge.season = Promise.resolve(testSeason);
   testChallenge.versionId = 1;
+  testChallenge.creator = Promise.resolve(testUser);
   testChallenge = await challengeRepository.save(testChallenge);
 
   const draftRepository = getRepository(DraftEntity);

@@ -1,4 +1,4 @@
-import { Nullish, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Pokemon } from "../../api/pokemon";
 import { PooledPokemon } from "./PooledPokemon";
 

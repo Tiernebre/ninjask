@@ -16,7 +16,9 @@ const PooledPokemonListing = (pokemon: Pokemon) => (
 export const PooledPokemon = ({ pokemon, poolSize }: PooledPokemonProps) => {
   return (
     <div className="PooledPokemon">
-      <h2 role="banner" className="PooledPokemon__heading">Pooled Pokemon ({pokemon.length} / {poolSize})</h2>
+      <h2 role="banner" className="PooledPokemon__heading">
+        Pooled Pokemon ({pokemon.length} / {poolSize})
+      </h2>
       <ol>{pokemon.map(PooledPokemonListing)}</ol>
     </div>
   );

@@ -35,7 +35,7 @@ it("correctly renders the pokemon given to it", () => {
   });
 });
 
-it('displays the number of pooled pokemon out of the pool size', () => {
+it("displays the number of pooled pokemon out of the pool size", () => {
   const pokemon: Pokemon[] = [
     {
       id: 1,
@@ -56,8 +56,10 @@ it('displays the number of pooled pokemon out of the pool size', () => {
       },
     },
   ];
-  const poolSize = 5
-  render(<PooledPokemon pokemon={pokemon} poolSize={poolSize}/>);
-  const banner = screen.getByRole('banner')
-  expect(banner).toHaveTextContent(`Pooled Pokemon (${pokemon.length} / ${poolSize})`)
-})
+  const poolSize = 5;
+  render(<PooledPokemon pokemon={pokemon} poolSize={poolSize} />);
+  const banner = screen.getByRole("banner");
+  expect(banner).toHaveTextContent(
+    `Pooled Pokemon (${pokemon.length} / ${poolSize})`
+  );
+});

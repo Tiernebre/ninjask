@@ -34,3 +34,29 @@ it("correctly renders the pokemon given to it", () => {
     );
   });
 });
+
+it('displays the number of pooled pokemon out of the pool size', () => {
+  const pokemon: Pokemon[] = [
+    {
+      id: 1,
+      name: "Pikachu",
+      imageUrls: {
+        thumbnail: "pikachu-thumbnail.jpg",
+        image: "pikachu.jpg",
+        icon: "pikachu-icon.png",
+      },
+    },
+    {
+      id: 2,
+      name: "Squirtle",
+      imageUrls: {
+        thumbnail: "squirtle-thumbnail.jpg",
+        image: "squirtle.jpg",
+        icon: "squirtle-icon.png",
+      },
+    },
+  ];
+  const poolSize = 5
+  render(<PooledPokemon pokemon={pokemon} poolSize={poolSize}/>);
+  expect(screen.getByText(`${pokemon.length}/${poolSize}`)).toBeInTheDocument()
+})

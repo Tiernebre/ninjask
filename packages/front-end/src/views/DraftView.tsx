@@ -48,7 +48,7 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
       <DraftPoolView draftId={draft.id} draftService={draftService} />
     ) : (
       <LiveDraftPoolView
-        draftId={draft.id}
+        draft={draft}
         challengeOwnerId={challenge.creatorId}
         sessionPayload={sessionPayload}
       />

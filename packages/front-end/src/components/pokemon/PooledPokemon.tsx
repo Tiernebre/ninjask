@@ -3,6 +3,7 @@ import "./PooledPokemon.scss";
 
 type PooledPokemonProps = {
   pokemon: Pokemon[];
+  poolSize: number;
 };
 
 const PooledPokemonListing = (pokemon: Pokemon) => (
@@ -12,10 +13,10 @@ const PooledPokemonListing = (pokemon: Pokemon) => (
   </li>
 );
 
-export const PooledPokemon = ({ pokemon }: PooledPokemonProps) => {
+export const PooledPokemon = ({ pokemon, poolSize }: PooledPokemonProps) => {
   return (
     <div className="PooledPokemon">
-      <h2 className="PooledPokemon__heading">Pooled Pokemon</h2>
+      <h2 className="PooledPokemon__heading">Pooled Pokemon ({pokemon.length} / {poolSize})</h2>
       <ol>{pokemon.map(PooledPokemonListing)}</ol>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Fragment, useCallback } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { Draft } from "../api/draft/Draft";
 import { LiveDraftPool } from "../api/draft/LiveDraftPool";
 import { SessionPayload } from "../api/session";
 import { PokemonInformation } from "../components/pokemon/PokemonInformation";
@@ -7,19 +8,19 @@ import { PooledPokemon } from "../components/pokemon/PooledPokemon";
 import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewProps = {
-  draftId: number;
+  draft: Draft;
   challengeOwnerId?: number;
   sessionPayload?: SessionPayload;
 };
 
 export const LiveDraftPoolView = ({
-  draftId,
+  draft,
   sessionPayload,
   challengeOwnerId,
 }: LiveDraftPoolViewProps) => {
   const { lastMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
-      draftId
+      draft.id
     )}/live-pool`
   );
 
@@ -48,7 +49,7 @@ export const LiveDraftPoolView = ({
       {currentDraftStatus ? (
         <div className="LiveDraftPoolView columns is-marginless">
           <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile p-0">
-            <PooledPokemon pokemon={pooledPokemon} />
+            <PooledPokemon pokemon={pooledPokemon} poolSize={draft.poolSize} />
           </div>
           <div className="LiveDraftPoolView__pokemon-information-column column is-10">
             <PokemonInformation

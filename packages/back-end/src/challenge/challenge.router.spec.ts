@@ -48,9 +48,7 @@ describe("Challenge Router (integration)", () => {
     const uri = "/challenges";
 
     it("returns with 200 OK status", async () => {
-      const challenges: Challenge[] = [
-        generateMockChallengeDto()
-      ];
+      const challenges: Challenge[] = [generateMockChallengeDto()];
       when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
@@ -59,9 +57,7 @@ describe("Challenge Router (integration)", () => {
     });
 
     it("returns with found challenges in the response body", async () => {
-      const challenges: Challenge[] = [
-        generateMockChallengeDto()
-      ];
+      const challenges: Challenge[] = [generateMockChallengeDto()];
       when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
@@ -94,17 +90,17 @@ describe("Challenge Router (integration)", () => {
     const uri = `/challenges/${id}`;
 
     it("returns with 200 OK status", async () => {
-      const challenge = generateMockChallengeDto()
+      const challenge = generateMockChallengeDto();
       when(challengeService.getOneById(id)).thenResolve(challenge);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with found draft in the response body", async () => {
-      const challenge = generateMockChallengeDto()
+      const challenge = generateMockChallengeDto();
       when(challengeService.getOneById(id)).thenResolve(challenge);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(challenge);
     });
-  })
+  });
 });

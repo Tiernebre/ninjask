@@ -8,11 +8,11 @@ export class ChallengeService {
   ) {}
 
   async getOneById(id: number): Promise<Challenge> {
-    const challenge = await this.challengeRepository.findOne(id)
+    const challenge = await this.challengeRepository.findOne(id);
     if (!challenge) {
-      throw new Error(`Challenge was not found for id = ${id}`)
+      throw new Error(`Challenge was not found for id = ${id}`);
     }
-    return this.mapFromEntity(challenge)
+    return this.mapFromEntity(challenge);
   }
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
@@ -30,7 +30,7 @@ export class ChallengeService {
       name: entity.name,
       description: entity.description,
       versionId: entity.versionId,
-      creatorId: entity.creatorId
+      creatorId: entity.creatorId,
     };
   }
 }

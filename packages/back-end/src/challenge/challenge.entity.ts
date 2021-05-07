@@ -53,5 +53,5 @@ export class ChallengeEntity {
   creator!: Promise<UserEntity>;
 
   @Column()
-  creatorId!: number
+  creatorId!: number;
 }

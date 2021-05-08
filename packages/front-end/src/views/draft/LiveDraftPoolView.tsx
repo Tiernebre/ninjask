@@ -30,13 +30,8 @@ export const LiveDraftPoolView = ({
     sendMessage("NEXT");
   }, [sendMessage]);
 
-  const isReady = readyState === ReadyState.OPEN
-
-  const currentDraftStatus = lastJsonMessage as LiveDraftPool | null
-
-  const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
-  const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
-
+  const isReady = readyState === ReadyState.OPEN;
+  const currentDraftStatus = lastJsonMessage as LiveDraftPool | null;
   const userIsCreator = sessionPayload?.userId === challengeOwnerId;
 
   return (
@@ -44,11 +39,14 @@ export const LiveDraftPoolView = ({
       {isReady && currentDraftStatus ? (
         <div className="LiveDraftPoolView columns is-marginless">
           <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile p-0">
-            <PooledPokemon pokemon={pooledPokemon} poolSize={draft.poolSize} />
+            <PooledPokemon
+              pokemon={currentDraftStatus.pooledPokemon}
+              poolSize={draft.poolSize}
+            />
           </div>
           <div className="LiveDraftPoolView__pokemon-information-column column is-10">
             <PokemonInformation
-              pokemon={currentPokemon}
+              pokemon={currentDraftStatus.currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."
             />
             {userIsCreator && (

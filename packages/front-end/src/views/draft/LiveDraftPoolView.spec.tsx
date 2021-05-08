@@ -62,6 +62,7 @@ it('displays a draft that is gotten from a live feed', async () => {
     render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()}/>)
   })
   expect(screen.getByText('The Pool is being loaded...')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: /Finish/i })).toBeNull()
 })
 
 it('does not display a next button if the current user does not own the draft', async () => {
@@ -125,4 +126,37 @@ it('goes to the next pokemon if the current user created the draft', async () =>
   const nextButton = screen.getByRole('button', { name: /Next/i })
   user.click(nextButton)
   expect(sendMessage).toHaveBeenCalledWith('NEXT')
+})
+
+it('allows a user to finish when the pool is over', async () => {
+  const draft: Draft = {
+    id: 1,
+    poolSize: 2,
+    livePoolingHasFinished: true
+  }
+  const draftStatus: LiveDraftPool = {
+    draftId: draft.id,
+    currentPokemon: null,
+    currentIndex: -1,
+    pooledPokemon: [],
+    isPoolOver: true
+  }
+  const challengeOwnerId = 1
+  const sessionPayload: SessionPayload = {
+    userId: challengeOwnerId,
+    accessKey: ''
+  }
+  const sendMessage = jest.fn()
+  mockedUseWebsocket.mockReturnValue({
+    readyState: ReadyState.OPEN,
+    lastJsonMessage: draftStatus,
+    sendMessage
+  })
+  const onFinished = jest.fn()
+  await act(async () => {
+    render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={onFinished} sessionPayload={sessionPayload}/>)
+  })
+  const finishButton = screen.getByRole('button', { name: /Finish/i })
+  user.click(finishButton)
+  expect(onFinished).toHaveBeenCalled()
 })

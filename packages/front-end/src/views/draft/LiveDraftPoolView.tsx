@@ -49,16 +49,18 @@ export const LiveDraftPoolView = ({
               pokemon={currentDraftStatus.currentPokemon}
               emptyPlaceholder="The Pool is being loaded..."
             />
-            {userIsCreator && (
-              <button className="button" onClick={getNextPokemon}>
-                Next
-              </button>
-            )}
-            {currentDraftStatus.isPoolOver && (
-              <button className="button is-primary" onClick={onFinished}>
-                Finish
-              </button>
-            )}
+            <div className="LiveDraftPoolView__button-container mt-5">
+              {userIsCreator && !currentDraftStatus.isPoolOver && (
+                <button className="button" onClick={getNextPokemon}>
+                  Next
+                </button>
+              )}
+              {currentDraftStatus.isPoolOver && (
+                <button className="button is-primary" onClick={onFinished}>
+                  Finish
+                </button>
+              )}
+            </div>
           </div>
         </div>
       ) : (

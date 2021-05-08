@@ -200,6 +200,6 @@ it("allows a user to finish when the pool is over", async () => {
   const finishButton = screen.getByRole("button", { name: /Finish/i });
   user.click(finishButton);
   expect(onFinished).toHaveBeenCalled();
-  const nextButton = screen.queryByRole("button", { name: /Next/i })
-  expect(nextButton).toBeNull()
+  const nextButton = screen.queryByRole("button", { name: /Next/i });
+  expect(nextButton).toBeNull();
 });

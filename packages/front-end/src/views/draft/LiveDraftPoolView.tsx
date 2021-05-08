@@ -56,7 +56,7 @@ export const LiveDraftPoolView = ({
                 Next
               </button>
             )}
-            {currentDraftStatus?.isPoolOver && (
+            {currentDraftStatus.isPoolOver && (
               <button className="button is-primary" onClick={onFinished}>
                 Finish
               </button>

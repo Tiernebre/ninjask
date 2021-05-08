@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
-import { Challenge, HttpChallengeService } from "../api/challenge";
-import { Draft } from "../api/draft/Draft";
-import { HttpDraftService } from "../api/draft/HttpDraftService";
-import { HttpClient } from "../api/http";
-import { SessionPayload } from "../api/session";
+import { Challenge, HttpChallengeService } from "../../api/challenge";
+import { Draft } from "../../api/draft/Draft";
+import { HttpDraftService } from "../../api/draft/HttpDraftService";
+import { HttpClient } from "../../api/http";
+import { SessionPayload } from "../../api/session";
 import { DraftPoolView } from "./DraftPoolView";
 import { LiveDraftPoolView } from "./LiveDraftPoolView";
 
@@ -45,12 +45,17 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
 
   if (draft && challenge) {
     draftView = draft.livePoolingHasFinished ? (
-      <DraftPoolView draftId={draft.id} draftService={draftService} />
+      <DraftPoolView
+        challengeName={challenge.name}
+        draftId={draft.id}
+        draftService={draftService}
+      />
     ) : (
       <LiveDraftPoolView
-        draftId={draft.id}
+        draft={draft}
         challengeOwnerId={challenge.creatorId}
         sessionPayload={sessionPayload}
+        onFinished={fetchDraft}
       />
     );
   } else {

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
 import { HttpSessionService, SessionPayload } from "../api/session";
-import { DraftView } from "./DraftView";
+import { DraftView } from "./draft/DraftView";
 import { Home } from "./Home";
 
 type AuthenticatedRoutesProps = {

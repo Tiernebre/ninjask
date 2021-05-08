@@ -56,9 +56,7 @@ it('displays a draft that is gotten from a live feed', async () => {
   const challengeOwnerId = 1
   mockedUseWebsocket.mockReturnValue({
     readyState: ReadyState.OPEN,
-    lastMessage: {
-      data: JSON.stringify(draftStatus)
-    }
+    lastJsonMessage: draftStatus
   })
   await act(async () => {
     render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()}/>)
@@ -87,9 +85,7 @@ it('does not display a next button if the current user does not own the draft', 
   const sendMessage = jest.fn()
   mockedUseWebsocket.mockReturnValue({
     readyState: ReadyState.OPEN,
-    lastMessage: {
-      data: JSON.stringify(draftStatus)
-    },
+    lastJsonMessage: draftStatus,
     sendMessage
   })
   await act(async () => {
@@ -120,9 +116,7 @@ it('goes to the next pokemon if the current user created the draft', async () =>
   const sendMessage = jest.fn()
   mockedUseWebsocket.mockReturnValue({
     readyState: ReadyState.OPEN,
-    lastMessage: {
-      data: JSON.stringify(draftStatus)
-    },
+    lastJsonMessage: draftStatus,
     sendMessage
   })
   await act(async () => {

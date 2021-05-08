@@ -20,7 +20,7 @@ export const LiveDraftPoolView = ({
   challengeOwnerId,
   onFinished,
 }: LiveDraftPoolViewProps) => {
-  const { lastMessage, readyState, sendMessage } = useWebSocket(
+  const { lastJsonMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL}/drafts/${Number(
       draft.id
     )}/live-pool`
@@ -30,16 +30,9 @@ export const LiveDraftPoolView = ({
     sendMessage("NEXT");
   }, [sendMessage]);
 
-  const isReady = () => readyState === ReadyState.OPEN;
+  const isReady = readyState === ReadyState.OPEN
 
-  let currentDraftStatus: LiveDraftPool | null = null;
-  if (isReady() && lastMessage) {
-    try {
-      currentDraftStatus = JSON.parse(lastMessage.data);
-    } catch {
-      currentDraftStatus = null;
-    }
-  }
+  const currentDraftStatus = lastJsonMessage as LiveDraftPool | null
 
   const currentPokemon = currentDraftStatus?.currentPokemon || undefined;
   const pooledPokemon = currentDraftStatus?.pooledPokemon || [];
@@ -48,7 +41,7 @@ export const LiveDraftPoolView = ({
 
   return (
     <Fragment>
-      {currentDraftStatus ? (
+      {isReady && currentDraftStatus ? (
         <div className="LiveDraftPoolView columns is-marginless">
           <div className="LiveDraftPoolView__pooled-pokemon-column column is-2 is-12-mobile p-0">
             <PooledPokemon pokemon={pooledPokemon} poolSize={draft.poolSize} />
@@ -63,7 +56,7 @@ export const LiveDraftPoolView = ({
                 Next
               </button>
             )}
-            {currentDraftStatus.isPoolOver && (
+            {currentDraftStatus?.isPoolOver && (
               <button className="button is-primary" onClick={onFinished}>
                 Finish
               </button>

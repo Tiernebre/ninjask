@@ -66,6 +66,39 @@ it('displays a draft that is gotten from a live feed', async () => {
   expect(screen.getByText('The Pool is being loaded...')).toBeInTheDocument()
 })
 
+it('does not display a next button if the current user does not own the draft', async () => {
+  const draft: Draft = {
+    id: 1,
+    poolSize: 2,
+    livePoolingHasFinished: false
+  }
+  const draftStatus: LiveDraftPool = {
+    draftId: draft.id,
+    currentPokemon: null,
+    currentIndex: -1,
+    pooledPokemon: [],
+    isPoolOver: false
+  }
+  const challengeOwnerId = 1
+  const sessionPayload: SessionPayload = {
+    userId: challengeOwnerId + 1,
+    accessKey: ''
+  }
+  const sendMessage = jest.fn()
+  mockedUseWebsocket.mockReturnValue({
+    readyState: ReadyState.OPEN,
+    lastMessage: {
+      data: JSON.stringify(draftStatus)
+    },
+    sendMessage
+  })
+  await act(async () => {
+    render(<LiveDraftPoolView draft={draft} challengeOwnerId={challengeOwnerId} onFinished={jest.fn()} sessionPayload={sessionPayload}/>)
+  })
+  const nextButton = screen.queryByRole('button', { name: /Next/i })
+  expect(nextButton).toBeNull()
+})
+
 it('goes to the next pokemon if the current user created the draft', async () => {
   const draft: Draft = {
     id: 1,

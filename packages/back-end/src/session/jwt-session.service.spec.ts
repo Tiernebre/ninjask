@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
 import { RefreshPayload } from "./refresh-payload";
 import { User } from "../user/user";
 import { Logger } from "pino";
+import { v4 as uuid } from 'uuid'
 
 describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;
@@ -87,8 +88,9 @@ describe("JwtSessionService", () => {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
       };
+      const userFingerprint = uuid()
       const accessToken = jwt.sign(payload, accessTokenSecret);
-      expect(jwtSessionService.verifyOne(accessToken)).toEqual(
+      expect(jwtSessionService.verifyOne(accessToken, userFingerprint)).toEqual(
         expect.objectContaining({
           id: payload.id,
           accessKey: payload.accessKey,
@@ -102,14 +104,14 @@ describe("JwtSessionService", () => {
       "throws an error if a given access token is %p",
       (accessToken) => {
         expect(() =>
-          jwtSessionService.verifyOne(accessToken as string)
+          jwtSessionService.verifyOne(accessToken as string, uuid())
         ).toThrowError();
       }
     );
 
     it("throws an error if a given access token was signed with an incorrect secret", () => {
       const accessToken = jwt.sign({}, "totes not the expected JWT secret");
-      expect(() => jwtSessionService.verifyOne(accessToken)).toThrowError();
+      expect(() => jwtSessionService.verifyOne(accessToken, uuid())).toThrowError();
     });
   });
 

@@ -108,4 +108,8 @@ export class JwtSessionService implements SessionService {
     ) as JsonWebTokenPayload;
     return new Session(accessToken, refreshToken, accessTokenExpiration);
   }
+
+  private createFingerprintForSession(): string {
+    return ''
+  }
 }

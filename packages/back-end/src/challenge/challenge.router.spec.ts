@@ -6,11 +6,11 @@ import { ChallengeRouter } from "./challenge.router";
 import { ChallengeService } from "./challenge.service";
 import { object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
-import { generateRandomNumber, generateRandomString } from "../random";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
 import { generateMockChallengeDto } from "./challenge.mock";
+import { generateMockSessionPayload } from "../session/session.mock";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;
@@ -25,10 +25,7 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
     const router = new ChallengeRouter(challengeService, draftService);
-    session = {
-      userId: generateRandomNumber(),
-      accessKey: generateRandomString(),
-    };
+    session = generateMockSessionPayload()
     app.use((ctx, next) => {
       ctx.state.session = session;
       void next();

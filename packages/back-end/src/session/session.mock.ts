@@ -1,6 +1,7 @@
 
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Session } from "./session";
+import { SessionPayload } from "./session-payload";
 
 export const generateMockSession = (): Session => {
   return new Session(
@@ -9,4 +10,12 @@ export const generateMockSession = (): Session => {
     generateRandomNumber(),
     generateRandomString()
   );
+}
+
+export const generateMockSessionPayload = (): SessionPayload => {
+  return {
+      userId: generateRandomNumber(),
+      accessKey: generateRandomString(),
+      userFingerprint: generateRandomString()
+  }
 }

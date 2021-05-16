@@ -13,9 +13,10 @@ export class PokeApiPokemonService implements PokemonService {
 
   public async getOneById(id: number): Promise<Pokemon> {
     this.logger.info(`Fetching Pokemon with id = ${id}`);
-    const foundPokemon = await this.pokeApiHttpClient.get<PokeApiPokemonSpecies>(
-      `pokemon-species/${id}`
-    );
+    const foundPokemon =
+      await this.pokeApiHttpClient.get<PokeApiPokemonSpecies>(
+        `pokemon-species/${id}`
+      );
     this.logger.info(`Retrieved Pokemon ${foundPokemon.name}`);
     return mapFromPokeApi(foundPokemon);
   }

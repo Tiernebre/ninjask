@@ -28,7 +28,7 @@ import {
 import { Logger } from "../logger";
 import { LiveDraftPool } from "./live-draft-pool";
 
-const mockedFetchOk = (fetchOk as unknown) as jest.Mock;
+const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
 describe("DraftService", () => {
   let draftService: DraftService;

@@ -4,9 +4,14 @@ import { act } from "react-dom/test-utils";
 import { object, when } from "testdouble";
 import { SessionService } from "../../api/session";
 import { SessionRefresher } from "./SessionRefresher";
+import MockDate from "mockdate";
 
 const loadingMessage = "Loading...";
 const childrenMessage = "Session has refreshed";
+
+beforeEach(() => {
+  MockDate.set(0);
+});
 
 it("displays a loading message while a refresh occurs", () => {
   const sessionService = object<SessionService>();
@@ -93,12 +98,16 @@ it("automatically refreshes at a given timeout in the future", async () => {
     accessToken,
     accessTokenExpiration,
   });
+  const session = {
+    accessToken,
+    accessTokenExpiration,
+  };
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}
       onSessionRefreshFail={onSessionRefreshFail}
       sessionService={sessionService}
-      sessionRefreshTimestamp={100000}
+      session={session}
     >
       <p>{childrenMessage}</p>
     </SessionRefresher>

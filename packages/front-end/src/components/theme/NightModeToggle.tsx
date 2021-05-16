@@ -19,9 +19,8 @@ const removeNightTheme = () => {
 };
 
 export const NightModeToggle = () => {
-  const [nightModeEnabled, setNightModeEnabled] = useLocalStorage(
-    NIGHT_MODE_KEY
-  );
+  const [nightModeEnabled, setNightModeEnabled] =
+    useLocalStorage(NIGHT_MODE_KEY);
 
   // local storage uses Strings :(
   const nightModeIsTrulyEnabled = nightModeEnabled === "true";

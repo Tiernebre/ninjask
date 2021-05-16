@@ -3,7 +3,7 @@ jest.mock("pino", () => jest.fn());
 import Pino from "pino";
 import { PinoLogger } from "./pino-logger";
 
-const mockedPino = (Pino as unknown) as jest.Mock;
+const mockedPino = Pino as unknown as jest.Mock;
 
 describe("pino-logger", () => {
   let pinoLogger: PinoLogger;

@@ -3,7 +3,7 @@ jest.mock("node-fetch", () => jest.fn());
 import fetch from "node-fetch";
 import { fetchOk } from "./utilities";
 
-const mockedFetch = (fetch as unknown) as jest.Mock;
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe("utilities", () => {
   describe("fetchOk", () => {

@@ -22,9 +22,10 @@ export const DraftView = ({ httpClient, sessionPayload }: DraftViewProps) => {
   const [draft, setDraft] = useState<Draft>();
   const [challenge, setChallenge] = useState<Challenge>();
   const { challengeId } = useParams<DraftViewParams>();
-  const draftService = useMemo(() => new HttpDraftService(httpClient), [
-    httpClient,
-  ]);
+  const draftService = useMemo(
+    () => new HttpDraftService(httpClient),
+    [httpClient]
+  );
 
   const fetchDraft = useCallback(async () => {
     const draftService = new HttpDraftService(httpClient);

@@ -7,6 +7,7 @@ import { SessionPayload } from "./session-payload";
 import { User } from "../user/user";
 import { RefreshPayload } from "./refresh-payload";
 import { Logger } from "../logger";
+import { randomBytes, createHash } from "crypto";
 
 type JsonWebTokenPayload = {
   exp: number;
@@ -82,8 +83,14 @@ export class JwtSessionService implements SessionService {
   }
 
   private signTokensForUser(user: User): Session {
+    const fingerprint = this.createUserFingerprint()
+
     const accessToken = jwt.sign(
-      { userId: user.id, accessKey: user.accessKey },
+      { 
+        userId: user.id, 
+        accessKey: user.accessKey ,
+        userFingerprint: this.hashUserFingerprint(fingerprint)
+      },
       this.accessTokenSecret,
       {
         expiresIn: "10 minutes",
@@ -106,10 +113,15 @@ export class JwtSessionService implements SessionService {
       accessToken,
       this.accessTokenSecret
     ) as JsonWebTokenPayload;
-    return new Session(accessToken, refreshToken, accessTokenExpiration);
+    return new Session(accessToken, refreshToken, accessTokenExpiration, fingerprint);
   }
 
-  private createFingerprintForSession(): string {
-    return ''
+  private createUserFingerprint(): string {
+    const randomFingerprint = randomBytes(50)
+    return randomFingerprint.toString('hex')
+  }
+
+  private hashUserFingerprint(fingerprint: string): string {
+    return createHash('sha256').update(fingerprint).digest('hex')
   }
 }

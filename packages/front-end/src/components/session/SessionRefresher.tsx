@@ -40,11 +40,12 @@ export const SessionRefresher = ({
   useEffect(() => {
     let refreshTimeout: number;
     if (session?.accessToken && session?.accessTokenExpiration) {
-      const refreshTimeoutInMs = (session.accessTokenExpiration - ONE_MINUTE_IN_SECONDS - secondsSinceEpoch()) * 1000
-      refreshTimeout = window.setTimeout(
-        refreshSession,
-        refreshTimeoutInMs
-      );
+      const refreshTimeoutInMs =
+        (session.accessTokenExpiration -
+          ONE_MINUTE_IN_SECONDS -
+          secondsSinceEpoch()) *
+        1000;
+      refreshTimeout = window.setTimeout(refreshSession, refreshTimeoutInMs);
     } else {
       // no-op, as a refresh timestamp has not been setup yet.
       refreshTimeout = window.setTimeout(() => {});

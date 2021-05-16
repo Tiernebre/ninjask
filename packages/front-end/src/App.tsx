@@ -18,7 +18,7 @@ const sessionService = new HttpSessionService(backEndHttpClient);
 const App = () => {
   const [session, setSession] = useState<Session>();
 
-  const accessToken = session?.accessToken
+  const accessToken = session?.accessToken;
 
   const logOut = useCallback(async () => {
     setSession(undefined);

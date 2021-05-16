@@ -11,7 +11,7 @@ const childrenMessage = "Session has refreshed";
 
 beforeEach(() => {
   MockDate.set(0);
-})
+});
 
 it("displays a loading message while a refresh occurs", () => {
   const sessionService = object<SessionService>();
@@ -100,8 +100,8 @@ it("automatically refreshes at a given timeout in the future", async () => {
   });
   const session = {
     accessToken,
-    accessTokenExpiration
-  }
+    accessTokenExpiration,
+  };
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}

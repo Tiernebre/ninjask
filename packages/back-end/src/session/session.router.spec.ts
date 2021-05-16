@@ -123,11 +123,13 @@ describe("Session Router (integration)", () => {
       expect(response.status).toEqual(NO_CONTENT);
     });
 
-    it("returns with the refresh token set to be nulled", async () => {
+    it("returns with the refresh token and user fingerprint set to be nulled", async () => {
       const response = await request.delete(uri).send();
-      const [refreshTokenCookie] = response.headers["set-cookie"];
+      const [refreshTokenCookie, userFingerprintCookie] = response.headers["set-cookie"];
       expect(refreshTokenCookie).toContain(`${REFRESH_TOKEN_COOKIE_KEY}=;`);
       expect(refreshTokenCookie).toContain("httponly");
+      expect(userFingerprintCookie).toContain(`${USER_FINGERPRINT_COOKIE_KEY}=;`);
+      expect(userFingerprintCookie).toContain("httponly");
     });
   });
 });

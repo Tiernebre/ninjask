@@ -25,7 +25,7 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
     const router = new ChallengeRouter(challengeService, draftService);
-    session = generateMockSessionPayload()
+    session = generateMockSessionPayload();
     app.use((ctx, next) => {
       ctx.state.session = session;
       void next();

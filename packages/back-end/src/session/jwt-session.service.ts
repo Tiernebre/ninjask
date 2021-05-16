@@ -48,12 +48,23 @@ export class JwtSessionService implements SessionService {
     return this.signTokensForUser(associatedUser);
   }
 
-  verifyOne(accessToken: string, providedUserFingerprint: string): SessionPayload {
-    const claims = jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
+  verifyOne(
+    accessToken: string,
+    providedUserFingerprint: string
+  ): SessionPayload {
+    const claims = jwt.verify(
+      accessToken,
+      this.accessTokenSecret
+    ) as SessionPayload;
 
-    if (this.hashUserFingerprint(providedUserFingerprint) !== claims.userFingerprint) {
-      this.logger.error(`A possible malicious attempt to verify a token happened for user with id = ${claims.userId} . The fingerprint was deemed invalid.`)
-      throw new Error('Invalid Login Information')
+    if (
+      this.hashUserFingerprint(providedUserFingerprint) !==
+      claims.userFingerprint
+    ) {
+      this.logger.error(
+        `A possible malicious attempt to verify a token happened for user with id = ${claims.userId} . The fingerprint was deemed invalid.`
+      );
+      throw new Error("Invalid Login Information");
     }
 
     return claims;
@@ -90,13 +101,13 @@ export class JwtSessionService implements SessionService {
   }
 
   private signTokensForUser(user: User): Session {
-    const fingerprint = this.createUserFingerprint()
+    const fingerprint = this.createUserFingerprint();
 
     const accessToken = jwt.sign(
-      { 
-        userId: user.id, 
-        accessKey: user.accessKey ,
-        userFingerprint: this.hashUserFingerprint(fingerprint)
+      {
+        userId: user.id,
+        accessKey: user.accessKey,
+        userFingerprint: this.hashUserFingerprint(fingerprint),
       },
       this.accessTokenSecret,
       {
@@ -120,15 +131,20 @@ export class JwtSessionService implements SessionService {
       accessToken,
       this.accessTokenSecret
     ) as JsonWebTokenPayload;
-    return new Session(accessToken, refreshToken, accessTokenExpiration, fingerprint);
+    return new Session(
+      accessToken,
+      refreshToken,
+      accessTokenExpiration,
+      fingerprint
+    );
   }
 
   private createUserFingerprint(): string {
-    const randomFingerprint = randomBytes(50)
-    return randomFingerprint.toString('hex')
+    const randomFingerprint = randomBytes(50);
+    return randomFingerprint.toString("hex");
   }
 
   private hashUserFingerprint(fingerprint: string): string {
-    return createHash('sha256').update(fingerprint).digest('hex')
+    return createHash("sha256").update(fingerprint).digest("hex");
   }
 }

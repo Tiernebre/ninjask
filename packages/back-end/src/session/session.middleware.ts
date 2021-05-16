@@ -10,14 +10,17 @@ export const sessionMiddleware =
     ctx: ParameterizedContext<ContextState>,
     next: Next
   ): Promise<void> => {
-    const userFingerprint = ctx.cookies.get(USER_FINGERPRINT_COOKIE_KEY)
+    const userFingerprint = ctx.cookies.get(USER_FINGERPRINT_COOKIE_KEY);
     if (!ctx.header.authorization || !userFingerprint) {
       ctx.status = UNAUTHORIZED;
       throw new Error("Authentication must be provided.");
     }
 
     try {
-      const session = sessionService.verifyOne(ctx.header.authorization, userFingerprint);
+      const session = sessionService.verifyOne(
+        ctx.header.authorization,
+        userFingerprint
+      );
       ctx.state.session = session;
     } catch (error) {
       ctx.status = FORBIDDEN;

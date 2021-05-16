@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import { RefreshPayload } from "./refresh-payload";
 import { User } from "../user/user";
 import { Logger } from "pino";
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from "uuid";
 import { randomBytes, createHash } from "crypto";
 
 describe("JwtSessionService", () => {
@@ -85,20 +85,22 @@ describe("JwtSessionService", () => {
 
   describe("verifyOne", () => {
     const getUserFingerprint = () => {
-      const userFingerprint = randomBytes(50).toString('hex')
-      const userFingerprintHash = createHash('sha256').update(userFingerprint).digest('hex')
+      const userFingerprint = randomBytes(50).toString("hex");
+      const userFingerprintHash = createHash("sha256")
+        .update(userFingerprint)
+        .digest("hex");
       return {
         userFingerprint,
-        userFingerprintHash
-      }
-    }
+        userFingerprintHash,
+      };
+    };
 
     it("returns the decoded payload if the given access token is valid", () => {
-      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint();
       const payload = {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
-        userFingerprint: userFingerprintHash
+        userFingerprint: userFingerprintHash,
       };
       const accessToken = jwt.sign(payload, accessTokenSecret);
       expect(jwtSessionService.verifyOne(accessToken, userFingerprint)).toEqual(
@@ -111,27 +113,31 @@ describe("JwtSessionService", () => {
       );
     });
 
-    it('throws an error if a given user fingerprint is invalid (claims side)', () => {
-      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
+    it("throws an error if a given user fingerprint is invalid (claims side)", () => {
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint();
       const payload = {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
-        userFingerprint: userFingerprintHash + 'a'
+        userFingerprint: userFingerprintHash + "a",
       };
       const accessToken = jwt.sign(payload, accessTokenSecret);
-      expect(() => jwtSessionService.verifyOne(accessToken, userFingerprint)).toThrowError()
-    })
+      expect(() =>
+        jwtSessionService.verifyOne(accessToken, userFingerprint)
+      ).toThrowError();
+    });
 
-    it('throws an error if a given user fingerprint is invalid (provided side)', () => {
-      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
+    it("throws an error if a given user fingerprint is invalid (provided side)", () => {
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint();
       const payload = {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
-        userFingerprint: userFingerprintHash
+        userFingerprint: userFingerprintHash,
       };
       const accessToken = jwt.sign(payload, accessTokenSecret);
-      expect(() => jwtSessionService.verifyOne(accessToken, userFingerprint + 'a')).toThrowError()
-    })
+      expect(() =>
+        jwtSessionService.verifyOne(accessToken, userFingerprint + "a")
+      ).toThrowError();
+    });
 
     it.each(["", null, undefined, "totes not a valid JWT token"])(
       "throws an error if a given access token is %p",
@@ -148,7 +154,7 @@ describe("JwtSessionService", () => {
         const payload = {
           id: generateRandomNumber(),
           accessKey: generateRandomString(),
-          userFingerprint: uuid()
+          userFingerprint: uuid(),
         };
         const accessToken = jwt.sign(payload, accessTokenSecret);
         expect(() =>
@@ -159,7 +165,9 @@ describe("JwtSessionService", () => {
 
     it("throws an error if a given access token was signed with an incorrect secret", () => {
       const accessToken = jwt.sign({}, "totes not the expected JWT secret");
-      expect(() => jwtSessionService.verifyOne(accessToken, uuid())).toThrowError();
+      expect(() =>
+        jwtSessionService.verifyOne(accessToken, uuid())
+      ).toThrowError();
     });
   });
 

@@ -41,7 +41,7 @@ export class SessionRouter extends Router {
 
     this.delete(this.CURRENT_SESSION_URI, (ctx) => {
       this.setRefreshTokenCookie(ctx, new Date(), null);
-      this.setUserFingerprintCookie(ctx, null)
+      this.setUserFingerprintCookie(ctx, null);
       ctx.status = NO_CONTENT;
     });
   }
@@ -77,7 +77,7 @@ export class SessionRouter extends Router {
   ): void {
     ctx.cookies.set(USER_FINGERPRINT_COOKIE_KEY, userFingerprint, {
       httpOnly: true,
-      secure: isProduction()
-    })
+      secure: isProduction(),
+    });
   }
 }

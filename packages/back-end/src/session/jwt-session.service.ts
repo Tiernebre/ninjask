@@ -48,8 +48,15 @@ export class JwtSessionService implements SessionService {
     return this.signTokensForUser(associatedUser);
   }
 
-  verifyOne(accessToken: string): SessionPayload {
-    return jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
+  verifyOne(accessToken: string, providedUserFingerprint: string): SessionPayload {
+    const claims = jwt.verify(accessToken, this.accessTokenSecret) as SessionPayload;
+
+    if (this.hashUserFingerprint(providedUserFingerprint) !== claims.userFingerprint) {
+      this.logger.error(`A possible malicious attempt to verify a token happened for user with id = ${claims.userId} . The fingerprint was deemed invalid.`)
+      throw new Error('Invalid Login Information')
+    }
+
+    return claims;
   }
 
   async refreshOne(refreshToken: string): Promise<Session> {

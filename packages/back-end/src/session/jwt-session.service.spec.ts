@@ -111,6 +111,28 @@ describe("JwtSessionService", () => {
       );
     });
 
+    it('throws an error if a given user fingerprint is invalid (claims side)', () => {
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
+      const payload = {
+        id: generateRandomNumber(),
+        accessKey: generateRandomString(),
+        userFingerprint: userFingerprintHash + 'a'
+      };
+      const accessToken = jwt.sign(payload, accessTokenSecret);
+      expect(() => jwtSessionService.verifyOne(accessToken, userFingerprint)).toThrowError()
+    })
+
+    it('throws an error if a given user fingerprint is invalid (provided side)', () => {
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
+      const payload = {
+        id: generateRandomNumber(),
+        accessKey: generateRandomString(),
+        userFingerprint: userFingerprintHash
+      };
+      const accessToken = jwt.sign(payload, accessTokenSecret);
+      expect(() => jwtSessionService.verifyOne(accessToken, userFingerprint + 'a')).toThrowError()
+    })
+
     it.each(["", null, undefined, "totes not a valid JWT token"])(
       "throws an error if a given access token is %p",
       (accessToken) => {

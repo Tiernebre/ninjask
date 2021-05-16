@@ -26,10 +26,8 @@ export const SessionRefresher = ({
     try {
       const refreshedSession = await sessionService.refreshCurrentSession();
       onSessionRefresh(refreshedSession);
-      console.log('Refreshed Session!')
     } catch (error) {
       onSessionRefreshFail();
-      console.log('Refresh Failed!')
     } finally {
       setIsLoading(false);
     }

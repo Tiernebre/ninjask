@@ -76,7 +76,6 @@ export class SessionRouter extends Router {
   ): void {
     ctx.cookies.set(USER_FINGERPRINT_COOKIE_KEY, userFingerprint, {
       httpOnly: true,
-      path: this.URI,
       secure: isProduction()
     })
   }

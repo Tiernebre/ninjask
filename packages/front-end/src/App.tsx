@@ -10,36 +10,19 @@ import { SessionRefresher } from "./components/session/SessionRefresher";
 import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
 import "./App.scss";
 
-const ONE_MINUTE_IN_SECONDS = 60;
-
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
 
-const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
-
 const App = () => {
-  const [accessToken, setAccessToken] = useState<string>();
-  const [
-    sessionRefreshTimestampInMillis,
-    setSessionRefreshTimestampInMillis,
-  ] = useState<number>();
+  const [session, setSession] = useState<Session>();
+
+  const accessToken = session?.accessToken
 
   const logOut = useCallback(async () => {
-    setAccessToken(undefined);
-    setSessionRefreshTimestampInMillis(undefined);
+    setSession(undefined);
     await sessionService.deleteCurrentSession();
-  }, []);
-
-  const setSession = useCallback(async (session: Session) => {
-    setAccessToken(session.accessToken);
-    setSessionRefreshTimestampInMillis(
-      (session.accessTokenExpiration -
-        ONE_MINUTE_IN_SECONDS -
-        secondsSinceEpoch()) *
-        1000
-    );
   }, []);
 
   const loginRoutes = ["/login"];
@@ -58,7 +41,7 @@ const App = () => {
           sessionService={sessionService}
           onSessionRefresh={setSession}
           onSessionRefreshFail={logOut}
-          sessionRefreshTimestamp={sessionRefreshTimestampInMillis}
+          session={session}
         >
           <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
           <main className="App__content">

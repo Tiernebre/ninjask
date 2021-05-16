@@ -20,18 +20,6 @@ export class DraftService {
     private readonly logger: Logger
   ) {}
 
-  public async getOneById(id: number): Promise<DraftEntity> {
-    this.logger.info(`Fetching draft with id = ${id}`);
-    const draft = await this.draftRepository.findOne(id, {
-      relations: ["pokemon"],
-    });
-    if (!draft) {
-      throw new Error(`Draft with id ${id} was not found.`);
-    }
-    this.logger.info(`Returning draft ${JSON.stringify(draft)}`);
-    return draft;
-  }
-
   public async getOneForChallengeId(id: number): Promise<Draft> {
     this.logger.info(`Fetching draft for challenge with id = ${id}`);
     const draft = await this.draftRepository
@@ -49,7 +37,7 @@ export class DraftService {
     this.logger.info(
       `Generating a pool of draftable Pokemon for draft with id = ${id}.`
     );
-    const draft = await this.getOneById(id);
+    const draft = await this.getOneWithPool(id);
     const version = await this.getVersionForDraft(draft);
     const pokemonUrls = await this.getEligiblePokemonForDraft(version);
     const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(
@@ -73,7 +61,7 @@ export class DraftService {
 
   public async getPoolOfPokemonForOneWithId(id: number): Promise<Pokemon[]> {
     this.logger.info(`Getting draftable Pokemon from draft with id = ${id}`);
-    const draft = await this.getOneById(id);
+    const draft = await this.getOneWithPool(id);
     const associatedDraftPokemon = await draft.pokemon;
     const pokemonIds = associatedDraftPokemon.map(({ pokemonId }) => pokemonId);
     return Promise.all(
@@ -143,7 +131,7 @@ export class DraftService {
   private async getLiveDraftInformationForOneWithId(
     id: number
   ): Promise<LiveDraftPool> {
-    const draft = await this.getOneById(id);
+    const draft = await this.getOneWithPool(id);
     const pokemon = await draft.pokemon;
     const currentPokemon = pokemon[draft.livePoolPokemonIndex];
     const mappedCurrentPokemon = currentPokemon
@@ -209,5 +197,15 @@ export class DraftService {
       livePoolingHasFinished:
         entity.livePoolPokemonIndex + 1 === entity.poolSize,
     };
+  }
+
+  private async getOneWithPool(id: number): Promise<DraftEntity> {
+    this.logger.info(`Fetching draft with id = ${id}`);
+    const draft = await this.draftRepository.findOne(id);
+    if (!draft) {
+      throw new Error(`Draft with id ${id} was not found.`);
+    }
+    this.logger.info(`Returning draft ${JSON.stringify(draft)}`);
+    return draft;
   }
 }

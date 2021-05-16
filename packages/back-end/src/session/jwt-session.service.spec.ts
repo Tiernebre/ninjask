@@ -10,6 +10,7 @@ import { RefreshPayload } from "./refresh-payload";
 import { User } from "../user/user";
 import { Logger } from "pino";
 import { v4 as uuid } from 'uuid'
+import { randomBytes, createHash } from "crypto";
 
 describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;
@@ -83,12 +84,22 @@ describe("JwtSessionService", () => {
   });
 
   describe("verifyOne", () => {
+    const getUserFingerprint = () => {
+      const userFingerprint = randomBytes(50).toString('hex')
+      const userFingerprintHash = createHash('sha256').update(userFingerprint).digest('hex')
+      return {
+        userFingerprint,
+        userFingerprintHash
+      }
+    }
+
     it("returns the decoded payload if the given access token is valid", () => {
+      const { userFingerprint, userFingerprintHash } = getUserFingerprint()
       const payload = {
         id: generateRandomNumber(),
         accessKey: generateRandomString(),
+        userFingerprint: userFingerprintHash
       };
-      const userFingerprint = uuid()
       const accessToken = jwt.sign(payload, accessTokenSecret);
       expect(jwtSessionService.verifyOne(accessToken, userFingerprint)).toEqual(
         expect.objectContaining({
@@ -105,6 +116,21 @@ describe("JwtSessionService", () => {
       (accessToken) => {
         expect(() =>
           jwtSessionService.verifyOne(accessToken as string, uuid())
+        ).toThrowError();
+      }
+    );
+
+    it.each(["", null, undefined, "totes not a valid JWT token"])(
+      "throws an error if a given user fingerprint is %p",
+      (userFingerprint) => {
+        const payload = {
+          id: generateRandomNumber(),
+          accessKey: generateRandomString(),
+          userFingerprint: uuid()
+        };
+        const accessToken = jwt.sign(payload, accessTokenSecret);
+        expect(() =>
+          jwtSessionService.verifyOne(accessToken, userFingerprint as string)
         ).toThrowError();
       }
     );

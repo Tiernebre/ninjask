@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class RenameUserChallengeRelationship1620347734374
-  implements MigrationInterface {
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `

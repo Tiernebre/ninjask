@@ -19,10 +19,11 @@ export const generateMockVersion = (): Version => {
   );
 };
 
-export const generateMockVersionDeniedPokemon = (): VersionDeniedPokemonEntity => {
-  const versionDeniedPokemon = new VersionDeniedPokemonEntity();
-  versionDeniedPokemon.id = generateRandomNumber();
-  versionDeniedPokemon.pokemonId = generateRandomNumber();
-  versionDeniedPokemon.versionId = generateRandomNumber();
-  return versionDeniedPokemon;
-};
+export const generateMockVersionDeniedPokemon =
+  (): VersionDeniedPokemonEntity => {
+    const versionDeniedPokemon = new VersionDeniedPokemonEntity();
+    versionDeniedPokemon.id = generateRandomNumber();
+    versionDeniedPokemon.pokemonId = generateRandomNumber();
+    versionDeniedPokemon.versionId = generateRandomNumber();
+    return versionDeniedPokemon;
+  };

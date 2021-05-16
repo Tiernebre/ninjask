@@ -38,10 +38,11 @@ export class JwtSessionService implements SessionService {
     this.logger.info(
       `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
     );
-    const associatedUser = await this.userService.findOneWithAccessKeyAndPassword(
-      accessKey,
-      password
-    );
+    const associatedUser =
+      await this.userService.findOneWithAccessKeyAndPassword(
+        accessKey,
+        password
+      );
 
     return this.signTokensForUser(associatedUser);
   }
@@ -72,9 +73,10 @@ export class JwtSessionService implements SessionService {
       );
     }
 
-    const updatedUser = await this.userService.incrementTokenVersionForOneWithId(
-      associatedUser.id
-    );
+    const updatedUser =
+      await this.userService.incrementTokenVersionForOneWithId(
+        associatedUser.id
+      );
 
     return this.signTokensForUser(updatedUser);
   }

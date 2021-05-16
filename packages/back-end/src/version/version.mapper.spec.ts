@@ -26,9 +26,8 @@ describe("version.mapper", () => {
   describe("mapVersionGroupFromPokeApi", () => {
     it("returns a properly formatted version group DTO", () => {
       const pokeApiVersionGroup = generateMockPokeApiVersionGroup();
-      const mappedVersionGroup = mapVersionGroupFromPokeApi(
-        pokeApiVersionGroup
-      );
+      const mappedVersionGroup =
+        mapVersionGroupFromPokeApi(pokeApiVersionGroup);
       expect(mappedVersionGroup.id).toEqual(pokeApiVersionGroup.id);
       expect(mappedVersionGroup.pokedexUrl).toEqual(
         pokeApiVersionGroup.pokedexes[0].url

@@ -3,7 +3,7 @@ jest.mock("node-fetch", () => jest.fn());
 import { FetchHttpClient } from "./fetch-http-client";
 import fetch from "node-fetch";
 
-const mockedFetch = (fetch as unknown) as jest.Mock;
+const mockedFetch = fetch as unknown as jest.Mock;
 
 describe("FetchHttpClient", () => {
   const url = "localhost";

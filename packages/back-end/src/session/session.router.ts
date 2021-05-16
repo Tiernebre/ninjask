@@ -7,6 +7,7 @@ import { ParameterizedContext } from "koa";
 import { Session } from "./session";
 
 export const REFRESH_TOKEN_COOKIE_KEY = "ninjask_refresh-token";
+export const USER_FINGERPRINT_COOKIE_KEY = "ninjask_user-fingerprint";
 
 export class SessionRouter extends Router {
   private readonly URI = "/sessions";
@@ -53,6 +54,7 @@ export class SessionRouter extends Router {
     expires.setDate(expires.getDate() + 1);
     ctx.status = CREATED;
     this.setRefreshTokenCookie(ctx, expires, createdSession.refreshToken);
+    this.setUserFingerprintCookie(ctx, createdSession.userFingerprint);
   }
 
   private setRefreshTokenCookie(
@@ -66,5 +68,16 @@ export class SessionRouter extends Router {
       secure: isProduction(),
       expires,
     });
+  }
+
+  private setUserFingerprintCookie(
+    ctx: ParameterizedContext,
+    userFingerprint: string
+  ): void {
+    ctx.cookies.set(USER_FINGERPRINT_COOKIE_KEY, userFingerprint, {
+      httpOnly: true,
+      path: this.URI,
+      secure: isProduction()
+    })
   }
 }

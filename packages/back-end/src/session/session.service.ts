@@ -15,9 +15,13 @@ export interface SessionService {
    * Verifies a given token and ensures that it is used for a legitamite session.
    *
    * @param token The access token to check.
-   * @throws An error if the access token provided is invalid.
+   * @param providedUserFingerprint The user provided fingerprint to add an additional layer of verification.
+   * @throws An error if the access token provided is invalid or the provided fingerprint is not valid.
    */
-  verifyOne(accessToken: string): SessionPayload;
+  verifyOne(
+    accessToken: string,
+    providedUserFingerprint: string
+  ): SessionPayload;
 
   /**
    * Refreshes an existing session by checking the validity of a given refresh token.

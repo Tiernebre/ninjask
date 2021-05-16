@@ -38,7 +38,6 @@ export const SessionRefresher = ({
   }, [refreshSession]);
 
   useEffect(() => {
-    console.log('use effect re-render?')
     let refreshTimeout: number;
     if (session?.accessToken && session?.accessTokenExpiration) {
       const refreshTimeoutInMs = (session.accessTokenExpiration - ONE_MINUTE_IN_SECONDS - secondsSinceEpoch()) * 1000
@@ -46,11 +45,9 @@ export const SessionRefresher = ({
         refreshSession,
         refreshTimeoutInMs
       );
-      console.log(`setup timeout for refresh, happening in ${refreshTimeoutInMs} ms due to expiration time of ${session.accessTokenExpiration}`)
     } else {
       // no-op, as a refresh timestamp has not been setup yet.
       refreshTimeout = window.setTimeout(() => {});
-      console.log('no-op refresh timeout... due to no valid session')
     }
 
     return () => {

@@ -1,6 +1,7 @@
 import { Context, Middleware } from "koa";
 import route from "koa-route";
 import KoaWebsocket from "koa-websocket";
+import { Server } from "ws";
 import { ContextState } from "../types/state";
 import { LiveDraftPoolService } from "./live-draft-pool.service";
 
@@ -20,7 +21,8 @@ export const liveDraftPoolMiddleware = (
         void liveDraftPoolService 
           .revealNextPokemonInLivePoolForId(Number(id))
           .then((draftStatus) => {
-            app.ws.server?.clients.forEach((client) => {
+            const server = app.ws.server as Server
+            server.clients.forEach((client) => {
               client.send(JSON.stringify(draftStatus));
             });
           });

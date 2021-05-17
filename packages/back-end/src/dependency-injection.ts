@@ -57,10 +57,7 @@ const buildLeagueRouter = (logger: Logger) => {
 };
 
 const buildDraftService = (logger: Logger) => {
-  return new DraftService(
-    getRepository(DraftEntity),
-    logger
-  );
+  return new DraftService(getRepository(DraftEntity), logger);
 };
 
 const buildDraftPoolService = (logger: Logger) => {
@@ -78,15 +75,15 @@ const buildDraftPoolService = (logger: Logger) => {
     versionService,
     buildPokemonService(logger),
     logger
-  )
-}
+  );
+};
 
 const buildLiveDraftPoolService = (logger: Logger) => {
   return new LiveDraftPoolService(
     buildDraftService(logger),
     buildPokemonService(logger)
-  )
-}
+  );
+};
 
 const buildDraftRouter = (logger: Logger) => {
   return new DraftRouter(buildDraftPoolService(logger));

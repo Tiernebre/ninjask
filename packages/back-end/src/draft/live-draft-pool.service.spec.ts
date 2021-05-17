@@ -1,12 +1,12 @@
-import { object, verify, when } from 'testdouble';
-import { Pokemon } from '../pokemon/pokemon';
-import { generateMockPokemon } from '../pokemon/pokemon.mock';
-import { PokemonService } from '../pokemon/pokemon.service'
-import { generateRandomNumber } from '../random';
-import { generateMockDraftEntity } from './draft.mock';
-import { DraftService } from './draft.service'
-import { LiveDraftPool } from './live-draft-pool';
-import { LiveDraftPoolService } from './live-draft-pool.service'
+import { object, verify, when } from "testdouble";
+import { Pokemon } from "../pokemon/pokemon";
+import { generateMockPokemon } from "../pokemon/pokemon.mock";
+import { PokemonService } from "../pokemon/pokemon.service";
+import { generateRandomNumber } from "../random";
+import { generateMockDraftEntity } from "./draft.mock";
+import { DraftService } from "./draft.service";
+import { LiveDraftPool } from "./live-draft-pool";
+import { LiveDraftPoolService } from "./live-draft-pool.service";
 
 describe("LiveDraftPoolService", () => {
   let liveDraftPoolService: LiveDraftPoolService;
@@ -14,13 +14,13 @@ describe("LiveDraftPoolService", () => {
   let pokemonService: PokemonService;
 
   beforeEach(() => {
-    draftService = object<DraftService>()
-    pokemonService = object<PokemonService>()
+    draftService = object<DraftService>();
+    pokemonService = object<PokemonService>();
     liveDraftPoolService = new LiveDraftPoolService(
       draftService,
       pokemonService
-    )
-  })
+    );
+  });
 
   describe("getLiveDraftPoolForOneWithId", () => {
     it("returns the current state of live draft pool for a given draft id", async () => {
@@ -42,7 +42,9 @@ describe("LiveDraftPoolService", () => {
         pooledPokemon: [draftPokemon[0]],
         isPoolOver: false,
       };
-      const gotten = await liveDraftPoolService.getLiveDraftPoolForOneWithId(id);
+      const gotten = await liveDraftPoolService.getLiveDraftPoolForOneWithId(
+        id
+      );
       expect(gotten).toEqual(expected);
     });
 
@@ -51,7 +53,9 @@ describe("LiveDraftPoolService", () => {
       const draft = generateMockDraftEntity();
       draft.livePoolPokemonIndex = -1;
       when(draftService.getOneAsEntityWithPool(id)).thenResolve(draft);
-      const gotten = await liveDraftPoolService.getLiveDraftPoolForOneWithId(id);
+      const gotten = await liveDraftPoolService.getLiveDraftPoolForOneWithId(
+        id
+      );
       expect(gotten.currentPokemon).toBeNull();
     });
   });
@@ -76,9 +80,10 @@ describe("LiveDraftPoolService", () => {
         pooledPokemon: [draftPokemon[0]],
         isPoolOver: false,
       };
-      const gotten = await liveDraftPoolService.revealNextPokemonInLivePoolForId(id);
+      const gotten =
+        await liveDraftPoolService.revealNextPokemonInLivePoolForId(id);
       expect(gotten).toEqual(expected);
       verify(draftService.incrementPoolIndexForOneWithId(id));
     });
   });
-})
+});

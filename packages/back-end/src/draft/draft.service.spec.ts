@@ -1,9 +1,7 @@
 import { matchers, object, when } from "testdouble";
 import { Repository } from "typeorm";
 import { DraftEntity } from "./draft.entity";
-import {
-  generateMockDraftEntity,
-} from "./draft.mock";
+import { generateMockDraftEntity } from "./draft.mock";
 import { DraftService } from "./draft.service";
 import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
@@ -14,10 +12,7 @@ describe("DraftService", () => {
 
   beforeEach(() => {
     draftRepository = object<Repository<DraftEntity>>();
-    draftService = new DraftService(
-      draftRepository,
-      object<Logger>()
-    );
+    draftService = new DraftService(draftRepository, object<Logger>());
   });
 
   describe("getOneAsEntityWithPool", () => {
@@ -36,9 +31,9 @@ describe("DraftService", () => {
       when(draftRepository.findOne(id, matchers.anything())).thenResolve(
         undefined
       );
-      await expect(draftService.getOneAsEntityWithPool(id)).rejects.toThrowError(
-        `Draft with id ${id} was not found.`
-      );
+      await expect(
+        draftService.getOneAsEntityWithPool(id)
+      ).rejects.toThrowError(`Draft with id ${id} was not found.`);
     });
   });
 });

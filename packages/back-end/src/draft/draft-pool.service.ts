@@ -70,7 +70,6 @@ export class DraftPoolService {
     return version;
   }
 
-
   private async getEligiblePokemonForDraft(
     version: Version
   ): Promise<string[]> {
@@ -136,5 +135,4 @@ export class DraftPoolService {
       );
     }
   }
-
 }

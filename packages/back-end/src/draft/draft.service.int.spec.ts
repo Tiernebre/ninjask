@@ -22,10 +22,7 @@ describe("DraftService (integration)", () => {
   });
 
   beforeEach(() => {
-    draftService = new DraftService(
-      draftRepository,
-      object<Logger>()
-    );
+    draftService = new DraftService(draftRepository, object<Logger>());
   });
 
   describe("getOneForChallengeId", () => {

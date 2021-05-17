@@ -2,9 +2,7 @@ import Router from "@koa/router";
 import { DraftPoolService } from "./draft-pool.service";
 
 export class DraftRouter extends Router {
-  constructor(
-    private readonly draftPoolService: DraftPoolService
-  ) {
+  constructor(private readonly draftPoolService: DraftPoolService) {
     super();
     this.setupRoutes();
   }

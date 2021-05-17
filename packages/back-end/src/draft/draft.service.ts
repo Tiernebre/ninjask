@@ -46,5 +46,4 @@ export class DraftService {
         entity.livePoolPokemonIndex + 1 === entity.poolSize,
     };
   }
-
 }

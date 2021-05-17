@@ -5,7 +5,7 @@ import { LiveDraftPool } from "./live-draft-pool";
 export class LiveDraftPoolService {
   constructor(
     private readonly draftService: DraftService,
-    private readonly pokemonService: PokemonService,
+    private readonly pokemonService: PokemonService
   ) {}
 
   public async getLiveDraftPoolForOneWithId(
@@ -17,7 +17,7 @@ export class LiveDraftPoolService {
   public async revealNextPokemonInLivePoolForId(
     id: number
   ): Promise<LiveDraftPool> {
-    await this.draftService.incrementPoolIndexForOneWithId(id)
+    await this.draftService.incrementPoolIndexForOneWithId(id);
     return this.getLiveDraftInformationForOneWithId(id);
   }
 

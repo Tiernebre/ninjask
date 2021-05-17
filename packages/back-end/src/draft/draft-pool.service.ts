@@ -1,6 +1,6 @@
-import { Logger } from "pino";
 import { Repository } from "typeorm";
 import { fetchOk } from "../http";
+import { Logger } from "../logger";
 import { PokeApiPokemonSpecies } from "../poke-api";
 import { Pokemon } from "../pokemon/pokemon";
 import { PokemonService } from "../pokemon/pokemon.service";

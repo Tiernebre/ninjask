@@ -2,12 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
+import { ChallengeResultEntity } from "../challenge/challenge-result.entity";
 
 @Entity({ name: "users" })
 export class UserEntity {
@@ -29,8 +29,11 @@ export class UserEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ManyToMany(() => ChallengeEntity, (challenge) => challenge.users)
-  challenges!: Promise<ChallengeEntity[]>;
+  @OneToMany(
+    () => ChallengeResultEntity,
+    (challengeResult) => challengeResult.user
+  )
+  challengeResults!: Promise<ChallengeResultEntity[]>;
 
   @Column()
   tokenVersion!: number;

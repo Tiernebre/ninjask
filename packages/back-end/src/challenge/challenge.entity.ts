@@ -7,12 +7,12 @@ import {
   ManyToOne,
   OneToOne,
   ManyToMany,
-  JoinTable,
   JoinColumn,
 } from "typeorm";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { UserEntity } from "../user/user.entity";
+import { ChallengeResultEntity } from "./user-challenge.entity";
 
 @Entity({
   name: "challenge",
@@ -42,11 +42,11 @@ export class ChallengeEntity {
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 
-  @ManyToMany(() => UserEntity, (user) => user.challenges)
-  @JoinTable({
-    name: "user_challenges",
-  })
-  users!: Promise<UserEntity[]>;
+  @ManyToMany(
+    () => ChallengeResultEntity,
+    (challengeResult) => challengeResult.challenge
+  )
+  results!: Promise<ChallengeResultEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })

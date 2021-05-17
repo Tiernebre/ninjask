@@ -1,10 +1,11 @@
 import { getRepository, Repository } from "typeorm";
 import { ChallengeEntity } from "./challenge.entity";
 import { ChallengeService } from "./challenge.service";
-import { seedChallenges } from "./challenge.seed";
+import { seedChallengeResults, seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { establishDbConnection } from "../test/create-db-connection";
+import { ChallengeResultEntity } from "./challenge-result.entity";
 
 describe("ChallengeService (integration)", () => {
   let challengeService: ChallengeService;
@@ -27,9 +28,11 @@ describe("ChallengeService (integration)", () => {
     it("returns all of the challenges that are only tied to a user", async () => {
       const challenges = await challengeRepository.findByIds([1, 3]);
       const user = (await userRepository.findOne()) as UserEntity;
-      challenges.forEach((challenge) => {
-        challenge.users = Promise.resolve([user]);
-      });
+      await seedChallengeResults(
+        getRepository(ChallengeResultEntity),
+        challenges,
+        user
+      );
       await challengeRepository.save(challenges);
       const challengesFound = await challengeService.getAllForUserWithId(
         user.id

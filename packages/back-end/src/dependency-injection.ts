@@ -27,7 +27,7 @@ import { stageMockData } from "./environment";
 import { ChallengeEntity } from "./challenge/challenge.entity";
 import { ChallengeService } from "./challenge/challenge.service";
 import { ChallengeRouter } from "./challenge/challenge.router";
-import { liveDraftSocketMiddleware } from "./draft/draft.middleware";
+import { liveDraftPoolMiddleware } from "./draft/live-draft-pool.middleware";
 import { ContextState } from "./types/state";
 import { DraftPoolService } from "./draft/draft-pool.service";
 import { LiveDraftPoolService } from "./draft/live-draft-pool.service";
@@ -161,7 +161,7 @@ export const injectDependencies = async (
     app.use(router.routes());
   });
 
-  app.ws.use(liveDraftSocketMiddleware(buildLiveDraftPoolService(logger), app));
+  app.ws.use(liveDraftPoolMiddleware(buildLiveDraftPoolService(logger), app));
   await stageMockData(logger);
   return app;
 };

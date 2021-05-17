@@ -4,7 +4,7 @@ import KoaWebsocket from "koa-websocket";
 import { ContextState } from "../types/state";
 import { LiveDraftPoolService } from "./live-draft-pool.service";
 
-export const liveDraftSocketMiddleware = (
+export const liveDraftPoolMiddleware = (
   liveDraftPoolService: LiveDraftPoolService,
   app: KoaWebsocket.App<ContextState>
 ): Middleware =>

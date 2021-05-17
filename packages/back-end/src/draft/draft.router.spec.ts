@@ -3,20 +3,20 @@ import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
 import { DraftRouter } from "./draft.router";
-import { DraftService } from "./draft.service";
 import { object, when } from "testdouble";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
+import { DraftPoolService } from "./draft-pool.service";
 
 describe("Draft Router (integration)", () => {
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
-  let draftService: DraftService;
+  let draftPoolService: DraftPoolService;
 
   beforeAll(() => {
     app = new Koa();
-    draftService = object<DraftService>();
-    const router = new DraftRouter(draftService);
+    draftPoolService = object<DraftPoolService>();
+    const router = new DraftRouter(draftPoolService);
     app.use(router.routes());
 
     server = app.listen();
@@ -33,7 +33,7 @@ describe("Draft Router (integration)", () => {
     const uri = `/drafts/${id}/pool`;
 
     it("returns with 204 NO CONTENT status", async () => {
-      when(draftService.generatePoolOfPokemonForOneWithId(id)).thenResolve();
+      when(draftPoolService.generateOneForDraftWithId(id)).thenResolve();
       const response = await request.post(uri).send();
       expect(response.status).toEqual(204);
     });
@@ -44,7 +44,7 @@ describe("Draft Router (integration)", () => {
     const uri = `/drafts/${id}/pool`;
 
     it("returns with 200 OK status", async () => {
-      when(draftService.getPoolOfPokemonForOneWithId(id)).thenResolve([
+      when(draftPoolService.getOneForDraftWithId(id)).thenResolve([
         generateMockPokemon(),
       ]);
       const response = await request.get(uri).send();
@@ -53,7 +53,7 @@ describe("Draft Router (integration)", () => {
 
     it("returns with a list of pokemon", async () => {
       const expected = [generateMockPokemon(), generateMockPokemon()];
-      when(draftService.getPoolOfPokemonForOneWithId(id)).thenResolve(expected);
+      when(draftPoolService.getOneForDraftWithId(id)).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);
     });

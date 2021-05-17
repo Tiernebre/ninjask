@@ -6,8 +6,6 @@ import { DraftEntity } from "./draft.entity";
 import { seedDrafts } from "./draft.seed";
 import { DraftService } from "./draft.service";
 import { object } from "testdouble";
-import { VersionService } from "../version/version.service";
-import { PokemonService } from "../pokemon/pokemon.service";
 import { Logger } from "../logger";
 
 describe("DraftService (integration)", () => {
@@ -24,12 +22,7 @@ describe("DraftService (integration)", () => {
   });
 
   beforeEach(() => {
-    draftService = new DraftService(
-      draftRepository,
-      object<VersionService>(),
-      object<PokemonService>(),
-      object<Logger>()
-    );
+    draftService = new DraftService(draftRepository, object<Logger>());
   });
 
   describe("getOneForChallengeId", () => {

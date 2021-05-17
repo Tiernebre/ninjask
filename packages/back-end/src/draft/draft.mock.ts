@@ -3,6 +3,8 @@ import { generateRandomNumber } from "../random";
 import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
+import { LiveDraftPool } from "./live-draft-pool";
+import { generateMockPokemon } from "../pokemon/pokemon.mock";
 
 export const generateMockDraftPokemonEntity = (): DraftPokemonEntity => {
   const pokemonDraftEntity = new DraftPokemonEntity();
@@ -25,4 +27,12 @@ export const generateMockDraft = (): Draft => ({
   id: generateRandomNumber(),
   poolSize: generateRandomNumber(),
   livePoolingHasFinished: false,
+});
+
+export const generateMockLiveDraftStatus = (): LiveDraftPool => ({
+  draftId: generateRandomNumber(),
+  currentPokemon: generateMockPokemon(),
+  currentIndex: generateRandomNumber(),
+  pooledPokemon: [generateMockPokemon()],
+  isPoolOver: false,
 });

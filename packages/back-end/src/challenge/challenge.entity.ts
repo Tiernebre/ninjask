@@ -6,13 +6,13 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToOne,
-  ManyToMany,
-  JoinTable,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { UserEntity } from "../user/user.entity";
+import { ChallengeResultEntity } from "./challenge-result.entity";
 
 @Entity({
   name: "challenge",
@@ -42,11 +42,11 @@ export class ChallengeEntity {
   @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 
-  @ManyToMany(() => UserEntity, (user) => user.challenges)
-  @JoinTable({
-    name: "user_challenges",
-  })
-  users!: Promise<UserEntity[]>;
+  @OneToMany(
+    () => ChallengeResultEntity,
+    (challengeResult) => challengeResult.challenge
+  )
+  results!: Promise<ChallengeResultEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })

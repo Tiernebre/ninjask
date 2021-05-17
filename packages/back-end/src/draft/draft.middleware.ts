@@ -1,15 +1,15 @@
 import { Context, Middleware } from "koa";
 import route from "koa-route";
-import { DraftService } from "./draft.service";
 import KoaWebsocket from "koa-websocket";
 import { ContextState } from "../types/state";
+import { LiveDraftPoolService } from "./live-draft-pool.service";
 
 export const liveDraftSocketMiddleware = (
-  draftService: DraftService,
+  liveDraftPoolService: LiveDraftPoolService,
   app: KoaWebsocket.App<ContextState>
 ): Middleware =>
   route.all("/drafts/:id/live-pool", (ctx: Context, id: string) => {
-    void draftService
+    void liveDraftPoolService 
       .getLiveDraftPoolForOneWithId(Number(id))
       .then((draftStatus) => {
         ctx.websocket.send(JSON.stringify(draftStatus));
@@ -17,7 +17,7 @@ export const liveDraftSocketMiddleware = (
 
     ctx.websocket.on("message", (message) => {
       if (message === "NEXT") {
-        void draftService
+        void liveDraftPoolService 
           .revealNextPokemonInLivePoolForId(Number(id))
           .then((draftStatus) => {
             app.ws.server?.clients.forEach((client) => {

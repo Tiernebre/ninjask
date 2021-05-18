@@ -5,13 +5,14 @@ import { ContextState } from "../types/state";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantService } from "./challenge-participant.service";
 
-export class ChallengeRouter extends Router {
+export class ChallengeParticipantRouter extends Router {
   private readonly URI = "/challenge-participants";
 
   constructor(
     private readonly challengeParticipantService: ChallengeParticipantService
   ) {
     super()
+    this.setupRoutes()
   }
 
   private setupRoutes(): void {

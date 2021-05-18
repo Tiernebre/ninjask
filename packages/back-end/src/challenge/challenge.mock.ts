@@ -1,5 +1,6 @@
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Challenge } from "./challenge";
+import { ChallengeParticipant } from "./challenge-participant";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeEntity } from "./challenge.entity";
 
@@ -31,3 +32,11 @@ export const generateMockChallengeParticipantEntity = (): ChallengeParticipantEn
   challengeResultEntity.completionTimeMinutes = generateRandomNumber();
   return challengeResultEntity;
 };
+
+export const generateMockChallengeParticipant = (): ChallengeParticipant => ({
+  id: generateRandomNumber(),
+  userId: generateRandomNumber(),
+  challengeId: generateRandomNumber(),
+  completionTimeHour: generateRandomNumber(),
+  completionTimeMinutes: generateRandomNumber()
+})

@@ -1,4 +1,5 @@
 import Router from "@koa/router";
+import { CREATED } from "http-status";
 import { ParameterizedContext } from "koa";
 import { DraftService } from "../draft/draft.service";
 import { ContextState } from "../types/state";
@@ -51,7 +52,8 @@ export class ChallengeRouter extends Router {
           ctx.state.session.userId,
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
-        )
+        );
+        ctx.status = CREATED
       }
     )
   }

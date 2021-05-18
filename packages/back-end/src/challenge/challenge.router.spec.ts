@@ -9,8 +9,11 @@ import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
-import { generateMockChallengeDto } from "./challenge.mock";
+import { generateMockChallengeDto, generateMockChallengeParticipant } from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
+import { ChallengeParticipantService } from "./challenge-participant.service";
+import { generateRandomNumber } from "../random";
+import { CREATED } from "http-status";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;
@@ -19,12 +22,14 @@ describe("Challenge Router (integration)", () => {
   let challengeService: ChallengeService;
   let draftService: DraftService;
   let session: SessionPayload;
+  let challengeParticipantService: ChallengeParticipantService;
 
   beforeAll(() => {
     app = new Koa();
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
-    const router = new ChallengeRouter(challengeService, draftService);
+    challengeParticipantService = object<ChallengeParticipantService>();
+    const router = new ChallengeRouter(challengeService, draftService, challengeParticipantService);
     session = generateMockSessionPayload();
     app.use((ctx, next) => {
       ctx.state.session = session;
@@ -100,4 +105,22 @@ describe("Challenge Router (integration)", () => {
       expect(response.body).toEqual(challenge);
     });
   });
+
+  describe("POST /challenges/:id/participant", () => {
+    const id = generateRandomNumber();
+    const uri = `/challenges/${id}/participant`;
+
+    it("returns with 201 CREATED status", async () => {
+      when(challengeParticipantService.createOne(session.userId, id)).thenResolve(generateMockChallengeParticipant())
+      const response = await request.post(uri).send();
+      expect(response.status).toEqual(CREATED);
+    });
+
+    it("returns with found draft in the response body", async () => {
+      const challengeParticipant = generateMockChallengeParticipant()
+      when(challengeParticipantService.createOne(session.userId, id)).thenResolve(challengeParticipant)
+      const response = await request.post(uri).send();
+      expect(response.body).toEqual(challengeParticipant);
+    });
+  })
 });

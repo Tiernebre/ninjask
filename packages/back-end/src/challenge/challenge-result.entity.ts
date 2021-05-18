@@ -28,10 +28,10 @@ export class ChallengeResultEntity {
   user!: Promise<UserEntity>;
 
   @Column()
-  completionTimeHour!: number | null;
+  completionTimeHour!: number;
 
   @Column()
-  completionTimeMinutes!: number | null;
+  completionTimeMinutes!: number;
 
   @Column()
   challengeId!: number;

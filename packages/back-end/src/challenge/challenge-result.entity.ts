@@ -27,11 +27,11 @@ export class ChallengeResultEntity {
   @ManyToOne(() => UserEntity, (user) => user.challengeResults)
   user!: Promise<UserEntity>;
 
-  @Column()
-  completionTimeHour!: number;
+  @Column({ type: 'integer', nullable: true })
+  completionTimeHour!: number | null;
 
-  @Column()
-  completionTimeMinutes!: number;
+  @Column({ type: 'integer', nullable: true })
+  completionTimeMinutes!: number | null;
 
   @Column()
   challengeId!: number;

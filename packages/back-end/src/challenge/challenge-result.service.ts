@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { ChallengeResult } from "./challenge-result";
 import { ChallengeResultUpdateRequest } from "./challenge-result-update-request";
-import { ChallengeResultEntity } from "./challenge-result.entity";
+import { ChallengeResultEntity } from "./challenge-participant.entity";
 
 export class ChallengeResultService {
   constructor(

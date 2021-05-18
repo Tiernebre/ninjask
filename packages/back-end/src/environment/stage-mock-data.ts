@@ -7,7 +7,7 @@ import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftEntity } from "../draft/draft.entity";
 import { Logger } from "../logger";
 import bcrypt from "bcrypt";
-import { ChallengeResultEntity } from "../challenge/challenge-result.entity";
+import { ChallengeResultEntity } from "../challenge/challenge-participant.entity";
 
 // Test Data to make local development and test environments
 // easier to stand up.

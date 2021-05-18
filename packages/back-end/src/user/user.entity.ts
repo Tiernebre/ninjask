@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
-import { ChallengeResultEntity } from "../challenge/challenge-result.entity";
+import { ChallengeResultEntity } from "../challenge/challenge-participant.entity";
 
 @Entity({ name: "users" })
 export class UserEntity {

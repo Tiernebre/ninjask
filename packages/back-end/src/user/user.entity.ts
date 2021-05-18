@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
-import { ChallengeResultEntity } from "../challenge/challenge-result.entity";
+import { ChallengeParticipantEntity } from "../challenge/challenge-participant.entity";
 
 @Entity({ name: "users" })
 export class UserEntity {
@@ -30,10 +30,10 @@ export class UserEntity {
   updatedAt!: Date;
 
   @OneToMany(
-    () => ChallengeResultEntity,
+    () => ChallengeParticipantEntity,
     (challengeResult) => challengeResult.user
   )
-  challengeResults!: Promise<ChallengeResultEntity[]>;
+  challengeResults!: Promise<ChallengeParticipantEntity[]>;
 
   @Column()
   tokenVersion!: number;

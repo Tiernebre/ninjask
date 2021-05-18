@@ -10,8 +10,8 @@ import { UserEntity } from "../user/user.entity";
 import { Challenge } from "./challenge";
 import { ChallengeEntity } from "./challenge.entity";
 
-@Entity({ name: "challenge_results" })
-export class ChallengeResultEntity {
+@Entity({ name: "challenge_participants" })
+export class ChallengeParticipantEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -27,9 +27,15 @@ export class ChallengeResultEntity {
   @ManyToOne(() => UserEntity, (user) => user.challengeResults)
   user!: Promise<UserEntity>;
 
-  @Column()
-  completionTimeHour!: number;
+  @Column({ type: "integer", nullable: true })
+  completionTimeHour!: number | null;
+
+  @Column({ type: "integer", nullable: true })
+  completionTimeMinutes!: number | null;
 
   @Column()
-  completionTimeMinutes!: number;
+  challengeId!: number;
+
+  @Column()
+  userId!: number;
 }

@@ -7,7 +7,7 @@ import { ChallengeEntity } from "../challenge/challenge.entity";
 import { DraftEntity } from "../draft/draft.entity";
 import { Logger } from "../logger";
 import bcrypt from "bcrypt";
-import { ChallengeResultEntity } from "../challenge/challenge-result.entity";
+import { ChallengeParticipantEntity } from "../challenge/challenge-participant.entity";
 
 // Test Data to make local development and test environments
 // easier to stand up.
@@ -56,7 +56,7 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testChallenge.creator = Promise.resolve(testUser);
   testChallenge = await challengeRepository.save(testChallenge);
 
-  const challengeResultRepository = getRepository(ChallengeResultEntity);
+  const challengeResultRepository = getRepository(ChallengeParticipantEntity);
   const testChallengeResult = challengeResultRepository.create();
   testChallengeResult.challenge = Promise.resolve(testChallenge);
   testChallengeResult.user = Promise.resolve(testUser);

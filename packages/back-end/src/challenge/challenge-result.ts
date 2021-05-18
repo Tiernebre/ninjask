@@ -1,4 +1,4 @@
-export interface ChallengeResult {
+export interface ChallengeParticipant {
   readonly id: number;
   readonly challengeId: number;
   readonly userId: number;

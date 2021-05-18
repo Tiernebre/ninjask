@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { ChallengeResult } from "./challenge-result";
+import { ChallengeParticipant } from "./challenge-result";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
@@ -11,7 +11,7 @@ export class ChallengeParticipantService {
   public async createOne(
     userId: number,
     challengeId: number
-  ): Promise<ChallengeResult> {
+  ): Promise<ChallengeParticipant> {
     let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,
@@ -24,7 +24,7 @@ export class ChallengeParticipantService {
 
   public async updateOne(
     request: ChallengeParticipantUpdateRequest
-  ): Promise<ChallengeResult> {
+  ): Promise<ChallengeParticipant> {
     let challengeResult = await this.challengeParticipantRepository.findOne({
       id: request.id,
       userId: request.userId,
@@ -42,7 +42,7 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeResult);
   }
 
-  private mapFromEntity(entity: ChallengeParticipantEntity): ChallengeResult {
+  private mapFromEntity(entity: ChallengeParticipantEntity): ChallengeParticipant {
     return {
       id: entity.id,
       userId: entity.userId,

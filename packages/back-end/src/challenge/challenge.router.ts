@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Router from "@koa/router";
 import { CREATED } from "http-status";
 import { ParameterizedContext } from "koa";
@@ -29,7 +30,6 @@ export class ChallengeRouter extends Router {
       `${this.URI}/:id`,
       async (ctx: ParameterizedContext<ContextState>) => {
         ctx.body = await this.challengeService.getOneById(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
         );
       }
@@ -39,7 +39,6 @@ export class ChallengeRouter extends Router {
       `${this.URI}/:id/draft`,
       async (ctx: ParameterizedContext<ContextState>) => {
         ctx.body = await this.draftService.getOneForChallengeId(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
         );
       }
@@ -50,7 +49,6 @@ export class ChallengeRouter extends Router {
       async (ctx: ParameterizedContext<ContextState>) => {
         ctx.body = await this.challengeParticipantService.createOne(
           ctx.state.session.userId,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
         );
         ctx.status = CREATED;

@@ -11,8 +11,8 @@ export class ChallengeParticipantRouter extends Router {
   constructor(
     private readonly challengeParticipantService: ChallengeParticipantService
   ) {
-    super()
-    this.setupRoutes()
+    super();
+    this.setupRoutes();
   }
 
   private setupRoutes(): void {
@@ -20,12 +20,12 @@ export class ChallengeParticipantRouter extends Router {
       `${this.URI}/:id`,
       async (ctx: ParameterizedContext<ContextState>) => {
         const request = {
-          ...<ChallengeParticipantUpdateRequest>ctx.request.body,
+          ...(<ChallengeParticipantUpdateRequest>ctx.request.body),
           id: Number(ctx.params.id),
-          userId: ctx.state.session.userId
-        }
-        ctx.body = await this.challengeParticipantService.updateOne(request)
+          userId: ctx.state.session.userId,
+        };
+        ctx.body = await this.challengeParticipantService.updateOne(request);
       }
-    )
+    );
   }
 }

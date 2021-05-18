@@ -12,7 +12,7 @@ import { generateRandomNumber } from "../random";
 import { OK } from "http-status";
 import bodyParser from "koa-bodyparser";
 
-describe('ChallengeParticipantRouter', () => {
+describe("ChallengeParticipantRouter", () => {
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
@@ -22,9 +22,7 @@ describe('ChallengeParticipantRouter', () => {
   beforeAll(() => {
     app = new Koa();
     challengeParticipantService = object<ChallengeParticipantService>();
-    const router = new ChallengeParticipantRouter(
-      challengeParticipantService
-    );
+    const router = new ChallengeParticipantRouter(challengeParticipantService);
     session = generateMockSessionPayload();
     app.use(bodyParser());
     app.use((ctx, next) => {
@@ -51,40 +49,40 @@ describe('ChallengeParticipantRouter', () => {
       const completionTimeMinutes = generateRandomNumber();
       const updateRequest = {
         completionTimeHour,
-        completionTimeMinutes
-      }
+        completionTimeMinutes,
+      };
       const expectedRequest = {
         completionTimeHour,
         completionTimeMinutes,
         id,
-        userId: session.userId
-      }
-      when(
-        challengeParticipantService.updateOne(expectedRequest)
-      ).thenResolve(generateMockChallengeParticipant());
+        userId: session.userId,
+      };
+      when(challengeParticipantService.updateOne(expectedRequest)).thenResolve(
+        generateMockChallengeParticipant()
+      );
       const response = await request.patch(uri).send(updateRequest);
       expect(response.status).toEqual(OK);
-    })
+    });
 
     it("returns with the updated challenge participant", async () => {
       const completionTimeHour = generateRandomNumber();
       const completionTimeMinutes = generateRandomNumber();
       const updateRequest = {
         completionTimeHour,
-        completionTimeMinutes
-      }
+        completionTimeMinutes,
+      };
       const expectedRequest = {
         completionTimeHour,
         completionTimeMinutes,
         id,
-        userId: session.userId
-      }
-      const updatedParticipant = generateMockChallengeParticipant()
-      when(
-        challengeParticipantService.updateOne(expectedRequest)
-      ).thenResolve(updatedParticipant);
+        userId: session.userId,
+      };
+      const updatedParticipant = generateMockChallengeParticipant();
+      when(challengeParticipantService.updateOne(expectedRequest)).thenResolve(
+        updatedParticipant
+      );
       const response = await request.patch(uri).send(updateRequest);
       expect(response.body).toEqual(updatedParticipant);
-    })
-  })
-})
+    });
+  });
+});

@@ -1,11 +1,11 @@
 import { Repository } from "typeorm";
 import { ChallengeResult } from "./challenge-result";
 import { ChallengeResultUpdateRequest } from "./challenge-result-update-request";
-import { ChallengeResultEntity } from "./challenge-participant.entity";
+import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
 export class ChallengeResultService {
   constructor(
-    private readonly challengeResultRepository: Repository<ChallengeResultEntity>
+    private readonly challengeResultRepository: Repository<ChallengeParticipantEntity>
   ) {}
 
   public async createOne(
@@ -42,7 +42,7 @@ export class ChallengeResultService {
     return this.mapFromEntity(challengeResult);
   }
 
-  private mapFromEntity(entity: ChallengeResultEntity): ChallengeResult {
+  private mapFromEntity(entity: ChallengeParticipantEntity): ChallengeResult {
     return {
       id: entity.id,
       userId: entity.userId,

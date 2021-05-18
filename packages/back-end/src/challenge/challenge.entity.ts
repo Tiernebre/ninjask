@@ -12,7 +12,7 @@ import {
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { UserEntity } from "../user/user.entity";
-import { ChallengeResultEntity } from "./challenge-participant.entity";
+import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
 @Entity({
   name: "challenge",
@@ -43,10 +43,10 @@ export class ChallengeEntity {
   draft!: Promise<DraftEntity>;
 
   @OneToMany(
-    () => ChallengeResultEntity,
+    () => ChallengeParticipantEntity,
     (challengeResult) => challengeResult.challenge
   )
-  results!: Promise<ChallengeResultEntity[]>;
+  results!: Promise<ChallengeParticipantEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })

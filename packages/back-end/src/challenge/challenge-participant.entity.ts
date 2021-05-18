@@ -10,8 +10,8 @@ import { UserEntity } from "../user/user.entity";
 import { Challenge } from "./challenge";
 import { ChallengeEntity } from "./challenge.entity";
 
-@Entity({ name: "challenge_results" })
-export class ChallengeResultEntity {
+@Entity({ name: "challenge_participants" })
+export class ChallengeParticipantEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { ChallengeResult } from "./challenge-result";
-import { ChallengeResultUpdateRequest } from "./challenge-result-update-request";
+import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
 export class ChallengeResultService {
@@ -23,7 +23,7 @@ export class ChallengeResultService {
   }
 
   public async updateOne(
-    request: ChallengeResultUpdateRequest
+    request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeResult> {
     let challengeResult = await this.challengeResultRepository.findOne({
       id: request.id,

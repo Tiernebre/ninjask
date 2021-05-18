@@ -65,5 +65,26 @@ describe('ChallengeParticipantRouter', () => {
       const response = await request.patch(uri).send(updateRequest);
       expect(response.status).toEqual(OK);
     })
+
+    it("returns with the updated challenge participant", async () => {
+      const completionTimeHour = generateRandomNumber();
+      const completionTimeMinutes = generateRandomNumber();
+      const updateRequest = {
+        completionTimeHour,
+        completionTimeMinutes
+      }
+      const expectedRequest = {
+        completionTimeHour,
+        completionTimeMinutes,
+        id,
+        userId: session.userId
+      }
+      const updatedParticipant = generateMockChallengeParticipant()
+      when(
+        challengeParticipantService.updateOne(expectedRequest)
+      ).thenResolve(updatedParticipant);
+      const response = await request.patch(uri).send(updateRequest);
+      expect(response.body).toEqual(updatedParticipant);
+    })
   })
 })

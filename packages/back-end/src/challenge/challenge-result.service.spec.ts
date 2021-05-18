@@ -29,4 +29,30 @@ describe('ChallengeResultService', () => {
       expect(createdUser.challengeId).toEqual(challengeResultEntity.challengeId)
     })
   })
+  
+  describe("updateOne", () => {
+    it("returns the update challenge result", async () => {
+      const id = generateRandomNumber()
+      const userId = generateRandomNumber()
+      const challengeResultEntity = generateMockChallengeResultEntity()
+      const completionTimeHour = generateRandomNumber()
+      const completionTimeMinutes = generateRandomNumber()
+      when(challengeResultRepository.findOne({
+        id,
+        userId
+      })).thenResolve(challengeResultEntity)
+      challengeResultEntity.completionTimeHour = completionTimeHour
+      challengeResultEntity.completionTimeMinutes = completionTimeMinutes
+      when(challengeResultRepository.save(challengeResultEntity)).thenResolve(challengeResultEntity)
+      const updatedChallengeResult = await challengeResultService.updateOne({
+        id,
+        userId,
+        completionTimeHour,
+        completionTimeMinutes
+      })
+      expect(updatedChallengeResult.id).toEqual(challengeResultEntity.id)
+      expect(updatedChallengeResult.completionTimeHour).toEqual(completionTimeHour)
+      expect(updatedChallengeResult.completionTimeMinutes).toEqual(completionTimeMinutes)
+    })
+  })
 })

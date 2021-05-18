@@ -1,92 +1,92 @@
 import { Repository } from "typeorm";
-import { ChallengeResultEntity } from "./challenge-result.entity";
-import { ChallengeResultService } from "./challenge-result.service";
+import { ChallengeParticipantEntity } from "./challenge-participant.entity";
+import { ChallengeParticipantService } from "./challenge-participant.service";
 import { object, when } from "testdouble";
 import { generateRandomNumber } from "../random";
-import { generateMockChallengeResultEntity } from "./challenge.mock";
+import { generateMockChallengeParticipantEntity } from "./challenge.mock";
 
-describe("ChallengeResultService", () => {
-  let challengeResultService: ChallengeResultService;
-  let challengeResultRepository: Repository<ChallengeResultEntity>;
+describe("ChallengeParticipantService", () => {
+  let challengeParticipantService: ChallengeParticipantService;
+  let challengeParticipantRepository: Repository<ChallengeParticipantEntity>;
 
   beforeEach(() => {
-    challengeResultRepository = object<Repository<ChallengeResultEntity>>();
-    challengeResultService = new ChallengeResultService(
-      challengeResultRepository
+    challengeParticipantRepository = object<Repository<ChallengeParticipantEntity>>();
+    challengeParticipantService = new ChallengeParticipantService(
+      challengeParticipantRepository
     );
   });
 
   describe("createOne", () => {
-    it("returns the created challenge result", async () => {
+    it("returns the created challenge participant", async () => {
       const userId = generateRandomNumber();
       const challengeId = generateRandomNumber();
-      const challengeResultEntity = generateMockChallengeResultEntity();
-      challengeResultEntity.userId = userId;
-      challengeResultEntity.challengeId = challengeId;
+      const challengeParticipantEntity = generateMockChallengeParticipantEntity();
+      challengeParticipantEntity.userId = userId;
+      challengeParticipantEntity.challengeId = challengeId;
       when(
-        challengeResultRepository.create({ userId, challengeId })
-      ).thenReturn(challengeResultEntity);
-      when(challengeResultRepository.save(challengeResultEntity)).thenResolve(
-        challengeResultEntity
+        challengeParticipantRepository.create({ userId, challengeId })
+      ).thenReturn(challengeParticipantEntity);
+      when(challengeParticipantRepository.save(challengeParticipantEntity)).thenResolve(
+        challengeParticipantEntity
       );
-      const createdUser = await challengeResultService.createOne(
+      const createdUser = await challengeParticipantService.createOne(
         userId,
         challengeId
       );
-      expect(createdUser.id).toEqual(challengeResultEntity.id);
-      expect(createdUser.userId).toEqual(challengeResultEntity.userId);
+      expect(createdUser.id).toEqual(challengeParticipantEntity.id);
+      expect(createdUser.userId).toEqual(challengeParticipantEntity.userId);
       expect(createdUser.challengeId).toEqual(
-        challengeResultEntity.challengeId
+        challengeParticipantEntity.challengeId
       );
     });
   });
 
   describe("updateOne", () => {
-    it("returns the update challenge result", async () => {
+    it("returns the update challenge participant", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
-      const challengeResultEntity = generateMockChallengeResultEntity();
+      const challengeParticipantEntity = generateMockChallengeParticipantEntity();
       const completionTimeHour = generateRandomNumber();
       const completionTimeMinutes = generateRandomNumber();
       when(
-        challengeResultRepository.findOne({
+        challengeParticipantRepository.findOne({
           id,
           userId,
         })
-      ).thenResolve(challengeResultEntity);
-      challengeResultEntity.completionTimeHour = completionTimeHour;
-      challengeResultEntity.completionTimeMinutes = completionTimeMinutes;
-      when(challengeResultRepository.save(challengeResultEntity)).thenResolve(
-        challengeResultEntity
+      ).thenResolve(challengeParticipantEntity);
+      challengeParticipantEntity.completionTimeHour = completionTimeHour;
+      challengeParticipantEntity.completionTimeMinutes = completionTimeMinutes;
+      when(challengeParticipantRepository.save(challengeParticipantEntity)).thenResolve(
+        challengeParticipantEntity
       );
-      const updatedChallengeResult = await challengeResultService.updateOne({
+      const updatedChallengeParticipant = await challengeParticipantService.updateOne({
         id,
         userId,
         completionTimeHour,
         completionTimeMinutes,
       });
-      expect(updatedChallengeResult.id).toEqual(challengeResultEntity.id);
-      expect(updatedChallengeResult.completionTimeHour).toEqual(
+      expect(updatedChallengeParticipant.id).toEqual(challengeParticipantEntity.id);
+      expect(updatedChallengeParticipant.completionTimeHour).toEqual(
         completionTimeHour
       );
-      expect(updatedChallengeResult.completionTimeMinutes).toEqual(
+      expect(updatedChallengeParticipant.completionTimeMinutes).toEqual(
         completionTimeMinutes
       );
     });
 
-    it("throws an error if the challenge result was not found given the request information", async () => {
+    it("throws an error if the challenge participant was not found given the request information", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const completionTimeHour = generateRandomNumber();
       const completionTimeMinutes = generateRandomNumber();
       when(
-        challengeResultRepository.findOne({
+        challengeParticipantRepository.findOne({
           id,
           userId,
         })
       ).thenResolve(undefined);
       await expect(
-        challengeResultService.updateOne({
+        challengeParticipantService.updateOne({
           id,
           userId,
           completionTimeHour,

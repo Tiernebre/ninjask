@@ -10,7 +10,8 @@ describe("ChallengeParticipantService", () => {
   let challengeParticipantRepository: Repository<ChallengeParticipantEntity>;
 
   beforeEach(() => {
-    challengeParticipantRepository = object<Repository<ChallengeParticipantEntity>>();
+    challengeParticipantRepository =
+      object<Repository<ChallengeParticipantEntity>>();
     challengeParticipantService = new ChallengeParticipantService(
       challengeParticipantRepository
     );
@@ -20,15 +21,16 @@ describe("ChallengeParticipantService", () => {
     it("returns the created challenge participant", async () => {
       const userId = generateRandomNumber();
       const challengeId = generateRandomNumber();
-      const challengeParticipantEntity = generateMockChallengeParticipantEntity();
+      const challengeParticipantEntity =
+        generateMockChallengeParticipantEntity();
       challengeParticipantEntity.userId = userId;
       challengeParticipantEntity.challengeId = challengeId;
       when(
         challengeParticipantRepository.create({ userId, challengeId })
       ).thenReturn(challengeParticipantEntity);
-      when(challengeParticipantRepository.save(challengeParticipantEntity)).thenResolve(
-        challengeParticipantEntity
-      );
+      when(
+        challengeParticipantRepository.save(challengeParticipantEntity)
+      ).thenResolve(challengeParticipantEntity);
       const createdUser = await challengeParticipantService.createOne(
         userId,
         challengeId
@@ -45,7 +47,8 @@ describe("ChallengeParticipantService", () => {
     it("returns the update challenge participant", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
-      const challengeParticipantEntity = generateMockChallengeParticipantEntity();
+      const challengeParticipantEntity =
+        generateMockChallengeParticipantEntity();
       const completionTimeHour = generateRandomNumber();
       const completionTimeMinutes = generateRandomNumber();
       when(
@@ -56,16 +59,19 @@ describe("ChallengeParticipantService", () => {
       ).thenResolve(challengeParticipantEntity);
       challengeParticipantEntity.completionTimeHour = completionTimeHour;
       challengeParticipantEntity.completionTimeMinutes = completionTimeMinutes;
-      when(challengeParticipantRepository.save(challengeParticipantEntity)).thenResolve(
-        challengeParticipantEntity
+      when(
+        challengeParticipantRepository.save(challengeParticipantEntity)
+      ).thenResolve(challengeParticipantEntity);
+      const updatedChallengeParticipant =
+        await challengeParticipantService.updateOne({
+          id,
+          userId,
+          completionTimeHour,
+          completionTimeMinutes,
+        });
+      expect(updatedChallengeParticipant.id).toEqual(
+        challengeParticipantEntity.id
       );
-      const updatedChallengeParticipant = await challengeParticipantService.updateOne({
-        id,
-        userId,
-        completionTimeHour,
-        completionTimeMinutes,
-      });
-      expect(updatedChallengeParticipant.id).toEqual(challengeParticipantEntity.id);
       expect(updatedChallengeParticipant.completionTimeHour).toEqual(
         completionTimeHour
       );

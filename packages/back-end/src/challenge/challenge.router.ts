@@ -7,7 +7,7 @@ import { ChallengeParticipantService } from "./challenge-participant.service";
 import { ChallengeService } from "./challenge.service";
 
 export class ChallengeRouter extends Router {
-  private readonly URI = "/challenges"
+  private readonly URI = "/challenges";
 
   constructor(
     private readonly challengeService: ChallengeService,
@@ -44,7 +44,7 @@ export class ChallengeRouter extends Router {
         );
       }
     );
-    
+
     this.post(
       `${this.URI}/:id/participant`,
       async (ctx: ParameterizedContext<ContextState>) => {
@@ -53,8 +53,8 @@ export class ChallengeRouter extends Router {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           Number(ctx.params.id)
         );
-        ctx.status = CREATED
+        ctx.status = CREATED;
       }
-    )
+    );
   }
 }

@@ -9,7 +9,10 @@ import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
-import { generateMockChallengeDto, generateMockChallengeParticipant } from "./challenge.mock";
+import {
+  generateMockChallengeDto,
+  generateMockChallengeParticipant,
+} from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { ChallengeParticipantService } from "./challenge-participant.service";
 import { generateRandomNumber } from "../random";
@@ -29,7 +32,11 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
     challengeParticipantService = object<ChallengeParticipantService>();
-    const router = new ChallengeRouter(challengeService, draftService, challengeParticipantService);
+    const router = new ChallengeRouter(
+      challengeService,
+      draftService,
+      challengeParticipantService
+    );
     session = generateMockSessionPayload();
     app.use((ctx, next) => {
       ctx.state.session = session;
@@ -111,16 +118,20 @@ describe("Challenge Router (integration)", () => {
     const uri = `/challenges/${id}/participant`;
 
     it("returns with 201 CREATED status", async () => {
-      when(challengeParticipantService.createOne(session.userId, id)).thenResolve(generateMockChallengeParticipant())
+      when(
+        challengeParticipantService.createOne(session.userId, id)
+      ).thenResolve(generateMockChallengeParticipant());
       const response = await request.post(uri).send();
       expect(response.status).toEqual(CREATED);
     });
 
     it("returns with found draft in the response body", async () => {
-      const challengeParticipant = generateMockChallengeParticipant()
-      when(challengeParticipantService.createOne(session.userId, id)).thenResolve(challengeParticipant)
+      const challengeParticipant = generateMockChallengeParticipant();
+      when(
+        challengeParticipantService.createOne(session.userId, id)
+      ).thenResolve(challengeParticipant);
       const response = await request.post(uri).send();
       expect(response.body).toEqual(challengeParticipant);
     });
-  })
+  });
 });

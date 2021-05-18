@@ -42,7 +42,9 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeResult);
   }
 
-  private mapFromEntity(entity: ChallengeParticipantEntity): ChallengeParticipant {
+  private mapFromEntity(
+    entity: ChallengeParticipantEntity
+  ): ChallengeParticipant {
     return {
       id: entity.id,
       userId: entity.userId,

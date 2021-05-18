@@ -32,4 +32,10 @@ export class ChallengeResultEntity {
 
   @Column()
   completionTimeMinutes!: number;
+
+  @Column()
+  challengeId!: number;
+
+  @Column()
+  userId!: number;
 }

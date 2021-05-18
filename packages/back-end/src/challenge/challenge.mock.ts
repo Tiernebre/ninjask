@@ -1,5 +1,6 @@
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Challenge } from "./challenge";
+import { ChallengeResultEntity } from "./challenge-result.entity";
 import { ChallengeEntity } from "./challenge.entity";
 
 export const generateMockChallenge = (): ChallengeEntity => {
@@ -20,3 +21,13 @@ export const generateMockChallengeDto = (): Challenge => ({
   versionId: generateRandomNumber(),
   creatorId: generateRandomNumber(),
 });
+
+export const generateMockChallengeResultEntity = (): ChallengeResultEntity => {
+  const challengeResultEntity = new ChallengeResultEntity()
+  challengeResultEntity.id = generateRandomNumber()
+  challengeResultEntity.userId = generateRandomNumber()
+  challengeResultEntity.challengeId = generateRandomNumber()
+  challengeResultEntity.completionTimeHour = generateRandomNumber()
+  challengeResultEntity.completionTimeMinutes = generateRandomNumber()
+  return challengeResultEntity;
+}

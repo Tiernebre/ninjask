@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { ChallengeParticipant } from "./challenge-result";
+import { ChallengeParticipant } from "./challenge-participant";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 

@@ -5,7 +5,7 @@ import { ContextState } from "../types/state";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantService } from "./challenge-participant.service";
 
-export class ChallengeParticipantRouter extends Router {
+export class ChallengeParticipantsRouter extends Router {
   private readonly URI = "/challenge-participants";
 
   constructor(

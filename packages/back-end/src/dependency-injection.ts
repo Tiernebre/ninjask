@@ -31,6 +31,9 @@ import { liveDraftPoolMiddleware } from "./draft/live-draft-pool.middleware";
 import { ContextState } from "./types/state";
 import { DraftPoolService } from "./draft/draft-pool.service";
 import { LiveDraftPoolService } from "./draft/live-draft-pool.service";
+import { ChallengeParticipantService } from "./challenge/challenge-participant.service";
+import { ChallengeParticipantEntity } from "./challenge/challenge-participant.entity";
+import { ChallengeParticipantsRouter } from "./challenge/challenge-participant.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -121,11 +124,23 @@ const buildSessionMiddleware = (logger: Logger) => {
   return sessionMiddleware(buildSessionService(logger));
 };
 
+const buildChallengeParticipantsService = () => {
+  return new ChallengeParticipantService(
+    getRepository(ChallengeParticipantEntity)
+  )
+}
+
 const buildChallengesRouter = (logger: Logger) => {
   const challengeRepository = getRepository(ChallengeEntity);
   const challengeService = new ChallengeService(challengeRepository);
-  return new ChallengeRouter(challengeService, buildDraftService(logger));
+  return new ChallengeRouter(challengeService, buildDraftService(logger), buildChallengeParticipantsService());
 };
+
+const buildChallengeParticipantsRouter = () => {
+  return new ChallengeParticipantsRouter(
+    buildChallengeParticipantsService()
+  )
+}
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -153,6 +168,7 @@ export const injectDependencies = async (
     buildLeagueRouter(logger),
     buildDraftRouter(logger),
     buildChallengesRouter(logger),
+    buildChallengeParticipantsRouter()
   ];
   routers.forEach((router) => {
     app.use(router.routes());

@@ -21,7 +21,7 @@ describe('ChallengeResultService', () => {
       const challengeResultEntity = generateMockChallengeResultEntity()
       challengeResultEntity.userId = userId
       challengeResultEntity.challengeId = challengeId
-      when(challengeResultRepository.create({ userId, challengeId })).thenResolve(challengeResultEntity)
+      when(challengeResultRepository.create({ userId, challengeId })).thenReturn(challengeResultEntity)
       when(challengeResultRepository.save(challengeResultEntity)).thenResolve(challengeResultEntity)
       const createdUser = await challengeResultService.createOne(userId, challengeId)
       expect(createdUser.id).toEqual(challengeResultEntity.id)

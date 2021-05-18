@@ -2,7 +2,7 @@ import Koa from "koa";
 import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
-import { ChallengeParticipantRouter } from "./challenge-participant.router";
+import { ChallengeParticipantsRouter } from "./challenge-participant.router";
 import { object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { generateMockSessionPayload } from "../session/session.mock";
@@ -22,7 +22,7 @@ describe("ChallengeParticipantRouter", () => {
   beforeAll(() => {
     app = new Koa();
     challengeParticipantService = object<ChallengeParticipantService>();
-    const router = new ChallengeParticipantRouter(challengeParticipantService);
+    const router = new ChallengeParticipantsRouter(challengeParticipantService);
     session = generateMockSessionPayload();
     app.use(bodyParser());
     app.use((ctx, next) => {

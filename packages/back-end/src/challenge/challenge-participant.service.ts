@@ -5,18 +5,18 @@ import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
 export class ChallengeParticipantService {
   constructor(
-    private readonly challengeResultRepository: Repository<ChallengeParticipantEntity>
+    private readonly challengeParticipantRepository: Repository<ChallengeParticipantEntity>
   ) {}
 
   public async createOne(
     userId: number,
     challengeId: number
   ): Promise<ChallengeResult> {
-    let challengeResult = this.challengeResultRepository.create({
+    let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,
     });
-    challengeResult = await this.challengeResultRepository.save(
+    challengeResult = await this.challengeParticipantRepository.save(
       challengeResult
     );
     return this.mapFromEntity(challengeResult);
@@ -25,7 +25,7 @@ export class ChallengeParticipantService {
   public async updateOne(
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeResult> {
-    let challengeResult = await this.challengeResultRepository.findOne({
+    let challengeResult = await this.challengeParticipantRepository.findOne({
       id: request.id,
       userId: request.userId,
     });
@@ -36,7 +36,7 @@ export class ChallengeParticipantService {
     }
     challengeResult.completionTimeHour = request.completionTimeHour;
     challengeResult.completionTimeMinutes = request.completionTimeMinutes;
-    challengeResult = await this.challengeResultRepository.save(
+    challengeResult = await this.challengeParticipantRepository.save(
       challengeResult
     );
     return this.mapFromEntity(challengeResult);

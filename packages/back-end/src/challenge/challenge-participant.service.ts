@@ -3,7 +3,7 @@ import { ChallengeResult } from "./challenge-result";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
-export class ChallengeResultService {
+export class ChallengeParticipantService {
   constructor(
     private readonly challengeResultRepository: Repository<ChallengeParticipantEntity>
   ) {}

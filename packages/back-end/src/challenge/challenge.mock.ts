@@ -23,11 +23,11 @@ export const generateMockChallengeDto = (): Challenge => ({
 });
 
 export const generateMockChallengeResultEntity = (): ChallengeResultEntity => {
-  const challengeResultEntity = new ChallengeResultEntity()
-  challengeResultEntity.id = generateRandomNumber()
-  challengeResultEntity.userId = generateRandomNumber()
-  challengeResultEntity.challengeId = generateRandomNumber()
-  challengeResultEntity.completionTimeHour = generateRandomNumber()
-  challengeResultEntity.completionTimeMinutes = generateRandomNumber()
+  const challengeResultEntity = new ChallengeResultEntity();
+  challengeResultEntity.id = generateRandomNumber();
+  challengeResultEntity.userId = generateRandomNumber();
+  challengeResultEntity.challengeId = generateRandomNumber();
+  challengeResultEntity.completionTimeHour = generateRandomNumber();
+  challengeResultEntity.completionTimeMinutes = generateRandomNumber();
   return challengeResultEntity;
-}
+};

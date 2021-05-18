@@ -54,5 +54,22 @@ describe('ChallengeResultService', () => {
       expect(updatedChallengeResult.completionTimeHour).toEqual(completionTimeHour)
       expect(updatedChallengeResult.completionTimeMinutes).toEqual(completionTimeMinutes)
     })
+
+    it("throws an error if the challenge result was not found given the request information", async () => {
+      const id = generateRandomNumber()
+      const userId = generateRandomNumber()
+      const completionTimeHour = generateRandomNumber()
+      const completionTimeMinutes = generateRandomNumber()
+      when(challengeResultRepository.findOne({
+        id,
+        userId
+      })).thenResolve(undefined)
+      await expect(challengeResultService.updateOne({
+        id,
+        userId,
+        completionTimeHour,
+        completionTimeMinutes
+      })).rejects.toThrowError()
+    })
   })
 })

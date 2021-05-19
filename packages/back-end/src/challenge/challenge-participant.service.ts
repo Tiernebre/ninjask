@@ -43,20 +43,25 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeResult);
   }
 
-  public async getCompletedResultsForChallengeInOrder(challengeId: number): Promise<ChallengeResult[]> {
+  public async getCompletedResultsForChallengeInOrder(
+    challengeId: number
+  ): Promise<ChallengeResult[]> {
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")
       .innerJoin("challengeResult.user", "user")
       .select("challengeResult.id", "participantId")
       .addSelect("challengeResult.completionTimeHour", "completionTimeHour")
-      .addSelect("challengeResult.completionTimeMinutes", "completionTimeMinutes")
+      .addSelect(
+        "challengeResult.completionTimeMinutes",
+        "completionTimeMinutes"
+      )
       .addSelect("user.nickname", "nickname")
       .where("challengeResult.challengeId = :challengeId", { challengeId })
       .andWhere("challengeResult.completionTimeHour is not null")
       .andWhere("challengeResult.completionTimeMinutes is not null")
       .orderBy({
         "challengeResult.completionTimeHour": "ASC",
-        "challengeResult.completionTimeMinutes": "ASC"
+        "challengeResult.completionTimeMinutes": "ASC",
       })
       .getRawMany<ChallengeResult>();
   }

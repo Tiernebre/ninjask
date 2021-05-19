@@ -52,6 +52,8 @@ export class ChallengeParticipantService {
       .addSelect("challengeResult.completionTimeMinutes", "completionTimeMinutes")
       .addSelect("user.nickname", "nickname")
       .where("challengeResult.challengeId = :challengeId", { challengeId })
+      .andWhere("challengeResult.completionTimeHour is not null")
+      .andWhere("challengeResult.completionTimeMinutes is not null")
       .orderBy({
         "challengeResult.completionTimeHour": "ASC",
         "challengeResult.completionTimeMinutes": "ASC"

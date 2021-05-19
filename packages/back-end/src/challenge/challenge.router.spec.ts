@@ -12,6 +12,7 @@ import { DraftService } from "../draft/draft.service";
 import {
   generateMockChallengeDto,
   generateMockChallengeParticipant,
+  generateMockChallengeResults,
 } from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { ChallengeParticipantService } from "./challenge-participant.service";
@@ -132,6 +133,24 @@ describe("Challenge Router (integration)", () => {
       ).thenResolve(challengeParticipant);
       const response = await request.post(uri).send();
       expect(response.body).toEqual(challengeParticipant);
+    });
+  });
+
+  describe("GET /challenges/:id/results", () => {
+    const id = 1;
+    const uri = `/challenges/${id.toString()}/results`;
+
+    it("returns with 200 OK status", async () => {
+      when(challengeParticipantService.getCompletedResultsForChallengeInOrder(id)).thenResolve(generateMockChallengeResults())
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(200);
+    });
+
+    it("returns with results in the response body", async () => {
+      const results = generateMockChallengeResults()
+      when(challengeParticipantService.getCompletedResultsForChallengeInOrder(id)).thenResolve(results)
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(results);
     });
   });
 });

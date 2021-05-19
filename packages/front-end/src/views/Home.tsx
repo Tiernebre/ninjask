@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../api/challenge";
 import { HttpClient } from "../api/http";
-import { ChallengeTable } from "../components/challenge/ChallengeTable";
+import { ChallengeTable } from "../components/challenge/challenge-table";
 import "./Home.scss";
 
 type HomeProps = {

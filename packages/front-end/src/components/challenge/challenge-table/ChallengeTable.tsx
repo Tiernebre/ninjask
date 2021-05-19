@@ -1,6 +1,6 @@
 import "./ChallengeTable.scss";
-import { Challenge } from "../../api/challenge";
-import { VersionTag } from "../version/VersionTag";
+import { Challenge } from "../../../api/challenge";
+import { VersionTag } from "../../version/VersionTag";
 import { Link } from "react-router-dom";
 
 const ChallengeRow = (challenge: Challenge) => (

@@ -141,14 +141,18 @@ describe("Challenge Router (integration)", () => {
     const uri = `/challenges/${id.toString()}/results`;
 
     it("returns with 200 OK status", async () => {
-      when(challengeParticipantService.getCompletedResultsForChallengeInOrder(id)).thenResolve(generateMockChallengeResults())
+      when(
+        challengeParticipantService.getCompletedResultsForChallengeInOrder(id)
+      ).thenResolve(generateMockChallengeResults());
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with results in the response body", async () => {
-      const results = generateMockChallengeResults()
-      when(challengeParticipantService.getCompletedResultsForChallengeInOrder(id)).thenResolve(results)
+      const results = generateMockChallengeResults();
+      when(
+        challengeParticipantService.getCompletedResultsForChallengeInOrder(id)
+      ).thenResolve(results);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(results);
     });

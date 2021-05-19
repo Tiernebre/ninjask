@@ -1,4 +1,8 @@
-import { generateRandomNumber, generateRandomString, getRandomInt } from "../random";
+import {
+  generateRandomNumber,
+  generateRandomString,
+  getRandomInt,
+} from "../random";
 import { Challenge } from "./challenge";
 import { ChallengeParticipant } from "./challenge-participant";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
@@ -47,13 +51,13 @@ export const generateMockChallengeResult = (): ChallengeResult => ({
   participantId: generateRandomNumber(),
   completionTimeHour: getRandomInt(1, 25),
   completionTimeMinutes: getRandomInt(0, 59),
-  nickname: generateRandomString()
-})
+  nickname: generateRandomString(),
+});
 
 export const generateMockChallengeResults = (size = 20): ChallengeResult[] => {
-  const results = []
+  const results = [];
   for (let i = 0; i < size; i++) {
-    results.push(generateMockChallengeResult())
+    results.push(generateMockChallengeResult());
   }
-  return results
-}
+  return results;
+};

@@ -1,1 +1,1 @@
-export { ChallengeResults } from './ChallengeResults'
+export { ChallengeResults } from "./ChallengeResults";

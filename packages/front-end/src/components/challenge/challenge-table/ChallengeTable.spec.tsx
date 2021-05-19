@@ -18,7 +18,7 @@ it("renders given challenges", () => {
       name: "Test Challenge 2",
       description: "The second challenge",
       versionId: 2,
-      creatorId: 1
+      creatorId: 1,
     },
   ];
 

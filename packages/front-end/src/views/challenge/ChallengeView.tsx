@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
-import { HttpClient } from "../../api/http"
+import { HttpClient } from "../../api/http";
 import { HeadingGroup } from "../../components/heading-group";
 
 type ChallengeViewParams = {
@@ -11,11 +11,11 @@ type ChallengeViewParams = {
 };
 
 type ChallengeViewProps = {
-  httpClient: HttpClient
-}
+  httpClient: HttpClient;
+};
 
 export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
-  const { id }= useParams<ChallengeViewParams>()
+  const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
 
   const fetchChallenge = useCallback(async () => {
@@ -29,12 +29,9 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
 
   return challenge ? (
     <div className="ChallengeView">
-      <HeadingGroup
-        title={challenge.name}
-        subtitle={challenge.description}
-      />
+      <HeadingGroup title={challenge.name} subtitle={challenge.description} />
     </div>
   ) : (
     <p>Loading Challenge...</p>
-  )
-}
+  );
+};

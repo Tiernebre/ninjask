@@ -1,1 +1,1 @@
-export { ChallengeTable } from './ChallengeTable'
+export { ChallengeTable } from "./ChallengeTable";

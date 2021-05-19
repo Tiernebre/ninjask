@@ -1,1 +1,1 @@
-export { HeadingGroup } from './HeadingGroup'
+export { HeadingGroup } from "./HeadingGroup";

@@ -29,7 +29,7 @@ export const DraftPoolView = ({
 
   return (
     <div className="DraftPoolView">
-      <HeadingGroup 
+      <HeadingGroup
         title="Draft Pool"
         subtitle={`Below are the pokemon that are pooled for ${challengeName}.`}
       />

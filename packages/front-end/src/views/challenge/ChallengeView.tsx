@@ -1,3 +1,4 @@
+import "./ChallengeView.scss";
 import { useState, useCallback } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
@@ -26,7 +27,7 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
   });
 
   return challenge ? (
-    <div>
+    <div className="ChallengeView">
       {challenge.name}
     </div>
   ) : (

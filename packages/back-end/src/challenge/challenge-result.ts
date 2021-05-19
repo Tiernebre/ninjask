@@ -1,4 +1,6 @@
 export interface ChallengeResult {
   readonly participantId: number
-  readonly completionTime: string
+  readonly nickname: string
+  readonly completionTimeHour: number | null
+  readonly completionTimeMinutes: number | null
 }

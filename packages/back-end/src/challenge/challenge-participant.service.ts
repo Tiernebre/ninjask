@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import { ChallengeParticipant } from "./challenge-participant";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
+import { ChallengeResult } from "./challenge-result";
 
 export class ChallengeParticipantService {
   constructor(
@@ -40,6 +41,22 @@ export class ChallengeParticipantService {
       challengeResult
     );
     return this.mapFromEntity(challengeResult);
+  }
+
+  public async getResultsInOrderForChallenge(challengeId: number): Promise<ChallengeResult[]> {
+    return this.challengeParticipantRepository
+      .createQueryBuilder("challengeResult")
+      .innerJoin("challengeResult.user", "user")
+      .select("challengeResult.id", "participantId")
+      .addSelect("challengeResult.completionTimeHour", "completionTimeHour")
+      .addSelect("challengeResult.completionTimeMinutes", "completionTimeMinutes")
+      .addSelect("user.nickname", "nickname")
+      .where("challengeResult.challengeId = :challengeId", { challengeId })
+      .orderBy({
+        "challengeResult.completionTimeHour": "ASC",
+        "challengeResult.completionTimeMinutes": "ASC"
+      })
+      .getRawMany<ChallengeResult>();
   }
 
   private mapFromEntity(

@@ -25,9 +25,11 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
     fetchChallenge();
   });
 
-  return (
+  return challenge ? (
     <div>
-      Challenge View dude.
+      {challenge.name}
     </div>
+  ) : (
+    <p>Loading Challenge...</p>
   )
 }

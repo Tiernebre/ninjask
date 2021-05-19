@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
 import { HttpSessionService, SessionPayload } from "../api/session";
+import { ChallengeView } from "./challenge/ChallengeView";
 import { DraftView } from "./draft/DraftView";
 import { Home } from "./Home";
 
@@ -45,6 +46,9 @@ export const AuthenticatedRoutes = ({
           httpClient={authedHttpClient}
           sessionPayload={sessionPayload}
         />
+      </Route>
+      <Route path="/challenges/:id">
+        <ChallengeView />
       </Route>
     </Fragment>
   );

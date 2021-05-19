@@ -8,6 +8,6 @@ type HeadingGroupProps = {
 export const HeadingGroup = ({ title, subtitle }: HeadingGroupProps) => (
   <header className="HeadingGroup">
     <h1 className="title">{title}</h1>
-    <p className="subtitle">{subtitle}</p>
+    <p role="doc-subtitle" className="subtitle">{subtitle}</p>
   </header>
 )

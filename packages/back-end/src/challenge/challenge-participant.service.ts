@@ -43,7 +43,7 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeResult);
   }
 
-  public async getResultsInOrderForChallenge(challengeId: number): Promise<ChallengeResult[]> {
+  public async getCompletedResultsForChallengeInOrder(challengeId: number): Promise<ChallengeResult[]> {
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")
       .innerJoin("challengeResult.user", "user")

@@ -31,8 +31,9 @@ describe('ChallengeParticipantService (integration)', () => {
     challengeParticipantService = new ChallengeParticipantService(challengeParticipantRepository);
   });
 
-  describe("getResultsInOrderForChallenge", () => {
+  describe("getCompletedResultsForChallengeInOrder", () => {
     it("returns the participants in order from least to longest time", async () => {
+      expect(users.length).toBeGreaterThan(2)
       const [challenge] = challenges
       let expectedChallengeResults: ChallengeResult[] = []
       for (const user of users) {
@@ -45,7 +46,8 @@ describe('ChallengeParticipantService (integration)', () => {
         })
       }
       expectedChallengeResults = orderBy(expectedChallengeResults, ['completionTimeHour', 'completionTimeMinutes'], ['asc', 'asc'])
-      const gottenResults = await challengeParticipantService.getResultsInOrderForChallenge(challenge.id)
+      const gottenResults = await challengeParticipantService.getCompletedResultsForChallengeInOrder(challenge.id)
+      expect(gottenResults).toHaveLength(users.length)
       expect(gottenResults).toEqual(expectedChallengeResults)
     })
   })

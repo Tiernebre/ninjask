@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
 import { HttpClient } from "../../api/http"
+import { HeadingGroup } from "../../components/heading-group";
 
 type ChallengeViewParams = {
   id?: string;
@@ -28,10 +29,10 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
 
   return challenge ? (
     <div className="ChallengeView">
-      <header>
-        <h1 className="title">{challenge.name}</h1>
-        <p className="subtitle">{challenge.description}</p>
-      </header>
+      <HeadingGroup
+        title={challenge.name}
+        subtitle={challenge.description}
+      />
     </div>
   ) : (
     <p>Loading Challenge...</p>

@@ -5,6 +5,8 @@ import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
 import { HttpClient } from "../../api/http";
 import { HeadingGroup } from "../../components/heading-group";
+import { ChallengeResults } from "../../components/challenge/challenge-results";
+import { ChallengeResult } from "../../api/challenge/ChallengeResult";
 
 type ChallengeViewParams = {
   id?: string;
@@ -17,19 +19,27 @@ type ChallengeViewProps = {
 export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
   const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
+  const [results, setResults] = useState<ChallengeResult[]>();
 
   const fetchChallenge = useCallback(async () => {
     const challengeService = new HttpChallengeService(httpClient);
     setChallenge(await challengeService.getOneById(Number(id)));
   }, [httpClient, id]);
 
+  const fetchChallengeResults = useCallback(async () => {
+    const challengeService = new HttpChallengeService(httpClient);
+    setResults(await challengeService.getResultsForChallenge(Number(id)));
+  }, [httpClient, id]);
+
   useDidMount(() => {
     fetchChallenge();
+    fetchChallengeResults();
   });
 
-  return challenge ? (
+  return challenge && results ? (
     <div className="ChallengeView">
       <HeadingGroup title={challenge.name} subtitle={challenge.description} />
+      <ChallengeResults results={results} />
     </div>
   ) : (
     <p>Loading Challenge...</p>

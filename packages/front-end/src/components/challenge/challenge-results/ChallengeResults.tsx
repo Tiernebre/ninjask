@@ -1,4 +1,5 @@
 import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
+import { ChallengeResult } from "./ChallengeResult";
 import { EmptyChallengeResults } from "./EmptyChallengeResults";
 
 type ChallengeResultsProps = {
@@ -9,7 +10,9 @@ export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
   const content = results.length ? (
     <ol>
       {results.map((result) => (
-        <li key={result.participantId}></li>
+        <li key={result.participantId}>
+          <ChallengeResult result={result} />
+        </li>
       ))}
     </ol>
   ) : (

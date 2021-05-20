@@ -1,5 +1,5 @@
 import "./ChallengeView.scss";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
@@ -9,6 +9,8 @@ import { ChallengeResults } from "../../components/challenge/challenge-results";
 import { ChallengeResult } from "../../api/challenge/ChallengeResult";
 import { ChallengeResultAction } from "../../components/challenge/challenge-results/ChallengeResultAction";
 import { SessionPayload } from "../../api/session";
+import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
+import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
 
 type ChallengeViewParams = {
   id?: string;
@@ -27,19 +29,29 @@ export const ChallengeView = ({
   const [challenge, setChallenge] = useState<Challenge>();
   const [results, setResults] = useState<ChallengeResult[]>();
 
-  const fetchChallenge = useCallback(async () => {
-    const challengeService = new HttpChallengeService(httpClient);
-    setChallenge(await challengeService.getOneById(Number(id)));
-  }, [httpClient, id]);
+  const challengeService = useMemo(
+    () => new HttpChallengeService(httpClient),
+    [httpClient]
+  );
+  const challengeParticipantService = useMemo(
+    () => new HttpChallengeParticipantService(httpClient),
+    [httpClient]
+  );
 
-  const fetchChallengeResults = useCallback(async () => {
-    const challengeService = new HttpChallengeService(httpClient);
+  const fetchChallenge = useCallback(async () => {
+    setChallenge(await challengeService.getOneById(Number(id)));
     setResults(await challengeService.getResultsForChallenge(Number(id)));
-  }, [httpClient, id]);
+  }, [challengeService, id]);
+
+  const updateChallengeResult = useCallback(
+    async (id: number, data: ChallengeParticipantUpdateRequest) => {
+      await challengeParticipantService.updateOne(id, data);
+    },
+    [challengeParticipantService]
+  );
 
   useDidMount(() => {
     fetchChallenge();
-    fetchChallengeResults();
   });
 
   return challenge && results && sessionPayload ? (
@@ -53,6 +65,7 @@ export const ChallengeView = ({
           <ChallengeResultAction
             results={results}
             sessionPayload={sessionPayload}
+            onSubmit={updateChallengeResult}
           />
         </div>
       </div>

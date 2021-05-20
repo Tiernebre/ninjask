@@ -55,6 +55,15 @@ export class FetchHttpClient implements HttpClient {
     this.checkResponseForErrors(response);
   }
 
+  public async patch<T>(uri: string, request?: any): Promise<T> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "PATCH",
+      body: JSON.stringify(request),
+    });
+    return this.parseResponse(response);
+  }
+
   private parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
       return response.json();

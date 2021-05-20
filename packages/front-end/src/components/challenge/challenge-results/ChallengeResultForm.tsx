@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../form/ErrorMessage";
 
 type ChallengeResultFormData = {
-  hour: number;
-  minutes: number;
+  completionTimeHour: number;
+  completionTimeMinutes: number;
 };
 
 type ChallengeResultFormProps = {
@@ -39,11 +39,13 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
               </label>
               <input
                 id="ChallengeResultForm__hour"
-                className={`input ${errors.hour ? "is-danger" : ""}`}
+                className={`input ${
+                  errors.completionTimeHour ? "is-danger" : ""
+                }`}
                 type="number"
-                aria-invalid={!!errors.hour}
+                aria-invalid={!!errors.completionTimeHour}
                 placeholder="00"
-                {...register("hour", {
+                {...register("completionTimeHour", {
                   required: {
                     value: true,
                     message: "Hour is required.",
@@ -60,7 +62,7 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
               />
               <ErrorMessage
                 htmlFor="ChallengeResultForm__hour"
-                fieldError={errors.hour}
+                fieldError={errors.completionTimeHour}
               />
               <span className="ChallengeResultForm__colon">:</span>
             </div>
@@ -70,11 +72,13 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
               </label>
               <input
                 id="ChallengeResultForm__minutes"
-                className={`input ${errors.minutes ? "is-danger" : ""}`}
+                className={`input ${
+                  errors.completionTimeMinutes ? "is-danger" : ""
+                }`}
                 type="number"
-                aria-invalid={!!errors.hour}
+                aria-invalid={!!errors.completionTimeMinutes}
                 placeholder="00"
-                {...register("minutes", {
+                {...register("completionTimeMinutes", {
                   required: {
                     value: true,
                     message: "Minutes are required.",
@@ -91,7 +95,7 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
               />
               <ErrorMessage
                 htmlFor="ChallengeResultForm__hour"
-                fieldError={errors.minutes}
+                fieldError={errors.completionTimeMinutes}
               />
             </div>
           </div>

@@ -7,14 +7,13 @@
     list-style: none;
 
     li {
+      &:nth-child(odd) {
+        background-color: snow;
+      }
 
-  &:nth-child(odd) {
-    background-color: snow;
-  }
-
-  &:nth-child(even) {
-    background-color: lightgrey;
-  }
+      &:nth-child(even) {
+        background-color: lightgrey;
+      }
     }
   }
 }
@@ -27,5 +26,5 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.30rem;
+  font-size: 1.3rem;
 }

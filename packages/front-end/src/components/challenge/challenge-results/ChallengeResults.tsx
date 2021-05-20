@@ -11,9 +11,7 @@ type ChallengeResultsProps = {
 export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
   const content = results.length ? (
     <Fragment>
-      <h3 className="ChallengeResults__heading">
-        Challenge Results
-      </h3>
+      <h3 className="ChallengeResults__heading">Challenge Results</h3>
       <ol>
         {results.map((result, index) => (
           <li key={result.participantId}>

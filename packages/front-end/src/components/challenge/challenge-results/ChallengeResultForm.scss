@@ -1,5 +1,5 @@
 .ChallengeResultForm__heading {
-  font-size: 1.30rem;
+  font-size: 1.3rem;
 }
 
 .ChallengeResultForm__sub-heading {
@@ -14,7 +14,8 @@
   }
 }
 
-.ChallengeResultForm__minutes-container, .ChallengeResultForm__hour-container {
+.ChallengeResultForm__minutes-container,
+.ChallengeResultForm__hour-container {
   input {
     width: 7ch;
   }
@@ -27,13 +28,13 @@
     position: absolute;
     top: 33px;
     right: -15px;
-    font-size: 1.50rem;
+    font-size: 1.5rem;
     font-weight: bold;
   }
 }
 
 .ChallengeResultForm__hour {
   ::after {
-    content: 'FOO'
+    content: "FOO";
   }
 }

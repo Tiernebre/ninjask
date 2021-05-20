@@ -62,6 +62,7 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 htmlFor="ChallengeResultForm__hour"
                 fieldError={errors.hour}
               />
+              <span className="ChallengeResultForm__colon">:</span>
             </div>
             <div className="ChallengeResultForm__minutes-container">
               <label htmlFor="ChallengeResultForm__minutes" className="label">

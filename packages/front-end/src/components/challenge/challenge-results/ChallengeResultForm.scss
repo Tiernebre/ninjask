@@ -8,13 +8,32 @@
 
 .ChallengeResultForm__completion-time {
   display: flex;
-  width: 50%;
-
-  .ChallengeResultForm__minutes-container, .ChallengeResultForm__hour-container {
-    width: 100%;
-  }
 
   *:first-of-type {
     padding-right: 25px;
+  }
+}
+
+.ChallengeResultForm__minutes-container, .ChallengeResultForm__hour-container {
+  input {
+    width: 7ch;
+  }
+}
+
+.ChallengeResultForm__hour-container {
+  position: relative;
+
+  .ChallengeResultForm__colon {
+    position: absolute;
+    top: 33px;
+    right: -15px;
+    font-size: 1.50rem;
+    font-weight: bold;
+  }
+}
+
+.ChallengeResultForm__hour {
+  ::after {
+    content: 'FOO'
   }
 }

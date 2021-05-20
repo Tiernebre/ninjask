@@ -48,7 +48,7 @@ export const AuthenticatedRoutes = ({
         />
       </Route>
       <Route path="/challenges/:id">
-        <ChallengeView httpClient={authedHttpClient} />
+        <ChallengeView httpClient={authedHttpClient} sessionPayload={sessionPayload} />
       </Route>
     </Fragment>
   );

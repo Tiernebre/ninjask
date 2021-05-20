@@ -14,7 +14,7 @@ export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
       <h3 className="ChallengeResults__heading">Challenge Results</h3>
       <ol>
         {results.map((result, index) => (
-          <li key={result.participantId}>
+          <li key={result.resultId}>
             <ChallengeResult result={result} rank={index + 1} />
           </li>
         ))}

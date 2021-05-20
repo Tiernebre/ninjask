@@ -3,4 +3,5 @@ export interface ChallengeResult {
   readonly nickname: string;
   readonly completionTimeHour: number | null;
   readonly completionTimeMinutes: number | null;
+  readonly resultId: number;
 }

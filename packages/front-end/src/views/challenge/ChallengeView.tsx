@@ -8,6 +8,7 @@ import { HeadingGroup } from "../../components/heading-group";
 import { ChallengeResults } from "../../components/challenge/challenge-results";
 import { ChallengeResult } from "../../api/challenge/ChallengeResult";
 import { ChallengeResultAction } from "../../components/challenge/challenge-results/ChallengeResultAction";
+import { SessionPayload } from "../../api/session";
 
 type ChallengeViewParams = {
   id?: string;
@@ -15,9 +16,10 @@ type ChallengeViewParams = {
 
 type ChallengeViewProps = {
   httpClient: HttpClient;
+  sessionPayload?: SessionPayload;
 };
 
-export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
+export const ChallengeView = ({ httpClient, sessionPayload }: ChallengeViewProps) => {
   const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
   const [results, setResults] = useState<ChallengeResult[]>();
@@ -37,7 +39,7 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
     fetchChallengeResults();
   });
 
-  return challenge && results ? (
+  return challenge && results && sessionPayload ? (
     <div className="ChallengeView">
       <HeadingGroup title={challenge.name} subtitle={challenge.description} />
       <div className="columns">
@@ -45,7 +47,7 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
           <ChallengeResults results={results} />
         </div>
         <div className="column is-6">
-          <ChallengeResultAction />
+          <ChallengeResultAction results={results} sessionPayload={sessionPayload} />
         </div>
       </div>
     </div>

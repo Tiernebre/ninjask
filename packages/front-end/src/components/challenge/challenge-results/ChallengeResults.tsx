@@ -1,6 +1,8 @@
+import "./ChallengeResults.scss";
 import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
 import { ChallengeResult } from "./ChallengeResult";
 import { EmptyChallengeResults } from "./EmptyChallengeResults";
+import { Fragment } from "react";
 
 type ChallengeResultsProps = {
   results: ChallengeResultTyping[];
@@ -8,13 +10,18 @@ type ChallengeResultsProps = {
 
 export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
   const content = results.length ? (
-    <ol>
-      {results.map((result) => (
-        <li key={result.participantId}>
-          <ChallengeResult result={result} />
-        </li>
-      ))}
-    </ol>
+    <Fragment>
+      <h3 className="ChallengeResults__heading">
+        Challenge Results
+      </h3>
+      <ol>
+        {results.map((result, index) => (
+          <li key={result.participantId}>
+            <ChallengeResult result={result} rank={index + 1} />
+          </li>
+        ))}
+      </ol>
+    </Fragment>
   ) : (
     <EmptyChallengeResults />
   );

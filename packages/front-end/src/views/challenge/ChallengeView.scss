@@ -4,9 +4,12 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  flex-grow: 1;
 
   .columns {
+    height: 100%;
     width: 100%;
+    flex-grow: 1;
   }
 
   .HeadingGroup {

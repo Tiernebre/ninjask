@@ -52,7 +52,7 @@ export const generateMockChallengeResult = (): ChallengeResult => ({
   completionTimeHour: getRandomInt(1, 25),
   completionTimeMinutes: getRandomInt(0, 59),
   nickname: generateRandomString(),
-  resultId: generateRandomNumber()
+  resultId: generateRandomNumber(),
 });
 
 export const generateMockChallengeResults = (size = 20): ChallengeResult[] => {

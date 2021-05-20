@@ -41,7 +41,10 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 placeholder="00"
                 {...register("hour", { required: true })}
               />
-              <ErrorMessage htmlFor="ChallengeResultForm__hour" fieldError={errors.hour}/>
+              <ErrorMessage
+                htmlFor="ChallengeResultForm__hour"
+                fieldError={errors.hour}
+              />
             </div>
             <div className="column is-2">
               <label htmlFor="ChallengeResultForm__minutes" className="label">
@@ -55,7 +58,10 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 placeholder="00"
                 {...register("minutes", { required: true })}
               />
-              <ErrorMessage htmlFor="ChallengeResultForm__hour" fieldError={errors.minutes}/>
+              <ErrorMessage
+                htmlFor="ChallengeResultForm__hour"
+                fieldError={errors.minutes}
+              />
             </div>
           </div>
         </div>

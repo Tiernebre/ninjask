@@ -18,5 +18,5 @@ export const ErrorMessage = ({ fieldError, ...props }: ErrorMessageProps) => {
     >
       This field is required
     </label>
-  )
-}
+  );
+};

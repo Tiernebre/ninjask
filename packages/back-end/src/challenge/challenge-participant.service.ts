@@ -49,13 +49,14 @@ export class ChallengeParticipantService {
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")
       .innerJoin("challengeResult.user", "user")
-      .select("challengeResult.id", "participantId")
+      .select("challengeResult.id", "resultId")
       .addSelect("challengeResult.completionTimeHour", "completionTimeHour")
       .addSelect(
         "challengeResult.completionTimeMinutes",
         "completionTimeMinutes"
       )
       .addSelect("user.nickname", "nickname")
+      .addSelect("user.id", "participantId")
       .where("challengeResult.challengeId = :challengeId", { challengeId })
       .andWhere("challengeResult.completionTimeHour is not null")
       .andWhere("challengeResult.completionTimeMinutes is not null")

@@ -4,6 +4,7 @@ import { useDidMount } from "rooks";
 import { Pokemon } from "../../api/pokemon/Pokemon";
 import { PokemonCard } from "../../components/pokemon/PokemonCard";
 import { DraftService } from "../../api/draft/DraftService";
+import { HeadingGroup } from "../../components/heading-group";
 
 type DraftPoolViewProps = {
   draftService: DraftService;
@@ -28,12 +29,10 @@ export const DraftPoolView = ({
 
   return (
     <div className="DraftPoolView">
-      <header>
-        <h1 className="title has-text-centered">Draft Pool</h1>
-        <p role="doc-subtitle" className="subtitle has-text-centered">
-          Below are the pokemon that are pooled for {challengeName}.
-        </p>
-      </header>
+      <HeadingGroup
+        title="Draft Pool"
+        subtitle={`Below are the pokemon that are pooled for ${challengeName}.`}
+      />
       <div className="DraftPoolView__pokemon p-5">
         {pokemon.map((individualPokemon) => (
           <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />

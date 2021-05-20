@@ -1,0 +1,33 @@
+@import "../../../styles/variables.scss";
+
+.ChallengeResults {
+  background-color: snow;
+  height: 100%;
+  width: 100%;
+
+  ol {
+    list-style: none;
+
+    li {
+      &:nth-child(odd) {
+        background-color: snow;
+      }
+
+      &:nth-child(even) {
+        background-color: lightgrey;
+      }
+    }
+  }
+}
+
+.ChallengeResults__heading {
+  color: black;
+  background-color: $teal;
+  padding: 8px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.3rem;
+  border-radius: 5px;
+}

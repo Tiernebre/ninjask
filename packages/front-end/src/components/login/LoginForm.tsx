@@ -34,9 +34,17 @@ export const LoginForm = (props: LoginFormProps) => {
           type="text"
           id="LoginForm__access-key"
           aria-invalid={!!errors.accessKey}
-          {...register("accessKey", { required: true })}
+          {...register("accessKey", {
+            required: {
+              value: true,
+              message: "Access Key is required.",
+            },
+          })}
         />
-        {errors.accessKey && <ErrorMessage htmlFor="LoginForm__access-key" />}
+        <ErrorMessage
+          htmlFor="LoginForm__access-key"
+          fieldError={errors.accessKey}
+        />
       </div>
       <div className="field">
         <label className="label" htmlFor="LoginForm__password">
@@ -48,9 +56,17 @@ export const LoginForm = (props: LoginFormProps) => {
           id="LoginForm__password"
           aria-invalid={!!errors.password}
           autoComplete="on"
-          {...register("password", { required: true })}
+          {...register("password", {
+            required: {
+              value: true,
+              message: "Password is required.",
+            },
+          })}
         />
-        {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
+        <ErrorMessage
+          htmlFor="LoginForm__password"
+          fieldError={errors.password}
+        />
       </div>
       <div className="field">
         <button

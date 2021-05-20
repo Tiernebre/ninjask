@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router";
-import { Challenge } from "../../api/challenge";
+import { Challenge } from "../../../api/challenge";
 import { ChallengeTable } from "./ChallengeTable";
 import user from "@testing-library/user-event";
 
@@ -11,12 +11,14 @@ it("renders given challenges", () => {
       name: "Test Challenge 1",
       description: "The first challenge",
       versionId: 1,
+      creatorId: 1,
     },
     {
       id: 2,
       name: "Test Challenge 2",
       description: "The second challenge",
       versionId: 2,
+      creatorId: 1,
     },
   ];
 

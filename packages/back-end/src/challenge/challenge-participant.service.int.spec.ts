@@ -52,10 +52,11 @@ describe("ChallengeParticipantService (integration)", () => {
           user
         );
         expectedChallengeResults.push({
-          participantId: challengeParticipant.id,
+          resultId: challengeParticipant.id,
           completionTimeHour: challengeParticipant.completionTimeHour,
           completionTimeMinutes: challengeParticipant.completionTimeMinutes,
           nickname: user.nickname,
+          participantId: user.id,
         });
       }
       expectedChallengeResults = orderBy(
@@ -84,10 +85,11 @@ describe("ChallengeParticipantService (integration)", () => {
         );
         if (user !== userWithoutEnteredTime) {
           expectedChallengeResults.push({
-            participantId: challengeParticipant.id,
+            resultId: challengeParticipant.id,
             completionTimeHour: challengeParticipant.completionTimeHour,
             completionTimeMinutes: challengeParticipant.completionTimeMinutes,
             nickname: user.nickname,
+            participantId: user.id,
           });
         } else {
           challengeParticipant.completionTimeHour = null;

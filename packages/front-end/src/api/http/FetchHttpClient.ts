@@ -55,6 +55,15 @@ export class FetchHttpClient implements HttpClient {
     this.checkResponseForErrors(response);
   }
 
+  public async patch<T>(uri: string, request?: any): Promise<T> {
+    const response = await fetch(`${this.rootUrl}${uri}`, {
+      ...this.getCommonConfiguration(),
+      method: "PATCH",
+      body: JSON.stringify(request),
+    });
+    return this.parseResponse(response);
+  }
+
   private parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
       return response.json();
@@ -84,20 +93,16 @@ export class FetchHttpClient implements HttpClient {
   }
 
   private getCommonConfiguration(): RequestInit {
-    const configuration: RequestInit = {
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      credentials: "include",
-    };
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
 
     if (this.accessToken) {
-      configuration.headers = new Headers({
-        ...configuration.headers,
-        Authorization: this.accessToken,
-      });
+      headers.set("Authorization", this.accessToken);
     }
 
-    return configuration;
+    return {
+      headers,
+      credentials: "include",
+    };
   }
 }

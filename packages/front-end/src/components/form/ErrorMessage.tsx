@@ -9,14 +9,16 @@ interface ErrorMessageProps {
 export const ErrorMessage = ({ fieldError, ...props }: ErrorMessageProps) => {
   if (!fieldError) return null;
 
+  const { message } = fieldError
+
   return (
     <label
       className="ErrorMessage help is-danger"
-      aria-label="This field is required"
+      aria-label={message}
       role="alert"
       {...props}
     >
-      This field is required
+      { message }
     </label>
   );
 };

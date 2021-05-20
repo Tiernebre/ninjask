@@ -26,12 +26,11 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
   return (
     <Fragment>
       <h3 className="ChallengeResultForm__heading">Submit Result</h3>
-      <p className="ChallengeRestulForm__sub-heading">
+      <p className="ChallengeResultForm__sub-heading">
         Enter in the details about your completed run and submit it!
       </p>
       <form className="ChallengeResultForm" onSubmit={submit}>
         <div className="field">
-          <label className="label">Result Time</label>
           <div className="ChallengeResultForm__completion-time">
             <div className="ChallengeResultForm__hour-container">
               <label htmlFor="ChallengeResultForm__hour" className="label">

@@ -36,7 +36,7 @@ export const LoginForm = (props: LoginFormProps) => {
           aria-invalid={!!errors.accessKey}
           {...register("accessKey", { required: true })}
         />
-        {errors.accessKey && <ErrorMessage htmlFor="LoginForm__access-key" />}
+        <ErrorMessage htmlFor="LoginForm__access-key" fieldError={errors.accessKey} />
       </div>
       <div className="field">
         <label className="label" htmlFor="LoginForm__password">
@@ -50,7 +50,7 @@ export const LoginForm = (props: LoginFormProps) => {
           autoComplete="on"
           {...register("password", { required: true })}
         />
-        {errors.password && <ErrorMessage htmlFor="LoginForm__password" />}
+        <ErrorMessage htmlFor="LoginForm__password" fieldError={errors.password} />
       </div>
       <div className="field">
         <button

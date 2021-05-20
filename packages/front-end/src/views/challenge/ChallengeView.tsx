@@ -7,6 +7,7 @@ import { HttpClient } from "../../api/http";
 import { HeadingGroup } from "../../components/heading-group";
 import { ChallengeResults } from "../../components/challenge/challenge-results";
 import { ChallengeResult } from "../../api/challenge/ChallengeResult";
+import { ChallengeResultAction } from "../../components/challenge/challenge-results/ChallengeResultAction";
 
 type ChallengeViewParams = {
   id?: string;
@@ -44,7 +45,7 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
           <ChallengeResults results={results} />
         </div>
         <div className="column is-6">
-          <p>Foo</p>
+          <ChallengeResultAction />
         </div>
       </div>
     </div>

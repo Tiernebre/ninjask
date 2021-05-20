@@ -12,7 +12,7 @@ export class HttpChallengeParticipantService
     id: number,
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeResult> {
-    debugger
+    debugger;
     return this.httpClient.patch(`challenge-participants/${id}`, request);
   }
 }

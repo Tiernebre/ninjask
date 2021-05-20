@@ -46,7 +46,7 @@ export const ChallengeView = ({
   const updateChallengeResult = useCallback(
     async (id: number, data: ChallengeParticipantUpdateRequest) => {
       await challengeParticipantService.updateOne(id, data);
-      await fetchChallenge()
+      await fetchChallenge();
     },
     [challengeParticipantService, fetchChallenge]
   );

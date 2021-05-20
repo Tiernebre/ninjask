@@ -20,7 +20,7 @@ export const ChallengeResultAction = ({
 
   const submit = (data: ChallengeParticipantUpdateRequest) => {
     if (challengeResult) {
-      onSubmit(challengeResult.resultId, data)
+      onSubmit(challengeResult.resultId, data);
     }
   };
 

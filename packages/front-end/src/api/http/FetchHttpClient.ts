@@ -93,11 +93,11 @@ export class FetchHttpClient implements HttpClient {
   }
 
   private getCommonConfiguration(): RequestInit {
-    const headers = new Headers()
-    headers.set('Content-Type', 'application/json')
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
 
     if (this.accessToken) {
-      headers.set('Authorization', this.accessToken)
+      headers.set("Authorization", this.accessToken);
     }
 
     return {

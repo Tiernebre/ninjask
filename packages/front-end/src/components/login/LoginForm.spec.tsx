@@ -3,8 +3,9 @@ import user from "@testing-library/user-event";
 import { LoginForm } from "./LoginForm";
 import { act } from "react-dom/test-utils";
 
-const getAccessKeyInput = () => screen.getByRole('textbox', { name: /Access Key/i });
-const getPasswordInput = () => screen.getByLabelText('Password');
+const getAccessKeyInput = () =>
+  screen.getByRole("textbox", { name: /Access Key/i });
+const getPasswordInput = () => screen.getByLabelText("Password");
 const getSubmitButton = () => screen.getByRole("button", { name: /Login/i });
 const getAccessKeyErrorMessage = () =>
   screen.getByRole("alert", { name: /Access Key is required/i });
@@ -33,7 +34,7 @@ it("renders an error message and marks the password input invalid if it is not f
   });
   expect(getPasswordInput()).toBeInvalid();
   expect(getPasswordInput()).toHaveClass("is-danger");
-  expect(getPasswordErrorMessage()).toBeInTheDocument()
+  expect(getPasswordErrorMessage()).toBeInTheDocument();
   expect(onSubmit).toHaveBeenCalledTimes(0);
 });
 

@@ -54,7 +54,7 @@ export interface HttpClient {
   delete(uri: string): Promise<void>;
 
   /**
-   * Performs an HTTP PATCh request with an optionally provided request object
+   * Performs an HTTP PATCH request with an optionally provided request object
    * and returns the response body in the form of a JavaScript Object.
    *
    * @param uri The URI of the specific HTTP resource to retrieve.

@@ -14,22 +14,25 @@ type ChallengeResultFormProps = {
   onSubmit: (data: ChallengeResultFormData) => void;
 };
 
-export const ChallengeResultForm = ({ onSubmit, existingResult }: ChallengeResultFormProps) => {
+export const ChallengeResultForm = ({
+  onSubmit,
+  existingResult,
+}: ChallengeResultFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<ChallengeResultFormData>();
 
   useEffect(() => {
     if (existingResult?.completionTimeHour) {
-      setValue("completionTimeHour", existingResult.completionTimeHour)
+      setValue("completionTimeHour", existingResult.completionTimeHour);
     }
     if (existingResult?.completionTimeMinutes) {
-      setValue("completionTimeMinutes", existingResult.completionTimeMinutes)
+      setValue("completionTimeMinutes", existingResult.completionTimeMinutes);
     }
-  }, [existingResult, setValue])
+  }, [existingResult, setValue]);
 
   const submit = handleSubmit((data) => {
     onSubmit(data);

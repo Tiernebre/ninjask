@@ -43,6 +43,14 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                   required: {
                     value: true,
                     message: 'Hour is required.'
+                  },
+                  min: {
+                    value: 0,
+                    message: 'Hour must be between 0-99'
+                  },
+                  max: {
+                    value: 99,
+                    message: 'Hour must be between 0-99'
                   }
                 })}
               />
@@ -65,6 +73,14 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                   required: {
                     value: true,
                     message: 'Minutes are required.'
+                  },
+                  min: {
+                    value: 0,
+                    message: 'Minutes must be between 0-59'
+                  },
+                  max: {
+                    value: 59,
+                    message: 'Minutes must be between 0-59'
                   }
                 })}
               />

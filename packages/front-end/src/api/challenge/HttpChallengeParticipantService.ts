@@ -12,6 +12,6 @@ export class HttpChallengeParticipantService
     id: number,
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeResult> {
-    return this.httpClient.patch(`/challenge-participants/${id}`, request);
+    return this.httpClient.patch(`challenge-participants/${id}`, request);
   }
 }

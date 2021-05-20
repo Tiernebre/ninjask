@@ -39,7 +39,12 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 type="number"
                 aria-invalid={!!errors.hour}
                 placeholder="00"
-                {...register("hour", { required: true })}
+                {...register("hour", { 
+                  required: {
+                    value: true,
+                    message: 'Hour is required.'
+                  }
+                })}
               />
               <ErrorMessage
                 htmlFor="ChallengeResultForm__hour"
@@ -56,7 +61,12 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 type="number"
                 aria-invalid={!!errors.hour}
                 placeholder="00"
-                {...register("minutes", { required: true })}
+                {...register("minutes", { 
+                  required: {
+                    value: true,
+                    message: 'Minutes are required.'
+                  }
+                })}
               />
               <ErrorMessage
                 htmlFor="ChallengeResultForm__hour"

@@ -15,12 +15,12 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ChallengeResultFormData>();
 
-  const submit = handleSubmit(data => {
-    onSubmit(data)
-  })
+  const submit = handleSubmit((data) => {
+    onSubmit(data);
+  });
 
   return (
     <Fragment>
@@ -41,7 +41,9 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 placeholder="00"
                 {...register("hour", { required: true })}
               />
-              {errors.hour && <ErrorMessage htmlFor="ChallengeResultForm__hour" />}
+              {errors.hour && (
+                <ErrorMessage htmlFor="ChallengeResultForm__hour" />
+              )}
             </div>
             <div className="column is-2">
               <label htmlFor="ChallengeResultForm__minutes" className="label">
@@ -55,7 +57,9 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 placeholder="00"
                 {...register("minutes", { required: true })}
               />
-              {errors.minutes && <ErrorMessage htmlFor="ChallengeResultForm__minutes" />}
+              {errors.minutes && (
+                <ErrorMessage htmlFor="ChallengeResultForm__minutes" />
+              )}
             </div>
           </div>
         </div>

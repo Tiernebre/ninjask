@@ -34,11 +34,11 @@ export const LoginForm = (props: LoginFormProps) => {
           type="text"
           id="LoginForm__access-key"
           aria-invalid={!!errors.accessKey}
-          {...register("accessKey", { 
+          {...register("accessKey", {
             required: {
               value: true,
-              message: 'Access Key is required.'
-            }
+              message: "Access Key is required.",
+            },
           })}
         />
         <ErrorMessage
@@ -56,11 +56,11 @@ export const LoginForm = (props: LoginFormProps) => {
           id="LoginForm__password"
           aria-invalid={!!errors.password}
           autoComplete="on"
-          {...register("password", { 
+          {...register("password", {
             required: {
               value: true,
-              message: 'Password is required.'
-            }
+              message: "Password is required.",
+            },
           })}
         />
         <ErrorMessage

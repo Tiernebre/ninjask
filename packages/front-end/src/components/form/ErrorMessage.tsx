@@ -9,7 +9,7 @@ interface ErrorMessageProps {
 export const ErrorMessage = ({ fieldError, ...props }: ErrorMessageProps) => {
   if (!fieldError) return null;
 
-  const { message } = fieldError
+  const { message } = fieldError;
 
   return (
     <label
@@ -18,7 +18,7 @@ export const ErrorMessage = ({ fieldError, ...props }: ErrorMessageProps) => {
       role="alert"
       {...props}
     >
-      { message }
+      {message}
     </label>
   );
 };

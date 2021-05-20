@@ -39,19 +39,19 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 type="number"
                 aria-invalid={!!errors.hour}
                 placeholder="00"
-                {...register("hour", { 
+                {...register("hour", {
                   required: {
                     value: true,
-                    message: 'Hour is required.'
+                    message: "Hour is required.",
                   },
                   min: {
                     value: 0,
-                    message: 'Hour must be between 0-99'
+                    message: "Hour must be between 0-99",
                   },
                   max: {
                     value: 99,
-                    message: 'Hour must be between 0-99'
-                  }
+                    message: "Hour must be between 0-99",
+                  },
                 })}
               />
               <ErrorMessage
@@ -69,19 +69,19 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
                 type="number"
                 aria-invalid={!!errors.hour}
                 placeholder="00"
-                {...register("minutes", { 
+                {...register("minutes", {
                   required: {
                     value: true,
-                    message: 'Minutes are required.'
+                    message: "Minutes are required.",
                   },
                   min: {
                     value: 0,
-                    message: 'Minutes must be between 0-59'
+                    message: "Minutes must be between 0-59",
                   },
                   max: {
                     value: 59,
-                    message: 'Minutes must be between 0-59'
-                  }
+                    message: "Minutes must be between 0-59",
+                  },
                 })}
               />
               <ErrorMessage

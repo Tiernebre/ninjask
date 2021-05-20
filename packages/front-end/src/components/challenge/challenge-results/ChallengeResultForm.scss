@@ -1,0 +1,20 @@
+.ChallengeResultForm__heading {
+  font-size: 1.30rem;
+}
+
+.ChallengeResultForm__sub-heading {
+  margin-bottom: 24px;
+}
+
+.ChallengeResultForm__completion-time {
+  display: flex;
+  width: 50%;
+
+  .ChallengeResultForm__minutes-container, .ChallengeResultForm__hour-container {
+    width: 100%;
+  }
+
+  *:first-of-type {
+    padding-right: 25px;
+  }
+}

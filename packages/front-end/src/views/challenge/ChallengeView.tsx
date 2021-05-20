@@ -19,7 +19,10 @@ type ChallengeViewProps = {
   sessionPayload?: SessionPayload;
 };
 
-export const ChallengeView = ({ httpClient, sessionPayload }: ChallengeViewProps) => {
+export const ChallengeView = ({
+  httpClient,
+  sessionPayload,
+}: ChallengeViewProps) => {
   const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
   const [results, setResults] = useState<ChallengeResult[]>();
@@ -47,7 +50,10 @@ export const ChallengeView = ({ httpClient, sessionPayload }: ChallengeViewProps
           <ChallengeResults results={results} />
         </div>
         <div className="column is-6">
-          <ChallengeResultAction results={results} sessionPayload={sessionPayload} />
+          <ChallengeResultAction
+            results={results}
+            sessionPayload={sessionPayload}
+          />
         </div>
       </div>
     </div>

@@ -26,7 +26,7 @@ export const ChallengeResultAction = ({
 
   return (
     <div className="ChallengeResultAction">
-      <ChallengeResultForm onSubmit={submit} />
+      <ChallengeResultForm onSubmit={submit} existingResult={challengeResult} />
     </div>
   );
 };

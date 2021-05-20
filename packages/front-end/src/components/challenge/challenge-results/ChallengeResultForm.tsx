@@ -1,7 +1,8 @@
 import "./ChallengeResultForm.scss";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../form/ErrorMessage";
+import { ChallengeResult } from "../../../api/challenge/ChallengeResult";
 
 type ChallengeResultFormData = {
   completionTimeHour: number;
@@ -9,15 +10,26 @@ type ChallengeResultFormData = {
 };
 
 type ChallengeResultFormProps = {
+  existingResult?: ChallengeResult;
   onSubmit: (data: ChallengeResultFormData) => void;
 };
 
-export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
+export const ChallengeResultForm = ({ onSubmit, existingResult }: ChallengeResultFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<ChallengeResultFormData>();
+
+  useEffect(() => {
+    if (existingResult?.completionTimeHour) {
+      setValue("completionTimeHour", existingResult.completionTimeHour)
+    }
+    if (existingResult?.completionTimeMinutes) {
+      setValue("completionTimeMinutes", existingResult.completionTimeMinutes)
+    }
+  }, [existingResult, setValue])
 
   const submit = handleSubmit((data) => {
     onSubmit(data);

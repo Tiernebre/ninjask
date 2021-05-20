@@ -1,7 +1,9 @@
 @import "bulma/css/bulma.css";
+@import "./styles/variables.scss";
 
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: $black;
 }

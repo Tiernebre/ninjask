@@ -3,4 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+
+  .columns {
+    width: 100%;
+  }
+
+  .HeadingGroup {
+    margin-bottom: 62px;
+  }
 }

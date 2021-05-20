@@ -39,7 +39,14 @@ export const ChallengeView = ({ httpClient }: ChallengeViewProps) => {
   return challenge && results ? (
     <div className="ChallengeView">
       <HeadingGroup title={challenge.name} subtitle={challenge.description} />
-      <ChallengeResults results={results} />
+      <div className="columns">
+        <div className="column is-6">
+          <ChallengeResults results={results} />
+        </div>
+        <div className="column is-6">
+          <p>Foo</p>
+        </div>
+      </div>
     </div>
   ) : (
     <p>Loading Challenge...</p>

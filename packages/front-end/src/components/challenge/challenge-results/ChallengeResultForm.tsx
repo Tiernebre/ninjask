@@ -99,9 +99,11 @@ export const ChallengeResultForm = ({ onSubmit }: ChallengeResultFormProps) => {
             </div>
           </div>
         </div>
-        <button className="button is-success" type="submit">
-          Submit
-        </button>
+        <div className="ChallengeResultForm__button-container">
+          <button className="button is-success" type="submit">
+            Submit
+          </button>
+        </div>
       </form>
     </Fragment>
   );

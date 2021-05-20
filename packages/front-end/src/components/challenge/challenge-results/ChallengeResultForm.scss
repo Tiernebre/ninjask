@@ -1,14 +1,26 @@
+
+@import "bulma/sass/utilities/initial-variables.sass";
+
+.ChallengeResultForm__heading, .ChallengeResultForm__sub-heading {
+  text-align: center;
+}
+
 .ChallengeResultForm__heading {
   font-size: 1.3rem;
 }
 
 .ChallengeResultForm__sub-heading {
   margin-bottom: 24px;
+  text-align: center;
+}
+
+
+.ChallengeResultForm__completion-time, .ChallengeResultForm__button-container {
+  display: flex;
+  justify-content: center;
 }
 
 .ChallengeResultForm__completion-time {
-  display: flex;
-
   *:first-of-type {
     padding-right: 25px;
   }
@@ -35,8 +47,12 @@
   }
 }
 
-.ChallengeResultForm__hour {
-  ::after {
-    content: "FOO";
+@media (min-width: $tablet) {
+  .ChallengeResultForm__heading, .ChallengeResultForm__sub-heading {
+    text-align: left;
+  }
+
+  .ChallengeResultForm__completion-time, .ChallengeResultForm__button-container {
+    justify-content: flex-start;
   }
 }

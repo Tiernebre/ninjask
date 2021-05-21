@@ -29,3 +29,17 @@ it("displays the completion time correctly (single digit hour and minutes)", () 
   const paddedMinutes = `0${challengeResult.completionTimeMinutes}`
   expect(screen.getByText(`${paddedHour}:${paddedMinutes}`)).toBeInTheDocument()
 })
+
+it("displays the completion time correctly (double digit hour and minutes)", () => {
+  const challengeResult: ChallengeResultTyping = {
+    participantId: 1,
+    resultId: 1,
+    completionTimeHour: 22,
+    completionTimeMinutes: 33,
+    nickname: 'Test'
+  }
+  const rank = 2
+  render(<ChallengeResult result={challengeResult} rank={rank} />)
+  const { completionTimeHour, completionTimeMinutes } = challengeResult
+  expect(screen.getByText(`${completionTimeHour}:${completionTimeMinutes}`)).toBeInTheDocument()
+})

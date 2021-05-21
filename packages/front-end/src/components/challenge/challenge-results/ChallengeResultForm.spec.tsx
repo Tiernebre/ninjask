@@ -67,7 +67,7 @@ it("displays an error message if the minutes field is not filled out", async () 
   const minutesErrorMessage = getMinutesErrorMessage();
   expect(minutesErrorMessage).toBeInTheDocument();
   expect(minutesErrorMessage).toHaveTextContent("Minutes are required.");
-  expect(getHourInput()).toBeInvalid();
+  expect(getMinutesInput()).toBeInvalid();
   expect(onSubmit).not.toHaveBeenCalled();
 });
 
@@ -85,7 +85,7 @@ it.each([-1000, -1, 60, Number.MAX_SAFE_INTEGER])(
     expect(minutesErrorMessage).toHaveTextContent(
       "Minutes must be between 0-59."
     );
-    expect(getHourInput()).toBeInvalid();
+    expect(getMinutesInput()).toBeInvalid();
     expect(onSubmit).not.toHaveBeenCalled();
   }
 );
@@ -102,3 +102,16 @@ it.each([0, 1, 58, 59])(
     expect(queryMinutesErrorMessage()).toBeNull();
   }
 );
+
+it("submits the form when valid information is filled in", async () => {
+    const onSubmit = jest.fn();
+    await act(async () => {
+      render(<ChallengeResultForm onSubmit={onSubmit} />);
+      user.type(getHourInput(), "23")
+      user.type(getMinutesInput(), "55");
+      user.click(getSubmitButton());
+    });
+    expect(onSubmit).toHaveBeenCalled()
+    expect(queryHourErrorMessage()).toBeNull();
+    expect(queryMinutesErrorMessage()).toBeNull();
+})

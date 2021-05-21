@@ -108,7 +108,7 @@ export const ChallengeResultForm = ({
                 })}
               />
               <ErrorMessage
-                htmlFor="ChallengeResultForm__hour"
+                htmlFor="ChallengeResultForm__minutes"
                 fieldError={errors.completionTimeMinutes}
               />
             </div>

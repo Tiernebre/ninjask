@@ -115,7 +115,7 @@ export const ChallengeResultForm = ({
           </div>
         </div>
         <div className="ChallengeResultForm__button-container">
-          <button className="button is-success" type="submit">
+          <button className="button is-success">
             Submit
           </button>
         </div>

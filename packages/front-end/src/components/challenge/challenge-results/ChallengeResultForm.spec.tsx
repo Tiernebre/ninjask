@@ -104,14 +104,14 @@ it.each([0, 1, 58, 59])(
 );
 
 it("submits the form when valid information is filled in", async () => {
-    const onSubmit = jest.fn();
-    await act(async () => {
-      render(<ChallengeResultForm onSubmit={onSubmit} />);
-      user.type(getHourInput(), "23")
-      user.type(getMinutesInput(), "55");
-      user.click(getSubmitButton());
-    });
-    expect(onSubmit).toHaveBeenCalled()
-    expect(queryHourErrorMessage()).toBeNull();
-    expect(queryMinutesErrorMessage()).toBeNull();
-})
+  const onSubmit = jest.fn();
+  await act(async () => {
+    render(<ChallengeResultForm onSubmit={onSubmit} />);
+    user.type(getHourInput(), "23");
+    user.type(getMinutesInput(), "55");
+    user.click(getSubmitButton());
+  });
+  expect(onSubmit).toHaveBeenCalled();
+  expect(queryHourErrorMessage()).toBeNull();
+  expect(queryMinutesErrorMessage()).toBeNull();
+});

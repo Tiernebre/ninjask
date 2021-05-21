@@ -26,8 +26,13 @@ it("renders given challenges", () => {
     <MemoryRouter>
       <ChallengeTable challenges={challenges} />
       {challenges.map((challenge) => (
-        <Route key={challenge.id} path={`/challenges/${challenge.id}/draft`}>
+        <Route key={challenge.id} path={`/challenges/${challenge.id}/draft`} exact>
           {challenge.name} Draft
+        </Route>
+      ))}
+      {challenges.map((challenge) => (
+        <Route key={challenge.id} path={`/challenges/${challenge.id}`} exact>
+          {challenge.name} Individual View
         </Route>
       ))}
     </MemoryRouter>
@@ -35,8 +40,11 @@ it("renders given challenges", () => {
   challenges.forEach((challenge, index) => {
     expect(screen.getByText(challenge.name)).toBeInTheDocument();
     expect(screen.getByText(challenge.description)).toBeInTheDocument();
-    const links = screen.getAllByRole("link", { name: /draft/i });
-    user.click(links[index]);
+    const draftLinks = screen.getAllByRole("link", { name: /draft/i });
+    user.click(draftLinks[index]);
     expect(screen.getByText(`${challenge.name} Draft`)).toBeInTheDocument();
+    const challengeLink = screen.getByRole("link", { name: challenge.name })
+    user.click(challengeLink)
+    expect(screen.getByText(`${challenge.name} Individual View`)).toBeInTheDocument();
   });
 });

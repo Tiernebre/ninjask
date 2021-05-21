@@ -127,8 +127,13 @@ it("pre-populates the form if a result was found and existed already", async () 
   };
   const onSubmit = jest.fn();
   await act(async () => {
-    render(<ChallengeResultForm onSubmit={onSubmit} existingResult={challengeResult} />);
+    render(
+      <ChallengeResultForm
+        onSubmit={onSubmit}
+        existingResult={challengeResult}
+      />
+    );
   });
-  expect(getHourInput()).toHaveValue(challengeResult.completionTimeHour)
-  expect(getMinutesInput()).toHaveValue(challengeResult.completionTimeMinutes)
-})
+  expect(getHourInput()).toHaveValue(challengeResult.completionTimeHour);
+  expect(getMinutesInput()).toHaveValue(challengeResult.completionTimeMinutes);
+});

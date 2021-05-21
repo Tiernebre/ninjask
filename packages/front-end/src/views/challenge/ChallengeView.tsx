@@ -11,6 +11,7 @@ import { ChallengeResultAction } from "../../components/challenge/challenge-resu
 import { SessionPayload } from "../../api/session";
 import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
 import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
+import { Link } from "react-router-dom";
 
 type ChallengeViewParams = {
   id?: string;
@@ -57,7 +58,15 @@ export const ChallengeView = ({
 
   const content = challenge && results && sessionPayload ? (
     <Fragment>
-      <HeadingGroup title={challenge.name} subtitle={challenge.description} />
+      <header className="ChallengeView__header">
+        <Link 
+          className="ChallengeView__back-link"
+          to="/home"
+        >
+          <span>&larr; Challenges</span>
+        </Link>
+        <HeadingGroup title={challenge.name} subtitle={challenge.description} />
+      </header>
       <div className="columns">
         <div className="column is-6">
           <ChallengeResults results={results} />

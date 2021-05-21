@@ -18,6 +18,14 @@ const challengeResultTwo: ChallengeResultTyping = {
   nickname: "Test 2",
 };
 
+const uncompletedChallengeResult: ChallengeResultTyping = {
+  participantId: 3,
+  resultId: 3,
+  completionTimeHour: null,
+  completionTimeMinutes: null,
+  nickname: "Test 3",
+};
+
 it("displays challenge results", () => {
   const results = [challengeResultOne, challengeResultTwo];
   render(<ChallengeResults results={results} />);
@@ -34,4 +42,14 @@ it("displays a message if there are no challenge results", () => {
   expect(
     screen.getByText("There are no completed results yet for this challenge!")
   ).toBeInTheDocument();
+});
+
+it("displays only completed challenge results", () => {
+  const results = [
+    challengeResultOne,
+    challengeResultTwo,
+    uncompletedChallengeResult,
+  ];
+  render(<ChallengeResults results={results} />);
+  expect(screen.getAllByRole("listitem")).toHaveLength(2);
 });

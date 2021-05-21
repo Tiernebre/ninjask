@@ -4,6 +4,8 @@
   background-color: snow;
   height: 100%;
   width: 100%;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 
   ol {
     list-style: none;
@@ -29,5 +31,6 @@
   align-items: center;
   text-align: center;
   font-size: 1.3rem;
-  border-radius: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }

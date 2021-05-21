@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 
 const ChallengeRow = (challenge: Challenge) => (
   <tr key={challenge.id}>
-    <td>{challenge.name}</td>
+    <td className="ChallengeTableRow__name">
+      <Link className="is-link" to={`/challenges/${challenge.id}`}>
+        {challenge.name}
+      </Link>
+    </td>
     <td>{challenge.description}</td>
     <td>
       <VersionTag id={challenge.versionId} />

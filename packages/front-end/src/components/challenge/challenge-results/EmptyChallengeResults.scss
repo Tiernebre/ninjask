@@ -1,0 +1,20 @@
+@import "bulma/sass/utilities/initial-variables.sass";
+
+.EmptyChallengeResults {
+  padding: 20px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  text-align: center;
+}
+
+@media (min-width: $tablet) {
+  .EmptyChallengeResults {
+    padding: 0 16px;
+    font-size: 1.25em;
+    margin-top: -20px;
+  }
+}

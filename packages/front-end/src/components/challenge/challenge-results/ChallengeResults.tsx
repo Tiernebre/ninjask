@@ -8,9 +8,11 @@ type ChallengeResultsProps = {
 };
 
 export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
-  const content = results.length ? (
+  const completedResults = results.filter(result => result.completionTimeHour && result.completionTimeMinutes)
+
+  const content = completedResults.length ? (
     <ol>
-      {results.map((result, index) => (
+      {completedResults.map((result, index) => (
         <li key={result.resultId}>
           <ChallengeResult result={result} rank={index + 1} />
         </li>

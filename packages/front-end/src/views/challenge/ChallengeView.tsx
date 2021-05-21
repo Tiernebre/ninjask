@@ -1,5 +1,5 @@
 import "./ChallengeView.scss";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, Fragment } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
@@ -55,8 +55,8 @@ export const ChallengeView = ({
     fetchChallenge();
   });
 
-  return challenge && results && sessionPayload ? (
-    <div className="ChallengeView">
+  const content = challenge && results && sessionPayload ? (
+    <Fragment>
       <HeadingGroup title={challenge.name} subtitle={challenge.description} />
       <div className="columns">
         <div className="column is-6">
@@ -70,8 +70,14 @@ export const ChallengeView = ({
           />
         </div>
       </div>
-    </div>
+    </Fragment>
   ) : (
     <p>Loading Challenge...</p>
   );
+
+  return (
+    <div className="ChallengeView">
+      {content}
+    </div>
+  )
 };

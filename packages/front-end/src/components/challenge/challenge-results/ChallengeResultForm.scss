@@ -47,6 +47,10 @@
   }
 }
 
+.ChallengeResultForm__button-container button {
+  width: 100%;
+}
+
 @media (min-width: $tablet) {
   .ChallengeResultForm__heading,
   .ChallengeResultForm__sub-heading {
@@ -56,5 +60,9 @@
   .ChallengeResultForm__completion-time,
   .ChallengeResultForm__button-container {
     justify-content: flex-start;
+  }
+
+  .ChallengeResultForm__button-container button {
+    width: auto;
   }
 }

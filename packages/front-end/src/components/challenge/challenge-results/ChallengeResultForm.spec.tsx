@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { ChallengeResultForm } from "./ChallengeResultForm";
 import user from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
+import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
 
 const getHourInput = () => screen.getByRole("spinbutton", { name: /Hour/i });
 const getMinutesInput = () =>
@@ -115,3 +116,19 @@ it("submits the form when valid information is filled in", async () => {
   expect(queryHourErrorMessage()).toBeNull();
   expect(queryMinutesErrorMessage()).toBeNull();
 });
+
+it("pre-populates the form if a result was found and existed already", async () => {
+  const challengeResult: ChallengeResultTyping = {
+    participantId: 1,
+    resultId: 1,
+    completionTimeHour: 22,
+    completionTimeMinutes: 33,
+    nickname: "Test",
+  };
+  const onSubmit = jest.fn();
+  await act(async () => {
+    render(<ChallengeResultForm onSubmit={onSubmit} existingResult={challengeResult} />);
+  });
+  expect(getHourInput()).toHaveValue(challengeResult.completionTimeHour)
+  expect(getMinutesInput()).toHaveValue(challengeResult.completionTimeMinutes)
+})

@@ -8,7 +8,9 @@ type ChallengeResultsProps = {
 };
 
 export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
-  const completedResults = results.filter(result => result.completionTimeHour && result.completionTimeMinutes)
+  const completedResults = results.filter(
+    (result) => result.completionTimeHour && result.completionTimeMinutes
+  );
 
   const content = completedResults.length ? (
     <ol>

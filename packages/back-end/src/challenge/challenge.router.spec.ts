@@ -114,9 +114,9 @@ describe("Challenge Router (integration)", () => {
     });
   });
 
-  describe("POST /challenges/:id/participant", () => {
+  describe("POST /challenges/:id/participants", () => {
     const id = generateRandomNumber();
-    const uri = `/challenges/${id}/participant`;
+    const uri = `/challenges/${id}/participants`;
 
     it("returns with 201 CREATED status", async () => {
       when(

@@ -45,7 +45,7 @@ export class ChallengeRouter extends Router {
     );
 
     this.post(
-      `${this.URI}/:id/participant`,
+      `${this.URI}/:id/participants`,
       async (ctx: ParameterizedContext<ContextState>) => {
         ctx.body = await this.challengeParticipantService.createOne(
           ctx.state.session.userId,

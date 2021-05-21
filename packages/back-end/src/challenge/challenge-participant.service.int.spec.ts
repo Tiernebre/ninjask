@@ -72,7 +72,7 @@ describe("ChallengeParticipantService (integration)", () => {
       expect(gottenResults).toEqual(expectedChallengeResults);
     });
 
-    it("does not return participants who did not enter in a time", async () => {
+    it("returns null participants as the last ones", async () => {
       expect(users.length).toBeGreaterThan(2);
       const userWithoutEnteredTime = sample(users) as UserEntity;
       const [challenge] = challenges;
@@ -83,19 +83,18 @@ describe("ChallengeParticipantService (integration)", () => {
           [challenge],
           user
         );
-        if (user !== userWithoutEnteredTime) {
-          expectedChallengeResults.push({
-            resultId: challengeParticipant.id,
-            completionTimeHour: challengeParticipant.completionTimeHour,
-            completionTimeMinutes: challengeParticipant.completionTimeMinutes,
-            nickname: user.nickname,
-            participantId: user.id,
-          });
-        } else {
+        if (user === userWithoutEnteredTime) {
           challengeParticipant.completionTimeHour = null;
           challengeParticipant.completionTimeMinutes = null;
           await challengeParticipantRepository.save(challengeParticipant);
         }
+        expectedChallengeResults.push({
+          resultId: challengeParticipant.id,
+          completionTimeHour: challengeParticipant.completionTimeHour,
+          completionTimeMinutes: challengeParticipant.completionTimeMinutes,
+          nickname: user.nickname,
+          participantId: user.id,
+        });
       }
       expectedChallengeResults = orderBy(
         expectedChallengeResults,
@@ -106,12 +105,11 @@ describe("ChallengeParticipantService (integration)", () => {
         await challengeParticipantService.getCompletedResultsForChallengeInOrder(
           challenge.id
         );
-      expect(gottenResults).toHaveLength(users.length - 1);
-      expect(gottenResults).toEqual(expectedChallengeResults);
+      expect(gottenResults).toHaveLength(users.length);
       const foundNonEnteredResult = expectedChallengeResults.find(
         (result) => result.nickname === userWithoutEnteredTime.nickname
       );
-      expect(foundNonEnteredResult).toBeUndefined();
+      expect(foundNonEnteredResult).toEqual(gottenResults.pop())
     });
   });
 });

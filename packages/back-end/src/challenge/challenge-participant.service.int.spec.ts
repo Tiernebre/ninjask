@@ -109,7 +109,7 @@ describe("ChallengeParticipantService (integration)", () => {
       const foundNonEnteredResult = expectedChallengeResults.find(
         (result) => result.nickname === userWithoutEnteredTime.nickname
       );
-      expect(foundNonEnteredResult).toEqual(gottenResults.pop())
+      expect(foundNonEnteredResult).toEqual(gottenResults.pop());
     });
   });
 });

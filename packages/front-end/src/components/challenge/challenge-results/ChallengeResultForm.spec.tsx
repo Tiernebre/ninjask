@@ -14,7 +14,7 @@ it("displays an error message if the hour field is not filled out", async () => 
   const onSubmit = jest.fn()
   await act(async () => {
     render(<ChallengeResultForm onSubmit={onSubmit} />)
-    await user.click(getSubmitButton())
+    user.click(getSubmitButton())
   })
   const hourErrorMessage = getHourErrorMessage()
   expect(hourErrorMessage).toBeInTheDocument()
@@ -45,4 +45,17 @@ it.each([0, 1, 98, 99])("does not display an error message about the hour if %p 
     user.click(getSubmitButton())
   })
   expect(queryHourErrorMessage()).toBeNull()
+})
+
+it('displays an error message if the minutes field is not filled out', async () => {
+  const onSubmit = jest.fn()
+  await act(async () => {
+    render(<ChallengeResultForm onSubmit={onSubmit} />)
+    user.click(getSubmitButton())
+  })
+  const minutesErrorMessage = getMinutesErrorMessage()
+  expect(minutesErrorMessage).toBeInTheDocument()
+  expect(minutesErrorMessage).toHaveTextContent("Minutes are required.")
+  expect(getHourInput()).toBeInvalid()
+  expect(onSubmit).not.toHaveBeenCalled()
 })

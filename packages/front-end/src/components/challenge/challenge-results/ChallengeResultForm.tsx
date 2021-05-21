@@ -99,11 +99,11 @@ export const ChallengeResultForm = ({
                   },
                   min: {
                     value: 0,
-                    message: "Minutes must be between 0-59",
+                    message: "Minutes must be between 0-59.",
                   },
                   max: {
                     value: 59,
-                    message: "Minutes must be between 0-59",
+                    message: "Minutes must be between 0-59.",
                   },
                 })}
               />

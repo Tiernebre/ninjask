@@ -66,11 +66,11 @@ export const ChallengeResultForm = ({
                   },
                   min: {
                     value: 0,
-                    message: "Hour must be between 0-99",
+                    message: "Hour must be between 0-99.",
                   },
                   max: {
                     value: 99,
-                    message: "Hour must be between 0-99",
+                    message: "Hour must be between 0-99.",
                   },
                 })}
               />
@@ -99,25 +99,23 @@ export const ChallengeResultForm = ({
                   },
                   min: {
                     value: 0,
-                    message: "Minutes must be between 0-59",
+                    message: "Minutes must be between 0-59.",
                   },
                   max: {
                     value: 59,
-                    message: "Minutes must be between 0-59",
+                    message: "Minutes must be between 0-59.",
                   },
                 })}
               />
               <ErrorMessage
-                htmlFor="ChallengeResultForm__hour"
+                htmlFor="ChallengeResultForm__minutes"
                 fieldError={errors.completionTimeMinutes}
               />
             </div>
           </div>
         </div>
         <div className="ChallengeResultForm__button-container">
-          <button className="button is-success" type="submit">
-            Submit
-          </button>
+          <button className="button is-success">Submit</button>
         </div>
       </form>
     </Fragment>

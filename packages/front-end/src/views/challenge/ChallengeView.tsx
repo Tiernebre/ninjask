@@ -56,37 +56,34 @@ export const ChallengeView = ({
     fetchChallenge();
   });
 
-  const content = challenge && results && sessionPayload ? (
-    <Fragment>
-      <header className="ChallengeView__header">
-        <Link 
-          className="ChallengeView__back-link"
-          to="/home"
-        >
-          <span>&larr; Challenges</span>
-        </Link>
-        <HeadingGroup title={challenge.name} subtitle={challenge.description} />
-      </header>
-      <div className="columns">
-        <div className="column is-6">
-          <ChallengeResults results={results} />
-        </div>
-        <div className="column is-6">
-          <ChallengeResultAction
-            results={results}
-            sessionPayload={sessionPayload}
-            onSubmit={updateChallengeResult}
+  const content =
+    challenge && results && sessionPayload ? (
+      <Fragment>
+        <header className="ChallengeView__header">
+          <Link className="ChallengeView__back-link" to="/home">
+            <span>&larr; Challenges</span>
+          </Link>
+          <HeadingGroup
+            title={challenge.name}
+            subtitle={challenge.description}
           />
+        </header>
+        <div className="columns">
+          <div className="column is-6">
+            <ChallengeResults results={results} />
+          </div>
+          <div className="column is-6">
+            <ChallengeResultAction
+              results={results}
+              sessionPayload={sessionPayload}
+              onSubmit={updateChallengeResult}
+            />
+          </div>
         </div>
-      </div>
-    </Fragment>
-  ) : (
-    <p>Loading Challenge...</p>
-  );
+      </Fragment>
+    ) : (
+      <p>Loading Challenge...</p>
+    );
 
-  return (
-    <div className="ChallengeView">
-      {content}
-    </div>
-  )
+  return <div className="ChallengeView">{content}</div>;
 };

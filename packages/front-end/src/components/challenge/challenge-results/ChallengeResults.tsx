@@ -20,8 +20,10 @@ export const ChallengeResults = ({ results }: ChallengeResultsProps) => {
     <EmptyChallengeResults />
   );
 
-  return (<div className="ChallengeResults">
+  return (
+    <div className="ChallengeResults">
       <h3 className="ChallengeResults__heading">Challenge Results</h3>
       {content}
-  </div>)
+    </div>
+  );
 };

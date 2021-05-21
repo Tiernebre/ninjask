@@ -6,10 +6,7 @@ import { Link } from "react-router-dom";
 const ChallengeRow = (challenge: Challenge) => (
   <tr key={challenge.id}>
     <td>
-      <Link
-        className="is-link"
-        to={`/challenges/${challenge.id}`}
-      >
+      <Link className="is-link" to={`/challenges/${challenge.id}`}>
         {challenge.name}
       </Link>
     </td>

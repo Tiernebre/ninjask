@@ -210,12 +210,14 @@ describe("ChallengeParticipantService", () => {
       ).rejects.toThrowError(NotFoundError);
     });
 
-
     it.each([INVALID_NUMBER_CASES])(
       "throws a ZodError if the userId provided is %p",
       async (userId) => {
         await expect(
-          challengeParticipantService.getOneForUserOnChallenge(userId as number, 1)
+          challengeParticipantService.getOneForUserOnChallenge(
+            userId as number,
+            1
+          )
         ).rejects.toThrowError(ZodError);
       }
     );
@@ -224,7 +226,10 @@ describe("ChallengeParticipantService", () => {
       "throws a ZodError if the challengeId provided is %p",
       async (challengeId) => {
         await expect(
-          challengeParticipantService.getOneForUserOnChallenge(1, challengeId as number)
+          challengeParticipantService.getOneForUserOnChallenge(
+            1,
+            challengeId as number
+          )
         ).rejects.toThrowError(ZodError);
       }
     );

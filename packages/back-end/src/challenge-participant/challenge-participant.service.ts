@@ -56,7 +56,7 @@ export class ChallengeParticipantService {
   public async getCompletedResultsForChallengeInOrder(
     challengeId: number
   ): Promise<ChallengeResult[]> {
-    z.number().parse(challengeId)
+    z.number().parse(challengeId);
 
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")

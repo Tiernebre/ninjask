@@ -41,7 +41,7 @@ describe("UserService", () => {
 
     it.each([undefined, null, ""])(
       "throws an error if the create user request username is %p",
-      async (nickname: string) => {
+      async (nickname?: string | null) => {
         const request = {
           nickname,
           password: generateRandomString(),
@@ -54,7 +54,7 @@ describe("UserService", () => {
 
     it.each([undefined, null, ""])(
       "throws an error if the create user request password is %p",
-      async (password: string) => {
+      async (password?: string | null) => {
         const request = {
           nickname: generateRandomString(),
           password,

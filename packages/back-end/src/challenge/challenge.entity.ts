@@ -9,10 +9,10 @@ import {
   JoinColumn,
   OneToMany,
 } from "typeorm";
+import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { UserEntity } from "../user/user.entity";
-import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 
 @Entity({
   name: "challenge",

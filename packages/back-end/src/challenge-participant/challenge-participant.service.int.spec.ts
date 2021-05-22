@@ -4,10 +4,10 @@ import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeParticipantService } from "./challenge-participant.service";
-import { ChallengeEntity } from "./challenge.entity";
-import { seedChallengeParticipants, seedChallenges } from "./challenge.seed";
 import { orderBy, sample } from "lodash";
-import { ChallengeResult } from "./challenge-result";
+import { ChallengeResult } from "../challenge/challenge-result";
+import { ChallengeEntity } from "../challenge/challenge.entity";
+import { seedChallengeParticipants, seedChallenges } from '../challenge/challenge.seed';
 
 describe("ChallengeParticipantService (integration)", () => {
   let challengeParticipantService: ChallengeParticipantService;

@@ -5,7 +5,7 @@ import { seedChallengeParticipants, seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { establishDbConnection } from "../test/create-db-connection";
-import { ChallengeParticipantEntity } from "./challenge-participant.entity";
+import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 
 describe("ChallengeService (integration)", () => {
   let challengeService: ChallengeService;

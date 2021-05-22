@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Challenge } from "../challenge/challenge";
+import { ChallengeEntity } from "../challenge/challenge.entity";
 import { UserEntity } from "../user/user.entity";
-import { Challenge } from "./challenge";
-import { ChallengeEntity } from "./challenge.entity";
 
 @Entity({ name: "challenge_participants" })
 export class ChallengeParticipantEntity {

@@ -11,13 +11,13 @@ import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
 import {
   generateMockChallengeDto,
-  generateMockChallengeParticipant,
   generateMockChallengeResults,
 } from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
-import { ChallengeParticipantService } from "./challenge-participant.service";
 import { generateRandomNumber } from "../random";
 import { CREATED } from "http-status";
+import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
+import { generateMockChallengeParticipant } from "../challenge-participant/challenge-participant.mock";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;

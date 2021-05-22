@@ -65,6 +65,17 @@ export class ChallengeParticipantService {
       .getRawMany<ChallengeResult>();
   }
 
+  public async getOneForUserOnChallenge(userId: number, challengeId: number): Promise<ChallengeParticipant> {
+    const challengeParticipant = await this.challengeParticipantRepository.findOne({
+      userId,
+      challengeId
+    })
+    if (!challengeParticipant) {
+      throw new Error(`Could not find participant for user ${userId} and challenge ${challengeId}`)
+    }
+    return this.mapFromEntity(challengeParticipant)
+  }
+
   private mapFromEntity(
     entity: ChallengeParticipantEntity
   ): ChallengeParticipant {

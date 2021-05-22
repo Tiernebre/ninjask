@@ -104,23 +104,43 @@ describe("ChallengeParticipantService", () => {
 
   describe("getOneForUserAndChallenge", () => {
     it("returns the mapped entity if found", async () => {
-      const userId = generateRandomNumber()
-      const challengeId = generateRandomNumber()
-      const expectedParticipantEntity = generateMockChallengeParticipantEntity()
-      when(challengeParticipantRepository.findOne({ userId, challengeId })).thenResolve(expectedParticipantEntity)
-      const foundParticipant = await challengeParticipantService.getOneForUserOnChallenge(userId, challengeId)
-      expect(foundParticipant.id).toEqual(expectedParticipantEntity.id)
-      expect(foundParticipant.userId).toEqual(expectedParticipantEntity.userId)
-      expect(foundParticipant.challengeId).toEqual(expectedParticipantEntity.challengeId)
-      expect(foundParticipant.completionTimeHour).toEqual(expectedParticipantEntity.completionTimeHour)
-      expect(foundParticipant.completionTimeMinutes).toEqual(expectedParticipantEntity.completionTimeMinutes)
-    })
+      const userId = generateRandomNumber();
+      const challengeId = generateRandomNumber();
+      const expectedParticipantEntity =
+        generateMockChallengeParticipantEntity();
+      when(
+        challengeParticipantRepository.findOne({ userId, challengeId })
+      ).thenResolve(expectedParticipantEntity);
+      const foundParticipant =
+        await challengeParticipantService.getOneForUserOnChallenge(
+          userId,
+          challengeId
+        );
+      expect(foundParticipant.id).toEqual(expectedParticipantEntity.id);
+      expect(foundParticipant.userId).toEqual(expectedParticipantEntity.userId);
+      expect(foundParticipant.challengeId).toEqual(
+        expectedParticipantEntity.challengeId
+      );
+      expect(foundParticipant.completionTimeHour).toEqual(
+        expectedParticipantEntity.completionTimeHour
+      );
+      expect(foundParticipant.completionTimeMinutes).toEqual(
+        expectedParticipantEntity.completionTimeMinutes
+      );
+    });
 
     it("throws an error if not found", async () => {
-      const userId = generateRandomNumber()
-      const challengeId = generateRandomNumber()
-      when(challengeParticipantRepository.findOne({ userId, challengeId })).thenResolve(undefined)
-      await expect(challengeParticipantService.getOneForUserOnChallenge(userId, challengeId)).rejects.toThrowError()
-    })
-  })
+      const userId = generateRandomNumber();
+      const challengeId = generateRandomNumber();
+      when(
+        challengeParticipantRepository.findOne({ userId, challengeId })
+      ).thenResolve(undefined);
+      await expect(
+        challengeParticipantService.getOneForUserOnChallenge(
+          userId,
+          challengeId
+        )
+      ).rejects.toThrowError();
+    });
+  });
 });

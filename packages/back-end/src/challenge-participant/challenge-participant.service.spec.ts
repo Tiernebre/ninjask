@@ -4,6 +4,8 @@ import { ChallengeParticipantService } from "./challenge-participant.service";
 import { object, when } from "testdouble";
 import { generateRandomNumber } from "../random";
 import { generateMockChallengeParticipantEntity } from "./challenge-participant.mock";
+import { INVALID_NUMBER_CASES } from "../test/cases";
+import { ZodError } from "zod";
 
 describe("ChallengeParticipantService", () => {
   let challengeParticipantService: ChallengeParticipantService;
@@ -41,6 +43,10 @@ describe("ChallengeParticipantService", () => {
         challengeParticipantEntity.challengeId
       );
     });
+
+    it.each([INVALID_NUMBER_CASES])("throws a ZodError if the userId provided is %p", async (userId) => {
+      await expect(challengeParticipantService.createOne(userId as number, 1)).rejects.toThrowError(ZodError)
+    })
   });
 
   describe("updateOne", () => {

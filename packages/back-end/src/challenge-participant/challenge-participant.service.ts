@@ -3,6 +3,7 @@ import { ChallengeParticipant } from "./challenge-participant";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
+import { z } from "zod";
 
 export class ChallengeParticipantService {
   constructor(
@@ -13,6 +14,8 @@ export class ChallengeParticipantService {
     userId: number,
     challengeId: number
   ): Promise<ChallengeParticipant> {
+    z.number().parse(userId)
+    z.number().parse(challengeId)
     let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,

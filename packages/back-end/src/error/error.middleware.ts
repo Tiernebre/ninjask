@@ -1,7 +1,8 @@
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED } from "http-status";
+import { BAD_REQUEST, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED } from "http-status";
 import { Context, Next } from "koa";
 import { z } from "zod";
 import { NotFoundError, UnauthorizedError } from ".";
+import { ForbiddenError } from "./forbidden-error.";
 
 export const errorMiddleware = async (
   ctx: Context,
@@ -18,6 +19,9 @@ export const errorMiddleware = async (
       ctx.body = null;
     } else if (error instanceof UnauthorizedError) {
       ctx.status = UNAUTHORIZED;
+      ctx.body = null;
+    } else if (error instanceof ForbiddenError) {
+      ctx.status = FORBIDDEN;
       ctx.body = null;
     } else {
       ctx.status = INTERNAL_SERVER_ERROR;

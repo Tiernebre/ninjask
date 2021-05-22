@@ -1,10 +1,11 @@
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "http-status";
+import { BAD_REQUEST, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "http-status";
 import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
 import { z } from "zod";
 import { NotFoundError } from "./not-found-error";
 import { UnauthorizedError } from './unauthorized-error'
+import { ForbiddenError } from "./forbidden-error.";
 
 describe("errorMiddleware", () => {
   it("does nothing if next is successful", async () => {
@@ -55,6 +56,17 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(UNAUTHORIZED);
+    expect(ctx.body).toEqual(null);
+  });
+
+  it("handles a ForbiddenError correctly", async () => {
+    const ctx = object<Context>();
+    ctx.status = OK;
+    const error = new ForbiddenError();
+    const next = jest.fn().mockRejectedValue(error);
+    await errorMiddleware(ctx, next);
+    expect(next).toHaveBeenCalled();
+    expect(ctx.status).toEqual(FORBIDDEN);
     expect(ctx.body).toEqual(null);
   });
 

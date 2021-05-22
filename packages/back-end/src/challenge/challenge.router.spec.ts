@@ -158,7 +158,7 @@ describe("Challenge Router (integration)", () => {
     });
   });
 
-  describe("POST /challenges/:id/participants/me", () => {
+  describe("GET /challenges/:id/participants/me", () => {
     const id = generateRandomNumber();
     const uri = `/challenges/${id}/participants/me`;
 

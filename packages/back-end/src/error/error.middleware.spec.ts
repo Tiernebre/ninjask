@@ -52,7 +52,6 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(NOT_FOUND);
-    expect(ctx.body).toEqual(null);
   });
 
   it("handles an UnauthorizedError correctly", async () => {
@@ -63,7 +62,6 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(UNAUTHORIZED);
-    expect(ctx.body).toEqual(null);
   });
 
   it("handles a ForbiddenError correctly", async () => {
@@ -74,7 +72,6 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(FORBIDDEN);
-    expect(ctx.body).toEqual(null);
   });
 
   it("handles a unhandled errors correctly", async () => {
@@ -85,6 +82,5 @@ describe("errorMiddleware", () => {
     await expect(errorMiddleware(ctx, next)).rejects.toThrowError(error);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(INTERNAL_SERVER_ERROR);
-    expect(ctx.body).toEqual(null);
   });
 });

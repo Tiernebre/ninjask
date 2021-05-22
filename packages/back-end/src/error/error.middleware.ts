@@ -1,6 +1,7 @@
 import {
   BAD_REQUEST,
   FORBIDDEN,
+  IM_A_TEAPOT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   UNAUTHORIZED,
@@ -18,21 +19,16 @@ export const errorMiddleware = async (
     await next();
   } catch (error) {
     if (error instanceof z.ZodError) {
-      ctx.status = BAD_REQUEST;
       ctx.body = error.message;
+      ctx.status = BAD_REQUEST;
     } else if (error instanceof NotFoundError) {
       ctx.status = NOT_FOUND;
-      ctx.body = null;
     } else if (error instanceof UnauthorizedError) {
       ctx.status = UNAUTHORIZED;
-      ctx.body = null;
     } else if (error instanceof ForbiddenError) {
       ctx.status = FORBIDDEN;
-      ctx.body = null;
     } else {
-      ctx.status = INTERNAL_SERVER_ERROR;
-      ctx.body = null;
-      throw error;
+      ctx.status = IM_A_TEAPOT;
     }
   }
 };

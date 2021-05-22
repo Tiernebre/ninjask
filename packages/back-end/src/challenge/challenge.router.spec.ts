@@ -15,7 +15,7 @@ import {
 } from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { generateRandomNumber } from "../random";
-import { CREATED } from "http-status";
+import { CREATED, OK } from "http-status";
 import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
 import { generateMockChallengeParticipant } from "../challenge-participant/challenge-participant.mock";
 
@@ -126,7 +126,7 @@ describe("Challenge Router (integration)", () => {
       expect(response.status).toEqual(CREATED);
     });
 
-    it("returns with found draft in the response body", async () => {
+    it("returns with created participant in the response body", async () => {
       const challengeParticipant = generateMockChallengeParticipant();
       when(
         challengeParticipantService.createOne(session.userId, id)
@@ -155,6 +155,28 @@ describe("Challenge Router (integration)", () => {
       ).thenResolve(results);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(results);
+    });
+  });
+
+  describe("POST /challenges/:id/participants/me", () => {
+    const id = generateRandomNumber();
+    const uri = `/challenges/${id}/participants/me`;
+
+    it("returns with 200 OK status", async () => {
+      when(
+        challengeParticipantService.getOneForUserOnChallenge(session.userId, id)
+      ).thenResolve(generateMockChallengeParticipant());
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
+    });
+
+    it("returns with found participant in the response body", async () => {
+      const challengeParticipant = generateMockChallengeParticipant();
+      when(
+        challengeParticipantService.getOneForUserOnChallenge(session.userId, id)
+      ).thenResolve(challengeParticipant);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(challengeParticipant);
     });
   });
 });

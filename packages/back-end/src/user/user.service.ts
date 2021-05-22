@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
-import { CreateUserRequest } from "./create-user-request";
+import { CreateUserRequest, createUserRequestSchema } from "./create-user-request";
 import { User } from "./user";
 import { UserEntity } from "./user.entity";
 
@@ -11,6 +11,7 @@ export class UserService {
   ) {}
 
   public async createOne(request: CreateUserRequest): Promise<User> {
+    createUserRequestSchema.parse(request);
     const userEntity = this.userRepository.create();
     userEntity.nickname = request.nickname;
     userEntity.password = await this.passwordEncoder.encode(request.password);

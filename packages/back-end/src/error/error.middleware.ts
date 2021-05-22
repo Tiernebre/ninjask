@@ -19,6 +19,7 @@ export const errorMiddleware = async (
     } else {
       ctx.status = INTERNAL_SERVER_ERROR;
       ctx.body = null;
+      throw error;
     }
   }
 };

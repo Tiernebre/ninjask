@@ -1,10 +1,17 @@
-import { BAD_REQUEST, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "http-status";
+import {
+  BAD_REQUEST,
+  FORBIDDEN,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK,
+  UNAUTHORIZED,
+} from "http-status";
 import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
 import { z } from "zod";
 import { NotFoundError } from "./not-found-error";
-import { UnauthorizedError } from './unauthorized-error'
+import { UnauthorizedError } from "./unauthorized-error";
 import { ForbiddenError } from "./forbidden-error.";
 
 describe("errorMiddleware", () => {

@@ -1,4 +1,10 @@
-import { BAD_REQUEST, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED } from "http-status";
+import {
+  BAD_REQUEST,
+  FORBIDDEN,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  UNAUTHORIZED,
+} from "http-status";
 import { Context, Next } from "koa";
 import { z } from "zod";
 import { NotFoundError, UnauthorizedError } from ".";

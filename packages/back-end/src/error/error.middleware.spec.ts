@@ -45,7 +45,7 @@ describe("errorMiddleware", () => {
   it("handles a NotFoundError correctly", async () => {
     const ctx = object<Context>();
     ctx.status = OK;
-    const error = new NotFoundError('Expected Test Error');
+    const error = new NotFoundError("Expected Test Error");
     const next = jest.fn().mockRejectedValue(error);
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe("errorMiddleware", () => {
   it("handles an UnauthorizedError correctly", async () => {
     const ctx = object<Context>();
     ctx.status = OK;
-    const error = new UnauthorizedError('Expected Test Error');
+    const error = new UnauthorizedError("Expected Test Error");
     const next = jest.fn().mockRejectedValue(error);
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe("errorMiddleware", () => {
   it("handles a ForbiddenError correctly", async () => {
     const ctx = object<Context>();
     ctx.status = OK;
-    const error = new ForbiddenError('Expected Test Error');
+    const error = new ForbiddenError("Expected Test Error");
     const next = jest.fn().mockRejectedValue(error);
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();

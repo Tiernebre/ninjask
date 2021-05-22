@@ -4,6 +4,7 @@ import { challengeParticipantRequestSchema, ChallengeParticipantUpdateRequest } 
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { z } from "zod";
+import { NotFoundError } from "../error/not-found-error";
 
 export class ChallengeParticipantService {
   constructor(
@@ -35,7 +36,7 @@ export class ChallengeParticipantService {
       userId: request.userId,
     });
     if (!challengeResult) {
-      throw new Error(
+      throw new NotFoundError(
         `Could not find challenge with id = ${request.id} for user ${request.userId}`
       );
     }

@@ -7,6 +7,7 @@ import { generateMockChallengeParticipantEntity } from "./challenge-participant.
 import { INVALID_NUMBER_CASES } from "../test/cases";
 import { ZodError } from "zod";
 import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
+import { NotFoundError } from "../error/not-found-error";
 
 describe("ChallengeParticipantService", () => {
   let challengeParticipantService: ChallengeParticipantService;
@@ -101,7 +102,7 @@ describe("ChallengeParticipantService", () => {
       );
     });
 
-    it("throws an error if the challenge participant was not found given the request information", async () => {
+    it("throws a NotFoundError if the challenge participant was not found given the request information", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const completionTimeHour = generateRandomNumber();
@@ -119,7 +120,7 @@ describe("ChallengeParticipantService", () => {
           completionTimeHour,
           completionTimeMinutes,
         })
-      ).rejects.toThrowError();
+      ).rejects.toThrowError(NotFoundError);
     });
 
     it.each([

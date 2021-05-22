@@ -47,6 +47,10 @@ describe("ChallengeParticipantService", () => {
     it.each([INVALID_NUMBER_CASES])("throws a ZodError if the userId provided is %p", async (userId) => {
       await expect(challengeParticipantService.createOne(userId as number, 1)).rejects.toThrowError(ZodError)
     })
+
+    it.each([INVALID_NUMBER_CASES])("throws a ZodError if the challengeId provided is %p", async (challengeId) => {
+      await expect(challengeParticipantService.createOne(1, challengeId as number)).rejects.toThrowError(ZodError)
+    })
   });
 
   describe("updateOne", () => {

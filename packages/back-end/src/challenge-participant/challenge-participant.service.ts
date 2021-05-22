@@ -20,6 +20,7 @@ export class ChallengeParticipantService {
   ): Promise<ChallengeParticipant> {
     z.number().parse(userId);
     z.number().parse(challengeId);
+
     let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,
@@ -34,6 +35,7 @@ export class ChallengeParticipantService {
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeParticipant> {
     challengeParticipantRequestSchema.parse(request);
+
     let challengeResult = await this.challengeParticipantRepository.findOne({
       id: request.id,
       userId: request.userId,
@@ -54,6 +56,8 @@ export class ChallengeParticipantService {
   public async getCompletedResultsForChallengeInOrder(
     challengeId: number
   ): Promise<ChallengeResult[]> {
+    z.number().parse(challengeId)
+
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")
       .innerJoin("challengeResult.user", "user")
@@ -77,13 +81,16 @@ export class ChallengeParticipantService {
     userId: number,
     challengeId: number
   ): Promise<ChallengeParticipant> {
+    z.number().parse(userId);
+    z.number().parse(challengeId);
+
     const challengeParticipant =
       await this.challengeParticipantRepository.findOne({
         userId,
         challengeId,
       });
     if (!challengeParticipant) {
-      throw new Error(
+      throw new NotFoundError(
         `Could not find participant for user ${userId} and challenge ${challengeId}`
       );
     }

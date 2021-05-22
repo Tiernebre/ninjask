@@ -105,8 +105,8 @@ describe("ChallengeParticipantService", () => {
     it("throws a NotFoundError if the challenge participant was not found given the request information", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
-      const completionTimeHour = generateRandomNumber();
-      const completionTimeMinutes = generateRandomNumber();
+      const completionTimeHour = getRandomInt(0, 59);
+      const completionTimeMinutes = getRandomInt(0, 59);
       when(
         challengeParticipantRepository.findOne({
           id,
@@ -207,7 +207,26 @@ describe("ChallengeParticipantService", () => {
           userId,
           challengeId
         )
-      ).rejects.toThrowError();
+      ).rejects.toThrowError(NotFoundError);
     });
+
+
+    it.each([INVALID_NUMBER_CASES])(
+      "throws a ZodError if the userId provided is %p",
+      async (userId) => {
+        await expect(
+          challengeParticipantService.getOneForUserOnChallenge(userId as number, 1)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it.each([INVALID_NUMBER_CASES])(
+      "throws a ZodError if the challengeId provided is %p",
+      async (challengeId) => {
+        await expect(
+          challengeParticipantService.getOneForUserOnChallenge(1, challengeId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
   });
 });

@@ -34,8 +34,13 @@ describe("ChallengeService", () => {
     });
 
     it.each([undefined, null, '', '1'])("throws a Zod error if the id provided is %p", async (id: unknown) => {
-      when(challengeRepository.findOne(id as number)).thenResolve(undefined);
       await expect(challengeService.getOneById(id as number)).rejects.toThrowError(z.ZodError);
     });
   });
+
+  describe("getAllForUserWithId", () => {
+    it.each([undefined, null, '', '1'])("throws a Zod error if the id provided is %p", async (id: unknown) => {
+      await expect(challengeService.getAllForUserWithId(id as number)).rejects.toThrowError(z.ZodError);
+    });
+  })
 });

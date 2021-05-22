@@ -18,6 +18,7 @@ export class ChallengeService {
   }
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
+    z.number().parse(id)
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .innerJoin("challenge.results", "result")

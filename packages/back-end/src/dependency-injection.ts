@@ -1,12 +1,27 @@
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
-import { Logger } from "pino";
+import { Logger } from "./logger";
 import { getConnectionOptions, getRepository, createConnection } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { ChallengeEntity, ChallengeService, ChallengeRouter } from "./challenge";
-import { ChallengeParticipantService, ChallengeParticipantEntity, ChallengeParticipantsRouter } from "./challenge-participant";
+import {
+  ChallengeEntity,
+  ChallengeService,
+  ChallengeRouter,
+} from "./challenge";
+import {
+  ChallengeParticipantService,
+  ChallengeParticipantEntity,
+  ChallengeParticipantsRouter,
+} from "./challenge-participant";
 import { BCryptPasswordEncoder } from "./crypto";
-import { DraftService, DraftEntity, DraftPoolService, LiveDraftPoolService, DraftRouter, liveDraftPoolMiddleware } from "./draft";
+import {
+  DraftService,
+  DraftEntity,
+  DraftPoolService,
+  LiveDraftPoolService,
+  DraftRouter,
+  liveDraftPoolMiddleware,
+} from "./draft";
 import { stageMockData } from "./environment";
 import { HttpClient, FetchHttpClient } from "./http";
 import { LeagueEntity, LeagueService, LeagueRouter } from "./leagues";
@@ -14,7 +29,11 @@ import { PokemonService, PokeApiPokemonService } from "./pokemon";
 import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
 import { UserEntity, UserRouter, UserService } from "./user";
-import { VersionDeniedPokemonEntity, VersionService, PokeApiVersionService } from "./version";
+import {
+  VersionDeniedPokemonEntity,
+  VersionService,
+  PokeApiVersionService,
+} from "./version";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();

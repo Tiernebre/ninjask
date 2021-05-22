@@ -1,6 +1,5 @@
 import Koa from "koa";
-import { Logger, PinoLogger } from "./logger";
-import { loggingMiddleware } from "./logger/logging.middleware";
+import { Logger, PinoLogger, loggingMiddleware } from "./logger";
 import cors from "@koa/cors";
 import websockify from "koa-websocket";
 import dotenv from "dotenv";

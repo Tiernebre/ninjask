@@ -3,8 +3,7 @@ import { SessionService } from "./session.service";
 import { UNAUTHORIZED, FORBIDDEN } from "http-status";
 import { ContextState } from "../types/state";
 import { USER_FINGERPRINT_COOKIE_KEY } from "./session.router";
-import { UnauthorizedError } from "../error";
-import { ForbiddenError } from "../error/forbidden-error.";
+import { UnauthorizedError, ForbiddenError } from "../error";
 
 export const sessionMiddleware =
   (sessionService: SessionService) =>

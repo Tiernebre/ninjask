@@ -8,8 +8,7 @@ import { SessionPayload } from "./session-payload";
 import { ContextState } from "../types/state";
 import { USER_FINGERPRINT_COOKIE_KEY } from "./session.router";
 import { v4 as uuid } from "uuid";
-import { UnauthorizedError } from "../error";
-import { ForbiddenError } from "../error/forbidden-error.";
+import { UnauthorizedError, ForbiddenError } from "../error";
 
 describe("sessionMiddleware", () => {
   let sessionService: SessionService;

@@ -10,9 +10,7 @@ import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
 import { z } from "zod";
-import { NotFoundError } from "./not-found-error";
-import { UnauthorizedError } from "./unauthorized-error";
-import { ForbiddenError } from "./forbidden-error.";
+import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
 
 describe("errorMiddleware", () => {
   it("does nothing if next is successful", async () => {

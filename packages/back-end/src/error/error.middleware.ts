@@ -7,8 +7,7 @@ import {
 } from "http-status";
 import { Context, Next } from "koa";
 import { z } from "zod";
-import { NotFoundError, UnauthorizedError } from ".";
-import { ForbiddenError } from "./forbidden-error.";
+import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
 
 export const errorMiddleware = async (
   ctx: Context,

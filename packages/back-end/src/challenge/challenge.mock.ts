@@ -3,9 +3,7 @@ import {
   generateRandomString,
   getRandomInt,
 } from "../random";
-import { Challenge } from "./challenge";
-import { ChallengeResult } from "./challenge-result";
-import { ChallengeEntity } from "./challenge.entity";
+import { Challenge, ChallengeResult, ChallengeEntity } from ".";
 
 export const generateMockChallenge = (): ChallengeEntity => {
   const challenge = new ChallengeEntity();

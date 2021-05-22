@@ -1,6 +1,5 @@
 import { Repository } from "typeorm";
-import { Challenge } from "./challenge";
-import { ChallengeEntity } from "./challenge.entity";
+import { Challenge, ChallengeEntity } from ".";
 
 export class ChallengeService {
   constructor(

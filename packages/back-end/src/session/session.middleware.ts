@@ -3,6 +3,7 @@ import { SessionService } from "./session.service";
 import { UNAUTHORIZED, FORBIDDEN } from "http-status";
 import { ContextState } from "../types/state";
 import { USER_FINGERPRINT_COOKIE_KEY } from "./session.router";
+import { UnauthorizedError, ForbiddenError } from "../error";
 
 export const sessionMiddleware =
   (sessionService: SessionService) =>
@@ -13,7 +14,7 @@ export const sessionMiddleware =
     const userFingerprint = ctx.cookies.get(USER_FINGERPRINT_COOKIE_KEY);
     if (!ctx.header.authorization || !userFingerprint) {
       ctx.status = UNAUTHORIZED;
-      throw new Error("Authentication must be provided.");
+      throw new UnauthorizedError("Authentication must be provided.");
     }
 
     try {
@@ -24,7 +25,7 @@ export const sessionMiddleware =
       ctx.state.session = session;
     } catch (error) {
       ctx.status = FORBIDDEN;
-      throw new Error("Authentication provided was invalid.");
+      throw new ForbiddenError("Authentication provided was invalid.");
     }
     await next();
   };

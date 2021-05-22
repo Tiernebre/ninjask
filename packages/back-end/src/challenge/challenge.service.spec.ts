@@ -2,6 +2,7 @@ import { object, when } from "testdouble";
 import { Repository } from "typeorm";
 import { z } from "zod";
 import { NotFoundError } from "../error/not-found-error";
+import { INVALID_NUMBER_CASES } from "../test/cases";
 import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeService } from "./challenge.service";
@@ -33,13 +34,13 @@ describe("ChallengeService", () => {
       await expect(challengeService.getOneById(id)).rejects.toThrowError(NotFoundError);
     });
 
-    it.each([undefined, null, '', '1'])("throws a Zod error if the id provided is %p", async (id: unknown) => {
+    it.each(INVALID_NUMBER_CASES)("throws a Zod error if the id provided is %p", async (id: unknown) => {
       await expect(challengeService.getOneById(id as number)).rejects.toThrowError(z.ZodError);
     });
   });
 
   describe("getAllForUserWithId", () => {
-    it.each([undefined, null, '', '1'])("throws a Zod error if the id provided is %p", async (id: unknown) => {
+    it.each(INVALID_NUMBER_CASES)("throws a Zod error if the id provided is %p", async (id: unknown) => {
       await expect(challengeService.getAllForUserWithId(id as number)).rejects.toThrowError(z.ZodError);
     });
   })

@@ -8,6 +8,8 @@ import { SessionPayload } from "./session-payload";
 import { ContextState } from "../types/state";
 import { USER_FINGERPRINT_COOKIE_KEY } from "./session.router";
 import { v4 as uuid } from "uuid";
+import { UnauthorizedError } from "../error";
+import { ForbiddenError } from "../error/forbidden-error.";
 
 describe("sessionMiddleware", () => {
   let sessionService: SessionService;
@@ -29,7 +31,7 @@ describe("sessionMiddleware", () => {
     };
     await expect(
       sessionMiddlewareToTest(mockCtx, mockNext)
-    ).rejects.toThrowError();
+    ).rejects.toThrowError(UnauthorizedError);
     expect(mockCtx.status).toEqual(UNAUTHORIZED);
     expect(mockNext).not.toHaveBeenCalled();
   });
@@ -47,7 +49,7 @@ describe("sessionMiddleware", () => {
       };
       await expect(
         sessionMiddlewareToTest(mockCtx, mockNext)
-      ).rejects.toThrowError();
+      ).rejects.toThrowError(UnauthorizedError);
       expect(mockCtx.status).toEqual(UNAUTHORIZED);
       expect(mockNext).not.toHaveBeenCalled();
     }
@@ -69,7 +71,7 @@ describe("sessionMiddleware", () => {
     );
     await expect(
       sessionMiddlewareToTest(mockCtx, mockNext)
-    ).rejects.toThrowError();
+    ).rejects.toThrowError(ForbiddenError);
     expect(mockCtx.status).toEqual(FORBIDDEN);
     expect(mockNext).not.toHaveBeenCalled();
   });

@@ -1,7 +1,6 @@
 import {
   BAD_REQUEST,
   FORBIDDEN,
-  IM_A_TEAPOT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   UNAUTHORIZED,
@@ -28,7 +27,7 @@ export const errorMiddleware = async (
     } else if (error instanceof ForbiddenError) {
       ctx.status = FORBIDDEN;
     } else {
-      ctx.status = IM_A_TEAPOT;
+      ctx.status = INTERNAL_SERVER_ERROR;
     }
   }
 };

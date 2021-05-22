@@ -79,7 +79,7 @@ describe("errorMiddleware", () => {
     ctx.status = OK;
     const error = new Error();
     const next = jest.fn().mockRejectedValue(error);
-    await expect(errorMiddleware(ctx, next)).rejects.toThrowError(error);
+    await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(INTERNAL_SERVER_ERROR);
   });

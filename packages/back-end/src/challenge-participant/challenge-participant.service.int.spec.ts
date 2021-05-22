@@ -7,7 +7,10 @@ import { ChallengeParticipantService } from "./challenge-participant.service";
 import { orderBy, sample } from "lodash";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { ChallengeEntity } from "../challenge/challenge.entity";
-import { seedChallengeParticipants, seedChallenges } from '../challenge/challenge.seed';
+import {
+  seedChallengeParticipants,
+  seedChallenges,
+} from "../challenge/challenge.seed";
 
 describe("ChallengeParticipantService (integration)", () => {
   let challengeParticipantService: ChallengeParticipantService;

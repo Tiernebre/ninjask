@@ -2,7 +2,6 @@ import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeParticipant } from "./challenge-participant";
 import { generateRandomNumber } from "../random";
 
-
 export const generateMockChallengeParticipantEntity =
   (): ChallengeParticipantEntity => {
     const challengeResultEntity = new ChallengeParticipantEntity();

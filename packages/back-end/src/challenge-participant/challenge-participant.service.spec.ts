@@ -2,10 +2,11 @@ import { Repository } from "typeorm";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeParticipantService } from "./challenge-participant.service";
 import { object, when } from "testdouble";
-import { generateRandomNumber } from "../random";
+import { generateRandomNumber, getRandomInt } from "../random";
 import { generateMockChallengeParticipantEntity } from "./challenge-participant.mock";
 import { INVALID_NUMBER_CASES } from "../test/cases";
 import { ZodError } from "zod";
+import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
 
 describe("ChallengeParticipantService", () => {
   let challengeParticipantService: ChallengeParticipantService;
@@ -69,8 +70,8 @@ describe("ChallengeParticipantService", () => {
       const userId = generateRandomNumber();
       const challengeParticipantEntity =
         generateMockChallengeParticipantEntity();
-      const completionTimeHour = generateRandomNumber();
-      const completionTimeMinutes = generateRandomNumber();
+      const completionTimeHour = getRandomInt(0, 59);
+      const completionTimeMinutes = getRandomInt(0, 59);
       when(
         challengeParticipantRepository.findOne({
           id,
@@ -120,6 +121,22 @@ describe("ChallengeParticipantService", () => {
         })
       ).rejects.toThrowError();
     });
+
+    it.each([
+      {},
+      { id: 1 },
+      { id: 1, userId: 1 },
+      { id: 1, userId: 1, completionTimeHour: 1 },
+      { id: 1, userId: 1, completionTimeMinutes: 1 },
+      { id: '1', userId: '1', completionTimeHour: '1', completionTimeMinutes: '1' },
+      { id: 1, userId: 1, completionTimeHour: '1', completionTimeMinutes: '1' },
+      { id: 1, userId: 1, completionTimeHour: -1, completionTimeMinutes: 1 },
+      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: -1 },
+      { id: 1, userId: 1, completionTimeHour: 100, completionTimeMinutes: 1 },
+      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: 60 }
+    ])("throws a ZodError if the update request was %p", async (updateRequest) => {
+      await expect(challengeParticipantService.updateOne(updateRequest as ChallengeParticipantUpdateRequest)).rejects.toThrowError(ZodError)
+    })
   });
 
   describe("getOneForUserAndChallenge", () => {

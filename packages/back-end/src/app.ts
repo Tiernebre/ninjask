@@ -18,7 +18,7 @@ dotenv.config();
 const app = new Koa();
 const logger: Logger = new PinoLogger();
 
-app.use(errorMiddleware)
+app.use(errorMiddleware);
 app.use(
   cors({
     origin: process.env.API_CORS_ORIGIN,

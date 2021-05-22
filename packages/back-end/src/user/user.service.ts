@@ -1,6 +1,9 @@
 import { Repository } from "typeorm";
 import { PasswordEncoder } from "../crypto/password-encoder";
-import { CreateUserRequest, createUserRequestSchema } from "./create-user-request";
+import {
+  CreateUserRequest,
+  createUserRequestSchema,
+} from "./create-user-request";
 import { User } from "./user";
 import { UserEntity } from "./user.entity";
 

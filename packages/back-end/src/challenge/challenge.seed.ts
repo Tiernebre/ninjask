@@ -3,7 +3,7 @@ import { generateRandomString, getRandomInt } from "../random";
 import { UserEntity } from "../user/user.entity";
 import { ChallengeEntity } from "./challenge.entity";
 import { seedUsers } from "../user/user.seed";
-import { ChallengeParticipantEntity } from "./challenge-participant.entity";
+import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 
 export const seedChallenges = async (
   repository: Repository<ChallengeEntity>,

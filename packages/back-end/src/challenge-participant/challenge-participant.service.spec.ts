@@ -3,7 +3,7 @@ import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeParticipantService } from "./challenge-participant.service";
 import { object, when } from "testdouble";
 import { generateRandomNumber } from "../random";
-import { generateMockChallengeParticipantEntity } from "./challenge.mock";
+import { generateMockChallengeParticipantEntity } from "./challenge-participant.mock";
 
 describe("ChallengeParticipantService", () => {
   let challengeParticipantService: ChallengeParticipantService;

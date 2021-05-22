@@ -1,39 +1,39 @@
-import { FetchHttpClient } from "./http/fetch-http-client";
-import { HttpClient } from "./http/http-client";
-import { PokeApiPokemonService } from "./pokemon/poke-api-pokemon.service";
-import { PokemonService } from "./pokemon/pokemon.service";
-import { createConnection, getConnectionOptions, getRepository } from "typeorm";
-import { LeagueEntity } from "./leagues/league.entity";
-import { LeagueService } from "./leagues/league.service";
-import { LeagueRouter } from "./leagues/league.router";
-import { Logger } from "./logger";
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { DraftEntity } from "./draft/draft.entity";
-import { DraftService } from "./draft/draft.service";
-import { PokeApiVersionService } from "./version/poke-api-version.service";
-import { VersionService } from "./version/version.service";
-import { DraftRouter } from "./draft/draft.router";
-import { VersionDeniedPokemonEntity } from "./version/version-denied-pokemon.entity";
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
-import { UserService } from "./user/user.service";
-import { BCryptPasswordEncoder } from "./crypto/bcrypt-password-encoder";
-import { UserEntity } from "./user/user.entity";
-import { JwtSessionService } from "./session/jwt-session.service";
-import { SessionRouter } from "./session/session.router";
-import { UserRouter } from "./user/user.router";
-import { sessionMiddleware } from "./session/session.middleware";
+import { Logger } from "./logger";
+import { getConnectionOptions, getRepository, createConnection } from "typeorm";
+import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import {
+  ChallengeEntity,
+  ChallengeService,
+  ChallengeRouter,
+} from "./challenge";
+import {
+  ChallengeParticipantService,
+  ChallengeParticipantEntity,
+  ChallengeParticipantsRouter,
+} from "./challenge-participant";
+import { BCryptPasswordEncoder } from "./crypto";
+import {
+  DraftService,
+  DraftEntity,
+  DraftPoolService,
+  LiveDraftPoolService,
+  DraftRouter,
+  liveDraftPoolMiddleware,
+} from "./draft";
 import { stageMockData } from "./environment";
-import { ChallengeEntity } from "./challenge/challenge.entity";
-import { ChallengeService } from "./challenge/challenge.service";
-import { ChallengeRouter } from "./challenge/challenge.router";
-import { liveDraftPoolMiddleware } from "./draft/live-draft-pool.middleware";
+import { HttpClient, FetchHttpClient } from "./http";
+import { LeagueEntity, LeagueService, LeagueRouter } from "./leagues";
+import { PokemonService, PokeApiPokemonService } from "./pokemon";
+import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
-import { DraftPoolService } from "./draft/draft-pool.service";
-import { LiveDraftPoolService } from "./draft/live-draft-pool.service";
-import { ChallengeParticipantService } from "./challenge/challenge-participant.service";
-import { ChallengeParticipantEntity } from "./challenge/challenge-participant.entity";
-import { ChallengeParticipantsRouter } from "./challenge/challenge-participant.router";
+import { UserEntity, UserRouter, UserService } from "./user";
+import {
+  VersionDeniedPokemonEntity,
+  VersionService,
+  PokeApiVersionService,
+} from "./version";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();

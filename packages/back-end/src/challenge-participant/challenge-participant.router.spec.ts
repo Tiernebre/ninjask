@@ -7,7 +7,7 @@ import { object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { ChallengeParticipantService } from "./challenge-participant.service";
-import { generateMockChallengeParticipant } from "./challenge.mock";
+import { generateMockChallengeParticipant } from "./challenge-participant.mock";
 import { generateRandomNumber } from "../random";
 import { OK } from "http-status";
 import bodyParser from "koa-bodyparser";

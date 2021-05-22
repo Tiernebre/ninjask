@@ -2,9 +2,9 @@
 import Router from "@koa/router";
 import { CREATED } from "http-status";
 import { ParameterizedContext } from "koa";
+import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
 import { DraftService } from "../draft/draft.service";
 import { ContextState } from "../types/state";
-import { ChallengeParticipantService } from "./challenge-participant.service";
 import { ChallengeService } from "./challenge.service";
 
 export class ChallengeRouter extends Router {

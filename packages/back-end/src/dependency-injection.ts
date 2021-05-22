@@ -31,9 +31,9 @@ import { liveDraftPoolMiddleware } from "./draft/live-draft-pool.middleware";
 import { ContextState } from "./types/state";
 import { DraftPoolService } from "./draft/draft-pool.service";
 import { LiveDraftPoolService } from "./draft/live-draft-pool.service";
-import { ChallengeParticipantService } from "./challenge/challenge-participant.service";
-import { ChallengeParticipantEntity } from "./challenge/challenge-participant.entity";
-import { ChallengeParticipantsRouter } from "./challenge/challenge-participant.router";
+import { ChallengeParticipantEntity } from "./challenge-participant/challenge-participant.entity";
+import { ChallengeParticipantsRouter } from "./challenge-participant/challenge-participant.router";
+import { ChallengeParticipantService } from "./challenge-participant/challenge-participant.service";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();

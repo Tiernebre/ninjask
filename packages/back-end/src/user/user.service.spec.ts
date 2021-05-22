@@ -5,6 +5,7 @@ import { object, when, verify } from "testdouble";
 import { UserEntity } from "./user.entity";
 import { generateMockUser, generateMockUserEntity } from "./user.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
+import { z } from 'zod';
 
 describe("UserService", () => {
   let userService: UserService;
@@ -37,6 +38,22 @@ describe("UserService", () => {
       expect(userEntity.nickname).toEqual(request.nickname);
       expect(userEntity.password).toEqual(hashedPassword);
     });
+
+    it.each([undefined, null, ""])("throws an error if the create user request username is %p", async (nickname: string) => {
+      const request = {
+        nickname,
+        password: generateRandomString()
+      }
+      await expect(userService.createOne(request)).rejects.toThrowError(z.ZodError)
+    })
+
+    it.each([undefined, null, ""])("throws an error if the create user request password is %p", async (password: string) => {
+      const request = {
+        nickname: generateRandomString(),
+        password
+      }
+      await expect(userService.createOne(request)).rejects.toThrowError(z.ZodError)
+    })
   });
 
   describe("findOneWithAccessKeyAndPassword", () => {

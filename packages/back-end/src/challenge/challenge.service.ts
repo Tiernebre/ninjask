@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
+import { NotFoundError } from "../error/not-found-error";
 
 export class ChallengeService {
   constructor(
@@ -11,7 +12,7 @@ export class ChallengeService {
     z.number().parse(id)
     const challenge = await this.challengeRepository.findOne(id);
     if (!challenge) {
-      throw new Error(`Challenge was not found for id = ${id}`);
+      throw new NotFoundError(`Challenge was not found for id = ${id}`);
     }
     return this.mapFromEntity(challenge);
   }

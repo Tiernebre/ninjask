@@ -1,6 +1,7 @@
 import { object, when } from "testdouble";
 import { Repository } from "typeorm";
 import { z } from "zod";
+import { NotFoundError } from "../error/not-found-error";
 import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeService } from "./challenge.service";
@@ -29,7 +30,7 @@ describe("ChallengeService", () => {
     it("throws an error if the challenge does not exist", async () => {
       const id = 1;
       when(challengeRepository.findOne(id)).thenResolve(undefined);
-      await expect(challengeService.getOneById(id)).rejects.toThrowError();
+      await expect(challengeService.getOneById(id)).rejects.toThrowError(NotFoundError);
     });
 
     it.each([undefined, null, '', '1'])("throws a Zod error if the id provided is %p", async (id: unknown) => {

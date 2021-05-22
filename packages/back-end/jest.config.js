@@ -13,6 +13,7 @@ module.exports = {
     "!src/*.ts",
     "!src/environment/stage-mock-data.ts",
     "!src/test/**/*.ts",
+    "!src/**/*-error.ts",
   ],
   globals: {
     "ts-jest": {

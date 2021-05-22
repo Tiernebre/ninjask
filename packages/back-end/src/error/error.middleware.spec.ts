@@ -1,4 +1,4 @@
-import { BAD_REQUEST, NOT_FOUND, OK } from "http-status";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "http-status";
 import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
@@ -43,6 +43,17 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(NOT_FOUND);
+    expect(ctx.body).toEqual(null);
+  })
+
+  it("handles a unhandled errors correctly", async () => {
+    const ctx = object<Context>();
+    ctx.status = OK;
+    const error = new Error();
+    const next = jest.fn().mockRejectedValue(error);
+    await errorMiddleware(ctx, next);
+    expect(next).toHaveBeenCalled();
+    expect(ctx.status).toEqual(INTERNAL_SERVER_ERROR);
     expect(ctx.body).toEqual(null);
   })
 });

@@ -11,12 +11,14 @@ import https from "https";
 import KoaWebsocket from "koa-websocket";
 import { isProduction } from "./environment";
 import { ContextState } from "./types/state";
+import { errorMiddleware } from "./error/error.middleware";
 
 dotenv.config();
 
 const app = new Koa();
 const logger: Logger = new PinoLogger();
 
+app.use(errorMiddleware);
 app.use(
   cors({
     origin: process.env.API_CORS_ORIGIN,

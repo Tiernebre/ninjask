@@ -1,5 +1,7 @@
 import { Repository } from "typeorm";
+import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
+import { NotFoundError } from "../error/not-found-error";
 
 export class ChallengeService {
   constructor(
@@ -7,14 +9,16 @@ export class ChallengeService {
   ) {}
 
   async getOneById(id: number): Promise<Challenge> {
+    z.number().parse(id);
     const challenge = await this.challengeRepository.findOne(id);
     if (!challenge) {
-      throw new Error(`Challenge was not found for id = ${id}`);
+      throw new NotFoundError(`Challenge was not found for id = ${id}`);
     }
     return this.mapFromEntity(challenge);
   }
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
+    z.number().parse(id);
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .innerJoin("challenge.results", "result")

@@ -1,8 +1,13 @@
 import { Repository } from "typeorm";
 import { ChallengeParticipant } from "./challenge-participant";
-import { ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
+import {
+  challengeParticipantRequestSchema,
+  ChallengeParticipantUpdateRequest,
+} from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
+import { z } from "zod";
+import { NotFoundError } from "../error/not-found-error";
 
 export class ChallengeParticipantService {
   constructor(
@@ -13,6 +18,9 @@ export class ChallengeParticipantService {
     userId: number,
     challengeId: number
   ): Promise<ChallengeParticipant> {
+    z.number().parse(userId);
+    z.number().parse(challengeId);
+
     let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,
@@ -26,12 +34,14 @@ export class ChallengeParticipantService {
   public async updateOne(
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeParticipant> {
+    challengeParticipantRequestSchema.parse(request);
+
     let challengeResult = await this.challengeParticipantRepository.findOne({
       id: request.id,
       userId: request.userId,
     });
     if (!challengeResult) {
-      throw new Error(
+      throw new NotFoundError(
         `Could not find challenge with id = ${request.id} for user ${request.userId}`
       );
     }
@@ -46,6 +56,8 @@ export class ChallengeParticipantService {
   public async getCompletedResultsForChallengeInOrder(
     challengeId: number
   ): Promise<ChallengeResult[]> {
+    z.number().parse(challengeId);
+
     return this.challengeParticipantRepository
       .createQueryBuilder("challengeResult")
       .innerJoin("challengeResult.user", "user")
@@ -69,13 +81,16 @@ export class ChallengeParticipantService {
     userId: number,
     challengeId: number
   ): Promise<ChallengeParticipant> {
+    z.number().parse(userId);
+    z.number().parse(challengeId);
+
     const challengeParticipant =
       await this.challengeParticipantRepository.findOne({
         userId,
         challengeId,
       });
     if (!challengeParticipant) {
-      throw new Error(
+      throw new NotFoundError(
         `Could not find participant for user ${userId} and challenge ${challengeId}`
       );
     }

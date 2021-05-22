@@ -58,12 +58,13 @@ export class ChallengeRouter extends Router {
     this.get(
       `${this.URI}/:id/participants/me`,
       async (ctx: ParameterizedContext<ContextState>) => {
-        ctx.body = await this.challengeParticipantService.getOneForUserOnChallenge(
-          ctx.state.session.userId,
-          Number(ctx.params.id)
-        );
+        ctx.body =
+          await this.challengeParticipantService.getOneForUserOnChallenge(
+            ctx.state.session.userId,
+            Number(ctx.params.id)
+          );
       }
-    )
+    );
 
     this.get(
       `${this.URI}/:id/results`,

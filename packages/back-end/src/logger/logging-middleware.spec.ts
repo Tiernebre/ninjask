@@ -35,7 +35,7 @@ describe("logging-middleware", () => {
       ctx.path = "/test";
       const error = new Error("test expected error");
       const next = jest.fn().mockRejectedValue(error);
-      await middleware(ctx, next);
+      await expect(middleware(ctx, next)).rejects.toThrowError();
       verify(
         logger.info(
           `Received ${ctx.method} ${ctx.protocol} Request for ${ctx.path}`

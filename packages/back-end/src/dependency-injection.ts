@@ -13,8 +13,7 @@ import { LeagueEntity, LeagueService, LeagueRouter } from "./leagues";
 import { PokemonService, PokeApiPokemonService } from "./pokemon";
 import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
-import { UserEntity, UserRouter } from "./user";
-import { UserService } from "./user/user.service";
+import { UserEntity, UserRouter, UserService } from "./user";
 import { VersionDeniedPokemonEntity, VersionService, PokeApiVersionService } from "./version";
 
 const setupTypeOrmConnection = async (): Promise<void> => {

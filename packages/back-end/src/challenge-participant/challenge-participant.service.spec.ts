@@ -129,15 +129,44 @@ describe("ChallengeParticipantService", () => {
       { id: 1, userId: 1 },
       { id: 1, userId: 1, completionTimeHour: 1 },
       { id: 1, userId: 1, completionTimeMinutes: 1 },
-      { id: '1', userId: '1', completionTimeHour: '1', completionTimeMinutes: '1' },
-      { id: 1, userId: 1, completionTimeHour: '1', completionTimeMinutes: '1' },
+      {
+        id: "1",
+        userId: "1",
+        completionTimeHour: "1",
+        completionTimeMinutes: "1",
+      },
+      { id: 1, userId: 1, completionTimeHour: "1", completionTimeMinutes: "1" },
       { id: 1, userId: 1, completionTimeHour: -1, completionTimeMinutes: 1 },
       { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: -1 },
       { id: 1, userId: 1, completionTimeHour: 100, completionTimeMinutes: 1 },
-      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: 60 }
-    ])("throws a ZodError if the update request was %p", async (updateRequest) => {
-      await expect(challengeParticipantService.updateOne(updateRequest as ChallengeParticipantUpdateRequest)).rejects.toThrowError(ZodError)
-    })
+      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: 60 },
+      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: null },
+      { id: 1, userId: 1, completionTimeHour: null, completionTimeMinutes: 1 },
+      { id: 1, userId: 1, completionTimeHour: NaN, completionTimeMinutes: 1 },
+      { id: 1, userId: 1, completionTimeHour: 1, completionTimeMinutes: NaN },
+    ])(
+      "throws a ZodError if the update request was %p",
+      async (updateRequest) => {
+        await expect(
+          challengeParticipantService.updateOne(
+            updateRequest as ChallengeParticipantUpdateRequest
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+  });
+
+  describe("getCompletedResultsForChallengeInOrder", () => {
+    it.each([INVALID_NUMBER_CASES])(
+      "throws a ZodError if the id provided is %p",
+      async (challengeId) => {
+        await expect(
+          challengeParticipantService.getCompletedResultsForChallengeInOrder(
+            challengeId as number
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
   });
 
   describe("getOneForUserAndChallenge", () => {

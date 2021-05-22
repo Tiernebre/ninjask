@@ -1,6 +1,9 @@
 import { Repository } from "typeorm";
 import { ChallengeParticipant } from "./challenge-participant";
-import { challengeParticipantRequestSchema, ChallengeParticipantUpdateRequest } from "./challenge-participant-update-request";
+import {
+  challengeParticipantRequestSchema,
+  ChallengeParticipantUpdateRequest,
+} from "./challenge-participant-update-request";
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { z } from "zod";

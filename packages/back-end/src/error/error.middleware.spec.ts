@@ -44,7 +44,7 @@ describe("errorMiddleware", () => {
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(NOT_FOUND);
     expect(ctx.body).toEqual(null);
-  })
+  });
 
   it("handles a unhandled errors correctly", async () => {
     const ctx = object<Context>();
@@ -55,5 +55,5 @@ describe("errorMiddleware", () => {
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(INTERNAL_SERVER_ERROR);
     expect(ctx.body).toEqual(null);
-  })
+  });
 });

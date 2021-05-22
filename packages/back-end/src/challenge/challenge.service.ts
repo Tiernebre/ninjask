@@ -9,7 +9,7 @@ export class ChallengeService {
   ) {}
 
   async getOneById(id: number): Promise<Challenge> {
-    z.number().parse(id)
+    z.number().parse(id);
     const challenge = await this.challengeRepository.findOne(id);
     if (!challenge) {
       throw new NotFoundError(`Challenge was not found for id = ${id}`);
@@ -18,7 +18,7 @@ export class ChallengeService {
   }
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
-    z.number().parse(id)
+    z.number().parse(id);
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
       .innerJoin("challenge.results", "result")

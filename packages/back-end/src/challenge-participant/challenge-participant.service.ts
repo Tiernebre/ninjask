@@ -14,8 +14,8 @@ export class ChallengeParticipantService {
     userId: number,
     challengeId: number
   ): Promise<ChallengeParticipant> {
-    z.number().parse(userId)
-    z.number().parse(challengeId)
+    z.number().parse(userId);
+    z.number().parse(challengeId);
     let challengeResult = this.challengeParticipantRepository.create({
       userId,
       challengeId,

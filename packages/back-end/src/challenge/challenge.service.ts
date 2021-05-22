@@ -1,4 +1,5 @@
 import { Repository } from "typeorm";
+import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
 
 export class ChallengeService {
@@ -7,6 +8,7 @@ export class ChallengeService {
   ) {}
 
   async getOneById(id: number): Promise<Challenge> {
+    z.number().parse(id)
     const challenge = await this.challengeRepository.findOne(id);
     if (!challenge) {
       throw new Error(`Challenge was not found for id = ${id}`);

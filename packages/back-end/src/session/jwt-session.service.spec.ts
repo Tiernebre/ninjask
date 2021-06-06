@@ -85,7 +85,7 @@ describe("JwtSessionService", () => {
 
     it.each(["", null, undefined])(
       "throws a ZodError if the request access key is %p",
-      async (accessKey: string) => {
+      async (accessKey?: string | null) => {
         await expect(
           jwtSessionService.createOne({
             accessKey,
@@ -97,7 +97,7 @@ describe("JwtSessionService", () => {
 
     it.each(["", null, undefined])(
       "throws a ZodError if the request password is %p",
-      async (password: string) => {
+      async (password?: string | null) => {
         await expect(
           jwtSessionService.createOne({
             accessKey: "accessKey",

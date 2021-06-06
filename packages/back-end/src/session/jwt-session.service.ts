@@ -36,8 +36,8 @@ export class JwtSessionService implements SessionService {
   }
 
   async createOne(request: SessionRequest): Promise<Session> {
-    sessionRequestSchema.parse(request)
-    const { accessKey, password } = request
+    sessionRequestSchema.parse(request);
+    const { accessKey, password } = request;
     this.logger.info(
       `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
     );

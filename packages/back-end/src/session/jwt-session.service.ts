@@ -1,5 +1,5 @@
 import { UserService } from "../user/user.service";
-import { SessionRequest } from "./session-request";
+import { SessionRequest, sessionRequestSchema } from "./session-request";
 import { Session } from "./session";
 import { SessionService } from "./session.service";
 import jwt, { Secret } from "jsonwebtoken";
@@ -35,7 +35,9 @@ export class JwtSessionService implements SessionService {
     this.refreshTokenSecret = refreshTokenSecret;
   }
 
-  async createOne({ accessKey, password }: SessionRequest): Promise<Session> {
+  async createOne(request: SessionRequest): Promise<Session> {
+    sessionRequestSchema.parse(request);
+    const { accessKey, password } = request;
     this.logger.info(
       `Possible User with Access Key = ${accessKey} is attempting to create a logged in session.`
     );

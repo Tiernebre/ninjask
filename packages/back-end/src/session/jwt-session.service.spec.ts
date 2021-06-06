@@ -11,6 +11,7 @@ import { User } from "../user/user";
 import { Logger } from "pino";
 import { v4 as uuid } from "uuid";
 import { randomBytes, createHash } from "crypto";
+import { ZodError } from "zod";
 
 describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;
@@ -81,6 +82,30 @@ describe("JwtSessionService", () => {
       expect(tokenBag.accessTokenExpiration).toBeTruthy();
       expect(typeof tokenBag.accessTokenExpiration).toEqual("number");
     });
+
+    it.each(["", null, undefined])(
+      "throws a ZodError if the request access key is %p",
+      async (accessKey: unknown) => {
+        await expect(
+          jwtSessionService.createOne({
+            accessKey: accessKey as string,
+            password: "password",
+          })
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it.each(["", null, undefined])(
+      "throws a ZodError if the request password is %p",
+      async (password: unknown) => {
+        await expect(
+          jwtSessionService.createOne({
+            accessKey: "accessKey",
+            password: password as string,
+          })
+        ).rejects.toThrowError(ZodError);
+      }
+    );
   });
 
   describe("verifyOne", () => {

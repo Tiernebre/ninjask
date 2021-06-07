@@ -20,8 +20,8 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
 
         <button
           className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
+          aria-label="Open Menu"
+          aria-expanded={menuIsVisible}
           onClick={() => setMenuIsVisible(!menuIsVisible)}
         >
           <span aria-hidden="true"></span>

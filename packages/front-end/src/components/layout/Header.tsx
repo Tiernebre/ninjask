@@ -6,8 +6,8 @@ interface HeaderProps {
   onLogOut: () => void;
 }
 
-export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
+export const Header = (props: HeaderProps) => (
   <header className="Header px-3 pt-3">
-    <Navbar />
+    <Navbar {...props} />
   </header>
 );

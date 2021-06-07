@@ -1,4 +1,3 @@
-import "./Header.scss";
 import { Navbar } from "../navbar/Navbar";
 
 interface HeaderProps {

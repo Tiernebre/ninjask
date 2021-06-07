@@ -6,15 +6,11 @@ interface NavbarProps {
   onLogOut: () => void;
 }
 
-
 export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => (
   <nav className="navbar" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <Link className="navbar-item" to="/">
-        <img
-          src={logo}
-          alt="Logo"
-        />
+        <img src={logo} alt="Logo" />
       </Link>
     </div>
 

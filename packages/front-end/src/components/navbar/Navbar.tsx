@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 interface NavbarProps {
@@ -9,12 +10,12 @@ interface NavbarProps {
 export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => (
   <nav className="navbar" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
-      <a className="navbar-item" href="https://bulma.io">
+      <Link className="navbar-item" to="/">
         <img
           src={logo}
           alt="Logo"
         />
-      </a>
+      </Link>
     </div>
 
     <div id="navbarBasicExample" className="navbar-menu">

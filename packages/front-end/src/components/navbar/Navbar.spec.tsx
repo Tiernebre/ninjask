@@ -4,6 +4,8 @@ import user from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
 import { MemoryRouter } from 'react-router'
 
+const getMenu = () => screen.getByRole('menu')
+
 it('logs the user out if they are logged in', async () => {
   const onLogOut = jest.fn()
   render(
@@ -28,6 +30,16 @@ it('does not show the logout button if the user is not logged in', async () => {
   expect(logoutButton).toBeNull()
 })
 
+it('hides the menu by default', async () => {
+  render(
+    <MemoryRouter>
+      <Navbar isAuthenticated={false} onLogOut={jest.fn()} />
+    </MemoryRouter>
+  )
+  const menu = getMenu()
+  expect(menu).not.toHaveClass('is-active')
+})
+
 it('shows the menu when the open menu button is clicked', async () => {
   render(
     <MemoryRouter>
@@ -38,6 +50,6 @@ it('shows the menu when the open menu button is clicked', async () => {
   await act(async () => {
     user.click(openMenuButton)
   })
-  const menu = screen.getByRole('menu')
+  const menu = getMenu()
   expect(menu).toHaveClass('is-active')
 })

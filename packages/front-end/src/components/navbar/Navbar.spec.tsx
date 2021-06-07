@@ -27,3 +27,17 @@ it('does not show the logout button if the user is not logged in', async () => {
   const logoutButton = screen.queryByRole('button', { name: /Log Out/g })
   expect(logoutButton).toBeNull()
 })
+
+it('shows the menu when the open menu button is clicked', async () => {
+  render(
+    <MemoryRouter>
+      <Navbar isAuthenticated={false} onLogOut={jest.fn()} />
+    </MemoryRouter>
+  )
+  const openMenuButton = screen.getByRole('button', { name: 'Open Menu' })
+  await act(async () => {
+    user.click(openMenuButton)
+  })
+  const menu = screen.getByRole('menu')
+  expect(menu).toHaveClass('is-active')
+})

@@ -22,7 +22,7 @@ export const Home = ({ httpClient }: HomeProps) => {
   });
 
   return (
-    <main className="Home p-5">
+    <main className="Home container p-5">
       <h1 className="title">Challenges</h1>
       <ChallengeTable challenges={challenges} />
     </main>

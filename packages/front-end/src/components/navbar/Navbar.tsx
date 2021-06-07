@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
-  const [menuIsVisible, setMenuIsVisible] = useState(false)
+  const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -17,14 +17,20 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
           <img src={logo} alt="Logo" />
         </Link>
 
-        <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" onClick={() => setMenuIsVisible(!menuIsVisible)}>
+        <a
+          role="button"
+          className="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          onClick={() => setMenuIsVisible(!menuIsVisible)}
+        >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div className={`navbar-menu ${menuIsVisible ? 'is-active' : ''}`}>
+      <div className={`navbar-menu ${menuIsVisible ? "is-active" : ""}`}>
         <div className="navbar-start">
           <a className="navbar-item">Home</a>
 
@@ -60,4 +66,4 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
       </div>
     </nav>
   );
-}
+};

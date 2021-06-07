@@ -18,8 +18,7 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
           <img src={logo} alt="Logo" />
         </Link>
 
-        <a
-          role="button"
+        <button
           className="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
@@ -28,7 +27,7 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
-        </a>
+        </button>
       </div>
 
       <div className={`navbar-menu ${menuIsVisible ? "is-active" : ""}`}>

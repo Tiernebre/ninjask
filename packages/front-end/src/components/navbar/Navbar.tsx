@@ -6,9 +6,12 @@ import logo from "../../assets/logo.png";
 type NavbarBurgerButtonProps = {
   menuIsVisible: boolean;
   setMenuIsVisible: (visible: boolean) => void;
-}
+};
 
-const NavbarBurgerButton = ({ menuIsVisible, setMenuIsVisible }: NavbarBurgerButtonProps) => (
+const NavbarBurgerButton = ({
+  menuIsVisible,
+  setMenuIsVisible,
+}: NavbarBurgerButtonProps) => (
   <button
     className="navbar-burger"
     aria-label="Open Menu"
@@ -19,12 +22,12 @@ const NavbarBurgerButton = ({ menuIsVisible, setMenuIsVisible }: NavbarBurgerBut
     <span aria-hidden="true"></span>
     <span aria-hidden="true"></span>
   </button>
-)
+);
 
 type NavbarProps = {
   isAuthenticated: boolean;
   onLogOut: () => void;
-}
+};
 
 export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
@@ -35,10 +38,17 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
         <Link className="navbar-item" to="/">
           <img src={logo} alt="Logo" />
         </Link>
-        <NavbarBurgerButton menuIsVisible={menuIsVisible} setMenuIsVisible={setMenuIsVisible} />
+        <NavbarBurgerButton
+          menuIsVisible={menuIsVisible}
+          setMenuIsVisible={setMenuIsVisible}
+        />
       </div>
 
-      <div role="menu" aria-label="Main Navigation Bar Menu" className={`navbar-menu ${menuIsVisible ? "is-active" : ""}`}>
+      <div
+        role="menu"
+        aria-label="Main Navigation Bar Menu"
+        className={`navbar-menu ${menuIsVisible ? "is-active" : ""}`}
+      >
         <div className="navbar-start"></div>
 
         <div className="navbar-end">

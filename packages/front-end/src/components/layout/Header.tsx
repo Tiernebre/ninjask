@@ -1,28 +1,12 @@
-import "./Header.scss";
-import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Navbar } from "../navbar/Navbar";
 
 interface HeaderProps {
   isAuthenticated: boolean;
   onLogOut: () => void;
 }
 
-export const Header = ({ onLogOut, isAuthenticated }: HeaderProps) => (
-  <header className="Header columns px-3 pt-3">
-    <div className="column Header__logo-column">
-      <Link to="/">
-        <img src={logo} alt="Logo" />
-      </Link>
-    </div>
-    <div className="column Header__log-out-button-column">
-      {isAuthenticated && (
-        <button
-          className="Header__log-out-button button is-danger"
-          onClick={onLogOut}
-        >
-          Log Out
-        </button>
-      )}
-    </div>
+export const Header = (props: HeaderProps) => (
+  <header className="Header px-3 pt-3">
+    <Navbar {...props} />
   </header>
 );

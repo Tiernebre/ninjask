@@ -41,13 +41,13 @@ export const AuthenticatedRoutes = ({
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
       </Route>
-      <Route path="/challenges/:challengeId/draft">
+      <Route path="/challenges/:challengeId/draft" exact>
         <DraftView
           httpClient={authedHttpClient}
           sessionPayload={sessionPayload}
         />
       </Route>
-      <Route path="/challenges/:id">
+      <Route path="/challenges/:id" exact>
         <ChallengeView
           httpClient={authedHttpClient}
           sessionPayload={sessionPayload}

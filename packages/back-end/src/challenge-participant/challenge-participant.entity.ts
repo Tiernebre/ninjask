@@ -41,6 +41,9 @@ export class ChallengeParticipantEntity {
   @Column()
   userId!: number;
 
-  @OneToMany(() => DraftSelectionEntity, (draftSelection) => draftSelection.challengeParticipant)
+  @OneToMany(
+    () => DraftSelectionEntity,
+    (draftSelection) => draftSelection.challengeParticipant
+  )
   draftSelections!: Promise<DraftSelectionEntity[]>;
 }

@@ -16,6 +16,10 @@ export class DraftSelectionService {
       .innerJoin("challengeParticipant.user", "user")
       .innerJoin("challengeParticipant.challenge", "challenge")
       .innerJoin("challenge.draft", "draft")
+      .select("draftSelection.id", "id")
+      .select("draftSelection.roundNumber", "round")
+      .select("draftSelection.pickNumber", "pick")
+      .select("user.nickname", "userNickname")
       .where("draft.id = :draftId", { draftId })
       .getRawMany<DraftSelection>();
   }

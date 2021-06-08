@@ -1,15 +1,17 @@
-import { Repository } from "typeorm";
 import { ZodError } from "zod";
 import { PokemonService } from "../pokemon";
-import { DraftSelectionEntity } from "./draft-selection.entity";
 import { DraftSelectionService } from "./draft-selection.service"
+import { object } from 'testdouble';
+import { DraftSelectionRepository } from "./draft-selection.repository";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
-  let draftSelectionRepository: Repository<DraftSelectionEntity>;
+  let draftSelectionRepository: DraftSelectionRepository;
   let pokemonService: PokemonService;
 
   beforeEach(() => {
+    draftSelectionRepository = object<DraftSelectionRepository>()
+    pokemonService = object<PokemonService>()
     draftSelectionService = new DraftSelectionService(
       draftSelectionRepository,
       pokemonService

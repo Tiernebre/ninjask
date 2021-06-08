@@ -1,6 +1,5 @@
-import { Repository, getRepository } from "typeorm";
-import { object } from "testdouble";
-import { DraftSelectionService } from ".";
+import { Repository, getRepository, getCustomRepository } from "typeorm";
+import { DraftSelectionRepository } from "./draft-selection.repository";
 import { ChallengeParticipantEntity } from "../challenge-participant";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import {
@@ -9,7 +8,6 @@ import {
 } from "../challenge/challenge.seed";
 import { DraftEntity } from "../draft/draft.entity";
 import { seedDraft } from "../draft/draft.seed";
-import { PokemonService } from "../pokemon";
 import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
@@ -17,7 +15,7 @@ import { DraftSelectionEntity } from "./draft-selection.entity";
 import { seedDraftSelection } from "./draft-selection.seed";
 
 describe("DraftSelectionService (integration)", () => {
-  let draftSelectionService: DraftSelectionService;
+  let draftSelectionRepository: DraftSelectionRepository;
 
   let challengeParticipantRepository: Repository<ChallengeParticipantEntity>;
   let challengeRepository: Repository<ChallengeEntity>;
@@ -57,16 +55,16 @@ describe("DraftSelectionService (integration)", () => {
       );
       createdSelections.push(createdSelection);
     }
-    draftSelectionService = new DraftSelectionService(
-      draftSelectionRepository,
-      object<PokemonService>()
-    );
   });
 
-  describe("getAllForDraft", () => {
+  beforeEach(() => {
+    draftSelectionRepository = getCustomRepository(DraftSelectionRepository)
+  })
+
+  describe("getAllForDraftId", () => {
     it("returns properly mapped draft selections from a given draft", async () => {
       expect(createdSelections.length).toBeGreaterThan(0);
-      const gottenSelections = await draftSelectionService.getAllForDraft(
+      const gottenSelections = await draftSelectionRepository.getAllForDraftId(
         draft.id
       );
       expect(gottenSelections).toHaveLength(createdSelections.length);
@@ -86,7 +84,6 @@ describe("DraftSelectionService (integration)", () => {
         const user = await participant.user;
         expect(user.nickname).toBeTruthy();
         expect(correspondingSelection.userNickname).toEqual(user.nickname);
-        expect(correspondingSelection.selection).toBeNull()
       }
     });
   });

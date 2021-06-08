@@ -12,18 +12,23 @@ export class DraftSelectionService {
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
 
-    const foundSelections = await this.draftSelectionRepository.getAllForDraftId(draftId)
-    return Promise.all(foundSelections.map(async (foundSelection) => ({
-      ...foundSelection,
-      selection: await this.getPokemonForDraftSelection(foundSelection)
-    })))
+    const foundSelections =
+      await this.draftSelectionRepository.getAllForDraftId(draftId);
+    return Promise.all(
+      foundSelections.map(async (foundSelection) => ({
+        ...foundSelection,
+        selection: await this.getPokemonForDraftSelection(foundSelection),
+      }))
+    );
   }
 
-  private async getPokemonForDraftSelection(draftSelection: DraftSelectionRow): Promise<Pokemon | null> {
+  private async getPokemonForDraftSelection(
+    draftSelection: DraftSelectionRow
+  ): Promise<Pokemon | null> {
     if (draftSelection.pokemonId) {
-      return this.pokemonService.getOneById(draftSelection.pokemonId) 
+      return this.pokemonService.getOneById(draftSelection.pokemonId);
     } else {
-      return null
+      return null;
     }
   }
 }

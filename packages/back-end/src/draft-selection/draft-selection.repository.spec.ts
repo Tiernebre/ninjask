@@ -58,8 +58,8 @@ describe("DraftSelectionService (integration)", () => {
   });
 
   beforeEach(() => {
-    draftSelectionRepository = getCustomRepository(DraftSelectionRepository)
-  })
+    draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
+  });
 
   describe("getAllForDraftId", () => {
     it("returns properly mapped draft selections from a given draft", async () => {

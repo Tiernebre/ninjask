@@ -8,9 +8,10 @@ import { orderBy, sample } from "lodash";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import {
-  seedChallengeParticipants,
+  seedChallengeParticipant,
   seedChallenges,
 } from "../challenge/challenge.seed";
+import { clearAllDraftSelections } from "../draft-selection/draft-selection.seed";
 
 describe("ChallengeParticipantService (integration)", () => {
   let challengeParticipantService: ChallengeParticipantService;
@@ -37,6 +38,7 @@ describe("ChallengeParticipantService (integration)", () => {
   });
 
   afterEach(async () => {
+    await clearAllDraftSelections();
     await challengeParticipantRepository
       .createQueryBuilder()
       .delete()
@@ -49,9 +51,9 @@ describe("ChallengeParticipantService (integration)", () => {
       const [challenge] = challenges;
       let expectedChallengeResults: ChallengeResult[] = [];
       for (const user of users) {
-        const [challengeParticipant] = await seedChallengeParticipants(
+        const challengeParticipant = await seedChallengeParticipant(
           challengeParticipantRepository,
-          [challenge],
+          challenge,
           user
         );
         expectedChallengeResults.push({
@@ -81,9 +83,9 @@ describe("ChallengeParticipantService (integration)", () => {
       const [challenge] = challenges;
       let expectedChallengeResults: ChallengeResult[] = [];
       for (const user of users) {
-        const [challengeParticipant] = await seedChallengeParticipants(
+        const challengeParticipant = await seedChallengeParticipant(
           challengeParticipantRepository,
-          [challenge],
+          challenge,
           user
         );
         if (user === userWithoutEnteredTime) {

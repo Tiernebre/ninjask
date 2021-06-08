@@ -17,3 +17,10 @@ export const seedUsers = async (
   }
   return repository.save(users);
 };
+
+export const seedUser = async (
+  repository: Repository<UserEntity>
+): Promise<UserEntity> => {
+  const [user] = await seedUsers(repository, 1);
+  return user;
+};

@@ -24,18 +24,22 @@ export const seedChallenges = async (
   return repository.save(challenges);
 };
 
-export const seedChallengeParticipants = async (
+export const seedChallenge = async (
+  repository: Repository<ChallengeEntity>
+): Promise<ChallengeEntity> => {
+  const [challenge] = await seedChallenges(repository, 1);
+  return challenge;
+};
+
+export const seedChallengeParticipant = async (
   repository: Repository<ChallengeParticipantEntity>,
-  challenges: ChallengeEntity[],
+  challenge: ChallengeEntity,
   user: UserEntity
-): Promise<ChallengeParticipantEntity[]> => {
-  const challengeParticipants = challenges.map((challenge) => {
-    const result = new ChallengeParticipantEntity();
-    result.challenge = Promise.resolve(challenge);
-    result.user = Promise.resolve(user);
-    result.completionTimeHour = getRandomInt(1, 25);
-    result.completionTimeMinutes = getRandomInt(0, 60);
-    return result;
-  });
-  return repository.save(challengeParticipants);
+): Promise<ChallengeParticipantEntity> => {
+  const challengeParticipant = repository.create();
+  challengeParticipant.challenge = Promise.resolve(challenge);
+  challengeParticipant.user = Promise.resolve(user);
+  challengeParticipant.completionTimeHour = getRandomInt(1, 25);
+  challengeParticipant.completionTimeMinutes = getRandomInt(0, 60);
+  return repository.save(challengeParticipant);
 };

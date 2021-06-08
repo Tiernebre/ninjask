@@ -31,6 +31,9 @@ export class DraftPokemonEntity {
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
 
-  @OneToOne(() => DraftSelectionEntity, (draftSelection) => draftSelection.pokemon)
-  draftSelection!: Promise<DraftSelectionEntity>
+  @OneToOne(
+    () => DraftSelectionEntity,
+    (draftSelection) => draftSelection.pokemon
+  )
+  draftSelection!: Promise<DraftSelectionEntity>;
 }

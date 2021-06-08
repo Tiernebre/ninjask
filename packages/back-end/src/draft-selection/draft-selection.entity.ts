@@ -28,7 +28,10 @@ export class DraftSelectionEntity {
   @Column()
   pickNumber!: number;
 
-  @OneToOne(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draftSelection)
+  @OneToOne(
+    () => DraftPokemonEntity,
+    (draftPokemon) => draftPokemon.draftSelection
+  )
   @JoinColumn()
   pokemon!: Promise<DraftPokemonEntity>;
 }

@@ -66,17 +66,21 @@ describe("DraftSelectionService (integration)", () => {
       );
       expect(gottenSelections).toHaveLength(createdSelections.length);
       for (let i = 0; i < createdSelections.length; i++) {
-        const createdSelection = createdSelections[i]
-        const correspondingSelection = gottenSelections[i]
-        expect(correspondingSelection.id).toEqual(createdSelection.id)
-        expect(createdSelection.roundNumber).toBeTruthy()
-        expect(createdSelection.pickNumber).toBeTruthy()
-        expect(correspondingSelection.round).toEqual(createdSelection.roundNumber)
-        expect(correspondingSelection.pick).toEqual(createdSelection.pickNumber)
-        const participant = await createdSelection.challengeParticipant
-        const user = await participant.user
-        expect(user.nickname).toBeTruthy()
-        expect(correspondingSelection.userNickname).toEqual(user.nickname)
+        const createdSelection = createdSelections[i];
+        const correspondingSelection = gottenSelections[i];
+        expect(correspondingSelection.id).toEqual(createdSelection.id);
+        expect(createdSelection.roundNumber).toBeTruthy();
+        expect(createdSelection.pickNumber).toBeTruthy();
+        expect(correspondingSelection.round).toEqual(
+          createdSelection.roundNumber
+        );
+        expect(correspondingSelection.pick).toEqual(
+          createdSelection.pickNumber
+        );
+        const participant = await createdSelection.challengeParticipant;
+        const user = await participant.user;
+        expect(user.nickname).toBeTruthy();
+        expect(correspondingSelection.userNickname).toEqual(user.nickname);
       }
     });
   });

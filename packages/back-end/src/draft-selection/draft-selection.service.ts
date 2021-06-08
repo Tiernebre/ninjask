@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { DraftSelection } from "./draft-selection";
 import { DraftSelectionEntity } from "./draft-selection.entity";
-import { z } from 'zod';
+import { z } from "zod";
 
 export class DraftSelectionService {
   constructor(

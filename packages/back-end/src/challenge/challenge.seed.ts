@@ -24,6 +24,13 @@ export const seedChallenges = async (
   return repository.save(challenges);
 };
 
+export const seedChallenge = async (
+  repository: Repository<ChallengeEntity>
+): Promise<ChallengeEntity> => {
+  const [challenge] = await seedChallenges(repository, 1);
+  return challenge;
+};
+
 export const seedChallengeParticipants = async (
   repository: Repository<ChallengeParticipantEntity>,
   challenges: ChallengeEntity[],

@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from "typeorm";
+import { DraftSelectionEntity } from "../draft-selection/draft-selection.entity";
 import { DraftEntity } from "./draft.entity";
 
 @Entity({
@@ -28,4 +30,7 @@ export class DraftPokemonEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
+
+  @OneToOne(() => DraftSelectionEntity, (draftSelection) => draftSelection.pokemon)
+  draftSelection!: Promise<DraftSelectionEntity>
 }

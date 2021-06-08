@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Challenge } from "../challenge/challenge";
 import { ChallengeEntity } from "../challenge/challenge.entity";
+import { DraftSelectionEntity } from "../draft-selection/draft-selection.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity({ name: "challenge_participants" })
@@ -38,4 +40,7 @@ export class ChallengeParticipantEntity {
 
   @Column()
   userId!: number;
+
+  @OneToMany(() => DraftSelectionEntity, (draftSelection) => draftSelection.challengeParticipant)
+  draftSelections!: Promise<DraftSelectionEntity[]>;
 }

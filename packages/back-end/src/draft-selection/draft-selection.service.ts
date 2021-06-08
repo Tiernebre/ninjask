@@ -15,6 +15,7 @@ export class DraftSelectionService {
 
     const foundSelections = await this.draftSelectionRepository
       .createQueryBuilder("draftSelection")
+      .leftJoin("draftSelection.pokemon", "pokemon")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
       .innerJoin("challengeParticipant.user", "user")
       .innerJoin("challengeParticipant.challenge", "challenge")
@@ -23,6 +24,7 @@ export class DraftSelectionService {
       .addSelect("draftSelection.roundNumber", "round")
       .addSelect("draftSelection.pickNumber", "pick")
       .addSelect("user.nickname", "userNickname")
+      .addSelect("pokemon.pokemonId", "pokemonId")
       .where("draft.id = :draftId", { draftId })
       .getRawMany<DraftSelectionRow>();
     return Promise.all(foundSelections.map(async (foundSelection) => ({

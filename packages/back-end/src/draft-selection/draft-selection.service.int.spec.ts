@@ -86,6 +86,7 @@ describe("DraftSelectionService (integration)", () => {
         const user = await participant.user;
         expect(user.nickname).toBeTruthy();
         expect(correspondingSelection.userNickname).toEqual(user.nickname);
+        expect(correspondingSelection.selection).toBeNull()
       }
     });
   });

@@ -4,13 +4,13 @@ import { ChallengeParticipantEntity } from "../challenge-participant";
 import { ChallengeEntity } from "../challenge/challenge.entity";
 import {
   seedChallenge,
-  seedChallengeParticipants,
+  seedChallengeParticipant,
 } from "../challenge/challenge.seed";
 import { DraftEntity } from "../draft/draft.entity";
 import { seedDraft } from "../draft/draft.seed";
 import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
-import { seedUser } from "../user/user.seed";
+import { seedUsers } from "../user/user.seed";
 import { DraftSelectionEntity } from "./draft-selection.entity";
 import { seedDraftSelection } from "./draft-selection.seed";
 
@@ -23,8 +23,8 @@ describe("DraftSelectionService (integration)", () => {
   let draftRepository: Repository<DraftEntity>;
 
   let challenge: ChallengeEntity;
-  let user: UserEntity;
-  let challengeParticipants: ChallengeParticipantEntity[];
+  let users: UserEntity[];
+  const challengeParticipants: ChallengeParticipantEntity[] = [];
   let draft: DraftEntity;
   const createdSelections: DraftSelectionEntity[] = [];
 
@@ -36,13 +36,16 @@ describe("DraftSelectionService (integration)", () => {
     challengeParticipantRepository = getRepository(ChallengeParticipantEntity);
 
     challenge = await seedChallenge(challengeRepository);
-    user = await seedUser(userRepository);
+    users = await seedUsers(userRepository);
     draft = await seedDraft(draftRepository, challenge);
-    challengeParticipants = await seedChallengeParticipants(
-      challengeParticipantRepository,
-      [challenge],
-      user
-    );
+    for (const user of users) {
+      const challengeParticipant = await seedChallengeParticipant(
+        challengeParticipantRepository,
+        challenge,
+        user
+      )
+      challengeParticipants.push(challengeParticipant)
+    }
 
     const draftSelectionRepository = getRepository(DraftSelectionEntity);
     for (const challengeParticipant of challengeParticipants) {

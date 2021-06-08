@@ -1,32 +1,18 @@
-import { Repository } from "typeorm";
 import { DraftSelection, DraftSelectionRow } from "./draft-selection";
-import { DraftSelectionEntity } from "./draft-selection.entity";
 import { z } from "zod";
 import { Pokemon, PokemonService } from "../pokemon";
+import { DraftSelectionRepository } from "./draft-selection.repository";
 
 export class DraftSelectionService {
   constructor(
-    private readonly draftSelectionRepository: Repository<DraftSelectionEntity>,
+    private readonly draftSelectionRepository: DraftSelectionRepository,
     private readonly pokemonService: PokemonService
   ) {}
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
 
-    const foundSelections = await this.draftSelectionRepository
-      .createQueryBuilder("draftSelection")
-      .leftJoin("draftSelection.pokemon", "pokemon")
-      .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
-      .innerJoin("challengeParticipant.user", "user")
-      .innerJoin("challengeParticipant.challenge", "challenge")
-      .innerJoin("challenge.draft", "draft")
-      .select("draftSelection.id", "id")
-      .addSelect("draftSelection.roundNumber", "round")
-      .addSelect("draftSelection.pickNumber", "pick")
-      .addSelect("user.nickname", "userNickname")
-      .addSelect("pokemon.pokemonId", "pokemonId")
-      .where("draft.id = :draftId", { draftId })
-      .getRawMany<DraftSelectionRow>();
+    const foundSelections = await this.draftSelectionRepository.getAllForDraftId(draftId)
     return Promise.all(foundSelections.map(async (foundSelection) => ({
       ...foundSelection,
       selection: await this.getPokemonForDraftSelection(foundSelection)
@@ -34,6 +20,10 @@ export class DraftSelectionService {
   }
 
   private async getPokemonForDraftSelection(draftSelection: DraftSelectionRow): Promise<Pokemon | null> {
-    return draftSelection.pokemonId ? await this.pokemonService.getOneById(draftSelection.pokemonId) : null
+    if (draftSelection.pokemonId) {
+      return this.pokemonService.getOneById(draftSelection.pokemonId) 
+    } else {
+      return null
+    }
   }
 }

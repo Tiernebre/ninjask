@@ -86,5 +86,14 @@ describe("DraftSelectionService (integration)", () => {
         expect(correspondingSelection.userNickname).toEqual(user.nickname);
       }
     });
+
+    it("returns an empty array if the draft does not have any selections", async () => {
+      const newDraft = await seedDraft(draftRepository)
+      const gottenSelections = await draftSelectionRepository.getAllForDraftId(
+        newDraft.id
+      );
+      expect(gottenSelections).toBeTruthy()
+      expect(gottenSelections).toHaveLength(0)
+    })
   });
 });

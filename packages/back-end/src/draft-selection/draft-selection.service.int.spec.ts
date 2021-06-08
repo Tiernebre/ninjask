@@ -43,8 +43,8 @@ describe("DraftSelectionService (integration)", () => {
         challengeParticipantRepository,
         challenge,
         user
-      )
-      challengeParticipants.push(challengeParticipant)
+      );
+      challengeParticipants.push(challengeParticipant);
     }
 
     const draftSelectionRepository = getRepository(DraftSelectionEntity);

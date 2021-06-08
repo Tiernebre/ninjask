@@ -36,7 +36,7 @@ export const seedChallengeParticipant = async (
   challenge: ChallengeEntity,
   user: UserEntity
 ): Promise<ChallengeParticipantEntity> => {
-  const challengeParticipant = repository.create()
+  const challengeParticipant = repository.create();
   challengeParticipant.challenge = Promise.resolve(challenge);
   challengeParticipant.user = Promise.resolve(user);
   challengeParticipant.completionTimeHour = getRandomInt(1, 25);

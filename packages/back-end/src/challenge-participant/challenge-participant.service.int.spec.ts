@@ -38,7 +38,7 @@ describe("ChallengeParticipantService (integration)", () => {
   });
 
   afterEach(async () => {
-    await clearAllDraftSelections()
+    await clearAllDraftSelections();
     await challengeParticipantRepository
       .createQueryBuilder()
       .delete()

@@ -1,4 +1,5 @@
 import { Repository, getRepository } from "typeorm";
+import { object } from "testdouble";
 import { DraftSelectionService } from ".";
 import { ChallengeParticipantEntity } from "../challenge-participant";
 import { ChallengeEntity } from "../challenge/challenge.entity";
@@ -8,6 +9,7 @@ import {
 } from "../challenge/challenge.seed";
 import { DraftEntity } from "../draft/draft.entity";
 import { seedDraft } from "../draft/draft.seed";
+import { PokemonService } from "../pokemon";
 import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
@@ -55,7 +57,10 @@ describe("DraftSelectionService (integration)", () => {
       );
       createdSelections.push(createdSelection);
     }
-    draftSelectionService = new DraftSelectionService(draftSelectionRepository);
+    draftSelectionService = new DraftSelectionService(
+      draftSelectionRepository,
+      object<PokemonService>()
+    );
   });
 
   describe("getAllForDraft", () => {

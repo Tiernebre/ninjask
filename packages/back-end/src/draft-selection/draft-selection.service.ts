@@ -1,17 +1,19 @@
 import { Repository } from "typeorm";
-import { DraftSelection } from "./draft-selection";
+import { DraftSelection, DraftSelectionRow } from "./draft-selection";
 import { DraftSelectionEntity } from "./draft-selection.entity";
 import { z } from "zod";
+import { Pokemon, PokemonService } from "../pokemon";
 
 export class DraftSelectionService {
   constructor(
-    private readonly draftSelectionRepository: Repository<DraftSelectionEntity>
+    private readonly draftSelectionRepository: Repository<DraftSelectionEntity>,
+    private readonly pokemonService: PokemonService
   ) {}
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
 
-    return this.draftSelectionRepository
+    const foundSelections = await this.draftSelectionRepository
       .createQueryBuilder("draftSelection")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
       .innerJoin("challengeParticipant.user", "user")
@@ -22,6 +24,14 @@ export class DraftSelectionService {
       .addSelect("draftSelection.pickNumber", "pick")
       .addSelect("user.nickname", "userNickname")
       .where("draft.id = :draftId", { draftId })
-      .getRawMany<DraftSelection>();
+      .getRawMany<DraftSelectionRow>();
+    return Promise.all(foundSelections.map(async (foundSelection) => ({
+      ...foundSelection,
+      selection: await this.getPokemonForDraftSelection(foundSelection)
+    })))
+  }
+
+  private async getPokemonForDraftSelection(draftSelection: DraftSelectionRow): Promise<Pokemon | null> {
+    return draftSelection.pokemonId ? await this.pokemonService.getOneById(draftSelection.pokemonId) : null
   }
 }

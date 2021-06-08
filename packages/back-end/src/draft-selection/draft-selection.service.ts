@@ -10,6 +10,7 @@ export class DraftSelectionService {
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
+
     return this.draftSelectionRepository
       .createQueryBuilder("draftSelection")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
@@ -17,9 +18,9 @@ export class DraftSelectionService {
       .innerJoin("challengeParticipant.challenge", "challenge")
       .innerJoin("challenge.draft", "draft")
       .select("draftSelection.id", "id")
-      .select("draftSelection.roundNumber", "round")
-      .select("draftSelection.pickNumber", "pick")
-      .select("user.nickname", "userNickname")
+      .addSelect("draftSelection.roundNumber", "round")
+      .addSelect("draftSelection.pickNumber", "pick")
+      .addSelect("user.nickname", "userNickname")
       .where("draft.id = :draftId", { draftId })
       .getRawMany<DraftSelection>();
   }

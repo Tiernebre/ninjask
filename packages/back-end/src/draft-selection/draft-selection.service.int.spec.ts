@@ -26,7 +26,7 @@ describe("DraftSelectionService (integration)", () => {
   let user: UserEntity;
   let challengeParticipants: ChallengeParticipantEntity[];
   let draft: DraftEntity;
-  let createdSelections: DraftSelectionEntity[];
+  const createdSelections: DraftSelectionEntity[] = [];
 
   beforeAll(async () => {
     await establishDbConnection();

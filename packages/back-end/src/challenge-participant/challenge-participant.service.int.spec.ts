@@ -11,6 +11,7 @@ import {
   seedChallengeParticipants,
   seedChallenges,
 } from "../challenge/challenge.seed";
+import { clearAllDraftSelections } from "../draft-selection/draft-selection.seed";
 
 describe("ChallengeParticipantService (integration)", () => {
   let challengeParticipantService: ChallengeParticipantService;
@@ -37,6 +38,7 @@ describe("ChallengeParticipantService (integration)", () => {
   });
 
   afterEach(async () => {
+    await clearAllDraftSelections()
     await challengeParticipantRepository
       .createQueryBuilder()
       .delete()

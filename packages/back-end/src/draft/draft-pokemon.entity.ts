@@ -33,7 +33,10 @@ export class DraftPokemonEntity {
 
   @OneToOne(
     () => DraftSelectionEntity,
-    (draftSelection) => draftSelection.pokemon
+    (draftSelection) => draftSelection.pokemon,
+    {
+      nullable: true,
+    }
   )
-  draftSelection!: Promise<DraftSelectionEntity>;
+  draftSelection!: Promise<DraftSelectionEntity | null>;
 }

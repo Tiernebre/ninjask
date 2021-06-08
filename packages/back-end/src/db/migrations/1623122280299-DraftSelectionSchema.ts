@@ -9,7 +9,7 @@ export class DraftSelectionSchema1623122280299 implements MigrationInterface {
             round_number INTEGER NOT NULL,
             pick_number INTEGER NOT NULL,
             pokemon_id INTEGER REFERENCES draft_pokemon (id) NULL UNIQUE,
-            CONSTRAINT valid_round CHECK (round BETWEEN 1 AND 6)
+            CONSTRAINT valid_round CHECK (round_number BETWEEN 1 AND 6)
         );
         `);
   }

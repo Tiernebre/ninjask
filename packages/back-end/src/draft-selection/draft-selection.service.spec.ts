@@ -8,6 +8,7 @@ import { generateMockDraftSelectionRow } from "./draft-selection.mock";
 import { generateRandomNumber } from "../random";
 import { last } from "lodash";
 import { DraftSelection } from "./draft-selection";
+import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -24,7 +25,7 @@ describe("DraftSelectionService", () => {
   });
 
   describe("getAllForDraft", () => {
-    it.each([null, undefined, "", NaN])(
+    it.each([...INVALID_NUMBER_CASES])(
       "throws a ZodError if draft id given = %p",
       async (draftId: unknown) => {
         await expect(
@@ -78,4 +79,18 @@ describe("DraftSelectionService", () => {
       expect(lastSelection.selection).toBeNull();
     });
   });
+
+  describe("finalizeOneForUser", () => {
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])("throws a ZodError if id provided is %p", async (id: unknown) => {
+      await expect(draftSelectionService.finalizeOneForUser(id as number, 1, { draftPokemonId: 1 })).rejects.toThrowError(ZodError)
+    })
+
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])("throws a ZodError if userId provided is %p", async (userId: unknown) => {
+      await expect(draftSelectionService.finalizeOneForUser(1, userId as number, { draftPokemonId: 1 })).rejects.toThrowError(ZodError)
+    })
+
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])("throws a ZodError if draftPokemonId provided is %p", async (draftPokemonId: unknown) => {
+      await expect(draftSelectionService.finalizeOneForUser(1, 1, { draftPokemonId: draftPokemonId as number })).rejects.toThrowError(ZodError)
+    })
+  })
 });

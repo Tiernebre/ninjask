@@ -1,26 +1,26 @@
 import { getRepository, Repository } from "typeorm";
 import { ChallengeParticipantEntity } from "../challenge-participant";
-import { getRandomInt } from "../random";
+import { DraftEntity } from "../draft/draft.entity";
 import { DraftSelectionEntity } from "./draft-selection.entity";
 
 export const clearAllDraftSelections = async (): Promise<void> => {
-  await getRepository(DraftSelectionEntity)
-    .createQueryBuilder()
-    .delete()
-    .execute();
+  await getRepository(DraftSelectionEntity).query(`DELETE FROM draft_selection`)
 };
 
 export const seedDraftSelections = async (
   repository: Repository<DraftSelectionEntity>,
   participant: ChallengeParticipantEntity,
-  count = 20
+  draft: DraftEntity,
+  count = 20,
+  pickNumber?: number
 ): Promise<DraftSelectionEntity[]> => {
   const draftSelections: DraftSelectionEntity[] = [];
   for (let i = 0; i < count; i++) {
     const draftSelection = repository.create();
-    draftSelection.roundNumber = getRandomInt(1, 7);
-    draftSelection.pickNumber = getRandomInt(1, 5);
+    draftSelection.roundNumber = 1;
+    draftSelection.pickNumber = pickNumber || i + 1;
     draftSelection.challengeParticipant = Promise.resolve(participant);
+    draftSelection.draft = Promise.resolve(draft)
     draftSelections.push(draftSelection);
   }
   return repository.save(draftSelections);
@@ -28,12 +28,16 @@ export const seedDraftSelections = async (
 
 export const seedDraftSelection = async (
   repository: Repository<DraftSelectionEntity>,
-  participant: ChallengeParticipantEntity
+  participant: ChallengeParticipantEntity,
+  draft: DraftEntity,
+  pickNumber?: number
 ): Promise<DraftSelectionEntity> => {
   const [draftSelection] = await seedDraftSelections(
     repository,
     participant,
-    1
+    draft,
+    1,
+    pickNumber
   );
   return draftSelection;
 };

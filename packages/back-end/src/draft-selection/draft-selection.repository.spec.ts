@@ -62,7 +62,9 @@ describe("DraftSelectionRepository", () => {
     for (const challengeParticipant of challengeParticipants) {
       const createdSelection = await seedDraftSelection(
         draftSelectionRepository,
-        challengeParticipant
+        challengeParticipant,
+        draft,
+        createdSelections.length + 1
       );
       createdSelections.push(createdSelection);
     }
@@ -83,8 +85,6 @@ describe("DraftSelectionRepository", () => {
         ["roundNumber", "pickNumber"],
         ["asc", "asc"]
       );
-      console.log(gottenSelections.map(({ id, pick, round }) => ({ id, pick, round })))
-      console.log(expectedSelections.map(({ id, pickNumber, roundNumber }) => ({ id, pickNumber, roundNumber })))
       expect(gottenSelections).toHaveLength(expectedSelections.length);
       for (let i = 0; i < expectedSelections.length; i++) {
         const createdSelection = expectedSelections[i];
@@ -184,6 +184,7 @@ describe("DraftSelectionRepository", () => {
         draftSelection.pickNumber = pickNumber
         draftSelection.challengeParticipant = Promise.resolve(participant)
         draftSelection.pokemonId = draftPokemon[pickNumber - 1].id
+        draftSelection.draft = Promise.resolve(newDraft)
         selections.push(await draftSelectionRepository.save(draftSelection))
         pickNumber++
       }
@@ -201,6 +202,7 @@ describe("DraftSelectionRepository", () => {
         draftSelection.roundNumber = 1
         draftSelection.pickNumber = pickNumber
         draftSelection.challengeParticipant = Promise.resolve(participant)
+        draftSelection.draft = Promise.resolve(newDraft)
         selections.push(await draftSelectionRepository.save(draftSelection))
         pickNumber++
       }

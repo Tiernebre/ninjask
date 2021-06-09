@@ -23,7 +23,7 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .getRawMany<DraftSelectionRow>();
   }
 
-  public async getOneWithIdAndUserId(
+  public async getPendingOneWithIdAndUserId(
     id: number,
     userId: number
   ): Promise<DraftSelectionEntity | undefined> {
@@ -32,6 +32,7 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .innerJoin("challengeParticipant.user", "user")
       .where("draftSelection.id = :id", { id })
       .andWhere("user.id = :userId", { userId })
+      .andWhere("draftSelection.pokemonId is null")
       .getOne();
   }
 

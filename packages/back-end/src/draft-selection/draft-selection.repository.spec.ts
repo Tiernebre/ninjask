@@ -117,13 +117,13 @@ describe("DraftSelectionRepository", () => {
     });
   });
 
-  describe("getOneByIdAndUserId", () => {
+  describe("getPendingOneByIdAndUserId", () => {
     it("returns an entity if one exists with a given id and user ID", async () => {
       const [draftSelection] = createdSelections;
       const participant = await draftSelection.challengeParticipant;
       const user = await participant.user;
       const gottenDraftSelection =
-        await draftSelectionRepository.getOneWithIdAndUserId(
+        await draftSelectionRepository.getPendingOneWithIdAndUserId(
           draftSelection.id,
           user.id
         );
@@ -140,16 +140,31 @@ describe("DraftSelectionRepository", () => {
     it("returns undefined if given a bogus id", async () => {
       const [user] = users;
       const gottenDraftSelection =
-        await draftSelectionRepository.getOneWithIdAndUserId(100000, user.id);
+        await draftSelectionRepository.getPendingOneWithIdAndUserId(100000, user.id);
       expect(gottenDraftSelection).toBeUndefined();
     });
 
     it("returns undefined if given a bogus user id", async () => {
       const [draftSelection] = createdSelections;
       const gottenDraftSelection =
-        await draftSelectionRepository.getOneWithIdAndUserId(
+        await draftSelectionRepository.getPendingOneWithIdAndUserId(
           draftSelection.id,
           1000000
+        );
+      expect(gottenDraftSelection).toBeUndefined();
+    });
+
+    it("returns undefined if the pick has already been finalized", async () => {
+      let [draftSelection] = createdSelections;
+      const [draftPokemon] = await seedDraftPokemon(getRepository(DraftPokemonEntity), draft, 1)
+      draftSelection.pokemonId = draftPokemon.id
+      draftSelection = await draftSelectionRepository.save(draftSelection)
+      const participant = await draftSelection.challengeParticipant;
+      const user = await participant.user;
+      const gottenDraftSelection =
+        await draftSelectionRepository.getPendingOneWithIdAndUserId(
+          draftSelection.id,
+          user.id
         );
       expect(gottenDraftSelection).toBeUndefined();
     });

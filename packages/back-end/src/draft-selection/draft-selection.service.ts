@@ -41,6 +41,11 @@ export class DraftSelectionService {
         `Could not find draft selection with id = ${id} for user = ${userId}`
       );
     }
+
+    const priorPendingSelections = await this.draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelection)
+    if (priorPendingSelections.length) {
+    }
+
     await this.draftSelectionRepository.update(
       { pokemonId: request.draftPokemonId },
       draftSelection

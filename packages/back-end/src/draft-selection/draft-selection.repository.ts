@@ -36,10 +36,9 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
   }
 
   public async getPendingSelectionsBeforeSelection(
-    selection: DraftSelectionEntity,
-    draftId: number
+    selection: DraftSelectionEntity
   ): Promise<DraftSelectionEntity[]> {
-    const { roundNumber, pickNumber } = selection;
+    const { roundNumber, pickNumber, draftId } = selection;
     return this.createQueryBuilder("draftSelection")
       .where("draftSelection.draftId = :draftId", { draftId })
       .andWhere("draftSelection.roundNumber <= :roundNumber", { roundNumber })

@@ -82,8 +82,10 @@ describe("DraftSelectionService (integration)", () => {
         );
         const participant = await createdSelection.challengeParticipant;
         const user = await participant.user;
+        expect(user.id).toBeTruthy();
         expect(user.nickname).toBeTruthy();
         expect(correspondingSelection.userNickname).toEqual(user.nickname);
+        expect(correspondingSelection.userId).toEqual(user.id);
       }
     });
 

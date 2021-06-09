@@ -10,6 +10,7 @@ export const generateMockDraftSelectionRow = (
   pick: generateRandomNumber(),
   userNickname: generateRandomString(),
   pokemonId: pokemonId === undefined ? generateRandomNumber() : pokemonId,
+  userId: generateRandomNumber()
 });
 
 export const generateMockDraftSelection = (): DraftSelection => ({
@@ -18,4 +19,5 @@ export const generateMockDraftSelection = (): DraftSelection => ({
   pick: generateRandomNumber(),
   userNickname: generateRandomString(),
   selection: generateMockPokemon(),
+  userId: generateRandomNumber()
 });

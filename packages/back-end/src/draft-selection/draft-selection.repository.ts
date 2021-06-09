@@ -14,6 +14,7 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .select("draftSelection.id", "id")
       .addSelect("draftSelection.roundNumber", "round")
       .addSelect("draftSelection.pickNumber", "pick")
+      .addSelect("user.id", "userId")
       .addSelect("user.nickname", "userNickname")
       .addSelect("pokemon.pokemonId", "pokemonId")
       .where("draft.id = :draftId", { draftId })

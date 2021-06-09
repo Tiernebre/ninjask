@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ChallengeEntity } from "../challenge/challenge.entity";
+import { DraftSelectionEntity } from "../draft-selection";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 
 @Entity({
@@ -30,4 +31,7 @@ export class DraftEntity {
 
   @Column()
   livePoolPokemonIndex!: number;
+
+  @OneToMany(() => DraftSelectionEntity, (draftSelection) => draftSelection.draft)
+  selections!: Promise<DraftSelectionEntity[]>;
 }

@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { ChallengeParticipantEntity } from "../challenge-participant";
 import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
+import { DraftEntity } from "../draft/draft.entity";
 
 @Entity({
   name: "draft_selection",
@@ -42,4 +43,13 @@ export class DraftSelectionEntity {
 
   @Column()
   pokemonId!: number;
+
+  @ManyToOne(
+    () => DraftEntity,
+    (draft) => draft.selections
+  )
+  @JoinColumn({
+    name: "draft_id",
+  })
+  draft!: Promise<DraftEntity>;
 }

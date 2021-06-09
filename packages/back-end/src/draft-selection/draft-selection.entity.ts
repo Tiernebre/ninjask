@@ -39,4 +39,7 @@ export class DraftSelectionEntity {
     name: "pokemon_id",
   })
   pokemon!: Promise<DraftPokemonEntity | null>;
+
+  @Column()
+  pokemonId!: number;
 }

@@ -34,6 +34,7 @@ export class DraftSelectionService {
     if (!draftSelection) {
       throw new NotFoundError(`Could not find draft selection with id = ${id} for user = ${userId}`)
     }
+    await this.draftSelectionRepository.update({ pokemonId: request.draftPokemonId }, draftSelection)
   }
 
   private async mapRowToDto (row: DraftSelectionRow): Promise<DraftSelection> {

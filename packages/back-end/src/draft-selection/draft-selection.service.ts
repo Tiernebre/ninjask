@@ -2,6 +2,8 @@ import { DraftSelection, DraftSelectionRow } from "./draft-selection";
 import { z } from "zod";
 import { Pokemon, PokemonService } from "../pokemon";
 import { DraftSelectionRepository } from "./draft-selection.repository";
+import { FinalizeDraftSelectionRequest, finalizeDraftSelectionRequestSchema } from "./finalize-draft-selection-request";
+import { NotFoundError } from "../error";
 
 export class DraftSelectionService {
   constructor(
@@ -15,11 +17,30 @@ export class DraftSelectionService {
     const foundSelections =
       await this.draftSelectionRepository.getAllForDraftId(draftId);
     return Promise.all(
-      foundSelections.map(async (foundSelection) => ({
-        ...foundSelection,
-        selection: await this.getPokemonForDraftSelection(foundSelection),
-      }))
+      foundSelections.map(async (foundSelection) => this.mapRowToDto(foundSelection))
     );
+  }
+
+  public async finalizeOneForUser(
+    id: number,
+    userId: number,
+    request: FinalizeDraftSelectionRequest
+  ): Promise<void> {
+    z.number().positive().parse(id)
+    z.number().positive().parse(userId)
+    finalizeDraftSelectionRequestSchema.parse(request)
+
+    const draftSelection = await this.draftSelectionRepository.findOne(id)
+    if (!draftSelection) {
+      throw new NotFoundError(`Could not find draft selection with id = ${id} for user = ${userId}`)
+    }
+  }
+
+  private async mapRowToDto (row: DraftSelectionRow): Promise<DraftSelection> {
+    return {
+      ...row,
+      selection: await this.getPokemonForDraftSelection(row),
+    }
   }
 
   private async getPokemonForDraftSelection(

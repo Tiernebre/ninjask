@@ -9,15 +9,13 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .leftJoin("draftSelection.pokemon", "pokemon")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
       .innerJoin("challengeParticipant.user", "user")
-      .innerJoin("challengeParticipant.challenge", "challenge")
-      .innerJoin("challenge.draft", "draft")
       .select("draftSelection.id", "id")
       .addSelect("draftSelection.roundNumber", "round")
       .addSelect("draftSelection.pickNumber", "pick")
       .addSelect("user.id", "userId")
       .addSelect("user.nickname", "userNickname")
       .addSelect("pokemon.pokemonId", "pokemonId")
-      .where("draft.id = :draftId", { draftId })
+      .where("draftSelection.draftId = :draftId", { draftId })
       .orderBy({
         "draftSelection.roundNumber": "ASC",
         "draftSelection.pickNumber": "ASC",
@@ -40,11 +38,7 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
   public async getPendingSelectionsBeforeSelection(selection: DraftSelectionEntity, draftId: number): Promise<DraftSelectionEntity[]> {
     const { roundNumber, pickNumber } = selection
     return this.createQueryBuilder("draftSelection")
-      .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
-      .innerJoin("challengeParticipant.user", "user")
-      .innerJoin("challengeParticipant.challenge", "challenge")
-      .innerJoin("challenge.draft", "draft")
-      .where("draft.id = :draftId", { draftId })
+      .where("draftSelection.draftId = :draftId", { draftId })
       .andWhere("draftSelection.roundNumber <= :roundNumber", { roundNumber })
       .andWhere("draftSelection.pickNumber < :pickNumber", { pickNumber })
       .andWhere("draftSelection.pokemonId is null")

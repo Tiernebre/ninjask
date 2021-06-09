@@ -52,4 +52,7 @@ export class DraftSelectionEntity {
     name: "draft_id",
   })
   draft!: Promise<DraftEntity>;
+
+  @Column()
+  draftId!: number;
 }

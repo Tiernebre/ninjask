@@ -115,5 +115,17 @@ describe("DraftSelectionService (integration)", () => {
       expect(gottenDraftSelection?.pickNumber).toEqual(draftSelection.pickNumber)
       expect(gottenDraftSelection?.roundNumber).toEqual(draftSelection.roundNumber)
     })
+
+    it("returns undefined if given a bogus id", async () => {
+      const [user] = users
+      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(100000, user.id)
+      expect(gottenDraftSelection).toBeUndefined()
+    })
+
+    it("returns undefined if given a bogus user id", async () => {
+      const [draftSelection] = createdSelections
+      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(draftSelection.id, 1000000)
+      expect(gottenDraftSelection).toBeUndefined()
+    })
   })
 });

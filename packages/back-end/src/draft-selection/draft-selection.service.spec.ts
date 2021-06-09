@@ -4,11 +4,12 @@ import { DraftSelectionService } from "./draft-selection.service";
 import { object, when } from "testdouble";
 import { DraftSelectionRepository } from "./draft-selection.repository";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
-import { generateMockDraftSelectionRow } from "./draft-selection.mock";
+import { generateMockDraftSelectionRow, generateMockFinalizeDraftSelectionRequest } from "./draft-selection.mock";
 import { generateRandomNumber } from "../random";
 import { last } from "lodash";
 import { DraftSelection } from "./draft-selection";
 import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
+import { NotFoundError } from "../error";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -91,6 +92,14 @@ describe("DraftSelectionService", () => {
 
     it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])("throws a ZodError if draftPokemonId provided is %p", async (draftPokemonId: unknown) => {
       await expect(draftSelectionService.finalizeOneForUser(1, 1, { draftPokemonId: draftPokemonId as number })).rejects.toThrowError(ZodError)
+    })
+
+    it("throws a NotFoundError if the information provided did not detect a draft selection", async () => {
+      const id = generateRandomNumber()
+      const userId = generateRandomNumber()
+      const request = generateMockFinalizeDraftSelectionRequest()
+      when(draftSelectionRepository.findOne(id)).thenResolve(undefined)
+      await expect(draftSelectionService.finalizeOneForUser(id, userId, request)).rejects.toThrowError(NotFoundError)
     })
   })
 });

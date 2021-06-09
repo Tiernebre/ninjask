@@ -18,6 +18,10 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .addSelect("user.nickname", "userNickname")
       .addSelect("pokemon.pokemonId", "pokemonId")
       .where("draft.id = :draftId", { draftId })
+      .orderBy({
+        "draftSelection.roundNumber": "ASC",
+        "draftSelection.pickNumber": "ASC",
+      })
       .getRawMany<DraftSelectionRow>();
   }
 

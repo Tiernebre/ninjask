@@ -16,6 +16,7 @@ import {
   clearAllDraftSelections,
   seedDraftSelection,
 } from "./draft-selection.seed";
+import { orderBy } from "lodash";
 
 describe("DraftSelectionService (integration)", () => {
   let draftSelectionRepository: DraftSelectionRepository;
@@ -75,9 +76,14 @@ describe("DraftSelectionService (integration)", () => {
       const gottenSelections = await draftSelectionRepository.getAllForDraftId(
         draft.id
       );
-      expect(gottenSelections).toHaveLength(createdSelections.length);
-      for (let i = 0; i < createdSelections.length; i++) {
-        const createdSelection = createdSelections[i];
+      const expectedSelections = orderBy(
+        createdSelections,
+        ["roundNumber", "pickNumber"],
+        ["asc", "asc"]
+      );
+      expect(gottenSelections).toHaveLength(expectedSelections.length);
+      for (let i = 0; i < expectedSelections.length; i++) {
+        const createdSelection = expectedSelections[i];
         const correspondingSelection = gottenSelections[i];
         expect(correspondingSelection.id).toEqual(createdSelection.id);
         expect(createdSelection.roundNumber).toBeTruthy();

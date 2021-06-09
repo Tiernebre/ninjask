@@ -12,7 +12,10 @@ import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { DraftSelectionEntity } from "./draft-selection.entity";
-import { clearAllDraftSelections, seedDraftSelection } from "./draft-selection.seed";
+import {
+  clearAllDraftSelections,
+  seedDraftSelection,
+} from "./draft-selection.seed";
 
 describe("DraftSelectionService (integration)", () => {
   let draftSelectionRepository: DraftSelectionRepository;
@@ -51,7 +54,7 @@ describe("DraftSelectionService (integration)", () => {
 
   beforeEach(async () => {
     draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
-    createdSelections = []
+    createdSelections = [];
 
     for (const challengeParticipant of challengeParticipants) {
       const createdSelection = await seedDraftSelection(
@@ -63,8 +66,8 @@ describe("DraftSelectionService (integration)", () => {
   });
 
   afterEach(async () => {
-    await clearAllDraftSelections()
-  })
+    await clearAllDraftSelections();
+  });
 
   describe("getAllForDraftId", () => {
     it("returns properly mapped draft selections from a given draft", async () => {
@@ -106,26 +109,39 @@ describe("DraftSelectionService (integration)", () => {
 
   describe("getOneByIdAndUserId", () => {
     it("returns an entity if one exists with a given id and user ID", async () => {
-      const [draftSelection] = createdSelections
-      const participant = await draftSelection.challengeParticipant
-      const user = await participant.user
-      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(draftSelection.id, user.id)
-      expect(gottenDraftSelection).toBeTruthy()
-      expect(gottenDraftSelection?.id).toEqual(draftSelection.id)
-      expect(gottenDraftSelection?.pickNumber).toEqual(draftSelection.pickNumber)
-      expect(gottenDraftSelection?.roundNumber).toEqual(draftSelection.roundNumber)
-    })
+      const [draftSelection] = createdSelections;
+      const participant = await draftSelection.challengeParticipant;
+      const user = await participant.user;
+      const gottenDraftSelection =
+        await draftSelectionRepository.getOneWithIdAndUserId(
+          draftSelection.id,
+          user.id
+        );
+      expect(gottenDraftSelection).toBeTruthy();
+      expect(gottenDraftSelection?.id).toEqual(draftSelection.id);
+      expect(gottenDraftSelection?.pickNumber).toEqual(
+        draftSelection.pickNumber
+      );
+      expect(gottenDraftSelection?.roundNumber).toEqual(
+        draftSelection.roundNumber
+      );
+    });
 
     it("returns undefined if given a bogus id", async () => {
-      const [user] = users
-      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(100000, user.id)
-      expect(gottenDraftSelection).toBeUndefined()
-    })
+      const [user] = users;
+      const gottenDraftSelection =
+        await draftSelectionRepository.getOneWithIdAndUserId(100000, user.id);
+      expect(gottenDraftSelection).toBeUndefined();
+    });
 
     it("returns undefined if given a bogus user id", async () => {
-      const [draftSelection] = createdSelections
-      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(draftSelection.id, 1000000)
-      expect(gottenDraftSelection).toBeUndefined()
-    })
-  })
+      const [draftSelection] = createdSelections;
+      const gottenDraftSelection =
+        await draftSelectionRepository.getOneWithIdAndUserId(
+          draftSelection.id,
+          1000000
+        );
+      expect(gottenDraftSelection).toBeUndefined();
+    });
+  });
 });

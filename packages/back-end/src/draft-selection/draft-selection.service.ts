@@ -2,7 +2,10 @@ import { DraftSelection, DraftSelectionRow } from "./draft-selection";
 import { z } from "zod";
 import { Pokemon, PokemonService } from "../pokemon";
 import { DraftSelectionRepository } from "./draft-selection.repository";
-import { FinalizeDraftSelectionRequest, finalizeDraftSelectionRequestSchema } from "./finalize-draft-selection-request";
+import {
+  FinalizeDraftSelectionRequest,
+  finalizeDraftSelectionRequestSchema,
+} from "./finalize-draft-selection-request";
 import { NotFoundError } from "../error";
 
 export class DraftSelectionService {
@@ -17,7 +20,9 @@ export class DraftSelectionService {
     const foundSelections =
       await this.draftSelectionRepository.getAllForDraftId(draftId);
     return Promise.all(
-      foundSelections.map(async (foundSelection) => this.mapRowToDto(foundSelection))
+      foundSelections.map(async (foundSelection) =>
+        this.mapRowToDto(foundSelection)
+      )
     );
   }
 
@@ -26,22 +31,27 @@ export class DraftSelectionService {
     userId: number,
     request: FinalizeDraftSelectionRequest
   ): Promise<void> {
-    z.number().positive().parse(id)
-    z.number().positive().parse(userId)
-    finalizeDraftSelectionRequestSchema.parse(request)
+    z.number().positive().parse(id);
+    z.number().positive().parse(userId);
+    finalizeDraftSelectionRequestSchema.parse(request);
 
-    const draftSelection = await this.draftSelectionRepository.findOne(id)
+    const draftSelection = await this.draftSelectionRepository.findOne(id);
     if (!draftSelection) {
-      throw new NotFoundError(`Could not find draft selection with id = ${id} for user = ${userId}`)
+      throw new NotFoundError(
+        `Could not find draft selection with id = ${id} for user = ${userId}`
+      );
     }
-    await this.draftSelectionRepository.update({ pokemonId: request.draftPokemonId }, draftSelection)
+    await this.draftSelectionRepository.update(
+      { pokemonId: request.draftPokemonId },
+      draftSelection
+    );
   }
 
-  private async mapRowToDto (row: DraftSelectionRow): Promise<DraftSelection> {
+  private async mapRowToDto(row: DraftSelectionRow): Promise<DraftSelection> {
     return {
       ...row,
       selection: await this.getPokemonForDraftSelection(row),
-    }
+    };
   }
 
   private async getPokemonForDraftSelection(

@@ -26,7 +26,7 @@ describe("DraftSelectionService (integration)", () => {
   let users: UserEntity[];
   const challengeParticipants: ChallengeParticipantEntity[] = [];
   let draft: DraftEntity;
-  const createdSelections: DraftSelectionEntity[] = [];
+  let createdSelections: DraftSelectionEntity[] = [];
 
   beforeAll(async () => {
     await establishDbConnection();
@@ -51,6 +51,7 @@ describe("DraftSelectionService (integration)", () => {
 
   beforeEach(async () => {
     draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
+    createdSelections = []
 
     for (const challengeParticipant of challengeParticipants) {
       const createdSelection = await seedDraftSelection(
@@ -110,7 +111,9 @@ describe("DraftSelectionService (integration)", () => {
       const user = await participant.user
       const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(draftSelection.id, user.id)
       expect(gottenDraftSelection).toBeTruthy()
-      expect(gottenDraftSelection).toEqual(draftSelection)
+      expect(gottenDraftSelection?.id).toEqual(draftSelection.id)
+      expect(gottenDraftSelection?.pickNumber).toEqual(draftSelection.pickNumber)
+      expect(gottenDraftSelection?.roundNumber).toEqual(draftSelection.roundNumber)
     })
   })
 });

@@ -37,7 +37,7 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .getOne();
   }
 
-  public async getPendingSelectionsBeforeSelection(selection: DraftSelectionEntity, draftId: number): Promise<DraftSelectionEntity[] | undefined> {
+  public async getPendingSelectionsBeforeSelection(selection: DraftSelectionEntity, draftId: number): Promise<DraftSelectionEntity[]> {
     const { roundNumber, pickNumber } = selection
     return this.createQueryBuilder("draftSelection")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")

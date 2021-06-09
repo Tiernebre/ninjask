@@ -19,7 +19,7 @@ import {
 import { last, orderBy } from "lodash";
 import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 
-describe("DraftSelectionService (integration)", () => {
+describe("DraftSelectionRepository", () => {
   let draftSelectionRepository: DraftSelectionRepository;
 
   let challengeParticipantRepository: Repository<ChallengeParticipantEntity>;
@@ -83,6 +83,8 @@ describe("DraftSelectionService (integration)", () => {
         ["roundNumber", "pickNumber"],
         ["asc", "asc"]
       );
+      console.log(gottenSelections.map(({ id, pick, round }) => ({ id, pick, round })))
+      console.log(expectedSelections.map(({ id, pickNumber, roundNumber }) => ({ id, pickNumber, roundNumber })))
       expect(gottenSelections).toHaveLength(expectedSelections.length);
       for (let i = 0; i < expectedSelections.length; i++) {
         const createdSelection = expectedSelections[i];
@@ -154,10 +156,14 @@ describe("DraftSelectionService (integration)", () => {
   });
 
   describe("getPendingSelectionsBeforeSelection", () => {
-    it("returns an empty array if every selection before the provided one has been made", async () => {
-      const newChallenge = await seedChallenge(challengeRepository);
-      const newDraft = await seedDraft(draftRepository, newChallenge);
-      const newChallengeParticipants = []
+    let newChallenge: ChallengeEntity
+    let newDraft: DraftEntity
+    let newChallengeParticipants: ChallengeParticipantEntity[] = []
+
+    beforeEach(async () => {
+      newChallengeParticipants = []
+      newChallenge = await seedChallenge(challengeRepository);
+      newDraft = await seedDraft(draftRepository, newChallenge);
       for (const user of users) {
         const challengeParticipant = await seedChallengeParticipant(
           challengeParticipantRepository,
@@ -166,9 +172,11 @@ describe("DraftSelectionService (integration)", () => {
         );
         newChallengeParticipants.push(challengeParticipant);
       }
-      const draftPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), newDraft, newChallengeParticipants.length)
+    })
 
-      const selections = []
+    it("returns an empty array if every selection before the provided one has been made", async () => {
+      const draftPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), newDraft, newChallengeParticipants.length)
+      const selections: DraftSelectionEntity[] = []
       let pickNumber = 1
       for (const participant of newChallengeParticipants) {
         const draftSelection = draftSelectionRepository.create()
@@ -183,6 +191,23 @@ describe("DraftSelectionService (integration)", () => {
       const pendingSelections = await draftSelectionRepository.getPendingSelectionsBeforeSelection(selectionToTest, newDraft.id)
       expect(pendingSelections).toBeTruthy()
       expect(pendingSelections).toHaveLength(0)
+    })
+
+    it("returns the previous selections if every selection before the provided one has not been made", async () => {
+      const selections: DraftSelectionEntity[] = []
+      let pickNumber = 1
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create()
+        draftSelection.roundNumber = 1
+        draftSelection.pickNumber = pickNumber
+        draftSelection.challengeParticipant = Promise.resolve(participant)
+        selections.push(await draftSelectionRepository.save(draftSelection))
+        pickNumber++
+      }
+      const selectionToTest = selections.pop() as DraftSelectionEntity
+      const pendingSelections = await draftSelectionRepository.getPendingSelectionsBeforeSelection(selectionToTest, newDraft.id)
+      expect(pendingSelections).toBeTruthy()
+      expect(pendingSelections).toHaveLength(selections.length)
     })
   })
 });

@@ -19,7 +19,7 @@ export const seedDraftSelections = async (
   for (let i = 0; i < count; i++) {
     const draftSelection = repository.create();
     draftSelection.roundNumber = getRandomInt(1, 7);
-    draftSelection.pickNumber = getRandomInt(1, 33);
+    draftSelection.pickNumber = getRandomInt(1, 5);
     draftSelection.challengeParticipant = Promise.resolve(participant);
     draftSelections.push(draftSelection);
   }

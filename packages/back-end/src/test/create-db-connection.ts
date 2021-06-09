@@ -22,9 +22,9 @@ export const establishDbConnection = async (): Promise<Connection> => {
     });
   }
 
-  const queryRunner = connection.createQueryRunner()
-  await queryRunner.dropDatabase("pokemon-league", true)
-  await queryRunner.createDatabase("pokemon-league", true)
+  const queryRunner = connection.createQueryRunner();
+  await queryRunner.dropDatabase("pokemon-league", true);
+  await queryRunner.createDatabase("pokemon-league", true);
   await connection.runMigrations();
   return connection;
 };

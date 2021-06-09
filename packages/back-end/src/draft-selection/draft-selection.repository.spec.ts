@@ -156,12 +156,12 @@ describe("DraftSelectionRepository", () => {
   });
 
   describe("getPendingSelectionsBeforeSelection", () => {
-    let newChallenge: ChallengeEntity
-    let newDraft: DraftEntity
-    let newChallengeParticipants: ChallengeParticipantEntity[] = []
+    let newChallenge: ChallengeEntity;
+    let newDraft: DraftEntity;
+    let newChallengeParticipants: ChallengeParticipantEntity[] = [];
 
     beforeEach(async () => {
-      newChallengeParticipants = []
+      newChallengeParticipants = [];
       newChallenge = await seedChallenge(challengeRepository);
       newDraft = await seedDraft(draftRepository, newChallenge);
       for (const user of users) {
@@ -172,44 +172,56 @@ describe("DraftSelectionRepository", () => {
         );
         newChallengeParticipants.push(challengeParticipant);
       }
-    })
+    });
 
     it("returns an empty array if every selection before the provided one has been made", async () => {
-      const draftPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), newDraft, newChallengeParticipants.length)
-      const selections: DraftSelectionEntity[] = []
-      let pickNumber = 1
+      const draftPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        newDraft,
+        newChallengeParticipants.length
+      );
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
       for (const participant of newChallengeParticipants) {
-        const draftSelection = draftSelectionRepository.create()
-        draftSelection.roundNumber = 1
-        draftSelection.pickNumber = pickNumber
-        draftSelection.challengeParticipant = Promise.resolve(participant)
-        draftSelection.pokemonId = draftPokemon[pickNumber - 1].id
-        draftSelection.draft = Promise.resolve(newDraft)
-        selections.push(await draftSelectionRepository.save(draftSelection))
-        pickNumber++
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.pokemonId = draftPokemon[pickNumber - 1].id;
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
       }
-      const selectionToTest = last(selections) as DraftSelectionEntity
-      const pendingSelections = await draftSelectionRepository.getPendingSelectionsBeforeSelection(selectionToTest, newDraft.id)
-      expect(pendingSelections).toBeTruthy()
-      expect(pendingSelections).toHaveLength(0)
-    })
+      const selectionToTest = last(selections) as DraftSelectionEntity;
+      const pendingSelections =
+        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          selectionToTest,
+          newDraft.id
+        );
+      expect(pendingSelections).toBeTruthy();
+      expect(pendingSelections).toHaveLength(0);
+    });
 
     it("returns the previous selections if every selection before the provided one has not been made", async () => {
-      const selections: DraftSelectionEntity[] = []
-      let pickNumber = 1
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
       for (const participant of newChallengeParticipants) {
-        const draftSelection = draftSelectionRepository.create()
-        draftSelection.roundNumber = 1
-        draftSelection.pickNumber = pickNumber
-        draftSelection.challengeParticipant = Promise.resolve(participant)
-        draftSelection.draft = Promise.resolve(newDraft)
-        selections.push(await draftSelectionRepository.save(draftSelection))
-        pickNumber++
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
       }
-      const selectionToTest = selections.pop() as DraftSelectionEntity
-      const pendingSelections = await draftSelectionRepository.getPendingSelectionsBeforeSelection(selectionToTest, newDraft.id)
-      expect(pendingSelections).toBeTruthy()
-      expect(pendingSelections).toHaveLength(selections.length)
-    })
-  })
+      const selectionToTest = selections.pop() as DraftSelectionEntity;
+      const pendingSelections =
+        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          selectionToTest,
+          newDraft.id
+        );
+      expect(pendingSelections).toBeTruthy();
+      expect(pendingSelections).toHaveLength(selections.length);
+    });
+  });
 });

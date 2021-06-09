@@ -44,10 +44,7 @@ export class DraftSelectionEntity {
   @Column()
   pokemonId!: number;
 
-  @ManyToOne(
-    () => DraftEntity,
-    (draft) => draft.selections
-  )
+  @ManyToOne(() => DraftEntity, (draft) => draft.selections)
   @JoinColumn({
     name: "draft_id",
   })

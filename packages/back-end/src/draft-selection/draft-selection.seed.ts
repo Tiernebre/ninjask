@@ -4,7 +4,9 @@ import { DraftEntity } from "../draft/draft.entity";
 import { DraftSelectionEntity } from "./draft-selection.entity";
 
 export const clearAllDraftSelections = async (): Promise<void> => {
-  await getRepository(DraftSelectionEntity).query(`DELETE FROM draft_selection`)
+  await getRepository(DraftSelectionEntity).query(
+    `DELETE FROM draft_selection`
+  );
 };
 
 export const seedDraftSelections = async (
@@ -20,7 +22,7 @@ export const seedDraftSelections = async (
     draftSelection.roundNumber = 1;
     draftSelection.pickNumber = pickNumber || i + 1;
     draftSelection.challengeParticipant = Promise.resolve(participant);
-    draftSelection.draft = Promise.resolve(draft)
+    draftSelection.draft = Promise.resolve(draft);
     draftSelections.push(draftSelection);
   }
   return repository.save(draftSelections);

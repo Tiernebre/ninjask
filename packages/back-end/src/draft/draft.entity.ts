@@ -32,6 +32,9 @@ export class DraftEntity {
   @Column()
   livePoolPokemonIndex!: number;
 
-  @OneToMany(() => DraftSelectionEntity, (draftSelection) => draftSelection.draft)
+  @OneToMany(
+    () => DraftSelectionEntity,
+    (draftSelection) => draftSelection.draft
+  )
   selections!: Promise<DraftSelectionEntity[]>;
 }

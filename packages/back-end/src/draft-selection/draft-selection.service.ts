@@ -7,6 +7,7 @@ import {
   finalizeDraftSelectionRequestSchema,
 } from "./finalize-draft-selection-request";
 import { BadRequestError, NotFoundError } from "../error";
+import { DraftSelectionEntity } from ".";
 
 export class DraftSelectionService {
   constructor(
@@ -30,12 +31,12 @@ export class DraftSelectionService {
     id: number,
     userId: number,
     request: FinalizeDraftSelectionRequest
-  ): Promise<void> {
+  ): Promise<DraftSelection> {
     z.number().positive().parse(id);
     z.number().positive().parse(userId);
     finalizeDraftSelectionRequestSchema.parse(request);
 
-    const draftSelection = await this.draftSelectionRepository.findOne(id);
+    const draftSelection = await this.draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId);
     if (!draftSelection) {
       throw new NotFoundError(
         `Could not find draft selection with id = ${id} for user = ${userId}`
@@ -47,10 +48,9 @@ export class DraftSelectionService {
       throw new BadRequestError("The Draft Selection is not ready to be finalized yet. There are still pending picks before this one.")
     }
 
-    await this.draftSelectionRepository.update(
-      { pokemonId: request.draftPokemonId },
-      draftSelection
-    );
+    draftSelection.pokemonId = request.draftPokemonId
+    await this.draftSelectionRepository.save(draftSelection)
+    return this.mapEntityToDto(draftSelection)
   }
 
   private async mapRowToDto(row: DraftSelectionRow): Promise<DraftSelection> {
@@ -60,8 +60,21 @@ export class DraftSelectionService {
     };
   }
 
+  private async mapEntityToDto(entity: DraftSelectionEntity): Promise<DraftSelection> {
+    const participant = await entity.challengeParticipant
+    const user = await participant.user
+    return {
+      id: entity.id,
+      round: entity.roundNumber,
+      pick: entity.pickNumber,
+      selection: await this.getPokemonForDraftSelection(entity),
+      userNickname: user.nickname,
+      userId: user.id
+    };
+  }
+
   private async getPokemonForDraftSelection(
-    draftSelection: DraftSelectionRow
+    draftSelection: DraftSelectionRow | DraftSelectionEntity
   ): Promise<Pokemon | null> {
     if (draftSelection.pokemonId) {
       return this.pokemonService.getOneById(draftSelection.pokemonId);

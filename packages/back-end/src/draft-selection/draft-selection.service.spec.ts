@@ -123,7 +123,7 @@ describe("DraftSelectionService", () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const request = generateMockFinalizeDraftSelectionRequest();
-      when(draftSelectionRepository.findOne(id)).thenResolve(undefined);
+      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(undefined);
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(NotFoundError);
@@ -134,11 +134,25 @@ describe("DraftSelectionService", () => {
       const userId = generateRandomNumber();
       const request = generateMockFinalizeDraftSelectionRequest();
       const draftSelectionEntity = generateMockDraftSelectionEntity()
-      when(draftSelectionRepository.findOne(id)).thenResolve(draftSelectionEntity);
+      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(draftSelectionEntity);
       when(draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelectionEntity)).thenResolve([generateMockDraftSelectionEntity()])
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(BadRequestError);
     });
+
+    it("returns a mapped DraftSelection if it was finalized", async () => {
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      const draftSelectionEntity = generateMockDraftSelectionEntity()
+      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(draftSelectionEntity);
+      when(draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelectionEntity)).thenResolve([])
+      const expectedPokemon = generateMockPokemon()
+      when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(expectedPokemon)
+      const finalizedSelection = await draftSelectionService.finalizeOneForUser(id, userId, request)
+      expect(finalizedSelection).toBeTruthy()
+      expect(finalizedSelection.selection).toEqual(expectedPokemon)
+    })
   });
 });

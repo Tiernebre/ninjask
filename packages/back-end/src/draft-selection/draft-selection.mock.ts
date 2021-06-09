@@ -1,4 +1,5 @@
 import { DraftSelectionEntity } from ".";
+import { generateMockChallengeParticipantEntity } from "../challenge-participant/challenge-participant.mock";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { DraftSelection, DraftSelectionRow } from "./draft-selection";
@@ -9,6 +10,7 @@ export const generateMockDraftSelectionEntity = (): DraftSelectionEntity => {
   entity.id = generateRandomNumber()
   entity.pickNumber = generateRandomNumber()
   entity.roundNumber = generateRandomNumber()
+  entity.challengeParticipant = Promise.resolve(generateMockChallengeParticipantEntity())
   return entity
 }
 

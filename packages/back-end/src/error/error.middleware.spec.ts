@@ -10,7 +10,12 @@ import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
 import { z } from "zod";
-import { NotFoundError, UnauthorizedError, ForbiddenError, BadRequestError } from ".";
+import {
+  NotFoundError,
+  UnauthorizedError,
+  ForbiddenError,
+  BadRequestError,
+} from ".";
 
 describe("errorMiddleware", () => {
   it("does nothing if next is successful", async () => {
@@ -80,7 +85,7 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(BAD_REQUEST);
-  })
+  });
 
   it("handles a unhandled errors correctly", async () => {
     const ctx = object<Context>();

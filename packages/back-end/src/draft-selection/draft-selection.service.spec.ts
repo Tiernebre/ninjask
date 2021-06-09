@@ -123,7 +123,9 @@ describe("DraftSelectionService", () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const request = generateMockFinalizeDraftSelectionRequest();
-      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(undefined);
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(undefined);
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(NotFoundError);
@@ -133,9 +135,15 @@ describe("DraftSelectionService", () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity()
-      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(draftSelectionEntity);
-      when(draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelectionEntity)).thenResolve([generateMockDraftSelectionEntity()])
+      const draftSelectionEntity = generateMockDraftSelectionEntity();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve([generateMockDraftSelectionEntity()]);
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(BadRequestError);
@@ -145,14 +153,26 @@ describe("DraftSelectionService", () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();
       const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity()
-      when(draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)).thenResolve(draftSelectionEntity);
-      when(draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelectionEntity)).thenResolve([])
-      const expectedPokemon = generateMockPokemon()
-      when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(expectedPokemon)
-      const finalizedSelection = await draftSelectionService.finalizeOneForUser(id, userId, request)
-      expect(finalizedSelection).toBeTruthy()
-      expect(finalizedSelection.selection).toEqual(expectedPokemon)
-    })
+      const draftSelectionEntity = generateMockDraftSelectionEntity();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve([]);
+      const expectedPokemon = generateMockPokemon();
+      when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(
+        expectedPokemon
+      );
+      const finalizedSelection = await draftSelectionService.finalizeOneForUser(
+        id,
+        userId,
+        request
+      );
+      expect(finalizedSelection).toBeTruthy();
+      expect(finalizedSelection.selection).toEqual(expectedPokemon);
+    });
   });
 });

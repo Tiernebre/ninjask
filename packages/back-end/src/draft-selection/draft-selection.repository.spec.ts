@@ -140,7 +140,10 @@ describe("DraftSelectionRepository", () => {
     it("returns undefined if given a bogus id", async () => {
       const [user] = users;
       const gottenDraftSelection =
-        await draftSelectionRepository.getPendingOneWithIdAndUserId(100000, user.id);
+        await draftSelectionRepository.getPendingOneWithIdAndUserId(
+          100000,
+          user.id
+        );
       expect(gottenDraftSelection).toBeUndefined();
     });
 
@@ -156,9 +159,13 @@ describe("DraftSelectionRepository", () => {
 
     it("returns undefined if the pick has already been finalized", async () => {
       let [draftSelection] = createdSelections;
-      const [draftPokemon] = await seedDraftPokemon(getRepository(DraftPokemonEntity), draft, 1)
-      draftSelection.pokemonId = draftPokemon.id
-      draftSelection = await draftSelectionRepository.save(draftSelection)
+      const [draftPokemon] = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        draft,
+        1
+      );
+      draftSelection.pokemonId = draftPokemon.id;
+      draftSelection = await draftSelectionRepository.save(draftSelection);
       const participant = await draftSelection.challengeParticipant;
       const user = await participant.user;
       const gottenDraftSelection =

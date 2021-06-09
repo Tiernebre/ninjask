@@ -1,7 +1,12 @@
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
 import { Logger } from "./logger";
-import { getConnectionOptions, getRepository, createConnection } from "typeorm";
+import {
+  getConnectionOptions,
+  getRepository,
+  createConnection,
+  getCustomRepository,
+} from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import {
   ChallengeEntity,
@@ -34,6 +39,8 @@ import {
   VersionService,
   PokeApiVersionService,
 } from "./version";
+import { DraftSelectionService } from "./draft-selection";
+import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -88,10 +95,6 @@ const buildLiveDraftPoolService = (logger: Logger) => {
   );
 };
 
-const buildDraftRouter = (logger: Logger) => {
-  return new DraftRouter(buildDraftPoolService(logger));
-};
-
 const buildUserService = () => {
   const passwordEncoder = new BCryptPasswordEncoder();
   const userRepository = getRepository(UserEntity);
@@ -142,6 +145,23 @@ const buildChallengesRouter = (logger: Logger) => {
 
 const buildChallengeParticipantsRouter = () => {
   return new ChallengeParticipantsRouter(buildChallengeParticipantsService());
+};
+
+const buildDraftSelectionService = (logger: Logger) => {
+  const draftSelectionRepository = getCustomRepository(
+    DraftSelectionRepository
+  );
+  return new DraftSelectionService(
+    draftSelectionRepository,
+    buildPokemonService(logger)
+  );
+};
+
+const buildDraftRouter = (logger: Logger) => {
+  return new DraftRouter(
+    buildDraftPoolService(logger),
+    buildDraftSelectionService(logger)
+  );
 };
 
 /**

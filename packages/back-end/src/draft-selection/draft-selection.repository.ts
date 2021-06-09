@@ -36,4 +36,18 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .andWhere("user.id = :userId", { userId })
       .getOne();
   }
+
+  public async getPendingSelectionsBeforeSelection(selection: DraftSelectionEntity, draftId: number): Promise<DraftSelectionEntity[] | undefined> {
+    const { roundNumber, pickNumber } = selection
+    return this.createQueryBuilder("draftSelection")
+      .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
+      .innerJoin("challengeParticipant.user", "user")
+      .innerJoin("challengeParticipant.challenge", "challenge")
+      .innerJoin("challenge.draft", "draft")
+      .where("draft.id = :draftId", { draftId })
+      .andWhere("draftSelection.roundNumber <= :roundNumber", { roundNumber })
+      .andWhere("draftSelection.pickNumber < :pickNumber", { pickNumber })
+      .andWhere("draftSelection.pokemonId is null")
+      .getMany();
+  }
 }

@@ -7,7 +7,7 @@ import {
   seedChallengeParticipant,
 } from "../challenge/challenge.seed";
 import { DraftEntity } from "../draft/draft.entity";
-import { seedDraft } from "../draft/draft.seed";
+import { seedDraft, seedDraftPokemon } from "../draft/draft.seed";
 import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
@@ -16,7 +16,8 @@ import {
   clearAllDraftSelections,
   seedDraftSelection,
 } from "./draft-selection.seed";
-import { orderBy } from "lodash";
+import { last, orderBy } from "lodash";
+import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 
 describe("DraftSelectionService (integration)", () => {
   let draftSelectionRepository: DraftSelectionRepository;
@@ -34,6 +35,9 @@ describe("DraftSelectionService (integration)", () => {
 
   beforeAll(async () => {
     await establishDbConnection();
+  });
+
+  beforeEach(async () => {
     challengeRepository = getRepository(ChallengeEntity);
     draftRepository = getRepository(DraftEntity);
     userRepository = getRepository(UserEntity);
@@ -51,9 +55,7 @@ describe("DraftSelectionService (integration)", () => {
       );
       challengeParticipants.push(challengeParticipant);
     }
-  });
 
-  beforeEach(async () => {
     draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
     createdSelections = [];
 
@@ -150,4 +152,37 @@ describe("DraftSelectionService (integration)", () => {
       expect(gottenDraftSelection).toBeUndefined();
     });
   });
+
+  describe("getPendingSelectionsBeforeSelection", () => {
+    it("returns an empty array if every selection before the provided one has been made", async () => {
+      const newChallenge = await seedChallenge(challengeRepository);
+      const newDraft = await seedDraft(draftRepository, newChallenge);
+      const newChallengeParticipants = []
+      for (const user of users) {
+        const challengeParticipant = await seedChallengeParticipant(
+          challengeParticipantRepository,
+          newChallenge,
+          user
+        );
+        newChallengeParticipants.push(challengeParticipant);
+      }
+      const draftPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), newDraft, newChallengeParticipants.length)
+
+      const selections = []
+      let pickNumber = 1
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create()
+        draftSelection.roundNumber = 1
+        draftSelection.pickNumber = pickNumber
+        draftSelection.challengeParticipant = Promise.resolve(participant)
+        draftSelection.pokemonId = draftPokemon[pickNumber - 1].id
+        selections.push(await draftSelectionRepository.save(draftSelection))
+        pickNumber++
+      }
+      const selectionToTest = last(selections) as DraftSelectionEntity
+      const pendingSelections = await draftSelectionRepository.getPendingSelectionsBeforeSelection(selectionToTest, newDraft.id)
+      expect(pendingSelections).toBeTruthy()
+      expect(pendingSelections).toHaveLength(0)
+    })
+  })
 });

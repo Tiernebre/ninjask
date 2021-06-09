@@ -195,8 +195,7 @@ describe("DraftSelectionRepository", () => {
       const selectionToTest = last(selections) as DraftSelectionEntity;
       const pendingSelections =
         await draftSelectionRepository.getPendingSelectionsBeforeSelection(
-          selectionToTest,
-          newDraft.id
+          selectionToTest
         );
       expect(pendingSelections).toBeTruthy();
       expect(pendingSelections).toHaveLength(0);
@@ -217,8 +216,7 @@ describe("DraftSelectionRepository", () => {
       const selectionToTest = selections.pop() as DraftSelectionEntity;
       const pendingSelections =
         await draftSelectionRepository.getPendingSelectionsBeforeSelection(
-          selectionToTest,
-          newDraft.id
+          selectionToTest
         );
       expect(pendingSelections).toBeTruthy();
       expect(pendingSelections).toHaveLength(selections.length);

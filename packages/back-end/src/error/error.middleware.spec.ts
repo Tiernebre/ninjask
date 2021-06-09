@@ -10,7 +10,7 @@ import { Context } from "koa";
 import { object } from "testdouble";
 import { errorMiddleware } from "./error.middleware";
 import { z } from "zod";
-import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
+import { NotFoundError, UnauthorizedError, ForbiddenError, BadRequestError } from ".";
 
 describe("errorMiddleware", () => {
   it("does nothing if next is successful", async () => {
@@ -71,6 +71,16 @@ describe("errorMiddleware", () => {
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(FORBIDDEN);
   });
+
+  it("handles a BadRequestError correctly", async () => {
+    const ctx = object<Context>();
+    ctx.status = OK;
+    const error = new BadRequestError("Expected Test Error");
+    const next = jest.fn().mockRejectedValue(error);
+    await errorMiddleware(ctx, next);
+    expect(next).toHaveBeenCalled();
+    expect(ctx.status).toEqual(BAD_REQUEST);
+  })
 
   it("handles a unhandled errors correctly", async () => {
     const ctx = object<Context>();

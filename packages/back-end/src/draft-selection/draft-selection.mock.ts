@@ -1,7 +1,16 @@
+import { DraftSelectionEntity } from ".";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { DraftSelection, DraftSelectionRow } from "./draft-selection";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
+
+export const generateMockDraftSelectionEntity = (): DraftSelectionEntity => {
+  const entity = new DraftSelectionEntity()
+  entity.id = generateRandomNumber()
+  entity.pickNumber = generateRandomNumber()
+  entity.roundNumber = generateRandomNumber()
+  return entity
+}
 
 export const generateMockDraftSelectionRow = (
   pokemonId?: number | null

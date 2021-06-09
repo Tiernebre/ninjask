@@ -6,7 +6,7 @@ import {
   FinalizeDraftSelectionRequest,
   finalizeDraftSelectionRequestSchema,
 } from "./finalize-draft-selection-request";
-import { NotFoundError } from "../error";
+import { BadRequestError, NotFoundError } from "../error";
 
 export class DraftSelectionService {
   constructor(
@@ -44,6 +44,7 @@ export class DraftSelectionService {
 
     const priorPendingSelections = await this.draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelection)
     if (priorPendingSelections.length) {
+      throw new BadRequestError("The Draft Selection is not ready to be finalized yet. There are still pending picks before this one.")
     }
 
     await this.draftSelectionRepository.update(

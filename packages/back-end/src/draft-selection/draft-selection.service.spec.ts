@@ -5,6 +5,7 @@ import { object, when } from "testdouble";
 import { DraftSelectionRepository } from "./draft-selection.repository";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import {
+  generateMockDraftSelectionEntity,
   generateMockDraftSelectionRow,
   generateMockFinalizeDraftSelectionRequest,
 } from "./draft-selection.mock";
@@ -12,7 +13,7 @@ import { generateRandomNumber } from "../random";
 import { last } from "lodash";
 import { DraftSelection } from "./draft-selection";
 import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
-import { NotFoundError } from "../error";
+import { BadRequestError, NotFoundError } from "../error";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -126,6 +127,18 @@ describe("DraftSelectionService", () => {
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(NotFoundError);
+    });
+
+    it("throws a BadRequestError if the pick is not ready to be finalized", async () => {
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      const draftSelectionEntity = generateMockDraftSelectionEntity()
+      when(draftSelectionRepository.findOne(id)).thenResolve(draftSelectionEntity);
+      when(draftSelectionRepository.getPendingSelectionsBeforeSelection(draftSelectionEntity)).thenResolve([generateMockDraftSelectionEntity()])
+      await expect(
+        draftSelectionService.finalizeOneForUser(id, userId, request)
+      ).rejects.toThrowError(BadRequestError);
     });
   });
 });

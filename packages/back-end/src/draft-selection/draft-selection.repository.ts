@@ -20,4 +20,13 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .where("draft.id = :draftId", { draftId })
       .getRawMany<DraftSelectionRow>();
   }
+
+  public async getOneWithIdAndUserId(id: number, userId: number): Promise<DraftSelectionEntity | undefined> {
+    return this.createQueryBuilder("draftSelection")
+        .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
+        .innerJoin("challengeParticipant.user", "user")
+        .where("draftSelection.id = :id", { id })
+        .andWhere("user.id = :userId", { userId })
+        .getOne();
+  }
 }

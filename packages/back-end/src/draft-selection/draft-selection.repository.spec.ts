@@ -12,7 +12,7 @@ import { establishDbConnection } from "../test/create-db-connection";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { DraftSelectionEntity } from "./draft-selection.entity";
-import { seedDraftSelection } from "./draft-selection.seed";
+import { clearAllDraftSelections, seedDraftSelection } from "./draft-selection.seed";
 
 describe("DraftSelectionService (integration)", () => {
   let draftSelectionRepository: DraftSelectionRepository;
@@ -38,6 +38,7 @@ describe("DraftSelectionService (integration)", () => {
     challenge = await seedChallenge(challengeRepository);
     users = await seedUsers(userRepository);
     draft = await seedDraft(draftRepository, challenge);
+
     for (const user of users) {
       const challengeParticipant = await seedChallengeParticipant(
         challengeParticipantRepository,
@@ -46,8 +47,11 @@ describe("DraftSelectionService (integration)", () => {
       );
       challengeParticipants.push(challengeParticipant);
     }
+  });
 
-    const draftSelectionRepository = getRepository(DraftSelectionEntity);
+  beforeEach(async () => {
+    draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
+
     for (const challengeParticipant of challengeParticipants) {
       const createdSelection = await seedDraftSelection(
         draftSelectionRepository,
@@ -57,9 +61,9 @@ describe("DraftSelectionService (integration)", () => {
     }
   });
 
-  beforeEach(() => {
-    draftSelectionRepository = getCustomRepository(DraftSelectionRepository);
-  });
+  afterEach(async () => {
+    await clearAllDraftSelections()
+  })
 
   describe("getAllForDraftId", () => {
     it("returns properly mapped draft selections from a given draft", async () => {
@@ -98,4 +102,15 @@ describe("DraftSelectionService (integration)", () => {
       expect(gottenSelections).toHaveLength(0);
     });
   });
+
+  describe("getOneByIdAndUserId", () => {
+    it("returns an entity if one exists with a given id and user ID", async () => {
+      const [draftSelection] = createdSelections
+      const participant = await draftSelection.challengeParticipant
+      const user = await participant.user
+      const gottenDraftSelection = await draftSelectionRepository.getOneWithIdAndUserId(draftSelection.id, user.id)
+      expect(gottenDraftSelection).toBeTruthy()
+      expect(gottenDraftSelection).toEqual(draftSelection)
+    })
+  })
 });

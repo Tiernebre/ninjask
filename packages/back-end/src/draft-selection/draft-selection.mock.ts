@@ -17,5 +17,5 @@ export const generateMockDraftSelection = (): DraftSelection => ({
   round: generateRandomNumber(),
   pick: generateRandomNumber(),
   userNickname: generateRandomString(),
-  selection: generateMockPokemon()
+  selection: generateMockPokemon(),
 });

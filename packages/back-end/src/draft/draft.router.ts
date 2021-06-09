@@ -27,7 +27,9 @@ export class DraftRouter extends Router {
     });
 
     this.get("/drafts/:id/selections", async (ctx) => {
-      ctx.body = await this.draftSelectionService.getAllForDraft(Number(ctx.params.id))
-    })
+      ctx.body = await this.draftSelectionService.getAllForDraft(
+        Number(ctx.params.id)
+      );
+    });
   }
 }

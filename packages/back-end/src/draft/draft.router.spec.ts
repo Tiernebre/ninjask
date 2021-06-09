@@ -69,16 +69,19 @@ describe("Draft Router (integration)", () => {
     const uri = `/drafts/${id}/selections`;
 
     it("returns with 200 OK status", async () => {
-      when(draftSelectionService.getAllForDraft(id)).thenResolve([])
+      when(draftSelectionService.getAllForDraft(id)).thenResolve([]);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with a list of draft selections", async () => {
-      const expected = [generateMockDraftSelection(), generateMockDraftSelection()];
+      const expected = [
+        generateMockDraftSelection(),
+        generateMockDraftSelection(),
+      ];
       when(draftSelectionService.getAllForDraft(id)).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);
     });
-  })
+  });
 });

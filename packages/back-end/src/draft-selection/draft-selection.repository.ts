@@ -9,14 +9,42 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .leftJoin("draftSelection.pokemon", "pokemon")
       .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
       .innerJoin("challengeParticipant.user", "user")
-      .innerJoin("challengeParticipant.challenge", "challenge")
-      .innerJoin("challenge.draft", "draft")
       .select("draftSelection.id", "id")
       .addSelect("draftSelection.roundNumber", "round")
       .addSelect("draftSelection.pickNumber", "pick")
+      .addSelect("user.id", "userId")
       .addSelect("user.nickname", "userNickname")
       .addSelect("pokemon.pokemonId", "pokemonId")
-      .where("draft.id = :draftId", { draftId })
+      .where("draftSelection.draftId = :draftId", { draftId })
+      .orderBy({
+        "draftSelection.roundNumber": "ASC",
+        "draftSelection.pickNumber": "ASC",
+      })
       .getRawMany<DraftSelectionRow>();
+  }
+
+  public async getPendingOneWithIdAndUserId(
+    id: number,
+    userId: number
+  ): Promise<DraftSelectionEntity | undefined> {
+    return this.createQueryBuilder("draftSelection")
+      .innerJoin("draftSelection.challengeParticipant", "challengeParticipant")
+      .innerJoin("challengeParticipant.user", "user")
+      .where("draftSelection.id = :id", { id })
+      .andWhere("user.id = :userId", { userId })
+      .andWhere("draftSelection.pokemonId is null")
+      .getOne();
+  }
+
+  public async getPendingSelectionsBeforeSelection(
+    selection: DraftSelectionEntity
+  ): Promise<DraftSelectionEntity[]> {
+    const { roundNumber, pickNumber, draftId } = selection;
+    return this.createQueryBuilder("draftSelection")
+      .where("draftSelection.draftId = :draftId", { draftId })
+      .andWhere("draftSelection.roundNumber <= :roundNumber", { roundNumber })
+      .andWhere("draftSelection.pickNumber < :pickNumber", { pickNumber })
+      .andWhere("draftSelection.pokemonId is null")
+      .getMany();
   }
 }

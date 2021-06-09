@@ -4,10 +4,16 @@ import { DraftSelectionService } from "./draft-selection.service";
 import { object, when } from "testdouble";
 import { DraftSelectionRepository } from "./draft-selection.repository";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
-import { generateMockDraftSelectionRow } from "./draft-selection.mock";
+import {
+  generateMockDraftSelectionEntity,
+  generateMockDraftSelectionRow,
+  generateMockFinalizeDraftSelectionRequest,
+} from "./draft-selection.mock";
 import { generateRandomNumber } from "../random";
 import { last } from "lodash";
 import { DraftSelection } from "./draft-selection";
+import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
+import { BadRequestError, NotFoundError } from "../error";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -24,7 +30,7 @@ describe("DraftSelectionService", () => {
   });
 
   describe("getAllForDraft", () => {
-    it.each([null, undefined, "", NaN])(
+    it.each([...INVALID_NUMBER_CASES])(
       "throws a ZodError if draft id given = %p",
       async (draftId: unknown) => {
         await expect(
@@ -76,6 +82,97 @@ describe("DraftSelectionService", () => {
       );
       const lastSelection = last(gottenSelections) as DraftSelection;
       expect(lastSelection.selection).toBeNull();
+    });
+  });
+
+  describe("finalizeOneForUser", () => {
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])(
+      "throws a ZodError if id provided is %p",
+      async (id: unknown) => {
+        await expect(
+          draftSelectionService.finalizeOneForUser(id as number, 1, {
+            draftPokemonId: 1,
+          })
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])(
+      "throws a ZodError if userId provided is %p",
+      async (userId: unknown) => {
+        await expect(
+          draftSelectionService.finalizeOneForUser(1, userId as number, {
+            draftPokemonId: 1,
+          })
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])(
+      "throws a ZodError if draftPokemonId provided is %p",
+      async (draftPokemonId: unknown) => {
+        await expect(
+          draftSelectionService.finalizeOneForUser(1, 1, {
+            draftPokemonId: draftPokemonId as number,
+          })
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("throws a NotFoundError if the information provided did not detect a draft selection", async () => {
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(undefined);
+      await expect(
+        draftSelectionService.finalizeOneForUser(id, userId, request)
+      ).rejects.toThrowError(NotFoundError);
+    });
+
+    it("throws a BadRequestError if the pick is not ready to be finalized", async () => {
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      const draftSelectionEntity = generateMockDraftSelectionEntity();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve([generateMockDraftSelectionEntity()]);
+      await expect(
+        draftSelectionService.finalizeOneForUser(id, userId, request)
+      ).rejects.toThrowError(BadRequestError);
+    });
+
+    it("returns a mapped DraftSelection if it was finalized", async () => {
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      const draftSelectionEntity = generateMockDraftSelectionEntity();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve([]);
+      const expectedPokemon = generateMockPokemon();
+      when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(
+        expectedPokemon
+      );
+      const finalizedSelection = await draftSelectionService.finalizeOneForUser(
+        id,
+        userId,
+        request
+      );
+      expect(finalizedSelection).toBeTruthy();
+      expect(finalizedSelection.selection).toEqual(expectedPokemon);
     });
   });
 });

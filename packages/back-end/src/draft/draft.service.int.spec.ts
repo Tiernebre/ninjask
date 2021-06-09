@@ -39,7 +39,7 @@ describe("DraftService (integration)", () => {
       expect(draftGotten.livePoolingHasFinished).toEqual(false);
     });
 
-    it("returns that draft has finished live pooling if it did", async () => {
+    it("returns that the draft has finished live pooling if it did", async () => {
       let draft = (await draftRepository.findOne(2)) as DraftEntity;
       const challenge = (await challengeRepository.findOne(
         2

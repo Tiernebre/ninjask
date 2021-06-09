@@ -1,6 +1,7 @@
 import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeParticipant } from "./challenge-participant";
 import { generateRandomNumber } from "../random";
+import { generateMockUserEntity } from "../user/user.mock";
 
 export const generateMockChallengeParticipantEntity =
   (): ChallengeParticipantEntity => {
@@ -10,6 +11,7 @@ export const generateMockChallengeParticipantEntity =
     challengeResultEntity.challengeId = generateRandomNumber();
     challengeResultEntity.completionTimeHour = generateRandomNumber();
     challengeResultEntity.completionTimeMinutes = generateRandomNumber();
+    challengeResultEntity.user = Promise.resolve(generateMockUserEntity());
     return challengeResultEntity;
   };
 

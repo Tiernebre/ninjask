@@ -20,7 +20,11 @@ export const establishDbConnection = async (): Promise<Connection> => {
       connectTimeoutMS: 20000,
       namingStrategy: new SnakeNamingStrategy(),
     });
-    await connection.runMigrations();
   }
+
+  const queryRunner = connection.createQueryRunner();
+  await queryRunner.dropDatabase("pokemon-league", true);
+  await queryRunner.createDatabase("pokemon-league", true);
+  await connection.runMigrations();
   return connection;
 };

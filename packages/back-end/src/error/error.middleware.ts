@@ -8,6 +8,7 @@ import {
 import { Context, Next } from "koa";
 import { z } from "zod";
 import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
+import { BadRequestError } from "./bad-request-error";
 
 export const errorMiddleware = async (
   ctx: Context,
@@ -16,7 +17,7 @@ export const errorMiddleware = async (
   try {
     await next();
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError || error instanceof BadRequestError) {
       ctx.body = error.message;
       ctx.status = BAD_REQUEST;
     } else if (error instanceof NotFoundError) {

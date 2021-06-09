@@ -1,7 +1,12 @@
 import Koa from "koa";
 import KoaWebsocket from "koa-websocket";
 import { Logger } from "./logger";
-import { getConnectionOptions, getRepository, createConnection, getCustomRepository } from "typeorm";
+import {
+  getConnectionOptions,
+  getRepository,
+  createConnection,
+  getCustomRepository,
+} from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import {
   ChallengeEntity,
@@ -90,7 +95,6 @@ const buildLiveDraftPoolService = (logger: Logger) => {
   );
 };
 
-
 const buildUserService = () => {
   const passwordEncoder = new BCryptPasswordEncoder();
   const userRepository = getRepository(UserEntity);
@@ -144,12 +148,20 @@ const buildChallengeParticipantsRouter = () => {
 };
 
 const buildDraftSelectionService = (logger: Logger) => {
-  const draftSelectionRepository = getCustomRepository(DraftSelectionRepository)
-  return new DraftSelectionService(draftSelectionRepository, buildPokemonService(logger))
-}
+  const draftSelectionRepository = getCustomRepository(
+    DraftSelectionRepository
+  );
+  return new DraftSelectionService(
+    draftSelectionRepository,
+    buildPokemonService(logger)
+  );
+};
 
 const buildDraftRouter = (logger: Logger) => {
-  return new DraftRouter(buildDraftPoolService(logger), buildDraftSelectionService(logger));
+  return new DraftRouter(
+    buildDraftPoolService(logger),
+    buildDraftSelectionService(logger)
+  );
 };
 
 /**

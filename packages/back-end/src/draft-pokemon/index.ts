@@ -1,2 +1,2 @@
-export * from './draft-pokemon.service'
-export * from './draft-pokemon'
+export * from "./draft-pokemon.service";
+export * from "./draft-pokemon";

@@ -9,14 +9,14 @@ export class DraftPokemonService {
   ) {}
 
   public async getOneById(id: number): Promise<DraftPokemon> {
-    const foundDraftPokemon = await this.draftPokemonRepository.findOne({ id }) 
+    const foundDraftPokemon = await this.draftPokemonRepository.findOne({ id });
     if (!foundDraftPokemon) {
-      throw new NotFoundError(`Draft pokemon with id = ${id} not found`)
+      throw new NotFoundError(`Draft pokemon with id = ${id} not found`);
     }
     return {
       id: foundDraftPokemon.id,
       pokemonId: foundDraftPokemon.pokemonId,
-      draftId: foundDraftPokemon.draftId
-    }
+      draftId: foundDraftPokemon.draftId,
+    };
   }
 }

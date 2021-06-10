@@ -26,7 +26,7 @@ describe("DraftSelectionService", () => {
   beforeEach(() => {
     draftSelectionRepository = object<DraftSelectionRepository>();
     pokemonService = object<PokemonService>();
-    draftPokemonService = object<DraftPokemonService>()
+    draftPokemonService = object<DraftPokemonService>();
     draftSelectionService = new DraftSelectionService(
       draftSelectionRepository,
       pokemonService,
@@ -191,7 +191,9 @@ describe("DraftSelectionService", () => {
       when(
         draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
       ).thenResolve(true);
-      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId + 1 }))
+      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(
+        generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId + 1 })
+      );
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(ConflictError);
@@ -217,7 +219,9 @@ describe("DraftSelectionService", () => {
       when(
         draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
       ).thenResolve(false);
-      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId }))
+      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(
+        generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId })
+      );
       const finalizedSelection = await draftSelectionService.finalizeOneForUser(
         id,
         userId,

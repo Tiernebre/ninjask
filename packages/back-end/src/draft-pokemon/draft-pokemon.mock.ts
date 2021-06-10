@@ -1,8 +1,10 @@
-import { DraftPokemon } from '.'
-import { generateRandomNumber } from '../random'
+import { DraftPokemon } from ".";
+import { generateRandomNumber } from "../random";
 
-export const generateMockDraftPokemon = (props: Partial<DraftPokemon> = {}): DraftPokemon => ({
+export const generateMockDraftPokemon = (
+  props: Partial<DraftPokemon> = {}
+): DraftPokemon => ({
   id: generateRandomNumber(),
   pokemonId: generateRandomNumber(),
-  draftId: props.draftId || generateRandomNumber()
-})
+  draftId: props.draftId || generateRandomNumber(),
+});

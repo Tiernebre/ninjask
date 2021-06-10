@@ -22,12 +22,15 @@ import { ErrorResponse } from "./error-response";
 import { ContextState } from "../types/state";
 
 describe("errorMiddleware", () => {
-  let ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>
+  let ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>;
 
   beforeEach(() => {
-    ctx = object<ParameterizedContext<ContextState, DefaultContext, ErrorResponse>>();
+    ctx =
+      object<
+        ParameterizedContext<ContextState, DefaultContext, ErrorResponse>
+      >();
     ctx.status = OK;
-  })
+  });
 
   it("does nothing if next is successful", async () => {
     await errorMiddleware(ctx, jest.fn());

@@ -16,11 +16,11 @@ import { ErrorResponse } from "./error-response";
 
 const parseJson = (json: string): Record<string, unknown> | null => {
   try {
-    return JSON.parse(json) as Record<string, unknown>
+    return JSON.parse(json) as Record<string, unknown>;
   } catch {
-    return null
+    return null;
   }
-}
+};
 
 const getErrorMessage = (
   ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
@@ -28,13 +28,13 @@ const getErrorMessage = (
 ): Record<string, unknown> | string => {
   if (ctx.status < INTERNAL_SERVER_ERROR) {
     // Any 4xx level error is safe to be clear and concise about.
-    return parseJson(error.message) || error.message
+    return parseJson(error.message) || error.message;
   } else {
     // We should absolutely _NOT_ communicate publicly what caused a 500
     // level error, this can expose sensitive or insecure information.
-    return httpStatus[ctx.status] as string
+    return httpStatus[ctx.status] as string;
   }
-}
+};
 
 const formatErrorMessage = (
   ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
@@ -43,7 +43,7 @@ const formatErrorMessage = (
   status: httpStatus[ctx.status] as string,
   code: ctx.status,
   message: getErrorMessage(ctx, error),
-})
+});
 
 export const errorMiddleware = async (
   ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
@@ -67,10 +67,10 @@ export const errorMiddleware = async (
     }
 
     if (error instanceof Error) {
-      ctx.body = formatErrorMessage(ctx, error)
+      ctx.body = formatErrorMessage(ctx, error);
     } else {
       ctx.status = INTERNAL_SERVER_ERROR;
-      ctx.body = formatErrorMessage(ctx, new Error())
+      ctx.body = formatErrorMessage(ctx, new Error());
     }
   }
 };

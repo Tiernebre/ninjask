@@ -6,7 +6,7 @@ import {
   FinalizeDraftSelectionRequest,
   finalizeDraftSelectionRequestSchema,
 } from "./finalize-draft-selection-request";
-import { BadRequestError, NotFoundError } from "../error";
+import { BadRequestError, ConflictError, NotFoundError } from "../error";
 import { DraftSelectionEntity } from ".";
 
 export class DraftSelectionService {
@@ -53,7 +53,17 @@ export class DraftSelectionService {
       );
     if (numberOfPriorPendingSelections > 0) {
       throw new BadRequestError(
-        "The Draft Selection is not ready to be finalized yet. There are still pending picks before this one."
+        "The draft selection is not ready to be finalized yet. There are still pending picks before this one."
+      );
+    }
+
+    if (
+      await this.draftSelectionRepository.oneExistsWithPokemonId(
+        request.draftPokemonId
+      )
+    ) {
+      throw new ConflictError(
+        "The provided pokemon has already been drafted, only available Pokemon can be drafted."
       );
     }
 

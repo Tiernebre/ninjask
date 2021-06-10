@@ -342,7 +342,7 @@ describe("DraftSelectionRepository", () => {
   });
 
   describe("oneExistsWithPokemonId", () => {
-    it('returns true if a draft selection exists with a provided pokemon id', async () => {
+    it("returns true if a draft selection exists with a provided pokemon id", async () => {
       const [draftPokemon] = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),
         draft,
@@ -351,20 +351,26 @@ describe("DraftSelectionRepository", () => {
       const draftSelection = draftSelectionRepository.create();
       draftSelection.roundNumber = 6;
       draftSelection.pickNumber = 100;
-      draftSelection.challengeParticipant = Promise.resolve(challengeParticipants[0]);
+      draftSelection.challengeParticipant = Promise.resolve(
+        challengeParticipants[0]
+      );
       draftSelection.draft = Promise.resolve(draft);
-      draftSelection.pokemonId = draftPokemon.id
-      await draftSelectionRepository.save(draftSelection)
-      await expect(draftSelectionRepository.oneExistsWithPokemonId(draftPokemon.id)).resolves.toEqual(true)
-    })
+      draftSelection.pokemonId = draftPokemon.id;
+      await draftSelectionRepository.save(draftSelection);
+      await expect(
+        draftSelectionRepository.oneExistsWithPokemonId(draftPokemon.id)
+      ).resolves.toEqual(true);
+    });
 
-    it('returns false if a draft selection does not exist with a provided pokemon id', async () => {
+    it("returns false if a draft selection does not exist with a provided pokemon id", async () => {
       const [draftPokemon] = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),
         draft,
         1
       );
-      await expect(draftSelectionRepository.oneExistsWithPokemonId(draftPokemon.id)).resolves.toEqual(false)
-    })
-  })
+      await expect(
+        draftSelectionRepository.oneExistsWithPokemonId(draftPokemon.id)
+      ).resolves.toEqual(false);
+    });
+  });
 });

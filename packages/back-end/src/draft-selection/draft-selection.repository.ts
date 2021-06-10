@@ -49,6 +49,6 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
   }
 
   public async oneExistsWithPokemonId(pokemonId: number): Promise<boolean> {
-    return !!(await this.findOne({ pokemonId }))
+    return !!(await this.findOne({ pokemonId }));
   }
 }

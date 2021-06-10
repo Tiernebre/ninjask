@@ -13,7 +13,7 @@ import { generateRandomNumber } from "../random";
 import { last } from "lodash";
 import { DraftSelection } from "./draft-selection";
 import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
-import { BadRequestError, NotFoundError } from "../error";
+import { BadRequestError, ConflictError, NotFoundError } from "../error";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -150,7 +150,25 @@ describe("DraftSelectionService", () => {
     });
 
     it("throws a ConflictError if the pokemon id provided in the request has already been chosen", async () => {
-    })
+      const id = generateRandomNumber();
+      const userId = generateRandomNumber();
+      const request = generateMockFinalizeDraftSelectionRequest();
+      const draftSelectionEntity = generateMockDraftSelectionEntity();
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve(0);
+      when(
+        draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
+      ).thenResolve(true);
+      await expect(
+        draftSelectionService.finalizeOneForUser(id, userId, request)
+      ).rejects.toThrowError(ConflictError);
+    });
 
     it("returns a mapped DraftSelection if it was finalized", async () => {
       const id = generateRandomNumber();
@@ -169,6 +187,9 @@ describe("DraftSelectionService", () => {
       when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(
         expectedPokemon
       );
+      when(
+        draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
+      ).thenResolve(false);
       const finalizedSelection = await draftSelectionService.finalizeOneForUser(
         id,
         userId,

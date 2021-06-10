@@ -1,5 +1,6 @@
 import {
   BAD_REQUEST,
+  CONFLICT,
   FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
@@ -9,6 +10,7 @@ import { Context, Next } from "koa";
 import { z } from "zod";
 import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
 import { BadRequestError } from "./bad-request-error";
+import { ConflictError } from "./conflict-error";
 
 export const errorMiddleware = async (
   ctx: Context,
@@ -26,6 +28,8 @@ export const errorMiddleware = async (
       ctx.status = UNAUTHORIZED;
     } else if (error instanceof ForbiddenError) {
       ctx.status = FORBIDDEN;
+    } else if (error instanceof ConflictError) {
+      ctx.status = CONFLICT;
     } else {
       ctx.status = INTERNAL_SERVER_ERROR;
     }

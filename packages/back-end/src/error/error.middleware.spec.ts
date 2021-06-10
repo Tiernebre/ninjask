@@ -1,5 +1,6 @@
 import {
   BAD_REQUEST,
+  CONFLICT,
   FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
@@ -15,6 +16,7 @@ import {
   UnauthorizedError,
   ForbiddenError,
   BadRequestError,
+  ConflictError,
 } from ".";
 
 describe("errorMiddleware", () => {
@@ -85,6 +87,17 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(BAD_REQUEST);
+    expect(ctx.body).toEqual(error.message);
+  });
+
+  it("handles a ConflictError correctly", async () => {
+    const ctx = object<Context>();
+    ctx.status = OK;
+    const error = new ConflictError("Expected Test Error");
+    const next = jest.fn().mockRejectedValue(error);
+    await errorMiddleware(ctx, next);
+    expect(next).toHaveBeenCalled();
+    expect(ctx.status).toEqual(CONFLICT);
   });
 
   it("handles a unhandled errors correctly", async () => {

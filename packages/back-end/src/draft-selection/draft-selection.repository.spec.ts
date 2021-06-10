@@ -16,7 +16,7 @@ import {
   clearAllDraftSelections,
   seedDraftSelection,
 } from "./draft-selection.seed";
-import { last, orderBy } from "lodash";
+import { first, last, orderBy } from "lodash";
 import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 
 describe("DraftSelectionRepository", () => {
@@ -196,7 +196,33 @@ describe("DraftSelectionRepository", () => {
       }
     });
 
-    it("returns 0 if every selection before the provided one has been made", async () => {
+    it("returns 0 if the provided selection is the first pick", async () => {
+      const draftPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        newDraft,
+        newChallengeParticipants.length
+      );
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.pokemonId = draftPokemon[pickNumber - 1].id;
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const selectionToTest = first(selections) as DraftSelectionEntity;
+        const numberOfPendingSelections =
+          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+            selectionToTest
+          );
+        expect(numberOfPendingSelections).toEqual(0)
+    });
+
+    it("returns 0 if every selection before the provided one has been made (last case)", async () => {
       const draftPokemon = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),
         newDraft,
@@ -215,6 +241,37 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = last(selections) as DraftSelectionEntity;
+        const numberOfPendingSelections =
+          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+            selectionToTest
+          );
+        expect(numberOfPendingSelections).toEqual(0)
+    });
+
+    it("returns 0 if every selection before the provided one has been made (middle case)", async () => {
+      const draftPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        newDraft,
+        newChallengeParticipants.length
+      );
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      let i = 0;
+      const middleIndex = (newChallengeParticipants.length / 2)
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        if (i < middleIndex) {
+          draftSelection.pokemonId = draftPokemon[pickNumber - 1].id;
+        }
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+        i++;
+      }
+      const selectionToTest = selections[middleIndex];
         const numberOfPendingSelections =
           await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
             selectionToTest

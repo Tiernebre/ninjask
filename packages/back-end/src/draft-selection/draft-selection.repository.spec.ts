@@ -215,12 +215,11 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = last(selections) as DraftSelectionEntity;
-      const pendingSelections =
-        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
-          selectionToTest
-        );
-      expect(pendingSelections).toBeTruthy();
-      expect(pendingSelections).toHaveLength(0);
+        const numberOfPendingSelections =
+          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+            selectionToTest
+          );
+        expect(numberOfPendingSelections).toEqual(0)
     });
 
     it("returns the previous selections if every selection before the provided one has not been made", async () => {
@@ -236,12 +235,11 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = selections.pop() as DraftSelectionEntity;
-      const pendingSelections =
-        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           selectionToTest
         );
-      expect(pendingSelections).toBeTruthy();
-      expect(pendingSelections).toHaveLength(selections.length);
+      expect(numberOfPendingSelections).toEqual(selections.length);
     });
   });
 });

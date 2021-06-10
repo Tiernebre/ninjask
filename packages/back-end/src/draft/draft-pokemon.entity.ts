@@ -22,6 +22,9 @@ export class DraftPokemonEntity {
   @ManyToOne(() => DraftEntity, (draft) => draft.pokemon)
   draft!: DraftEntity;
 
+  @Column()
+  draftId!: number;
+
   @Column({ nullable: false })
   pokemonId!: number;
 

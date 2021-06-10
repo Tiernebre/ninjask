@@ -47,4 +47,8 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .andWhere("draftSelection.pokemonId is null")
       .getCount();
   }
+
+  public async oneExistsWithPokemonId(pokemonId: number): Promise<boolean> {
+    return !!(await this.findOne({ pokemonId }));
+  }
 }

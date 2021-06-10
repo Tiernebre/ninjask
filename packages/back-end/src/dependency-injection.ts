@@ -26,6 +26,7 @@ import {
   LiveDraftPoolService,
   DraftRouter,
   liveDraftPoolMiddleware,
+  DraftPokemonEntity,
 } from "./draft";
 import { stageMockData } from "./environment";
 import { HttpClient, FetchHttpClient } from "./http";
@@ -39,8 +40,9 @@ import {
   VersionService,
   PokeApiVersionService,
 } from "./version";
-import { DraftSelectionService } from "./draft-selection";
+import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
+import { DraftPokemonService } from "./draft-pokemon";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -147,13 +149,18 @@ const buildChallengeParticipantsRouter = () => {
   return new ChallengeParticipantsRouter(buildChallengeParticipantsService());
 };
 
+const buildDraftPokemonService = () => {
+  return new DraftPokemonService(getRepository(DraftPokemonEntity));
+};
+
 const buildDraftSelectionService = (logger: Logger) => {
   const draftSelectionRepository = getCustomRepository(
     DraftSelectionRepository
   );
   return new DraftSelectionService(
     draftSelectionRepository,
-    buildPokemonService(logger)
+    buildPokemonService(logger),
+    buildDraftPokemonService()
   );
 };
 
@@ -162,6 +169,10 @@ const buildDraftRouter = (logger: Logger) => {
     buildDraftPoolService(logger),
     buildDraftSelectionService(logger)
   );
+};
+
+const buildDraftSelectionsRouter = (logger: Logger) => {
+  return new DraftSelectionRouter(buildDraftSelectionService(logger));
 };
 
 /**
@@ -191,6 +202,7 @@ export const injectDependencies = async (
     buildDraftRouter(logger),
     buildChallengesRouter(logger),
     buildChallengeParticipantsRouter(),
+    buildDraftSelectionsRouter(logger),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

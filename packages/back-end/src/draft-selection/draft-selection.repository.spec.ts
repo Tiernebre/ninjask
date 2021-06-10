@@ -222,7 +222,7 @@ describe("DraftSelectionRepository", () => {
         expect(numberOfPendingSelections).toEqual(0)
     });
 
-    it("returns the length of previous selections if every selection before the provided one has not been made", async () => {
+    it("returns the length of previous selections if every selection before the provided one that has not been made (last case)", async () => {
       const selections: DraftSelectionEntity[] = [];
       let pickNumber = 1;
       for (const participant of newChallengeParticipants) {
@@ -240,6 +240,27 @@ describe("DraftSelectionRepository", () => {
           selectionToTest
         );
       expect(numberOfPendingSelections).toEqual(selections.length);
+    });
+
+    it("returns the length of previous selections if every selection before the provided one that has not been made (middle case)", async () => {
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const middleIndex = (selections.length / 2)
+      const selectionToTest = selections[middleIndex];
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(selections.length / 2);
     });
   });
 });

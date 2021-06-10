@@ -40,7 +40,7 @@ import {
   VersionService,
   PokeApiVersionService,
 } from "./version";
-import { DraftSelectionService } from "./draft-selection";
+import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";
 
@@ -171,6 +171,10 @@ const buildDraftRouter = (logger: Logger) => {
   );
 };
 
+const buildDraftSelectionsRouter = (logger: Logger) => {
+  return new DraftSelectionRouter(buildDraftSelectionService(logger))
+}
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -198,6 +202,7 @@ export const injectDependencies = async (
     buildDraftRouter(logger),
     buildChallengesRouter(logger),
     buildChallengeParticipantsRouter(),
+    buildDraftSelectionsRouter(logger)
   ];
   routers.forEach((router) => {
     app.use(router.routes());

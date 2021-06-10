@@ -26,6 +26,7 @@ import {
   LiveDraftPoolService,
   DraftRouter,
   liveDraftPoolMiddleware,
+  DraftPokemonEntity,
 } from "./draft";
 import { stageMockData } from "./environment";
 import { HttpClient, FetchHttpClient } from "./http";
@@ -41,6 +42,7 @@ import {
 } from "./version";
 import { DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
+import { DraftPokemonService } from "./draft-pokemon";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -147,13 +149,18 @@ const buildChallengeParticipantsRouter = () => {
   return new ChallengeParticipantsRouter(buildChallengeParticipantsService());
 };
 
+const buildDraftPokemonService = () => {
+  return new DraftPokemonService(getRepository(DraftPokemonEntity))
+}
+
 const buildDraftSelectionService = (logger: Logger) => {
   const draftSelectionRepository = getCustomRepository(
     DraftSelectionRepository
   );
   return new DraftSelectionService(
     draftSelectionRepository,
-    buildPokemonService(logger)
+    buildPokemonService(logger),
+    buildDraftPokemonService()
   );
 };
 

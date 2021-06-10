@@ -222,6 +222,26 @@ describe("DraftSelectionRepository", () => {
         expect(numberOfPendingSelections).toEqual(0)
     });
 
+    it("returns 1 if the provided selection is the second pick and the first has not been chosen yet.", async () => {
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const selectionToTest = selections[1];
+        const numberOfPendingSelections =
+          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+            selectionToTest
+          );
+        expect(numberOfPendingSelections).toEqual(1)
+    });
+
     it("returns 0 if every selection before the provided one has been made (last case)", async () => {
       const draftPokemon = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),

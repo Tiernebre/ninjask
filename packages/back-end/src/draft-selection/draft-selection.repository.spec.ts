@@ -215,11 +215,11 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = first(selections) as DraftSelectionEntity;
-        const numberOfPendingSelections =
-          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-            selectionToTest
-          );
-        expect(numberOfPendingSelections).toEqual(0)
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(0);
     });
 
     it("returns 1 if the provided selection is the second pick and the first has not been chosen yet.", async () => {
@@ -235,11 +235,11 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = selections[1];
-        const numberOfPendingSelections =
-          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-            selectionToTest
-          );
-        expect(numberOfPendingSelections).toEqual(1)
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(1);
     });
 
     it("returns 0 if every selection before the provided one has been made (last case)", async () => {
@@ -261,11 +261,11 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = last(selections) as DraftSelectionEntity;
-        const numberOfPendingSelections =
-          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-            selectionToTest
-          );
-        expect(numberOfPendingSelections).toEqual(0)
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(0);
     });
 
     it("returns 0 if every selection before the provided one has been made (middle case)", async () => {
@@ -277,7 +277,7 @@ describe("DraftSelectionRepository", () => {
       const selections: DraftSelectionEntity[] = [];
       let pickNumber = 1;
       let i = 0;
-      const middleIndex = (newChallengeParticipants.length / 2)
+      const middleIndex = newChallengeParticipants.length / 2;
       for (const participant of newChallengeParticipants) {
         const draftSelection = draftSelectionRepository.create();
         draftSelection.roundNumber = 1;
@@ -292,11 +292,11 @@ describe("DraftSelectionRepository", () => {
         i++;
       }
       const selectionToTest = selections[middleIndex];
-        const numberOfPendingSelections =
-          await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-            selectionToTest
-          );
-        expect(numberOfPendingSelections).toEqual(0)
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(0);
     });
 
     it("returns the length of previous selections if every selection before the provided one that has not been made (last case)", async () => {
@@ -331,7 +331,7 @@ describe("DraftSelectionRepository", () => {
         selections.push(await draftSelectionRepository.save(draftSelection));
         pickNumber++;
       }
-      const middleIndex = (selections.length / 2)
+      const middleIndex = selections.length / 2;
       const selectionToTest = selections[middleIndex];
       const numberOfPendingSelections =
         await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(

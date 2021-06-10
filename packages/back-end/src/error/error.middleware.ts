@@ -6,9 +6,10 @@ import httpStatus, {
   NOT_FOUND,
   UNAUTHORIZED,
 } from "http-status";
-import { Context, Next } from "koa";
+import { DefaultContext, Next, ParameterizedContext } from "koa";
 import { z } from "zod";
 import { NotFoundError, UnauthorizedError, ForbiddenError } from ".";
+import { ContextState } from "../types/state";
 import { BadRequestError } from "./bad-request-error";
 import { ConflictError } from "./conflict-error";
 import { ErrorResponse } from "./error-response";
@@ -21,17 +22,31 @@ const parseJson = (json: string): Record<string, unknown> | null => {
   }
 }
 
+const getErrorMessage = (
+  ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
+  error: Error
+): Record<string, unknown> | string => {
+  if (ctx.status < INTERNAL_SERVER_ERROR) {
+    // Any 4xx level error is safe to be clear and concise about.
+    return parseJson(error.message) || error.message
+  } else {
+    // We should absolutely _NOT_ communicate publicly what caused a 500
+    // level error, this can expose sensitive or insecure information.
+    return httpStatus[ctx.status] as string
+  }
+}
+
 const formatErrorMessage = (
-  ctx: Context,
+  ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
   error: Error
 ): ErrorResponse => ({
   status: httpStatus[ctx.status] as string,
   code: ctx.status,
-  message: parseJson(error.message) || error.message,
+  message: getErrorMessage(ctx, error),
 })
 
 export const errorMiddleware = async (
-  ctx: Context,
+  ctx: ParameterizedContext<ContextState, DefaultContext, ErrorResponse>,
   next: Next
 ): Promise<void> => {
   try {
@@ -53,6 +68,9 @@ export const errorMiddleware = async (
 
     if (error instanceof Error) {
       ctx.body = formatErrorMessage(ctx, error)
+    } else {
+      ctx.status = INTERNAL_SERVER_ERROR;
+      ctx.body = formatErrorMessage(ctx, new Error())
     }
   }
 };

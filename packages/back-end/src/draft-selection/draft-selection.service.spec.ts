@@ -140,10 +140,10 @@ describe("DraftSelectionService", () => {
         draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
       ).thenResolve(draftSelectionEntity);
       when(
-        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           draftSelectionEntity
         )
-      ).thenResolve([generateMockDraftSelectionEntity()]);
+      ).thenResolve(1);
       await expect(
         draftSelectionService.finalizeOneForUser(id, userId, request)
       ).rejects.toThrowError(BadRequestError);
@@ -158,10 +158,10 @@ describe("DraftSelectionService", () => {
         draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
       ).thenResolve(draftSelectionEntity);
       when(
-        draftSelectionRepository.getPendingSelectionsBeforeSelection(
+        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           draftSelectionEntity
         )
-      ).thenResolve([]);
+      ).thenResolve(0);
       const expectedPokemon = generateMockPokemon();
       when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(
         expectedPokemon

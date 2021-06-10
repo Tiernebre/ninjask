@@ -36,15 +36,15 @@ export class DraftSelectionRepository extends Repository<DraftSelectionEntity> {
       .getOne();
   }
 
-  public async getPendingSelectionsBeforeSelection(
+  public async getNumberOfPendingSelectionsBeforeSelection(
     selection: DraftSelectionEntity
-  ): Promise<DraftSelectionEntity[]> {
+  ): Promise<number> {
     const { roundNumber, pickNumber, draftId } = selection;
     return this.createQueryBuilder("draftSelection")
       .where("draftSelection.draftId = :draftId", { draftId })
       .andWhere("draftSelection.roundNumber <= :roundNumber", { roundNumber })
       .andWhere("draftSelection.pickNumber < :pickNumber", { pickNumber })
       .andWhere("draftSelection.pokemonId is null")
-      .getMany();
+      .getCount();
   }
 }

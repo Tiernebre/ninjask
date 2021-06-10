@@ -16,7 +16,7 @@ import {
   clearAllDraftSelections,
   seedDraftSelection,
 } from "./draft-selection.seed";
-import { last, orderBy } from "lodash";
+import { first, last, orderBy } from "lodash";
 import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 
 describe("DraftSelectionRepository", () => {
@@ -177,7 +177,7 @@ describe("DraftSelectionRepository", () => {
     });
   });
 
-  describe("getPendingSelectionsBeforeSelection", () => {
+  describe("getNumberOfPendingSelectionsBeforeSelection", () => {
     let newChallenge: ChallengeEntity;
     let newDraft: DraftEntity;
     let newChallengeParticipants: ChallengeParticipantEntity[] = [];
@@ -196,7 +196,53 @@ describe("DraftSelectionRepository", () => {
       }
     });
 
-    it("returns an empty array if every selection before the provided one has been made", async () => {
+    it("returns 0 if the provided selection is the first pick", async () => {
+      const draftPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        newDraft,
+        newChallengeParticipants.length
+      );
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.pokemonId = draftPokemon[pickNumber - 1].id;
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const selectionToTest = first(selections) as DraftSelectionEntity;
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(0);
+    });
+
+    it("returns 1 if the provided selection is the second pick and the first has not been chosen yet.", async () => {
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const selectionToTest = selections[1];
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(1);
+    });
+
+    it("returns 0 if every selection before the provided one has been made (last case)", async () => {
       const draftPokemon = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),
         newDraft,
@@ -215,15 +261,45 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = last(selections) as DraftSelectionEntity;
-      const pendingSelections =
-        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           selectionToTest
         );
-      expect(pendingSelections).toBeTruthy();
-      expect(pendingSelections).toHaveLength(0);
+      expect(numberOfPendingSelections).toEqual(0);
     });
 
-    it("returns the previous selections if every selection before the provided one has not been made", async () => {
+    it("returns 0 if every selection before the provided one has been made (middle case)", async () => {
+      const draftPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        newDraft,
+        newChallengeParticipants.length
+      );
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      let i = 0;
+      const middleIndex = newChallengeParticipants.length / 2;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        if (i < middleIndex) {
+          draftSelection.pokemonId = draftPokemon[pickNumber - 1].id;
+        }
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+        i++;
+      }
+      const selectionToTest = selections[middleIndex];
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(0);
+    });
+
+    it("returns the length of previous selections if every selection before the provided one that has not been made (last case)", async () => {
       const selections: DraftSelectionEntity[] = [];
       let pickNumber = 1;
       for (const participant of newChallengeParticipants) {
@@ -236,12 +312,32 @@ describe("DraftSelectionRepository", () => {
         pickNumber++;
       }
       const selectionToTest = selections.pop() as DraftSelectionEntity;
-      const pendingSelections =
-        await draftSelectionRepository.getPendingSelectionsBeforeSelection(
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           selectionToTest
         );
-      expect(pendingSelections).toBeTruthy();
-      expect(pendingSelections).toHaveLength(selections.length);
+      expect(numberOfPendingSelections).toEqual(selections.length);
+    });
+
+    it("returns the length of previous selections if every selection before the provided one that has not been made (middle case)", async () => {
+      const selections: DraftSelectionEntity[] = [];
+      let pickNumber = 1;
+      for (const participant of newChallengeParticipants) {
+        const draftSelection = draftSelectionRepository.create();
+        draftSelection.roundNumber = 1;
+        draftSelection.pickNumber = pickNumber;
+        draftSelection.challengeParticipant = Promise.resolve(participant);
+        draftSelection.draft = Promise.resolve(newDraft);
+        selections.push(await draftSelectionRepository.save(draftSelection));
+        pickNumber++;
+      }
+      const middleIndex = selections.length / 2;
+      const selectionToTest = selections[middleIndex];
+      const numberOfPendingSelections =
+        await draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          selectionToTest
+        );
+      expect(numberOfPendingSelections).toEqual(selections.length / 2);
     });
   });
 });

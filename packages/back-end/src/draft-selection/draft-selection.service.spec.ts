@@ -106,7 +106,9 @@ describe("DraftSelectionService", () => {
       userId = generateRandomNumber();
       request = generateMockFinalizeDraftSelectionRequest();
       draftSelectionEntity = generateMockDraftSelectionEntity();
-      pokemonToSelect = generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId }) 
+      pokemonToSelect = generateMockDraftPokemon({
+        draftId: draftSelectionEntity.draftId,
+      });
       expectedPokemon = generateMockPokemon();
 
       when(
@@ -126,7 +128,7 @@ describe("DraftSelectionService", () => {
       when(pokemonService.getOneById(pokemonToSelect.pokemonId)).thenResolve(
         expectedPokemon
       );
-    })
+    });
 
     it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])(
       "throws a ZodError if id provided is %p",

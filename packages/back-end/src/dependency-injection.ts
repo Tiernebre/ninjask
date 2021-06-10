@@ -150,8 +150,8 @@ const buildChallengeParticipantsRouter = () => {
 };
 
 const buildDraftPokemonService = () => {
-  return new DraftPokemonService(getRepository(DraftPokemonEntity))
-}
+  return new DraftPokemonService(getRepository(DraftPokemonEntity));
+};
 
 const buildDraftSelectionService = (logger: Logger) => {
   const draftSelectionRepository = getCustomRepository(
@@ -172,8 +172,8 @@ const buildDraftRouter = (logger: Logger) => {
 };
 
 const buildDraftSelectionsRouter = (logger: Logger) => {
-  return new DraftSelectionRouter(buildDraftSelectionService(logger))
-}
+  return new DraftSelectionRouter(buildDraftSelectionService(logger));
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -202,7 +202,7 @@ export const injectDependencies = async (
     buildDraftRouter(logger),
     buildChallengesRouter(logger),
     buildChallengeParticipantsRouter(),
-    buildDraftSelectionsRouter(logger)
+    buildDraftSelectionsRouter(logger),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

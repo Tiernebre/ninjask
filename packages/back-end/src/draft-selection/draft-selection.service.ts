@@ -51,7 +51,11 @@ export class DraftSelectionService {
     const pokemonToSelect = await this.draftPokemonService.getOneById(
       request.draftPokemonId
     );
-    await this.validatePickCanBeFinalized(request, draftSelection, pokemonToSelect);
+    await this.validatePickCanBeFinalized(
+      request,
+      draftSelection,
+      pokemonToSelect
+    );
 
     draftSelection.pokemonId = request.draftPokemonId;
     await this.draftSelectionRepository.save(draftSelection);

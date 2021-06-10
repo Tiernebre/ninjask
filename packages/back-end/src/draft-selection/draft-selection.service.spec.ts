@@ -149,6 +149,9 @@ describe("DraftSelectionService", () => {
       ).rejects.toThrowError(BadRequestError);
     });
 
+    it("throws a ConflictError if the pokemon id provided in the request has already been chosen", async () => {
+    })
+
     it("returns a mapped DraftSelection if it was finalized", async () => {
       const id = generateRandomNumber();
       const userId = generateRandomNumber();

@@ -46,7 +46,6 @@ describe("errorMiddleware", () => {
     await errorMiddleware(ctx, next);
     expect(next).toHaveBeenCalled();
     expect(ctx.status).toEqual(BAD_REQUEST);
-    expect(ctx.body).toEqual(error.message);
   });
 
   it("handles a NotFoundError correctly", async () => {

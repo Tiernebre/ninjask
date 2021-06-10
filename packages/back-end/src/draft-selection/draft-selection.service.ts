@@ -8,11 +8,13 @@ import {
 } from "./finalize-draft-selection-request";
 import { BadRequestError, ConflictError, NotFoundError } from "../error";
 import { DraftSelectionEntity } from ".";
+import { DraftPokemonService } from "../draft-pokemon/draft-pokemon.service";
 
 export class DraftSelectionService {
   constructor(
     private readonly draftSelectionRepository: DraftSelectionRepository,
-    private readonly pokemonService: PokemonService
+    private readonly pokemonService: PokemonService,
+    private readonly draftPokemonService: DraftPokemonService
   ) {}
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
@@ -43,10 +45,17 @@ export class DraftSelectionService {
       );
     if (!draftSelection) {
       throw new NotFoundError(
-        `Could not find draft selection with id = ${id} for user = ${userId}`
+        `Could not find draft selection to finalize.`
       );
     }
+    await this.validatePickCanBeFinalized(request, draftSelection)
 
+    draftSelection.pokemonId = request.draftPokemonId;
+    await this.draftSelectionRepository.save(draftSelection);
+    return this.mapEntityToDto(draftSelection);
+  }
+
+  private async validatePickCanBeFinalized(request: FinalizeDraftSelectionRequest, draftSelection: DraftSelectionEntity): Promise<void> {
     const numberOfPriorPendingSelections =
       await this.draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
         draftSelection
@@ -66,10 +75,10 @@ export class DraftSelectionService {
         "The provided pokemon has already been drafted, only available Pokemon can be drafted."
       );
     }
-
-    draftSelection.pokemonId = request.draftPokemonId;
-    await this.draftSelectionRepository.save(draftSelection);
-    return this.mapEntityToDto(draftSelection);
+    const pokemonToSelect = await this.draftPokemonService.getOneById(request.draftPokemonId)
+    if (pokemonToSelect.draftId !== draftSelection.draftId) {
+      throw new ConflictError("The provided pokemon must be available in the draft associated with this draft selection.")
+    }
   }
 
   private async mapRowToDto(row: DraftSelectionRow): Promise<DraftSelection> {

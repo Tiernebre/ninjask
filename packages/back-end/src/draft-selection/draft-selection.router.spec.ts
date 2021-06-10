@@ -4,7 +4,10 @@ import { Server } from "http";
 import Application from "koa";
 import { matchers, object, when } from "testdouble";
 import { DraftSelectionService } from "../draft-selection";
-import { generateMockDraftSelection, generateMockFinalizeDraftSelectionRequest } from "../draft-selection/draft-selection.mock";
+import {
+  generateMockDraftSelection,
+  generateMockFinalizeDraftSelectionRequest,
+} from "../draft-selection/draft-selection.mock";
 import { DraftSelectionRouter } from "./draft-selection.router";
 import { SessionPayload } from "../session/session-payload";
 import { generateMockSessionPayload } from "../session/session.mock";
@@ -45,10 +48,30 @@ describe("Draft Selection Router", () => {
     const uri = `/draft-selections/${id}`;
 
     it("returns with 200 OK status", async () => {
-      const postRequest = generateMockFinalizeDraftSelectionRequest ()
-      when(draftSelectionService.finalizeOneForUser(id, session.userId, matchers.contains(postRequest))).thenResolve(generateMockDraftSelection())
+      const postRequest = generateMockFinalizeDraftSelectionRequest();
+      when(
+        draftSelectionService.finalizeOneForUser(
+          id,
+          session.userId,
+          matchers.contains(postRequest)
+        )
+      ).thenResolve(generateMockDraftSelection());
       const response = await request.post(uri).send(postRequest);
       expect(response.status).toEqual(OK);
+    });
+
+    it("returns with the finalized draft pick in the response", async () => {
+      const postRequest = generateMockFinalizeDraftSelectionRequest();
+      const expectedFinalizedDraftSelection = generateMockDraftSelection();
+      when(
+        draftSelectionService.finalizeOneForUser(
+          id,
+          session.userId,
+          matchers.contains(postRequest)
+        )
+      ).thenResolve(expectedFinalizedDraftSelection);
+      const response = await request.post(uri).send(postRequest);
+      expect(response.body).toEqual(expectedFinalizedDraftSelection);
     });
   });
 });

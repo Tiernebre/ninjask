@@ -5,9 +5,7 @@ import { ContextState } from "../types/state";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 
 export class DraftSelectionRouter extends Router<ContextState, Context> {
-  constructor(
-    private readonly draftSelectionService: DraftSelectionService
-  ) {
+  constructor(private readonly draftSelectionService: DraftSelectionService) {
     super();
     this.setupRoutes();
   }
@@ -18,7 +16,7 @@ export class DraftSelectionRouter extends Router<ContextState, Context> {
         Number(ctx.params.id),
         ctx.state.session.userId,
         ctx.request.body as FinalizeDraftSelectionRequest
-      )
+      );
     });
   }
 }

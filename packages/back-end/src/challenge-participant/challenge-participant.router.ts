@@ -15,16 +15,13 @@ export class ChallengeParticipantsRouter extends Router<ContextState, Context> {
   }
 
   private setupRoutes(): void {
-    this.patch(
-      `${this.URI}/:id`,
-      async (ctx) => {
-        const request = {
-          ...(<ChallengeParticipantUpdateRequest>ctx.request.body),
-          id: Number(ctx.params.id),
-          userId: ctx.state.session.userId,
-        };
-        ctx.body = await this.challengeParticipantService.updateOne(request);
-      }
-    );
+    this.patch(`${this.URI}/:id`, async (ctx) => {
+      const request = {
+        ...(<ChallengeParticipantUpdateRequest>ctx.request.body),
+        id: Number(ctx.params.id),
+        userId: ctx.state.session.userId,
+      };
+      ctx.body = await this.challengeParticipantService.updateOne(request);
+    });
   }
 }

@@ -177,7 +177,7 @@ describe("DraftSelectionRepository", () => {
     });
   });
 
-  describe("getPendingSelectionsBeforeSelection", () => {
+  describe("getNumberOfPendingSelectionsBeforeSelection", () => {
     let newChallenge: ChallengeEntity;
     let newDraft: DraftEntity;
     let newChallengeParticipants: ChallengeParticipantEntity[] = [];
@@ -196,7 +196,7 @@ describe("DraftSelectionRepository", () => {
       }
     });
 
-    it("returns an empty array if every selection before the provided one has been made", async () => {
+    it("returns 0 if every selection before the provided one has been made", async () => {
       const draftPokemon = await seedDraftPokemon(
         getRepository(DraftPokemonEntity),
         newDraft,
@@ -222,7 +222,7 @@ describe("DraftSelectionRepository", () => {
         expect(numberOfPendingSelections).toEqual(0)
     });
 
-    it("returns the previous selections if every selection before the provided one has not been made", async () => {
+    it("returns the length of previous selections if every selection before the provided one has not been made", async () => {
       const selections: DraftSelectionEntity[] = [];
       let pickNumber = 1;
       for (const participant of newChallengeParticipants) {

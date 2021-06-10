@@ -9,6 +9,8 @@ import {
 import { BadRequestError, ConflictError, NotFoundError } from "../error";
 import { DraftSelectionEntity } from ".";
 import { DraftPokemonService } from "../draft-pokemon/draft-pokemon.service";
+import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
+import { DraftPokemon } from "../draft-pokemon";
 
 export class DraftSelectionService {
   constructor(
@@ -46,17 +48,27 @@ export class DraftSelectionService {
     if (!draftSelection) {
       throw new NotFoundError(`Could not find draft selection to finalize.`);
     }
-    await this.validatePickCanBeFinalized(request, draftSelection);
+    const pokemonToSelect = await this.draftPokemonService.getOneById(
+      request.draftPokemonId
+    );
+    await this.validatePickCanBeFinalized(request, draftSelection, pokemonToSelect);
 
     draftSelection.pokemonId = request.draftPokemonId;
     await this.draftSelectionRepository.save(draftSelection);
-    return this.mapEntityToDto(draftSelection);
+    return this.mapEntityToDto(draftSelection, pokemonToSelect);
   }
 
   private async validatePickCanBeFinalized(
     request: FinalizeDraftSelectionRequest,
-    draftSelection: DraftSelectionEntity
+    draftSelection: DraftSelectionEntity,
+    pokemonToSelect: DraftPokemon
   ): Promise<void> {
+    if (pokemonToSelect.draftId !== draftSelection.draftId) {
+      throw new ConflictError(
+        "The provided pokemon must be available in the draft associated with this draft selection."
+      );
+    }
+
     const numberOfPriorPendingSelections =
       await this.draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
         draftSelection
@@ -76,14 +88,6 @@ export class DraftSelectionService {
         "The provided pokemon has already been drafted, only available Pokemon can be drafted."
       );
     }
-    const pokemonToSelect = await this.draftPokemonService.getOneById(
-      request.draftPokemonId
-    );
-    if (pokemonToSelect.draftId !== draftSelection.draftId) {
-      throw new ConflictError(
-        "The provided pokemon must be available in the draft associated with this draft selection."
-      );
-    }
   }
 
   private async mapRowToDto(row: DraftSelectionRow): Promise<DraftSelection> {
@@ -94,7 +98,8 @@ export class DraftSelectionService {
   }
 
   private async mapEntityToDto(
-    entity: DraftSelectionEntity
+    entity: DraftSelectionEntity,
+    pokemon: DraftPokemon
   ): Promise<DraftSelection> {
     const participant = await entity.challengeParticipant;
     const user = await participant.user;
@@ -102,14 +107,14 @@ export class DraftSelectionService {
       id: entity.id,
       round: entity.roundNumber,
       pick: entity.pickNumber,
-      selection: await this.getPokemonForDraftSelection(entity),
+      selection: await this.pokemonService.getOneById(pokemon.pokemonId),
       userNickname: user.nickname,
       userId: user.id,
     };
   }
 
   private async getPokemonForDraftSelection(
-    draftSelection: DraftSelectionRow | DraftSelectionEntity
+    draftSelection: DraftSelectionRow | DraftPokemonEntity
   ): Promise<Pokemon | null> {
     if (draftSelection.pokemonId) {
       return this.pokemonService.getOneById(draftSelection.pokemonId);

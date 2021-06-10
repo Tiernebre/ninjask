@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { PokemonService } from "../pokemon";
+import { Pokemon, PokemonService } from "../pokemon";
 import { DraftSelectionService } from "./draft-selection.service";
 import { object, when } from "testdouble";
 import { DraftSelectionRepository } from "./draft-selection.repository";
@@ -16,6 +16,9 @@ import { INVALID_NUMBER_CASES, NEGATIVE_NUMBER_CASES } from "../test/cases";
 import { BadRequestError, ConflictError, NotFoundError } from "../error";
 import { DraftPokemonService } from "../draft-pokemon/draft-pokemon.service";
 import { generateMockDraftPokemon } from "../draft-pokemon/draft-pokemon.mock";
+import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
+import { DraftSelectionEntity } from ".";
+import { DraftPokemon } from "../draft-pokemon";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
@@ -91,6 +94,40 @@ describe("DraftSelectionService", () => {
   });
 
   describe("finalizeOneForUser", () => {
+    let id: number;
+    let userId: number;
+    let request: FinalizeDraftSelectionRequest;
+    let draftSelectionEntity: DraftSelectionEntity;
+    let pokemonToSelect: DraftPokemon;
+    let expectedPokemon: Pokemon;
+
+    beforeEach(() => {
+      id = generateRandomNumber();
+      userId = generateRandomNumber();
+      request = generateMockFinalizeDraftSelectionRequest();
+      draftSelectionEntity = generateMockDraftSelectionEntity();
+      pokemonToSelect = generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId }) 
+      expectedPokemon = generateMockPokemon();
+
+      when(
+        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
+      ).thenResolve(draftSelectionEntity);
+      when(
+        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
+          draftSelectionEntity
+        )
+      ).thenResolve(0);
+      when(
+        draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
+      ).thenResolve(false);
+      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(
+        pokemonToSelect
+      );
+      when(pokemonService.getOneById(pokemonToSelect.pokemonId)).thenResolve(
+        expectedPokemon
+      );
+    })
+
     it.each([...INVALID_NUMBER_CASES, ...NEGATIVE_NUMBER_CASES])(
       "throws a ZodError if id provided is %p",
       async (id: unknown) => {
@@ -125,9 +162,6 @@ describe("DraftSelectionService", () => {
     );
 
     it("throws a NotFoundError if the information provided did not detect a draft selection", async () => {
-      const id = generateRandomNumber();
-      const userId = generateRandomNumber();
-      const request = generateMockFinalizeDraftSelectionRequest();
       when(
         draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
       ).thenResolve(undefined);
@@ -137,13 +171,6 @@ describe("DraftSelectionService", () => {
     });
 
     it("throws a BadRequestError if the pick is not ready to be finalized", async () => {
-      const id = generateRandomNumber();
-      const userId = generateRandomNumber();
-      const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity();
-      when(
-        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
-      ).thenResolve(draftSelectionEntity);
       when(
         draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
           draftSelectionEntity
@@ -155,18 +182,6 @@ describe("DraftSelectionService", () => {
     });
 
     it("throws a ConflictError if the pokemon id provided in the request has already been chosen", async () => {
-      const id = generateRandomNumber();
-      const userId = generateRandomNumber();
-      const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity();
-      when(
-        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
-      ).thenResolve(draftSelectionEntity);
-      when(
-        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-          draftSelectionEntity
-        )
-      ).thenResolve(0);
       when(
         draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
       ).thenResolve(true);
@@ -176,21 +191,6 @@ describe("DraftSelectionService", () => {
     });
 
     it("throws a ConflictError if the pokemon to draft does not actually belong to the same draft", async () => {
-      const id = generateRandomNumber();
-      const userId = generateRandomNumber();
-      const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity();
-      when(
-        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
-      ).thenResolve(draftSelectionEntity);
-      when(
-        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-          draftSelectionEntity
-        )
-      ).thenResolve(0);
-      when(
-        draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
-      ).thenResolve(true);
       when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(
         generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId + 1 })
       );
@@ -200,28 +200,6 @@ describe("DraftSelectionService", () => {
     });
 
     it("returns a mapped DraftSelection if it was finalized", async () => {
-      const id = generateRandomNumber();
-      const userId = generateRandomNumber();
-      const request = generateMockFinalizeDraftSelectionRequest();
-      const draftSelectionEntity = generateMockDraftSelectionEntity();
-      when(
-        draftSelectionRepository.getPendingOneWithIdAndUserId(id, userId)
-      ).thenResolve(draftSelectionEntity);
-      when(
-        draftSelectionRepository.getNumberOfPendingSelectionsBeforeSelection(
-          draftSelectionEntity
-        )
-      ).thenResolve(0);
-      const expectedPokemon = generateMockPokemon();
-      when(pokemonService.getOneById(request.draftPokemonId)).thenResolve(
-        expectedPokemon
-      );
-      when(
-        draftSelectionRepository.oneExistsWithPokemonId(request.draftPokemonId)
-      ).thenResolve(false);
-      when(draftPokemonService.getOneById(request.draftPokemonId)).thenResolve(
-        generateMockDraftPokemon({ draftId: draftSelectionEntity.draftId })
-      );
       const finalizedSelection = await draftSelectionService.finalizeOneForUser(
         id,
         userId,

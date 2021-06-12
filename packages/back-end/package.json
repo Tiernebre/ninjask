@@ -47,6 +47,8 @@
     "dockest": "^2.1.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-jest-dom": "^3.9.0",
+    "eslint-plugin-testing-library": "^4.6.0",
     "flush-promises": "^1.0.2",
     "jest": "^27.0.4",
     "jest-when": "^3.3.0",

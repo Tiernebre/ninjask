@@ -5,4 +5,4 @@ export const sessionRequestSchema = z.object({
   password: z.string().min(1),
 });
 
-export type SessionRequest = z.infer<typeof sessionRequestSchema>;
+export type SessionRequest = Readonly<z.infer<typeof sessionRequestSchema>>;

@@ -5,4 +5,6 @@ export const createUserRequestSchema = z.object({
   password: z.string().min(1),
 });
 
-export type CreateUserRequest = Readonly<z.infer<typeof createUserRequestSchema>>;
+export type CreateUserRequest = Readonly<
+  z.infer<typeof createUserRequestSchema>
+>;

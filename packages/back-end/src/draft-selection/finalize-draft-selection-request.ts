@@ -4,6 +4,6 @@ export const finalizeDraftSelectionRequestSchema = z.object({
   draftPokemonId: z.number().positive(),
 });
 
-export type FinalizeDraftSelectionRequest = z.infer<
+export type FinalizeDraftSelectionRequest = Readonly<z.infer<
   typeof finalizeDraftSelectionRequestSchema
->;
+>>;

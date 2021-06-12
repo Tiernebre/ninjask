@@ -7,6 +7,6 @@ export const challengeParticipantRequestSchema = z.object({
   completionTimeMinutes: z.number().min(0).max(59),
 });
 
-export type ChallengeParticipantUpdateRequest = z.infer<
+export type ChallengeParticipantUpdateRequest = Readonly<z.infer<
   typeof challengeParticipantRequestSchema
->;
+>>;

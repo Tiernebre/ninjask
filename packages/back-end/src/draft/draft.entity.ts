@@ -26,8 +26,10 @@ export class DraftEntity {
   })
   pokemon!: Promise<DraftPokemonEntity[]>;
 
+  // extraPoolSize indicates the number of extra pokemon to be purposely pooled. Essentially:
+  // this is the number of undrafted Pokemon free agents that will end up being available after the draft.
   @Column()
-  poolSize!: number;
+  extraPoolSize!: number;
 
   @Column()
   livePoolPokemonIndex!: number;

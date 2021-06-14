@@ -38,12 +38,14 @@ export class DraftService {
     await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
   }
 
-  private mapFromEntity(entity: DraftEntity): Draft {
+  private async mapFromEntity(entity: DraftEntity): Promise<Draft> {
+    const { length: poolSize } = await entity.pokemon
     return {
       id: entity.id,
-      poolSize: entity.poolSize,
+      poolSize,
+      extraPoolSize: entity.extraPoolSize,
       livePoolingHasFinished:
-        entity.livePoolPokemonIndex + 1 === entity.poolSize,
+        entity.livePoolPokemonIndex + 1 === poolSize,
     };
   }
 }

@@ -11,6 +11,11 @@ import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 import { DraftService } from "./draft.service";
 
+// Right now 6 rounds works because a Pokemon party can only have 6 Pokemon,
+// BUT this could be possibly configurable in the draft itself to make
+// this more flexible in the future.
+const DEFAULT_NUMBER_OF_ROUNDS = 6;
+
 export class DraftPoolService {
   constructor(
     private readonly draftService: DraftService,
@@ -27,7 +32,7 @@ export class DraftPoolService {
     const draft = await this.draftService.getOneAsEntityWithPool(id);
     const version = await this.getVersionForDraft(draft);
     const pokemonUrls = await this.getEligiblePokemonForDraft(version);
-    const randomNumbersGenerated = this.generateRandomPokemonIndicesForDraft(
+    const randomNumbersGenerated = await this.generateRandomPokemonIndicesForDraft(
       draft,
       version,
       pokemonUrls
@@ -79,16 +84,16 @@ export class DraftPoolService {
     return pokemonUrls;
   }
 
-  private generateRandomPokemonIndicesForDraft(
+  private async generateRandomPokemonIndicesForDraft(
     draft: DraftEntity,
     version: Version,
     pokemonUrls: string[]
-  ): number[] {
+  ): Promise<number[]> {
     const randomNumbersGenerated = Array.from(
       getSetOfRandomIntegers({
         min: 0,
         max: pokemonUrls.length,
-        size: draft.poolSize,
+        size: await this.getPoolSizeForDraft(draft),
         denyList: version.deniedPokemonIds,
       })
     );
@@ -134,5 +139,12 @@ export class DraftPoolService {
         `Draft with id = ${draft.id} does not have an existing pool.`
       );
     }
+  }
+
+  private async getPoolSizeForDraft(draft: DraftEntity): Promise<number> {
+    const challenge = await draft.challenge
+    const { length: numberOfParticipants } = await challenge.participants
+    const numberOfDraftPicks = numberOfParticipants * DEFAULT_NUMBER_OF_ROUNDS
+    return numberOfDraftPicks + draft.extraPoolSize
   }
 }

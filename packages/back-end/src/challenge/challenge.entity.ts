@@ -45,9 +45,9 @@ export class ChallengeEntity {
 
   @OneToMany(
     () => ChallengeParticipantEntity,
-    (challengeResult) => challengeResult.challenge
+    (challengeParticipant) => challengeParticipant.challenge
   )
-  results!: Promise<ChallengeParticipantEntity[]>;
+  participants!: Promise<ChallengeParticipantEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })

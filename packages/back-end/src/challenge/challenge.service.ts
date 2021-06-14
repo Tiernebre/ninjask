@@ -43,6 +43,7 @@ export class ChallengeService {
       description: entity.description,
       versionId: entity.versionId,
       creatorId: entity.creatorId,
+      status: entity.status
     };
   }
 }

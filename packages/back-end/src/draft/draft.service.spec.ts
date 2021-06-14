@@ -20,24 +20,22 @@ describe("DraftService", () => {
     it("returns the found draft if it exists", async () => {
       const id = generateRandomNumber();
       const expected = generateMockDraftEntity();
-      when(draftRepository.findOne(id)).thenResolve(
-        expected
-      );
+      when(draftRepository.findOne(id)).thenResolve(expected);
       await expect(draftService.getOne(id)).resolves.toEqual({
         id: expected.id,
         poolSize: (await expected.pokemon).length,
         extraPoolSize: expected.extraPoolSize,
         livePoolingHasFinished: false,
-        challengeId: expected.challengeId
-      })
-    })
+        challengeId: expected.challengeId,
+      });
+    });
 
     it("throws a NotFoundError if it could not be found with the given id", async () => {
       const id = generateRandomNumber();
-      when(draftRepository.findOne(id)).thenResolve(undefined)
-      await expect(draftService.getOne(id)).rejects.toThrowError(NotFoundError)
-    })
-  })
+      when(draftRepository.findOne(id)).thenResolve(undefined);
+      await expect(draftService.getOne(id)).rejects.toThrowError(NotFoundError);
+    });
+  });
 
   describe("getOneAsEntityWithPool", () => {
     it("returns the found draft entity if it exists", async () => {

@@ -25,7 +25,10 @@ export class DraftSelectionService {
 
   public async generateForDraftId(draftId: number): Promise<DraftSelection[]> {
     const draft = await this.draftService.getOne(draftId);
-    const challengers = await this.challengeParticipantService.getAllForChallengeId(draft.challengeId)
+    const challengers =
+      await this.challengeParticipantService.getAllForChallengeId(
+        draft.challengeId
+      );
   }
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {

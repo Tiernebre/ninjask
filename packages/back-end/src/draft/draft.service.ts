@@ -11,18 +11,20 @@ export class DraftService {
   ) {}
 
   public async getOne(id: number): Promise<Draft> {
-    const draft = await this.draftRepository.findOne(id)
+    const draft = await this.draftRepository.findOne(id);
     if (!draft) {
-      throw new NotFoundError(`Draft was not found for id = ${id}`)
+      throw new NotFoundError(`Draft was not found for id = ${id}`);
     }
-    return this.mapFromEntity(draft)
+    return this.mapFromEntity(draft);
   }
 
   public async getOneForChallengeId(challengeId: number): Promise<Draft> {
     this.logger.info(`Fetching draft for challenge with id = ${challengeId}`);
-    const draft = await this.draftRepository.findOne({ challengeId })
+    const draft = await this.draftRepository.findOne({ challengeId });
     if (!draft) {
-      throw new Error(`Draft was not found for challenge with id = ${challengeId}`);
+      throw new Error(
+        `Draft was not found for challenge with id = ${challengeId}`
+      );
     }
     return this.mapFromEntity(draft);
   }
@@ -50,7 +52,7 @@ export class DraftService {
       poolSize,
       extraPoolSize: entity.extraPoolSize,
       livePoolingHasFinished: entity.livePoolPokemonIndex + 1 === poolSize,
-      challengeId: entity.challengeId
+      challengeId: entity.challengeId,
     };
   }
 }

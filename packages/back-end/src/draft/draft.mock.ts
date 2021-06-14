@@ -34,7 +34,7 @@ export const generateMockDraft = (): Draft => ({
   extraPoolSize: generateRandomNumber(),
   livePoolingHasFinished: false,
   challengeId: generateRandomNumber(),
-  numberOfRounds: getRandomInt(1, 7)
+  numberOfRounds: getRandomInt(1, 7),
 });
 
 export const generateMockLiveDraftStatus = (): LiveDraftPool => ({

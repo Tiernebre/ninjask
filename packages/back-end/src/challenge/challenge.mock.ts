@@ -5,6 +5,7 @@ import {
 } from "../random";
 import { Challenge, ChallengeResult, ChallengeEntity } from ".";
 import { generateMockChallengeParticipantEntity } from "../challenge-participant/challenge-participant.mock";
+import { ChallengeStatus } from "./challenge-status";
 
 export const generateMockChallenge = (): ChallengeEntity => {
   const challenge = new ChallengeEntity();
@@ -27,6 +28,7 @@ export const generateMockChallengeDto = (): Challenge => ({
   description: generateRandomString(),
   versionId: generateRandomNumber(),
   creatorId: generateRandomNumber(),
+  status: ChallengeStatus.CREATED,
 });
 
 export const generateMockChallengeResult = (): ChallengeResult => ({

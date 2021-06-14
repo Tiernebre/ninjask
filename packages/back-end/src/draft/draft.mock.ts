@@ -26,6 +26,7 @@ export const generateMockDraftEntity = (): DraftEntity => {
 export const generateMockDraft = (): Draft => ({
   id: generateRandomNumber(),
   poolSize: generateRandomNumber(),
+  extraPoolSize: generateRandomNumber(),
   livePoolingHasFinished: false,
 });
 

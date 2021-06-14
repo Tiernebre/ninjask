@@ -11,25 +11,13 @@ import { DraftSelectionEntity } from ".";
 import { DraftPokemonService } from "../draft-pokemon/draft-pokemon.service";
 import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 import { DraftPokemon } from "../draft-pokemon";
-import { DraftService } from "../draft/draft.service";
-import { ChallengeParticipantService } from "../challenge-participant";
 
 export class DraftSelectionService {
   constructor(
     private readonly draftSelectionRepository: DraftSelectionRepository,
     private readonly pokemonService: PokemonService,
-    private readonly draftPokemonService: DraftPokemonService,
-    private readonly draftService: DraftService,
-    private readonly challengeParticipantService: ChallengeParticipantService
+    private readonly draftPokemonService: DraftPokemonService
   ) {}
-
-  public async generateForDraftId(draftId: number): Promise<DraftSelection[]> {
-    const draft = await this.draftService.getOne(draftId);
-    const challengers =
-      await this.challengeParticipantService.getAllForChallengeId(
-        draft.challengeId
-      );
-  }
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);

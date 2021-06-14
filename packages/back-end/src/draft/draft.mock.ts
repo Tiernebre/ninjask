@@ -1,5 +1,5 @@
 import { generateMockChallenge } from "../challenge/challenge.mock";
-import { generateRandomNumber } from "../random";
+import { generateRandomNumber, getRandomInt } from "../random";
 import { Draft } from "./draft";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
@@ -24,6 +24,7 @@ export const generateMockDraftEntity = (): DraftEntity => {
   draftEntity.challenge = Promise.resolve(generateMockChallenge());
   draftEntity.challengeId = generateRandomNumber();
   draftEntity.livePoolPokemonIndex = -1;
+  draftEntity.numberOfRounds = getRandomInt(1, 7);
   return draftEntity;
 };
 
@@ -32,6 +33,8 @@ export const generateMockDraft = (): Draft => ({
   poolSize: generateRandomNumber(),
   extraPoolSize: generateRandomNumber(),
   livePoolingHasFinished: false,
+  challengeId: generateRandomNumber(),
+  numberOfRounds: getRandomInt(1, 7)
 });
 
 export const generateMockLiveDraftStatus = (): LiveDraftPool => ({

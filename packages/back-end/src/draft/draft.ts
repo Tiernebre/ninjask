@@ -4,4 +4,5 @@ export interface Draft {
   readonly extraPoolSize: number;
   readonly livePoolingHasFinished: boolean;
   readonly challengeId: number;
+  readonly numberOfRounds: number;
 }

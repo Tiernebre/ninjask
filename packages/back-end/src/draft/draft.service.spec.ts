@@ -27,6 +27,7 @@ describe("DraftService", () => {
         extraPoolSize: expected.extraPoolSize,
         livePoolingHasFinished: false,
         challengeId: expected.challengeId,
+        numberOfRounds: expected.numberOfRounds
       });
     });
 

@@ -42,4 +42,7 @@ export class DraftEntity {
     (draftSelection) => draftSelection.draft
   )
   selections!: Promise<DraftSelectionEntity[]>;
+
+  @Column()
+  numberOfRounds!: number;
 }

@@ -59,18 +59,28 @@ describe("ChallengeService", () => {
   });
 
   describe("oneCanHavePoolGeneratedWithId", () => {
-    it.each([ChallengeStatus.CREATED, ChallengeStatus.POOLED])("returns true if the challenge has status = %p", async (status: ChallengeStatus) => {
-      const challenge = generateMockChallenge();
-      challenge.status = status
-      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
-      await expect(challengeService.oneCanHavePoolGeneratedWithId(challenge.id)).resolves.toEqual(true)
-    })
+    it.each([ChallengeStatus.CREATED, ChallengeStatus.POOLED])(
+      "returns true if the challenge has status = %p",
+      async (status: ChallengeStatus) => {
+        const challenge = generateMockChallenge();
+        challenge.status = status;
+        when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+        await expect(
+          challengeService.oneCanHavePoolGeneratedWithId(challenge.id)
+        ).resolves.toEqual(true);
+      }
+    );
 
-    it.each([ChallengeStatus.DRAFTED, ChallengeStatus.COMPLETED])("returns false if the challenge has status = %p", async (status: ChallengeStatus) => {
-      const challenge = generateMockChallenge();
-      challenge.status = status
-      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
-      await expect(challengeService.oneCanHavePoolGeneratedWithId(challenge.id)).resolves.toEqual(false)
-    })
-  })
+    it.each([ChallengeStatus.DRAFTED, ChallengeStatus.COMPLETED])(
+      "returns false if the challenge has status = %p",
+      async (status: ChallengeStatus) => {
+        const challenge = generateMockChallenge();
+        challenge.status = status;
+        when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+        await expect(
+          challengeService.oneCanHavePoolGeneratedWithId(challenge.id)
+        ).resolves.toEqual(false);
+      }
+    );
+  });
 });

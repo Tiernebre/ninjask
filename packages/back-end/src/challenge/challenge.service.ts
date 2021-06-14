@@ -4,7 +4,10 @@ import { Challenge, ChallengeEntity } from ".";
 import { NotFoundError } from "../error/not-found-error";
 import { ChallengeStatus } from "./challenge-status";
 
-const ALLOWED_STATUSES_FOR_POOL_GENERATION: Set<ChallengeStatus> = new Set([ChallengeStatus.CREATED, ChallengeStatus.POOLED])
+const ALLOWED_STATUSES_FOR_POOL_GENERATION: Set<ChallengeStatus> = new Set([
+  ChallengeStatus.CREATED,
+  ChallengeStatus.POOLED,
+]);
 
 export class ChallengeService {
   constructor(
@@ -12,8 +15,8 @@ export class ChallengeService {
   ) {}
 
   async oneCanHavePoolGeneratedWithId(id: number): Promise<boolean> {
-    const challenge = await this.getOneById(id)
-    return ALLOWED_STATUSES_FOR_POOL_GENERATION.has(challenge.status)
+    const challenge = await this.getOneById(id);
+    return ALLOWED_STATUSES_FOR_POOL_GENERATION.has(challenge.status);
   }
 
   async getOneById(id: number): Promise<Challenge> {
@@ -43,7 +46,6 @@ export class ChallengeService {
     await this.challengeRepository.update(id, { status });
   }
 
-
   private mapFromEntity(entity: ChallengeEntity): Challenge {
     return {
       id: entity.id,
@@ -51,7 +53,7 @@ export class ChallengeService {
       description: entity.description,
       versionId: entity.versionId,
       creatorId: entity.creatorId,
-      status: entity.status
+      status: entity.status,
     };
   }
 }

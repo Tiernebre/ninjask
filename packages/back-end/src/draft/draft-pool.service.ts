@@ -34,9 +34,14 @@ export class DraftPoolService {
       `Generating a pool of draftable Pokemon for draft with id = ${id}.`
     );
     const draft = await this.draftService.getOneAsEntityWithPool(id);
-    const poolCannotOccur = !(await this.challengeService.oneCanHavePoolGeneratedWithId(draft.challengeId))
+    const poolCannotOccur =
+      !(await this.challengeService.oneCanHavePoolGeneratedWithId(
+        draft.challengeId
+      ));
     if (poolCannotOccur) {
-      throw new BadRequestError("The draft cannot be pooled anymore since the challenge has moved forward.")
+      throw new BadRequestError(
+        "The draft cannot be pooled anymore since the challenge has moved forward."
+      );
     }
 
     const version = await this.getVersionForDraft(draft);

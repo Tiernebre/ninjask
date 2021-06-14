@@ -46,7 +46,9 @@ describe("DraftPoolService", () => {
     pokemonService = object<PokemonService>();
     versionService = object<VersionService>();
     challengeService = object<ChallengeService>();
-    when(challengeService.oneCanHavePoolGeneratedWithId(matchers.anything())).thenResolve(true)
+    when(
+      challengeService.oneCanHavePoolGeneratedWithId(matchers.anything())
+    ).thenResolve(true);
     draftPoolService = new DraftPoolService(
       draftService,
       draftRepository,
@@ -62,8 +64,12 @@ describe("DraftPoolService", () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
       when(draftService.getOneAsEntityWithPool(id)).thenResolve(draft);
-      when(challengeService.oneCanHavePoolGeneratedWithId(draft.challengeId)).thenResolve(false)
-      await expect(draftPoolService.generateOneForDraftWithId(id)).rejects.toThrowError(BadRequestError);
+      when(
+        challengeService.oneCanHavePoolGeneratedWithId(draft.challengeId)
+      ).thenResolve(false);
+      await expect(
+        draftPoolService.generateOneForDraftWithId(id)
+      ).rejects.toThrowError(BadRequestError);
     });
 
     it("generates a pool of pokemon for a given draft id", async () => {

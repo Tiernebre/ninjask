@@ -14,11 +14,6 @@ import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import { DraftEntity } from "./draft.entity";
 import { DraftService } from "./draft.service";
 
-// Right now 6 rounds works because a Pokemon party can only have 6 Pokemon,
-// BUT this could be possibly configurable in the draft itself to make
-// this more flexible in the future.
-const DEFAULT_NUMBER_OF_ROUNDS = 6;
-
 export class DraftPoolService {
   constructor(
     private readonly draftService: DraftService,
@@ -163,7 +158,7 @@ export class DraftPoolService {
   private async getPoolSizeForDraft(draft: DraftEntity): Promise<number> {
     const challenge = await draft.challenge;
     const { length: numberOfParticipants } = await challenge.participants;
-    const numberOfDraftPicks = numberOfParticipants * DEFAULT_NUMBER_OF_ROUNDS;
+    const numberOfDraftPicks = numberOfParticipants * draft.numberOfRounds;
     return numberOfDraftPicks + draft.extraPoolSize;
   }
 }

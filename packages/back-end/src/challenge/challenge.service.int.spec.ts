@@ -1,7 +1,11 @@
 import { getRepository, Repository } from "typeorm";
 import { ChallengeEntity } from "./challenge.entity";
 import { ChallengeService } from "./challenge.service";
-import { seedChallenge, seedChallengeParticipant, seedChallenges } from "./challenge.seed";
+import {
+  seedChallenge,
+  seedChallengeParticipant,
+  seedChallenges,
+} from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { establishDbConnection } from "../test/create-db-connection";
@@ -50,11 +54,16 @@ describe("ChallengeService (integration)", () => {
   });
 
   describe("updateStatusForOneWithId", () => {
-    it.each(Object.values(ChallengeStatus))("updates the status to %p for a given challenge", async (status: ChallengeStatus) => {
-      const challenge = await seedChallenge(challengeRepository)
-      await challengeService.updateStatusForOneWithId(challenge.id, status)
-      const updatedChallenge = await challengeRepository.findOne(challenge.id) as ChallengeEntity
-      expect(updatedChallenge.status).toEqual(status)
-    })
-  })
+    it.each(Object.values(ChallengeStatus))(
+      "updates the status to %p for a given challenge",
+      async (status: ChallengeStatus) => {
+        const challenge = await seedChallenge(challengeRepository);
+        await challengeService.updateStatusForOneWithId(challenge.id, status);
+        const updatedChallenge = (await challengeRepository.findOne(
+          challenge.id
+        )) as ChallengeEntity;
+        expect(updatedChallenge.status).toEqual(status);
+      }
+    );
+  });
 });

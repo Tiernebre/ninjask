@@ -29,8 +29,11 @@ export class ChallengeService {
     return challenges.map((entity) => this.mapFromEntity(entity));
   }
 
-  async updateStatusForOneWithId(id: number, status: ChallengeStatus): Promise<void> {
-    await this.challengeRepository.update(id, { status })
+  async updateStatusForOneWithId(
+    id: number,
+    status: ChallengeStatus
+  ): Promise<void> {
+    await this.challengeRepository.update(id, { status });
   }
 
   private mapFromEntity(entity: ChallengeEntity): Challenge {

@@ -50,7 +50,10 @@ export class DraftPoolService {
     draft.pokemon = Promise.resolve(pokemonPooled);
     draft.livePoolPokemonIndex = -1;
     await this.draftRepository.save(draft);
-    await this.challengeService.updateStatusForOneWithId(draft.challengeId, ChallengeStatus.POOLED);
+    await this.challengeService.updateStatusForOneWithId(
+      draft.challengeId,
+      ChallengeStatus.POOLED
+    );
     this.logger.info(
       `Fully saved draft with id = ${id} with new generated pool of Pokemon.`
     );

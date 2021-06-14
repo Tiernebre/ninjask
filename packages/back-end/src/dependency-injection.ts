@@ -75,7 +75,7 @@ const buildDraftService = (logger: Logger) => {
 const buildChallengeService = () => {
   const challengeRepository = getRepository(ChallengeEntity);
   return new ChallengeService(challengeRepository);
-}
+};
 
 const buildDraftPoolService = (logger: Logger) => {
   const versionDeniedPokemonRepository = getRepository(

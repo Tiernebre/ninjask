@@ -65,7 +65,7 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   const draftRepository = getRepository(DraftEntity);
   let testDraft = draftRepository.create();
   testDraft.challenge = Promise.resolve(testChallenge);
-  testDraft.poolSize = 20;
+  testDraft.extraPoolSize = 20;
   testDraft = await draftRepository.save(testDraft);
 
   logger.info("Seeding of test data has completed!");

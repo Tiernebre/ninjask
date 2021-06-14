@@ -234,12 +234,4 @@ describe("ChallengeParticipantService", () => {
       }
     );
   });
-
-  // describe("getAllForChallengeId", () => {
-  //   it("returns the associated participants that have the given challenge id", async () => {
-  //     const challengeId = generateRandomNumber()
-  //     const expectedParticipants = [generateMockChallengeParticipantEntity(), generateMockChallengeParticipantEntity()]
-  //     when(challengeParticipantRepository.find({ challengeId })).thenResolve(expectedParticipants)
-  //   })
-  // })
 });

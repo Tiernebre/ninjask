@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
 import { NotFoundError } from "../error/not-found-error";
+import { ChallengeStatus } from "./challenge-status";
 
 export class ChallengeService {
   constructor(
@@ -26,6 +27,10 @@ export class ChallengeService {
       .where("user.id = :id", { id })
       .getMany();
     return challenges.map((entity) => this.mapFromEntity(entity));
+  }
+
+  async updateStatusForOneWithId(id: number, status: ChallengeStatus): Promise<void> {
+    await this.challengeRepository.update(id, { status })
   }
 
   private mapFromEntity(entity: ChallengeEntity): Challenge {

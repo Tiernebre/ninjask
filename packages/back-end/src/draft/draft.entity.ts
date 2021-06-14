@@ -21,6 +21,9 @@ export class DraftEntity {
   @JoinColumn()
   challenge!: Promise<ChallengeEntity>;
 
+  @Column()
+  challengeId!: number;
+
   @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft, {
     cascade: true,
   })

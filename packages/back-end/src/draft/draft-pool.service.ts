@@ -1,4 +1,4 @@
-import { Repository, Transaction } from "typeorm";
+import { Repository } from "typeorm";
 import { fetchOk } from "../http";
 import { Logger } from "../logger";
 import { PokeApiPokemonSpecies } from "../poke-api";
@@ -25,7 +25,6 @@ export class DraftPoolService {
     private readonly logger: Logger
   ) {}
 
-  @Transaction()
   public async generateOneForDraftWithId(id: number): Promise<void> {
     this.logger.info(
       `Generating a pool of draftable Pokemon for draft with id = ${id}.`

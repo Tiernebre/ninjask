@@ -59,7 +59,6 @@ describe("DraftPoolService", () => {
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
       draft.pokemon = Promise.resolve([]);
-      draft.extraPoolSize = pokedex.pokemonUrls.length;
       when(draftService.getOneAsEntityWithPool(id)).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);
       when(versionService.getPokedexFromOne(version)).thenResolve(pokedex);
@@ -87,7 +86,6 @@ describe("DraftPoolService", () => {
       const version = generateMockVersion();
       const pokedex = generateMockPokedex();
       draft.pokemon = Promise.resolve([generateMockDraftPokemonEntity()]);
-      draft.extraPoolSize = pokedex.pokemonUrls.length;
       when(draftService.getOneAsEntityWithPool(id)).thenResolve(draft);
       when(versionService.getOneById(challenge.versionId)).thenResolve(version);
       when(versionService.getPokedexFromOne(version)).thenResolve(pokedex);

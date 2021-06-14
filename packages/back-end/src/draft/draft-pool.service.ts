@@ -46,9 +46,9 @@ export class DraftPoolService {
       randomNumbersGenerated,
       draft
     );
+    await this.clearExistingDraftPool(draft);
     draft.pokemon = Promise.resolve(pokemonPooled);
     draft.livePoolPokemonIndex = -1;
-    await this.clearExistingDraftPool(draft);
     await this.draftRepository.save(draft);
     await this.challengeService.updateStatusForOneWithId(draft.challengeId, ChallengeStatus.POOLED);
     this.logger.info(

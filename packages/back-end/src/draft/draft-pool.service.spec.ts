@@ -44,6 +44,7 @@ describe("DraftPoolService", () => {
     draftRepository = object<Repository<DraftEntity>>();
     pokemonService = object<PokemonService>();
     versionService = object<VersionService>();
+    challengeService = object<ChallengeService>();
     draftPoolService = new DraftPoolService(
       draftService,
       draftRepository,

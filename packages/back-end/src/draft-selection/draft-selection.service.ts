@@ -24,7 +24,7 @@ export class DraftSelectionService {
   ) {}
 
   public async generateForDraftId(draftId: number): Promise<DraftSelection[]> {
-    const draft = await this.draftService.getOneAsEntityWithPool(draftId);
+    const draft = await this.draftService.getOne(draftId);
     const challengers = await this.challengeParticipantService.getAllForChallengeId(draft.challengeId)
   }
 

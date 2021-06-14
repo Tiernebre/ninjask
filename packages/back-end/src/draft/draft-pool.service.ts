@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { ChallengeService } from "../challenge";
 import { ChallengeStatus } from "../challenge/challenge-status";
+import { BadRequestError } from "../error";
 import { fetchOk } from "../http";
 import { Logger } from "../logger";
 import { PokeApiPokemonSpecies } from "../poke-api";
@@ -33,6 +34,11 @@ export class DraftPoolService {
       `Generating a pool of draftable Pokemon for draft with id = ${id}.`
     );
     const draft = await this.draftService.getOneAsEntityWithPool(id);
+    const poolCannotOccur = !(await this.challengeService.oneCanHavePoolGeneratedWithId(draft.challengeId))
+    if (poolCannotOccur) {
+      throw new BadRequestError("The draft cannot be pooled anymore since the challenge has moved forward.")
+    }
+
     const version = await this.getVersionForDraft(draft);
     const pokemonUrls = await this.getEligiblePokemonForDraft(version);
     const randomNumbersGenerated =

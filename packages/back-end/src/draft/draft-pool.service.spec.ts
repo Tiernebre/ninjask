@@ -28,6 +28,7 @@ import {
 } from "../version/version.mock";
 import { fetchOk } from "../http";
 import { ChallengeService } from "../challenge";
+import { BadRequestError } from "../error";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
@@ -45,6 +46,7 @@ describe("DraftPoolService", () => {
     pokemonService = object<PokemonService>();
     versionService = object<VersionService>();
     challengeService = object<ChallengeService>();
+    when(challengeService.oneCanHavePoolGeneratedWithId(matchers.anything())).thenResolve(true)
     draftPoolService = new DraftPoolService(
       draftService,
       draftRepository,
@@ -56,6 +58,14 @@ describe("DraftPoolService", () => {
   });
 
   describe("generateOneForDraftWithId", () => {
+    it("throws a BadRequestError if the challenge associated with the draft cannot be pooled", async () => {
+      const id = generateRandomNumber();
+      const draft = generateMockDraftEntity();
+      when(draftService.getOneAsEntityWithPool(id)).thenResolve(draft);
+      when(challengeService.oneCanHavePoolGeneratedWithId(draft.challengeId)).thenResolve(false)
+      await expect(draftPoolService.generateOneForDraftWithId(id)).rejects.toThrowError(BadRequestError);
+    });
+
     it("generates a pool of pokemon for a given draft id", async () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();

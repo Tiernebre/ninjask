@@ -16,8 +16,11 @@ export const generateMockDraftPokemonEntity = (): DraftPokemonEntity => {
 export const generateMockDraftEntity = (): DraftEntity => {
   const draftEntity = new DraftEntity();
   draftEntity.id = generateRandomNumber();
-  draftEntity.poolSize = generateRandomNumber();
-  draftEntity.pokemon = Promise.resolve([generateMockDraftPokemonEntity()]);
+  draftEntity.extraPoolSize = 0;
+  draftEntity.pokemon = Promise.resolve([
+    generateMockDraftPokemonEntity(),
+    generateMockDraftPokemonEntity(),
+  ]);
   draftEntity.challenge = Promise.resolve(generateMockChallenge());
   draftEntity.livePoolPokemonIndex = -1;
   return draftEntity;
@@ -26,6 +29,7 @@ export const generateMockDraftEntity = (): DraftEntity => {
 export const generateMockDraft = (): Draft => ({
   id: generateRandomNumber(),
   poolSize: generateRandomNumber(),
+  extraPoolSize: generateRandomNumber(),
   livePoolingHasFinished: false,
 });
 

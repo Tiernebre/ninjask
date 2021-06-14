@@ -3,10 +3,11 @@ import { ChallengeEntity } from "../challenge/challenge.entity";
 import { seedChallenges } from "../challenge/challenge.seed";
 import { establishDbConnection } from "../test/create-db-connection";
 import { DraftEntity } from "./draft.entity";
-import { seedDrafts } from "./draft.seed";
+import { seedDraftPokemon, seedDrafts } from "./draft.seed";
 import { DraftService } from "./draft.service";
 import { object } from "testdouble";
 import { Logger } from "../logger";
+import { DraftPokemonEntity } from "./draft-pokemon.entity";
 
 describe("DraftService (integration)", () => {
   let draftService: DraftService;
@@ -32,10 +33,16 @@ describe("DraftService (integration)", () => {
         1
       )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
+      const associatedPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        draft,
+        5
+      );
+      draft.pokemon = Promise.resolve(associatedPokemon);
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
       expect(draftGotten.id).toEqual(draft.id);
-      expect(draftGotten.poolSize).toEqual(draft.poolSize);
+      expect(draftGotten.extraPoolSize).toEqual(draft.extraPoolSize);
       expect(draftGotten.livePoolingHasFinished).toEqual(false);
     });
 
@@ -45,7 +52,14 @@ describe("DraftService (integration)", () => {
         2
       )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
-      draft.livePoolPokemonIndex = draft.poolSize - 1;
+      draft.livePoolPokemonIndex = draft.extraPoolSize - 1;
+      const associatedPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        draft,
+        2
+      );
+      draft.pokemon = Promise.resolve(associatedPokemon);
+      draft.livePoolPokemonIndex = associatedPokemon.length - 1;
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
       expect(draftGotten.livePoolingHasFinished).toEqual(true);

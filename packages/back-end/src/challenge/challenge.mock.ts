@@ -4,6 +4,7 @@ import {
   getRandomInt,
 } from "../random";
 import { Challenge, ChallengeResult, ChallengeEntity } from ".";
+import { generateMockChallengeParticipantEntity } from "../challenge-participant/challenge-participant.mock";
 
 export const generateMockChallenge = (): ChallengeEntity => {
   const challenge = new ChallengeEntity();
@@ -13,6 +14,10 @@ export const generateMockChallenge = (): ChallengeEntity => {
   challenge.createdAt = new Date();
   challenge.updatedAt = new Date();
   challenge.versionId = generateRandomNumber();
+  challenge.participants = Promise.resolve([
+    generateMockChallengeParticipantEntity(),
+    generateMockChallengeParticipantEntity(),
+  ]);
   return challenge;
 };
 

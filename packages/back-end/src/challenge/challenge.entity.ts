@@ -13,6 +13,7 @@ import { ChallengeParticipantEntity } from "../challenge-participant/challenge-p
 import { DraftEntity } from "../draft/draft.entity";
 import { SeasonEntity } from "../season/season.entity";
 import { UserEntity } from "../user/user.entity";
+import { ChallengeStatus } from "./challenge-status";
 
 @Entity({
   name: "challenge",
@@ -44,9 +45,9 @@ export class ChallengeEntity {
 
   @OneToMany(
     () => ChallengeParticipantEntity,
-    (challengeResult) => challengeResult.challenge
+    (challengeParticipant) => challengeParticipant.challenge
   )
-  results!: Promise<ChallengeParticipantEntity[]>;
+  participants!: Promise<ChallengeParticipantEntity[]>;
 
   @ManyToOne(() => UserEntity, (user) => user.createdChallenges)
   @JoinColumn({ name: "creator_id" })
@@ -54,4 +55,7 @@ export class ChallengeEntity {
 
   @Column()
   creatorId!: number;
+
+  @Column("text")
+  status!: ChallengeStatus;
 }

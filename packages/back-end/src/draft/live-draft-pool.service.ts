@@ -45,7 +45,7 @@ export class LiveDraftPoolService {
       currentPokemon: mappedCurrentPokemon,
       currentIndex: draft.livePoolPokemonIndex,
       pooledPokemon: mapPooledPokemon,
-      isPoolOver: draft.livePoolPokemonIndex === draft.poolSize - 1,
+      isPoolOver: draft.livePoolPokemonIndex === pokemon.length - 1,
     };
   }
 }

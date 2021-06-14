@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { z } from "zod";
 import { NotFoundError } from "../error/not-found-error";
 import { INVALID_NUMBER_CASES } from "../test/cases";
+import { ChallengeStatus } from "./challenge-status";
 import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeService } from "./challenge.service";
@@ -56,4 +57,20 @@ describe("ChallengeService", () => {
       }
     );
   });
+
+  describe("oneCanHavePoolGeneratedWithId", () => {
+    it.each([ChallengeStatus.CREATED, ChallengeStatus.POOLED])("returns true if the challenge has status = %p", async (status: ChallengeStatus) => {
+      const challenge = generateMockChallenge();
+      challenge.status = status
+      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+      await expect(challengeService.oneCanHavePoolGeneratedWithId(challenge.id)).resolves.toEqual(true)
+    })
+
+    it.each([ChallengeStatus.DRAFTED, ChallengeStatus.COMPLETED])("returns false if the challenge has status = %p", async (status: ChallengeStatus) => {
+      const challenge = generateMockChallenge();
+      challenge.status = status
+      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+      await expect(challengeService.oneCanHavePoolGeneratedWithId(challenge.id)).resolves.toEqual(false)
+    })
+  })
 });

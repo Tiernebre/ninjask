@@ -234,4 +234,13 @@ describe("ChallengeParticipantService", () => {
       }
     );
   });
+
+  describe("getNumberOfThemInChallengeWithId", () => {
+    it("returns the number of participants that have the given challenge id", async () => {
+      const challengeId = generateRandomNumber()
+      const expectedNumber = generateRandomNumber()
+      when(challengeParticipantRepository.count({ challengeId })).thenResolve(expectedNumber)
+      await expect(challengeParticipantService.getNumberOfThemInChallengeWithId(challengeId)).resolves.toEqual(expectedNumber)
+    })
+  })
 });

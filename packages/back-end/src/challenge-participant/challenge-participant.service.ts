@@ -97,6 +97,10 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeParticipant);
   }
 
+  public async getNumberOfThemInChallengeWithId(challengeId: number): Promise<number> {
+    return this.challengeParticipantRepository.count({ challengeId })
+  }
+
   private mapFromEntity(
     entity: ChallengeParticipantEntity
   ): ChallengeParticipant {

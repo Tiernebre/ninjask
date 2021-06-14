@@ -32,11 +32,12 @@ export class DraftPoolService {
     const draft = await this.draftService.getOneAsEntityWithPool(id);
     const version = await this.getVersionForDraft(draft);
     const pokemonUrls = await this.getEligiblePokemonForDraft(version);
-    const randomNumbersGenerated = await this.generateRandomPokemonIndicesForDraft(
-      draft,
-      version,
-      pokemonUrls
-    );
+    const randomNumbersGenerated =
+      await this.generateRandomPokemonIndicesForDraft(
+        draft,
+        version,
+        pokemonUrls
+      );
     const pokemonPooled = await this.poolPokemon(
       pokemonUrls,
       randomNumbersGenerated,
@@ -142,9 +143,9 @@ export class DraftPoolService {
   }
 
   private async getPoolSizeForDraft(draft: DraftEntity): Promise<number> {
-    const challenge = await draft.challenge
-    const { length: numberOfParticipants } = await challenge.participants
-    const numberOfDraftPicks = numberOfParticipants * DEFAULT_NUMBER_OF_ROUNDS
-    return numberOfDraftPicks + draft.extraPoolSize
+    const challenge = await draft.challenge;
+    const { length: numberOfParticipants } = await challenge.participants;
+    const numberOfDraftPicks = numberOfParticipants * DEFAULT_NUMBER_OF_ROUNDS;
+    return numberOfDraftPicks + draft.extraPoolSize;
   }
 }

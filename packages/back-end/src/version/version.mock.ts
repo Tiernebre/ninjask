@@ -4,9 +4,9 @@ import { Version } from "./version";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 
 export const generateMockPokedex = (): Pokedex => {
-  const pokemonUrls: string[] = []
+  const pokemonUrls: string[] = [];
   for (let i = 0; i < 150; i++) {
-    pokemonUrls.push(generateRandomString())
+    pokemonUrls.push(generateRandomString());
   }
   return new Pokedex(generateRandomNumber(), pokemonUrls);
 };

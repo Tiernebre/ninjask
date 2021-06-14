@@ -14,7 +14,10 @@ export const generateMockChallenge = (): ChallengeEntity => {
   challenge.createdAt = new Date();
   challenge.updatedAt = new Date();
   challenge.versionId = generateRandomNumber();
-  challenge.participants = Promise.resolve([generateMockChallengeParticipantEntity(), generateMockChallengeParticipantEntity()])
+  challenge.participants = Promise.resolve([
+    generateMockChallengeParticipantEntity(),
+    generateMockChallengeParticipantEntity(),
+  ]);
   return challenge;
 };
 

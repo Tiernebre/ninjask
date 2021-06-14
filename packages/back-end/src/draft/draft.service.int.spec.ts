@@ -33,8 +33,12 @@ describe("DraftService (integration)", () => {
         1
       )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
-      const associatedPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), draft, 5)
-      draft.pokemon = Promise.resolve(associatedPokemon)
+      const associatedPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        draft,
+        5
+      );
+      draft.pokemon = Promise.resolve(associatedPokemon);
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
       expect(draftGotten.id).toEqual(draft.id);
@@ -49,9 +53,13 @@ describe("DraftService (integration)", () => {
       )) as ChallengeEntity;
       draft.challenge = Promise.resolve(challenge);
       draft.livePoolPokemonIndex = draft.extraPoolSize - 1;
-      const associatedPokemon = await seedDraftPokemon(getRepository(DraftPokemonEntity), draft, 2)
-      draft.pokemon = Promise.resolve(associatedPokemon)
-      draft.livePoolPokemonIndex = associatedPokemon.length - 1
+      const associatedPokemon = await seedDraftPokemon(
+        getRepository(DraftPokemonEntity),
+        draft,
+        2
+      );
+      draft.pokemon = Promise.resolve(associatedPokemon);
+      draft.livePoolPokemonIndex = associatedPokemon.length - 1;
       draft = await draftRepository.save(draft);
       const draftGotten = await draftService.getOneForChallengeId(challenge.id);
       expect(draftGotten.livePoolingHasFinished).toEqual(true);

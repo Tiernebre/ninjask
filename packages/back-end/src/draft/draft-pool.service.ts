@@ -1,4 +1,6 @@
 import { Repository } from "typeorm";
+import { ChallengeService } from "../challenge";
+import { ChallengeStatus } from "../challenge/challenge-status";
 import { fetchOk } from "../http";
 import { Logger } from "../logger";
 import { PokeApiPokemonSpecies } from "../poke-api";
@@ -22,7 +24,8 @@ export class DraftPoolService {
     private readonly draftRepository: Repository<DraftEntity>,
     private readonly versionService: VersionService,
     private readonly pokemonService: PokemonService,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly challengeService: ChallengeService
   ) {}
 
   public async generateOneForDraftWithId(id: number): Promise<void> {
@@ -43,10 +46,11 @@ export class DraftPoolService {
       randomNumbersGenerated,
       draft
     );
-    await this.clearExistingDraftPool(draft);
     draft.pokemon = Promise.resolve(pokemonPooled);
     draft.livePoolPokemonIndex = -1;
+    await this.clearExistingDraftPool(draft);
     await this.draftRepository.save(draft);
+    await this.challengeService.updateStatusForOneWithId(draft.challengeId, ChallengeStatus.POOLED);
     this.logger.info(
       `Fully saved draft with id = ${id} with new generated pool of Pokemon.`
     );

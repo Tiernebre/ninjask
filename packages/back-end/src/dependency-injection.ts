@@ -72,6 +72,11 @@ const buildDraftService = (logger: Logger) => {
   return new DraftService(getRepository(DraftEntity), logger);
 };
 
+const buildChallengeService = () => {
+  const challengeRepository = getRepository(ChallengeEntity);
+  return new ChallengeService(challengeRepository);
+}
+
 const buildDraftPoolService = (logger: Logger) => {
   const versionDeniedPokemonRepository = getRepository(
     VersionDeniedPokemonEntity
@@ -86,7 +91,8 @@ const buildDraftPoolService = (logger: Logger) => {
     getRepository(DraftEntity),
     versionService,
     buildPokemonService(logger),
-    logger
+    logger,
+    buildChallengeService()
   );
 };
 
@@ -136,10 +142,8 @@ const buildChallengeParticipantsService = () => {
 };
 
 const buildChallengesRouter = (logger: Logger) => {
-  const challengeRepository = getRepository(ChallengeEntity);
-  const challengeService = new ChallengeService(challengeRepository);
   return new ChallengeRouter(
-    challengeService,
+    buildChallengeService(),
     buildDraftService(logger),
     buildChallengeParticipantsService()
   );

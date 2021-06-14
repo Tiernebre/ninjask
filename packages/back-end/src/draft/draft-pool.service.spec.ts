@@ -27,6 +27,7 @@ import {
   generateMockVersion,
 } from "../version/version.mock";
 import { fetchOk } from "../http";
+import { ChallengeService } from "../challenge";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
@@ -36,6 +37,7 @@ describe("DraftPoolService", () => {
   let draftRepository: Repository<DraftEntity>;
   let pokemonService: PokemonService;
   let versionService: VersionService;
+  let challengeService: ChallengeService;
 
   beforeEach(() => {
     draftService = object<DraftService>();
@@ -47,7 +49,8 @@ describe("DraftPoolService", () => {
       draftRepository,
       versionService,
       pokemonService,
-      object<Logger>()
+      object<Logger>(),
+      challengeService
     );
   });
 

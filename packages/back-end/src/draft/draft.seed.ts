@@ -12,7 +12,7 @@ export const seedDrafts = async (
   const drafts = [];
   for (let i = 0; i < count; i++) {
     const draft = repository.create();
-    draft.poolSize = getRandomInt(1, 40);
+    draft.extraPoolSize = getRandomInt(1, 40);
     if (challenge) {
       draft.challenge = Promise.resolve(challenge);
     }

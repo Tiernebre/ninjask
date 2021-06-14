@@ -21,8 +21,8 @@ export class ChallengeService {
     z.number().parse(id);
     const challenges = await this.challengeRepository
       .createQueryBuilder("challenge")
-      .innerJoin("challenge.results", "result")
-      .innerJoin("result.user", "user")
+      .innerJoin("challenge.participants", "participant")
+      .innerJoin("participant.user", "user")
       .where("user.id = :id", { id })
       .getMany();
     return challenges.map((entity) => this.mapFromEntity(entity));

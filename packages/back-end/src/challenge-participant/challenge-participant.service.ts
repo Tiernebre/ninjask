@@ -97,8 +97,8 @@ export class ChallengeParticipantService {
     return this.mapFromEntity(challengeParticipant);
   }
 
-  public async getNumberOfThemInChallengeWithId(challengeId: number): Promise<number> {
-    return this.challengeParticipantRepository.count({ challengeId })
+  public async getAllForChallengeId(challengeId: number): Promise<ChallengeParticipant[]> {
+    return (await this.challengeParticipantRepository.find({ challengeId })).map(participant => this.mapFromEntity(participant))
   }
 
   private mapFromEntity(

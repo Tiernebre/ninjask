@@ -235,12 +235,11 @@ describe("ChallengeParticipantService", () => {
     );
   });
 
-  describe("getNumberOfThemInChallengeWithId", () => {
-    it("returns the number of participants that have the given challenge id", async () => {
-      const challengeId = generateRandomNumber()
-      const expectedNumber = generateRandomNumber()
-      when(challengeParticipantRepository.count({ challengeId })).thenResolve(expectedNumber)
-      await expect(challengeParticipantService.getNumberOfThemInChallengeWithId(challengeId)).resolves.toEqual(expectedNumber)
-    })
-  })
+  // describe("getAllForChallengeId", () => {
+  //   it("returns the associated participants that have the given challenge id", async () => {
+  //     const challengeId = generateRandomNumber()
+  //     const expectedParticipants = [generateMockChallengeParticipantEntity(), generateMockChallengeParticipantEntity()]
+  //     when(challengeParticipantRepository.find({ challengeId })).thenResolve(expectedParticipants)
+  //   })
+  // })
 });

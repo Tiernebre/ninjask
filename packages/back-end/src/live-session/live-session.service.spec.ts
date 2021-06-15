@@ -6,6 +6,8 @@ import { object, when } from "testdouble"
 import { generateMockLiveSessionTicketEntity } from "./live-session.mock"
 import { INVALID_NUMBER_CASES, INVALID_STRING_CASES } from "../test/cases";
 import { ZodError } from "zod"
+import { v4 as uuid } from 'uuid'
+import { UnauthorizedError } from "../error"
 
 describe("LiveSessionService", () => {
   let liveSessionService: LiveSessionService
@@ -33,6 +35,19 @@ describe("LiveSessionService", () => {
   describe("redeemOne", () => {
     it.each(INVALID_STRING_CASES)("throws ZodError if the provided ticket is %p", async (ticket) => {
       await expect(liveSessionService.redeemOne(ticket as string)).rejects.toThrowError(ZodError)
+    })
+
+    it("throws UnauthorizedError if a ticket was not found with the credentials provided", async () => {
+      const ticket = uuid()
+      when(liveSessionTicketRepository.findOne({ token: ticket, redeemed: false })).thenResolve(undefined)
+      await expect(liveSessionService.redeemOne(ticket)).rejects.toThrowError(UnauthorizedError)
+    })
+
+    it("returns the redeemed live session payload", async () => {
+      const ticket = uuid()
+      const expectedLiveSessionTicket = generateMockLiveSessionTicketEntity()
+      when(liveSessionTicketRepository.findOne({ token: ticket, redeemed: false })).thenResolve(expectedLiveSessionTicket)
+      await expect(liveSessionService.redeemOne(ticket)).resolves.toEqual({ userId: expectedLiveSessionTicket.userId })
     })
   })
 })

@@ -12,7 +12,7 @@ export class LiveSessionService {
   ) {}
 
   async createOne(session: SessionPayload): Promise<LiveSession> {
-    sessionPayloadSchema.parse(session)
+    sessionPayloadSchema.parse(session);
 
     const { token: ticket } = await this.liveSessionTicketRepository.save(
       this.liveSessionTicketRepository.create({
@@ -25,7 +25,7 @@ export class LiveSessionService {
   }
 
   async redeemOne(ticket: string): Promise<LiveSessionPayload> {
-    z.string().min(1).parse(ticket)
+    z.string().min(1).parse(ticket);
 
     const foundTicket = await this.liveSessionTicketRepository.findOne({
       token: ticket,

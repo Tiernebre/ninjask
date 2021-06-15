@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { UserEntity } from "../user";
 
 @Entity({
@@ -15,6 +21,9 @@ export class LiveSessionTicketEntity {
   createdAt!: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.liveSessionTickets)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: "user_id" })
   user!: Promise<UserEntity>;
+
+  @Column()
+  userId!: number;
 }

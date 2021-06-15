@@ -1,5 +1,9 @@
-export interface SessionPayload {
-  readonly userId: number;
-  readonly accessKey: string;
-  readonly userFingerprint: string;
-}
+import { z } from 'zod'
+
+export const sessionPayloadSchema = z.object({
+  userId: z.number(),
+  accessKey: z.string(),
+  userFingerprint: z.string()
+})
+
+export type SessionPayload = Readonly<z.infer<typeof sessionPayloadSchema>>

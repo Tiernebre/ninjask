@@ -5,7 +5,6 @@ import { BadRequestError } from "../error";
 import { fetchOk } from "../http";
 import { Logger } from "../logger";
 import { PokeApiPokemonSpecies } from "../poke-api";
-import { Pokemon } from "../pokemon/pokemon";
 import { PokemonService } from "../pokemon/pokemon.service";
 import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";

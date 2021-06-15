@@ -15,7 +15,6 @@ import {
   PokeApiPokemonSpecies,
   generateMockPokeApiPokemonSpecies,
 } from "../poke-api";
-import { Pokemon } from "../pokemon/pokemon";
 import { generateRandomNumber } from "../random";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
 import {

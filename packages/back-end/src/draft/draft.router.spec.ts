@@ -4,7 +4,6 @@ import { Server } from "http";
 import Application from "koa";
 import { DraftRouter } from "./draft.router";
 import { object, when } from "testdouble";
-import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { DraftPoolService } from "./draft-pool.service";
 import { DraftSelectionService } from "../draft-selection";
 import { generateRandomNumber } from "../random";

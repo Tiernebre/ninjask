@@ -164,7 +164,9 @@ const buildDraftSelectionService = (logger: Logger) => {
   return new DraftSelectionService(
     draftSelectionRepository,
     buildPokemonService(logger),
-    buildDraftPokemonService()
+    buildDraftPokemonService(),
+    buildDraftService(logger),
+    buildChallengeParticipantsService()
   );
 };
 

@@ -1,7 +1,7 @@
 import { ZodError } from "zod";
 import { Pokemon, PokemonService } from "../pokemon";
 import { DraftSelectionService } from "./draft-selection.service";
-import { object, when } from "testdouble";
+import { matchers, object, when } from "testdouble";
 import { DraftSelectionRepository } from "./draft-selection.repository";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import {
@@ -19,22 +19,89 @@ import { generateMockDraftPokemon } from "../draft-pokemon/draft-pokemon.mock";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { DraftSelectionEntity } from ".";
 import { DraftPokemon } from "../draft-pokemon";
+import { DraftService } from "../draft/draft.service";
+import { ChallengeParticipantService } from "../challenge-participant";
+import { generateMockDraft } from "../draft/draft.mock";
+import {
+  generateMockChallengeParticipant,
+  generateMockChallengeParticipantEntity,
+} from "../challenge-participant/challenge-participant.mock";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
   let draftSelectionRepository: DraftSelectionRepository;
   let pokemonService: PokemonService;
   let draftPokemonService: DraftPokemonService;
+  let draftService: DraftService;
+  let challengeParticipantService: ChallengeParticipantService;
 
   beforeEach(() => {
     draftSelectionRepository = object<DraftSelectionRepository>();
     pokemonService = object<PokemonService>();
     draftPokemonService = object<DraftPokemonService>();
+    draftService = object<DraftService>();
+    challengeParticipantService = object<ChallengeParticipantService>();
     draftSelectionService = new DraftSelectionService(
       draftSelectionRepository,
       pokemonService,
-      draftPokemonService
+      draftPokemonService,
+      draftService,
+      challengeParticipantService
     );
+  });
+
+  describe("generateForDraft", () => {
+    it.each(INVALID_NUMBER_CASES)(
+      "throws a ZodError if the given draft id is %p",
+      async (draftId) => {
+        await expect(
+          draftSelectionService.generateForDraft(draftId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("returns the created draft selections for a given draft", async () => {
+      const draft = generateMockDraft();
+      const participants = [
+        generateMockChallengeParticipant(),
+        generateMockChallengeParticipant(),
+      ];
+      when(draftService.getOne(draft.id)).thenResolve(draft);
+      when(
+        challengeParticipantService.getAllForChallengeId(draft.challengeId)
+      ).thenResolve(participants);
+      let expectedSelections: DraftSelectionEntity[] = [];
+      when(draftSelectionRepository.save(matchers.anything())).thenDo(
+        (selectionsToSave: DraftSelectionEntity[]) => {
+          selectionsToSave.forEach((selection) => {
+            selection.challengeParticipant = Promise.resolve(
+              generateMockChallengeParticipantEntity()
+            );
+          });
+          expectedSelections = [...selectionsToSave];
+          return Promise.resolve(selectionsToSave);
+        }
+      );
+      const generatedSelections = await draftSelectionService.generateForDraft(
+        draft.id
+      );
+      expect(generatedSelections).toHaveLength(
+        draft.numberOfRounds * participants.length
+      );
+      generatedSelections.forEach((generatedSelection, index) => {
+        const correspondingExpectedSelection = expectedSelections[index];
+        expect(generatedSelection.id).toEqual(
+          correspondingExpectedSelection.id
+        );
+        expect(generatedSelection.round).toEqual(
+          correspondingExpectedSelection.roundNumber
+        );
+        expect(generatedSelection.pick).toEqual(
+          correspondingExpectedSelection.pickNumber
+        );
+        expect(generatedSelection.selection).toBeNull();
+      });
+    });
   });
 
   describe("getAllForDraft", () => {

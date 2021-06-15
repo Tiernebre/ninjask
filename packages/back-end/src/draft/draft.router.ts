@@ -31,5 +31,11 @@ export class DraftRouter extends Router {
         Number(ctx.params.id)
       );
     });
+
+    this.post("/drafts/:id/selections", async (ctx) => {
+      ctx.body = await this.draftSelectionService.generateForDraft(
+        Number(ctx.params.id)
+      );
+    });
   }
 }

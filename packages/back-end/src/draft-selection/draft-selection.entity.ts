@@ -24,6 +24,9 @@ export class DraftSelectionEntity {
   challengeParticipant!: Promise<ChallengeParticipantEntity>;
 
   @Column()
+  challengeParticipantId!: number;
+
+  @Column()
   roundNumber!: number;
 
   @Column()

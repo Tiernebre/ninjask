@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 import { ChallengeEntity } from "../challenge/challenge.entity";
-import { LiveSessionTicketEntity } from "../session/live-session-ticket.entity";
+import { LiveSessionTicketEntity } from "../live-session/live-session-ticket.entity";
 
 @Entity({ name: "users" })
 export class UserEntity {

@@ -43,6 +43,9 @@ import {
 import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";
+import { LiveSessionRouter } from "./live-session/live-session.router";
+import { LiveSessionService } from "./live-session/live-session.service";
+import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -181,6 +184,13 @@ const buildDraftSelectionsRouter = (logger: Logger) => {
   return new DraftSelectionRouter(buildDraftSelectionService(logger));
 };
 
+const buildLiveSessionRouter = () => {
+  const liveSessionService = new LiveSessionService(getRepository(LiveSessionTicketEntity))
+  return new LiveSessionRouter(
+    liveSessionService
+  )
+}
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -209,6 +219,7 @@ export const injectDependencies = async (
     buildChallengesRouter(logger),
     buildChallengeParticipantsRouter(),
     buildDraftSelectionsRouter(logger),
+    buildLiveSessionRouter()
   ];
   routers.forEach((router) => {
     app.use(router.routes());

@@ -9,7 +9,7 @@ export class LiveSessionService {
   ) {}
 
   async createOne({ userId }: SessionPayload): Promise<LiveSession> {
-    const { id: ticket } =
+    const { token: ticket } =
       await this.liveSessionTicketRepository.save(
         this.liveSessionTicketRepository.create({
           userId,

@@ -12,7 +12,7 @@ import { UserEntity } from "../user";
 })
 export class LiveSessionTicketEntity {
   @PrimaryGeneratedColumn()
-  id!: string;
+  token!: string;
 
   @Column()
   redeemed!: boolean;

@@ -3,19 +3,21 @@ import { Context } from "vm";
 import { ContextState } from "../types/state";
 import { LiveSessionService } from "./live-session.service";
 
-export class LiveSessionRouter extends Router<ContextState, Context>  {
+export class LiveSessionRouter extends Router<ContextState, Context> {
   private readonly URI = "/live-sessions";
 
-  constructor(
-    private readonly liveSessionService: LiveSessionService
-  ) {
-    super()
-    this.setupRoutes()
+  constructor(private readonly liveSessionService: LiveSessionService) {
+    super();
+    this.setupRoutes();
   }
 
   private setupRoutes(): void {
     this.post(this.URI, async (ctx) => {
-      ctx.body = await this.liveSessionService.createOne(ctx.state.session)
+      ctx.body = await this.liveSessionService.createOne(ctx.state.session);
+    });
+
+    this.post(`${this.URI}/ticket-redemption/:ticket`, async (ctx) => {
+      ctx.body = await this.liveSessionService.redeemOne(ctx.params.ticket);
     });
   }
 }

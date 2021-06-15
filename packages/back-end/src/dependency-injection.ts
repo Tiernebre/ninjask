@@ -185,11 +185,11 @@ const buildDraftSelectionsRouter = (logger: Logger) => {
 };
 
 const buildLiveSessionRouter = () => {
-  const liveSessionService = new LiveSessionService(getRepository(LiveSessionTicketEntity))
-  return new LiveSessionRouter(
-    liveSessionService
-  )
-}
+  const liveSessionService = new LiveSessionService(
+    getRepository(LiveSessionTicketEntity)
+  );
+  return new LiveSessionRouter(liveSessionService);
+};
 
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
@@ -219,7 +219,7 @@ export const injectDependencies = async (
     buildChallengesRouter(logger),
     buildChallengeParticipantsRouter(),
     buildDraftSelectionsRouter(logger),
-    buildLiveSessionRouter()
+    buildLiveSessionRouter(),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

@@ -11,25 +11,31 @@ export class LiveSessionService {
   ) {}
 
   async createOne({ userId }: SessionPayload): Promise<LiveSession> {
-    const { token: ticket } =
-      await this.liveSessionTicketRepository.save(
-        this.liveSessionTicketRepository.create({
-          userId,
-        })
-      );
+    const { token: ticket } = await this.liveSessionTicketRepository.save(
+      this.liveSessionTicketRepository.create({
+        userId,
+      })
+    );
     return {
-      ticket
+      ticket,
     };
   }
 
   async redeemOne(ticket: string): Promise<LiveSessionPayload> {
-    const foundTicket = await this.liveSessionTicketRepository.findOne({ token: ticket, redeemed: false })
+    const foundTicket = await this.liveSessionTicketRepository.findOne({
+      token: ticket,
+      redeemed: false,
+    });
     if (!foundTicket) {
-      throw new UnauthorizedError("You are not permitted to connect to the live session due to invalid authentication")
+      throw new UnauthorizedError(
+        "You are not permitted to connect to the live session due to invalid authentication"
+      );
     }
-    await this.liveSessionTicketRepository.update(foundTicket.token, { redeemed: true })
+    await this.liveSessionTicketRepository.update(foundTicket.token, {
+      redeemed: true,
+    });
     return {
-      userId: foundTicket.userId
-    }
+      userId: foundTicket.userId,
+    };
   }
 }

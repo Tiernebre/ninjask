@@ -42,6 +42,9 @@ export class UserEntity {
   @OneToMany(() => ChallengeEntity, (challenge) => challenge.creator)
   createdChallenges!: Promise<ChallengeEntity[]>;
 
-  @OneToMany(() => LiveSessionTicketEntity, (liveSessionTicket) => liveSessionTicket.user)
+  @OneToMany(
+    () => LiveSessionTicketEntity,
+    (liveSessionTicket) => liveSessionTicket.user
+  )
   liveSessionTickets!: Promise<LiveSessionTicketEntity[]>;
 }

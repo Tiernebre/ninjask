@@ -29,6 +29,7 @@ import {
 import { fetchOk } from "../http";
 import { ChallengeService } from "../challenge";
 import { BadRequestError } from "../error";
+import { DraftPoolPokemon } from "./draft-pool-pokemon";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
@@ -124,10 +125,13 @@ describe("DraftPoolService", () => {
     it("returns the pokemon associated with a given draft pool", async () => {
       const id = generateRandomNumber();
       const draft = generateMockDraftEntity();
-      const expected: Pokemon[] = [];
+      const expected: DraftPoolPokemon[] = [];
       (await draft.pokemon).forEach((pokemon) => {
         const expectedPokemon = generateMockPokemon();
-        expected.push(expectedPokemon);
+        expected.push({
+          ...expectedPokemon,
+          draftPoolId: pokemon.id
+        });
         when(pokemonService.getOneById(pokemon.pokemonId)).thenResolve(
           expectedPokemon
         );

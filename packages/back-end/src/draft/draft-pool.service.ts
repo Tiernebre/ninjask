@@ -11,6 +11,7 @@ import { getSetOfRandomIntegers } from "../random";
 import { Version } from "../version/version";
 import { VersionService } from "../version/version.service";
 import { DraftPokemonEntity } from "./draft-pokemon.entity";
+import { DraftPoolPokemon } from "./draft-pool-pokemon";
 import { DraftEntity } from "./draft.entity";
 import { DraftService } from "./draft.service";
 
@@ -65,13 +66,18 @@ export class DraftPoolService {
     );
   }
 
-  public async getOneForDraftWithId(id: number): Promise<Pokemon[]> {
+  public async getOneForDraftWithId(id: number): Promise<DraftPoolPokemon[]> {
     this.logger.info(`Getting draftable Pokemon from draft with id = ${id}`);
     const draft = await this.draftService.getOneAsEntityWithPool(id);
     const associatedDraftPokemon = await draft.pokemon;
-    const pokemonIds = associatedDraftPokemon.map(({ pokemonId }) => pokemonId);
     return Promise.all(
-      pokemonIds.map((pokemonId) => this.pokemonService.getOneById(pokemonId))
+      associatedDraftPokemon.map(async (draftPoolPokemon) => {
+        const pokemon = await this.pokemonService.getOneById(draftPoolPokemon.pokemonId)
+        return {
+          ...pokemon,
+          draftPoolId: draftPoolPokemon.id
+        }
+      })
     );
   }
 

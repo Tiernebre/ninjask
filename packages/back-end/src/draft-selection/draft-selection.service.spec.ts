@@ -19,23 +19,37 @@ import { generateMockDraftPokemon } from "../draft-pokemon/draft-pokemon.mock";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { DraftSelectionEntity } from ".";
 import { DraftPokemon } from "../draft-pokemon";
+import { DraftService } from "../draft/draft.service";
+import { ChallengeParticipantService } from "../challenge-participant";
 
 describe("DraftSelectionService", () => {
   let draftSelectionService: DraftSelectionService;
   let draftSelectionRepository: DraftSelectionRepository;
   let pokemonService: PokemonService;
   let draftPokemonService: DraftPokemonService;
+  let draftService: DraftService;
+  let challengeParticipantService: ChallengeParticipantService;
 
   beforeEach(() => {
     draftSelectionRepository = object<DraftSelectionRepository>();
     pokemonService = object<PokemonService>();
     draftPokemonService = object<DraftPokemonService>();
+    draftService = object<DraftService>();
+    challengeParticipantService = object<ChallengeParticipantService>();
     draftSelectionService = new DraftSelectionService(
       draftSelectionRepository,
       pokemonService,
-      draftPokemonService
+      draftPokemonService,
+      draftService,
+      challengeParticipantService
     );
   });
+
+  describe("generateForDraft", () => {
+    it.each(INVALID_NUMBER_CASES)("throws a ZodError if the given draft id is %p", async (draftId) => {
+      await expect(draftSelectionService.generateForDraft(draftId as number)).rejects.toThrowError(ZodError)
+    })
+  })
 
   describe("getAllForDraft", () => {
     it.each([...INVALID_NUMBER_CASES])(

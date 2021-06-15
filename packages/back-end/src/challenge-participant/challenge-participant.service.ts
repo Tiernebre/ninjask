@@ -8,7 +8,6 @@ import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { z } from "zod";
 import { NotFoundError } from "../error/not-found-error";
-import { partial } from "lodash";
 
 export class ChallengeParticipantService {
   constructor(

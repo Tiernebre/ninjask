@@ -27,6 +27,7 @@ export class LiveSessionService {
     if (!foundTicket) {
       throw new UnauthorizedError("You are not permitted to connect to the live session due to invalid authentication")
     }
+    await this.liveSessionTicketRepository.update(foundTicket.token, { redeemed: true })
     return {
       userId: foundTicket.userId
     }

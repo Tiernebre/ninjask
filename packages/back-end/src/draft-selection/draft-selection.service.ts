@@ -13,7 +13,7 @@ import { DraftPokemonEntity } from "../draft/draft-pokemon.entity";
 import { DraftPokemon } from "../draft-pokemon";
 import { DraftService } from "../draft/draft.service";
 import { ChallengeParticipantService } from "../challenge-participant";
-import { range } from 'lodash'
+import { range } from "lodash";
 
 export class DraftSelectionService {
   constructor(
@@ -22,25 +22,34 @@ export class DraftSelectionService {
     private readonly draftPokemonService: DraftPokemonService,
     private readonly draftService: DraftService,
     private readonly challengeParticipantService: ChallengeParticipantService
-  ) { }
+  ) {}
 
   public async generateForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
 
-    const draft = await this.draftService.getOne(draftId)
-    const participants = await this.challengeParticipantService.getAllForChallengeId(draft.challengeId)
-    const roundNumbers = range(draft.numberOfRounds).map(roundNumber => roundNumber + 1) // 0-based becomes 1-based as "Round 0" doesn't make sense
-    const selectionsToSave = roundNumbers.flatMap(roundNumber => {
+    const draft = await this.draftService.getOne(draftId);
+    const participants =
+      await this.challengeParticipantService.getAllForChallengeId(
+        draft.challengeId
+      );
+    const roundNumbers = range(draft.numberOfRounds).map(
+      (roundNumber) => roundNumber + 1
+    ); // 0-based becomes 1-based as "Round 0" doesn't make sense
+    const selectionsToSave = roundNumbers.flatMap((roundNumber) => {
       return participants.map((participant, index) => {
-        const draftSelectionToGenerate = new DraftSelectionEntity()
-        draftSelectionToGenerate.challengeParticipantId = participant.id
-        draftSelectionToGenerate.roundNumber = roundNumber
-        draftSelectionToGenerate.pickNumber = index + 1
-        draftSelectionToGenerate.draftId = draftId
-        return draftSelectionToGenerate
-      })
-    })
-    return Promise.all((await this.draftSelectionRepository.save(selectionsToSave)).map(selection => this.mapEntityToDto(selection)))
+        const draftSelectionToGenerate = new DraftSelectionEntity();
+        draftSelectionToGenerate.challengeParticipantId = participant.id;
+        draftSelectionToGenerate.roundNumber = roundNumber;
+        draftSelectionToGenerate.pickNumber = index + 1;
+        draftSelectionToGenerate.draftId = draftId;
+        return draftSelectionToGenerate;
+      });
+    });
+    return Promise.all(
+      (await this.draftSelectionRepository.save(selectionsToSave)).map(
+        (selection) => this.mapEntityToDto(selection)
+      )
+    );
   }
 
   public async getAllForDraft(draftId: number): Promise<DraftSelection[]> {
@@ -135,7 +144,9 @@ export class DraftSelectionService {
       id: entity.id,
       round: entity.roundNumber,
       pick: entity.pickNumber,
-      selection: pokemon ? await this.pokemonService.getOneById(pokemon.pokemonId) : null,
+      selection: pokemon
+        ? await this.pokemonService.getOneById(pokemon.pokemonId)
+        : null,
       userNickname: user.nickname,
       userId: user.id,
     };

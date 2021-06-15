@@ -14,7 +14,9 @@ export const generateMockDraftSelectionEntity = (): DraftSelectionEntity => {
     generateMockChallengeParticipantEntity()
   );
   entity.draftId = generateRandomNumber();
-  entity.challengeParticipant = Promise.resolve(generateMockChallengeParticipantEntity())
+  entity.challengeParticipant = Promise.resolve(
+    generateMockChallengeParticipantEntity()
+  );
   return entity;
 };
 

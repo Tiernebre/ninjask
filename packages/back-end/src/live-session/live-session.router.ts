@@ -17,9 +17,5 @@ export class LiveSessionRouter extends Router<ContextState, Context> {
       ctx.body = await this.liveSessionService.createOne(ctx.state.session);
       ctx.status = CREATED;
     });
-
-    this.post(`${this.URI}/ticket-redemption/:ticket`, async (ctx) => {
-      ctx.body = await this.liveSessionService.redeemOne(ctx.params.ticket);
-    });
   }
 }

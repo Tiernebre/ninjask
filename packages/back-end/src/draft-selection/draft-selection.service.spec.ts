@@ -57,14 +57,23 @@ describe("DraftSelectionService", () => {
       const participants = [generateMockChallengeParticipant(), generateMockChallengeParticipant()]
       when(draftService.getOne(draft.id)).thenResolve(draft)
       when(challengeParticipantService.getAllForChallengeId(draft.challengeId)).thenResolve(participants)
+      let expectedSelections: DraftSelectionEntity[] = []
       when(draftSelectionRepository.save(matchers.anything())).thenDo((selectionsToSave: DraftSelectionEntity[]) => {
         selectionsToSave.forEach(selection => {
           selection.challengeParticipant = Promise.resolve(generateMockChallengeParticipantEntity())
         })
+        expectedSelections = [...selectionsToSave]
         return Promise.resolve(selectionsToSave)
       })
       const generatedSelections = await draftSelectionService.generateForDraft(draft.id)
       expect(generatedSelections).toHaveLength(draft.numberOfRounds * participants.length)
+      generatedSelections.forEach((generatedSelection, index) => {
+        const correspondingExpectedSelection = expectedSelections[index]
+        expect(generatedSelection.id).toEqual(correspondingExpectedSelection.id)
+        expect(generatedSelection.round).toEqual(correspondingExpectedSelection.roundNumber)
+        expect(generatedSelection.pick).toEqual(correspondingExpectedSelection.pickNumber)
+        expect(generatedSelection.selection).toBeNull()
+      })
     })
   })
 

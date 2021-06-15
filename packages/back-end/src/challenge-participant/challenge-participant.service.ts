@@ -8,6 +8,7 @@ import { ChallengeParticipantEntity } from "./challenge-participant.entity";
 import { ChallengeResult } from "../challenge/challenge-result";
 import { z } from "zod";
 import { NotFoundError } from "../error/not-found-error";
+import { partial } from "lodash";
 
 export class ChallengeParticipantService {
   constructor(
@@ -95,6 +96,11 @@ export class ChallengeParticipantService {
       );
     }
     return this.mapFromEntity(challengeParticipant);
+  }
+
+  public async getAllForChallengeId(challengeId: number): Promise<ChallengeParticipant[]> {
+    z.number().parse(challengeId)
+    return (await this.challengeParticipantRepository.find({ challengeId })).map(parcipant => this.mapFromEntity(parcipant))
   }
 
   private mapFromEntity(

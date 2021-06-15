@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { LiveSessionTicketEntity } from "./live-session-ticket.entity";
-import { SessionPayload } from "../session";
+import { SessionPayload, sessionPayloadSchema } from "../session";
 import { LiveSession } from "./live-session";
 import { LiveSessionPayload } from "./live-session-payload";
 import { UnauthorizedError } from "../error";
@@ -10,10 +10,12 @@ export class LiveSessionService {
     private readonly liveSessionTicketRepository: Repository<LiveSessionTicketEntity>
   ) {}
 
-  async createOne({ userId }: SessionPayload): Promise<LiveSession> {
+  async createOne(session: SessionPayload): Promise<LiveSession> {
+    sessionPayloadSchema.parse(session)
+
     const { token: ticket } = await this.liveSessionTicketRepository.save(
       this.liveSessionTicketRepository.create({
-        userId,
+        userId: session.userId,
       })
     );
     return {

@@ -4,11 +4,11 @@ import { Server } from "http";
 import Application from "koa";
 import { DraftRouter } from "./draft.router";
 import { object, when } from "testdouble";
-import { generateMockPokemon } from "../pokemon/pokemon.mock";
 import { DraftPoolService } from "./draft-pool.service";
 import { DraftSelectionService } from "../draft-selection";
 import { generateRandomNumber } from "../random";
 import { generateMockDraftSelection } from "../draft-selection/draft-selection.mock";
+import { generateMockDraftPokemon } from "./draft.mock";
 
 describe("Draft Router (integration)", () => {
   let app: Application;
@@ -50,14 +50,15 @@ describe("Draft Router (integration)", () => {
 
     it("returns with 200 OK status", async () => {
       when(draftPoolService.getOneForDraftWithId(id)).thenResolve([
-        generateMockPokemon(),
+        generateMockDraftPokemon(),
+        generateMockDraftPokemon(),
       ]);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with a list of pokemon", async () => {
-      const expected = [generateMockPokemon(), generateMockPokemon()];
+      const expected = [generateMockDraftPokemon(), generateMockDraftPokemon()];
       when(draftPoolService.getOneForDraftWithId(id)).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);

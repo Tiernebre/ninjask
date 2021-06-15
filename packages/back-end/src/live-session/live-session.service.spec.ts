@@ -4,7 +4,7 @@ import { Repository } from "typeorm"
 import { LiveSessionTicketEntity } from "./live-session-ticket.entity"
 import { object, when } from "testdouble"
 import { generateMockLiveSessionTicketEntity } from "./live-session.mock"
-import { INVALID_NUMBER_CASES } from "../test/cases";
+import { INVALID_NUMBER_CASES, INVALID_STRING_CASES } from "../test/cases";
 import { ZodError } from "zod"
 
 describe("LiveSessionService", () => {
@@ -27,6 +27,12 @@ describe("LiveSessionService", () => {
       when(liveSessionTicketRepository.create({ userId: session.userId })).thenReturn(createdLiveSessionTicketEntity)
       when(liveSessionTicketRepository.save(createdLiveSessionTicketEntity)).thenResolve(createdLiveSessionTicketEntity)
       await expect(liveSessionService.createOne(session)).resolves.toEqual({ ticket: createdLiveSessionTicketEntity.token })
+    })
+  })
+
+  describe("redeemOne", () => {
+    it.each(INVALID_STRING_CASES)("throws ZodError if the provided ticket is %p", async (ticket) => {
+      await expect(liveSessionService.redeemOne(ticket as string)).rejects.toThrowError(ZodError)
     })
   })
 })

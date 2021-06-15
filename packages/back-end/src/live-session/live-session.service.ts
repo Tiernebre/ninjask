@@ -4,6 +4,7 @@ import { SessionPayload, sessionPayloadSchema } from "../session";
 import { LiveSession } from "./live-session";
 import { LiveSessionPayload } from "./live-session-payload";
 import { UnauthorizedError } from "../error";
+import { z } from "zod";
 
 export class LiveSessionService {
   constructor(
@@ -24,6 +25,8 @@ export class LiveSessionService {
   }
 
   async redeemOne(ticket: string): Promise<LiveSessionPayload> {
+    z.string().min(1).parse(ticket)
+
     const foundTicket = await this.liveSessionTicketRepository.findOne({
       token: ticket,
       redeemed: false,

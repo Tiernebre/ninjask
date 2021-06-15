@@ -236,18 +236,31 @@ describe("ChallengeParticipantService", () => {
   });
 
   describe("getAllForChallengeId", () => {
-    it.each([...INVALID_NUMBER_CASES])("throws a ZodError if the challenge id provided is %p", async (challengeId) => {
-      await expect(challengeParticipantService.getAllForChallengeId(challengeId as number)).rejects.toThrowError(ZodError);
-    })
+    it.each([...INVALID_NUMBER_CASES])(
+      "throws a ZodError if the challenge id provided is %p",
+      async (challengeId) => {
+        await expect(
+          challengeParticipantService.getAllForChallengeId(
+            challengeId as number
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
 
     it("returns the found challenge participants", async () => {
-      const challengeId = generateRandomNumber()
-      const expectedParticipants = [generateMockChallengeParticipantEntity(), generateMockChallengeParticipantEntity()]
-      when(challengeParticipantRepository.find({ challengeId })).thenResolve(expectedParticipants)
-      const foundParticipants = await challengeParticipantService.getAllForChallengeId(challengeId)
-      expect(foundParticipants).toHaveLength(expectedParticipants.length)
-      expect(foundParticipants[0].id).toEqual(expectedParticipants[0].id)
-      expect(foundParticipants[1].id).toEqual(expectedParticipants[1].id)
-    })
-  })
+      const challengeId = generateRandomNumber();
+      const expectedParticipants = [
+        generateMockChallengeParticipantEntity(),
+        generateMockChallengeParticipantEntity(),
+      ];
+      when(challengeParticipantRepository.find({ challengeId })).thenResolve(
+        expectedParticipants
+      );
+      const foundParticipants =
+        await challengeParticipantService.getAllForChallengeId(challengeId);
+      expect(foundParticipants).toHaveLength(expectedParticipants.length);
+      expect(foundParticipants[0].id).toEqual(expectedParticipants[0].id);
+      expect(foundParticipants[1].id).toEqual(expectedParticipants[1].id);
+    });
+  });
 });

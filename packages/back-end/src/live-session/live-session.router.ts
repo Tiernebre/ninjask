@@ -10,6 +10,7 @@ export class LiveSessionRouter extends Router<ContextState, Context>  {
     private readonly liveSessionService: LiveSessionService
   ) {
     super()
+    this.setupRoutes()
   }
 
   private setupRoutes(): void {

@@ -72,11 +72,13 @@ export class DraftPoolService {
     const associatedDraftPokemon = await draft.pokemon;
     return Promise.all(
       associatedDraftPokemon.map(async (draftPoolPokemon) => {
-        const pokemon = await this.pokemonService.getOneById(draftPoolPokemon.pokemonId)
+        const pokemon = await this.pokemonService.getOneById(
+          draftPoolPokemon.pokemonId
+        );
         return {
           ...pokemon,
-          draftPoolId: draftPoolPokemon.id
-        }
+          draftPoolId: draftPoolPokemon.id,
+        };
       })
     );
   }

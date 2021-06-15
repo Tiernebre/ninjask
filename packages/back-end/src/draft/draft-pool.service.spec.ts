@@ -130,7 +130,7 @@ describe("DraftPoolService", () => {
         const expectedPokemon = generateMockPokemon();
         expected.push({
           ...expectedPokemon,
-          draftPoolId: pokemon.id
+          draftPoolId: pokemon.id,
         });
         when(pokemonService.getOneById(pokemon.pokemonId)).thenResolve(
           expectedPokemon

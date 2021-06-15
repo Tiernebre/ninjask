@@ -52,17 +52,14 @@ describe("Draft Router (integration)", () => {
     it("returns with 200 OK status", async () => {
       when(draftPoolService.getOneForDraftWithId(id)).thenResolve([
         generateMockDraftPokemon(),
-        generateMockDraftPokemon()
+        generateMockDraftPokemon(),
       ]);
       const response = await request.get(uri).send();
       expect(response.status).toEqual(200);
     });
 
     it("returns with a list of pokemon", async () => {
-      const expected = [
-        generateMockDraftPokemon(),
-        generateMockDraftPokemon()
-      ];
+      const expected = [generateMockDraftPokemon(), generateMockDraftPokemon()];
       when(draftPoolService.getOneForDraftWithId(id)).thenResolve(expected);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(expected);

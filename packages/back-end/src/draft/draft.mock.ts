@@ -49,6 +49,6 @@ export const generateMockLiveDraftStatus = (): LiveDraftPool => ({
 export const generateMockDraftPokemon = (): DraftPoolPokemon => {
   return {
     ...generateMockPokemon(),
-    draftPoolId: generateRandomNumber()
-  }
-}
+    draftPoolId: generateRandomNumber(),
+  };
+};

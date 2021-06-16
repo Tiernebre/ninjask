@@ -2,6 +2,7 @@ import { Context, Middleware } from "koa";
 import route from "koa-route";
 import { LiveSessionPayload, LiveSessionService } from "../live-session";
 import { Logger } from "../logger";
+import { DraftSelection } from "./draft-selection";
 import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 
@@ -39,17 +40,22 @@ export const liveDraftSelectionMiddleware = (
         const receivedMessage = JSON.parse(
           message
         ) as LiveDraftSelectionMessage;
+
         switch (receivedMessage.type) {
           case LiveDraftSelectionMessageType.FINALIZE_SELECTION:
-            console.log("FINALIZE SELECTION received");
+            logger.info(`User with id = ${liveSession.userId} has submitted a finalized draft selection: ${message}`)
             void draftSelectionService
               .finalizeOneForUser(
                 receivedMessage.selectionId,
                 liveSession.userId,
                 receivedMessage
               )
-              .then((draftedPokemon) => {
+              .then((draftedPokemon: DraftSelection) => {
                 ctx.websocket.send(JSON.stringify(draftedPokemon));
+              })
+              .catch((error: Error) => {
+                logger.error(`User with id = ${liveSession.userId} had their attempt to finalize a draft selection fail due to ${error.message}`)
+                ctx.websocket.send('Your attempt to finalize a draft selection failed, potentially because the pick has already been made or it is not your turn.')
               });
             break;
         }

@@ -7,11 +7,11 @@ import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-reques
 import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
 
-enum LiveDraftSelectionMessageType {
+export enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",
 }
 
-interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
+export interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
   type: LiveDraftSelectionMessageType;
   selectionId: number;
 }

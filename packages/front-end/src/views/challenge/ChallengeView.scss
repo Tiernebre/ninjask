@@ -4,13 +4,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  .columns {
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-    padding-bottom: 8px;
-  }
 }
 
 .ChallengeView__header {
@@ -21,23 +14,4 @@
   align-items: center;
   justify-content: center;
   position: relative;
-
-  .ChallengeView__back-link {
-    font-size: 1.5rem;
-    margin-bottom: 24px;
-    align-self: flex-start;
-    padding-left: 0.75rem;
-  }
-}
-
-@media (min-width: $tablet) {
-  .ChallengeView__header {
-    .ChallengeView__back-link {
-      padding: 0;
-      position: absolute;
-      font-size: 1.2rem;
-      left: 8px;
-      top: 8px;
-    }
-  }
 }

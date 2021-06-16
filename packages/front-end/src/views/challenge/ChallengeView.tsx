@@ -60,9 +60,6 @@ export const ChallengeView = ({
     challenge && results && sessionPayload ? (
       <Fragment>
         <header className="ChallengeView__header">
-          <Link className="ChallengeView__back-link" to="/home">
-            <span>&larr; Challenges</span>
-          </Link>
           <HeadingGroup
             title={challenge.name}
             subtitle={challenge.description}

@@ -1,3 +1,4 @@
+import { range } from "lodash";
 import { DraftSelectionEntity } from ".";
 import { generateMockChallengeParticipantEntity } from "../challenge-participant/challenge-participant.mock";
 import { generateMockPokemon } from "../pokemon/pokemon.mock";
@@ -39,6 +40,10 @@ export const generateMockDraftSelection = (): DraftSelection => ({
   selection: generateMockPokemon(),
   userId: generateRandomNumber(),
 });
+
+export const generateMockDraftSelections = (count = 20): DraftSelection[] => {
+  return range(count).map(() => generateMockDraftSelection());
+};
 
 export const generateMockFinalizeDraftSelectionRequest =
   (): FinalizeDraftSelectionRequest => ({

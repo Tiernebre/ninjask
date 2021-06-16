@@ -11,7 +11,8 @@ export enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",
 }
 
-export interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
+export interface LiveDraftSelectionMessage
+  extends FinalizeDraftSelectionRequest {
   type: LiveDraftSelectionMessageType;
   selectionId: number;
 }
@@ -84,20 +85,23 @@ export const liveDraftSelectionMiddleware = (
                 liveSession.userId,
                 receivedMessage
               )
-              .then(() => draftSelectionService.getAllForDraft(Number(id))
-              .then((updatedDraftSelections) => {
-                draftRoomClients.get(draftRoomId)?.forEach((client) => {
-                  client.send(JSON.stringify(updatedDraftSelections));
-                });
-              })
-              .catch((error: Error) => {
-                logger.error(
-                  `User with id = ${liveSession.userId} had their attempt to finalize a draft selection fail due to ${error.message}`
-                );
-                ctx.websocket.send(
-                  "Your attempt to finalize a draft selection failed, potentially because the pick has already been made or it is not your turn."
-                );
-              }));
+              .then(() =>
+                draftSelectionService
+                  .getAllForDraft(Number(id))
+                  .then((updatedDraftSelections) => {
+                    draftRoomClients.get(draftRoomId)?.forEach((client) => {
+                      client.send(JSON.stringify(updatedDraftSelections));
+                    });
+                  })
+                  .catch((error: Error) => {
+                    logger.error(
+                      `User with id = ${liveSession.userId} had their attempt to finalize a draft selection fail due to ${error.message}`
+                    );
+                    ctx.websocket.send(
+                      "Your attempt to finalize a draft selection failed, potentially because the pick has already been made or it is not your turn."
+                    );
+                  })
+              );
             break;
         }
       });

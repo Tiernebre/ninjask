@@ -42,8 +42,8 @@ export const generateMockDraftSelection = (): DraftSelection => ({
 });
 
 export const generateMockDraftSelections = (count = 20): DraftSelection[] => {
-  return range(count).map(() => generateMockDraftSelection())
-}
+  return range(count).map(() => generateMockDraftSelection());
+};
 
 export const generateMockFinalizeDraftSelectionRequest =
   (): FinalizeDraftSelectionRequest => ({

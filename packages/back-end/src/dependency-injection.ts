@@ -186,10 +186,8 @@ const buildDraftSelectionsRouter = (logger: Logger) => {
 };
 
 const buildLiveSessionService = () => {
-  return new LiveSessionService(
-    getRepository(LiveSessionTicketEntity)
-  );
-}
+  return new LiveSessionService(getRepository(LiveSessionTicketEntity));
+};
 
 const buildLiveSessionRouter = () => {
   return new LiveSessionRouter(buildLiveSessionService());
@@ -230,10 +228,12 @@ export const injectDependencies = async (
   });
 
   app.ws.use(liveDraftPoolMiddleware(buildLiveDraftPoolService(logger), app));
-  app.ws.use(liveDraftSelectionMiddleware(
-    buildLiveSessionService(),
-    buildDraftSelectionService(logger)
-  ));
+  app.ws.use(
+    liveDraftSelectionMiddleware(
+      buildLiveSessionService(),
+      buildDraftSelectionService(logger)
+    )
+  );
   await stageMockData(logger);
   return app;
 };

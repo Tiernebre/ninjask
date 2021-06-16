@@ -11,7 +11,6 @@ import { ChallengeResultAction } from "../../components/challenge/challenge-resu
 import { SessionPayload } from "../../api/session";
 import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
 import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
-import { Link } from "react-router-dom";
 
 type ChallengeViewParams = {
   id?: string;

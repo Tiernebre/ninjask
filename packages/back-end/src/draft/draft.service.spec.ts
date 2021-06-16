@@ -1,7 +1,7 @@
 import { matchers, object, when } from "testdouble";
 import { Repository } from "typeorm";
 import { DraftEntity } from "./draft.entity";
-import { generateMockDraftEntity } from "./draft.mock";
+import { generateMockDraftEntity, generateMockDraftPokemonEntity } from "./draft.mock";
 import { DraftService } from "./draft.service";
 import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
@@ -30,6 +30,37 @@ describe("DraftService", () => {
         numberOfRounds: expected.numberOfRounds,
       });
     });
+
+    it("returns with live pooling still needing to be finished if no pokemon exist", async () => {
+      const id = generateRandomNumber();
+      const expected = generateMockDraftEntity();
+      expected.pokemon = Promise.resolve([])
+      when(draftRepository.findOne(id)).thenResolve(expected);
+      const { livePoolingHasFinished } = await draftService.getOne(id)
+      expect(livePoolingHasFinished).toEqual(false)
+    })
+
+    it("returns with live pooling not being finished if pokemon exist but the live pool index is still far below the amount", async () => {
+      const id = generateRandomNumber();
+      const expected = generateMockDraftEntity();
+      const expectedPokemon = [generateMockDraftPokemonEntity(), generateMockDraftPokemonEntity()]
+      expected.pokemon = Promise.resolve(expectedPokemon)
+      expected.livePoolPokemonIndex = 0
+      when(draftRepository.findOne(id)).thenResolve(expected);
+      const { livePoolingHasFinished } = await draftService.getOne(id)
+      expect(livePoolingHasFinished).toEqual(false)
+    })
+
+    it("returns with live pooling still as finished if pokemon exist and the live pool index is right below the amount", async () => {
+      const id = generateRandomNumber();
+      const expected = generateMockDraftEntity();
+      const expectedPokemon = [generateMockDraftPokemonEntity(), generateMockDraftPokemonEntity()]
+      expected.pokemon = Promise.resolve(expectedPokemon)
+      expected.livePoolPokemonIndex = expectedPokemon.length - 1
+      when(draftRepository.findOne(id)).thenResolve(expected);
+      const { livePoolingHasFinished } = await draftService.getOne(id)
+      expect(livePoolingHasFinished).toEqual(true)
+    })
 
     it("throws a NotFoundError if it could not be found with the given id", async () => {
       const id = generateRandomNumber();

@@ -51,7 +51,7 @@ export class DraftService {
       id: entity.id,
       poolSize,
       extraPoolSize: entity.extraPoolSize,
-      livePoolingHasFinished: entity.livePoolPokemonIndex + 1 === poolSize,
+      livePoolingHasFinished: !!(poolSize) && entity.livePoolPokemonIndex + 1 === poolSize,
       challengeId: entity.challengeId,
       numberOfRounds: entity.numberOfRounds,
     };

@@ -11,6 +11,7 @@ import { ChallengeResultAction } from "../../components/challenge/challenge-resu
 import { SessionPayload } from "../../api/session";
 import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
 import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
+import { Link } from "react-router-dom";
 
 type ChallengeViewParams = {
   id?: string;
@@ -65,6 +66,16 @@ export const ChallengeView = ({
           />
         </header>
         <div className="container">
+          <div className="columns">
+            <div className="column is-offset-10">
+              <Link 
+                className="button is-link is-light is-fullwidth"
+                to={`/challenges/${challenge.id}/draft`}
+              >
+                Check out the Draft
+              </Link>
+            </div>
+          </div>
           <div className="columns">
             <div className="column is-6">
               <ChallengeResults results={results} />

@@ -68,16 +68,18 @@ export const ChallengeView = ({
             subtitle={challenge.description}
           />
         </header>
-        <div className="columns">
-          <div className="column is-6">
-            <ChallengeResults results={results} />
-          </div>
-          <div className="column is-6">
-            <ChallengeResultAction
-              results={results}
-              sessionPayload={sessionPayload}
-              onSubmit={updateChallengeResult}
-            />
+        <div className="container">
+          <div className="columns">
+            <div className="column is-6">
+              <ChallengeResults results={results} />
+            </div>
+            <div className="column is-6">
+              <ChallengeResultAction
+                results={results}
+                sessionPayload={sessionPayload}
+                onSubmit={updateChallengeResult}
+              />
+            </div>
           </div>
         </div>
       </Fragment>

@@ -1,12 +1,9 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
 .ChallengeView {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  flex-grow: 1;
 
   .columns {
     height: 100%;

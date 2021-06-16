@@ -5,6 +5,7 @@ import { Logger } from "../logger";
 import { DraftSelection } from "./draft-selection";
 import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
+import { v4 as uuid } from 'uuid'
 
 enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",
@@ -13,6 +14,17 @@ enum LiveDraftSelectionMessageType {
 interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
   type: LiveDraftSelectionMessageType;
   selectionId: number;
+}
+
+// TODO: Super not ideal to store this in-memory, this should go on a database
+// but this is a very proof-of-concept type of feature :).
+const draftRoomIds: Map<number, string> = new Map()
+
+const registerOrGetExistingDraftRoomId = (draftId: number): string => {
+  if (!draftRoomIds.has(draftId)) {
+    draftRoomIds.set(draftId, uuid())
+  } 
+  return draftRoomIds.get(draftId) as string
 }
 
 export const liveDraftSelectionMiddleware = (
@@ -35,6 +47,8 @@ export const liveDraftSelectionMiddleware = (
         ctx.websocket.close()
         return
       }
+      const draftRoomId = registerOrGetExistingDraftRoomId(Number(id))
+      logger.info(`User with id = ${liveSession.userId} has entered the draft live selection room with id = ${draftRoomId}. Welcome!`)
 
       ctx.websocket.on("message", (message: string) => {
         const receivedMessage = JSON.parse(

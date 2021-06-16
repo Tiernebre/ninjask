@@ -2,7 +2,6 @@ import { Context, Middleware } from "koa";
 import route from "koa-route";
 import { LiveSessionPayload, LiveSessionService } from "../live-session";
 import { Logger } from "../logger";
-import { DraftSelection } from "./draft-selection";
 import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { v4 as uuid } from "uuid";
@@ -85,11 +84,10 @@ export const liveDraftSelectionMiddleware = (
                 liveSession.userId,
                 receivedMessage
               )
-              .then((draftedPokemon: DraftSelection) => {
-                ctx.websocket.send(JSON.stringify(draftedPokemon));
-                const otherClients = draftRoomClients.get(draftRoomId);
-                otherClients?.forEach((client) => {
-                  client.send("Draft pick has been finalized!");
+              .then(() => draftSelectionService.getAllForDraft(Number(id))
+              .then((updatedDraftSelections) => {
+                draftRoomClients.get(draftRoomId)?.forEach((client) => {
+                  client.send(JSON.stringify(updatedDraftSelections));
                 });
               })
               .catch((error: Error) => {
@@ -99,7 +97,7 @@ export const liveDraftSelectionMiddleware = (
                 ctx.websocket.send(
                   "Your attempt to finalize a draft selection failed, potentially because the pick has already been made or it is not your turn."
                 );
-              });
+              }));
             break;
         }
       });

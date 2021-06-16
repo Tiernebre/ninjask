@@ -60,6 +60,7 @@ export const ChallengeResultForm = ({
                 aria-invalid={!!errors.completionTimeHour}
                 placeholder="00"
                 {...register("completionTimeHour", {
+                  valueAsNumber: true,
                   required: {
                     value: true,
                     message: "Hour is required.",
@@ -93,6 +94,7 @@ export const ChallengeResultForm = ({
                 aria-invalid={!!errors.completionTimeMinutes}
                 placeholder="00"
                 {...register("completionTimeMinutes", {
+                  valueAsNumber: true,
                   required: {
                     value: true,
                     message: "Minutes are required.",

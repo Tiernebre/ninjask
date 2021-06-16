@@ -7,7 +7,7 @@ import { HttpDraftService } from "../../api/draft/HttpDraftService";
 import { HttpClient } from "../../api/http";
 import { SessionPayload } from "../../api/session";
 import { DraftPoolView } from "./DraftPoolView";
-import { LiveDraftPoolView } from "./LiveDraftPoolView";
+import { LiveDraftPoolView } from "./live-draft-pool";
 
 type DraftViewParams = {
   challengeId?: string;

@@ -231,7 +231,8 @@ export const injectDependencies = async (
   app.ws.use(
     liveDraftSelectionMiddleware(
       buildLiveSessionService(),
-      buildDraftSelectionService(logger)
+      buildDraftSelectionService(logger),
+      logger
     )
   );
   await stageMockData(logger);

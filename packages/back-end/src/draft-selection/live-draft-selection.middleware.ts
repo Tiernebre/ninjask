@@ -1,6 +1,7 @@
 import { Context, Middleware } from "koa";
 import route from "koa-route";
-import { LiveSessionService } from "../live-session";
+import { LiveSessionPayload, LiveSessionService } from "../live-session";
+import { Logger } from "../logger";
 import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 
@@ -15,14 +16,24 @@ interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
 
 export const liveDraftSelectionMiddleware = (
   liveSessionService: LiveSessionService,
-  draftSelectionService: DraftSelectionService
+  draftSelectionService: DraftSelectionService,
+  logger: Logger
 ): Middleware =>
   route.all(
     "/drafts/:id/live-selections",
     async (ctx: Context, id: string): Promise<void> => {
-      const liveSession = await liveSessionService.redeemOne(
-        ctx.query.ticket as string
-      );
+      let liveSession: LiveSessionPayload
+
+      try {
+        liveSession = await liveSessionService.redeemOne(
+          ctx.query.ticket as string
+        );
+      } catch (error) {
+        logger.error('There was an attempt to handshake with the live session for draft selections that failed due to an invalid ticket.')
+        ctx.websocket.send('Could not connect to the live session for draft selection.')
+        ctx.websocket.close()
+        return
+      }
 
       ctx.websocket.on("message", (message: string) => {
         const receivedMessage = JSON.parse(

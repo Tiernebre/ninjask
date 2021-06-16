@@ -46,6 +46,7 @@ import { DraftPokemonService } from "./draft-pokemon";
 import { LiveSessionRouter } from "./live-session/live-session.router";
 import { LiveSessionService } from "./live-session/live-session.service";
 import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
+import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -184,11 +185,14 @@ const buildDraftSelectionsRouter = (logger: Logger) => {
   return new DraftSelectionRouter(buildDraftSelectionService(logger));
 };
 
-const buildLiveSessionRouter = () => {
-  const liveSessionService = new LiveSessionService(
+const buildLiveSessionService = () => {
+  return new LiveSessionService(
     getRepository(LiveSessionTicketEntity)
   );
-  return new LiveSessionRouter(liveSessionService);
+}
+
+const buildLiveSessionRouter = () => {
+  return new LiveSessionRouter(buildLiveSessionService());
 };
 
 /**
@@ -226,6 +230,11 @@ export const injectDependencies = async (
   });
 
   app.ws.use(liveDraftPoolMiddleware(buildLiveDraftPoolService(logger), app));
+  app.ws.use(liveDraftSelectionMiddleware(
+    buildLiveSessionService(),
+    buildDraftSelectionService(logger),
+    app
+  ));
   await stageMockData(logger);
   return app;
 };

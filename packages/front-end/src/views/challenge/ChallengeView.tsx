@@ -68,7 +68,7 @@ export const ChallengeView = ({
         <div className="container p-5">
           <div className="columns">
             <div className="column is-offset-10">
-              <Link 
+              <Link
                 className="button is-link is-light is-fullwidth"
                 to={`/challenges/${challenge.id}/draft`}
               >

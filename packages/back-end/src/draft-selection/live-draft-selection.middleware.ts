@@ -6,6 +6,7 @@ import { DraftSelection } from "./draft-selection";
 import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { v4 as uuid } from 'uuid'
+import WebSocket from "ws";
 
 enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",
@@ -19,12 +20,20 @@ interface LiveDraftSelectionMessage extends FinalizeDraftSelectionRequest {
 // TODO: Super not ideal to store this in-memory, this should go on a database
 // but this is a very proof-of-concept type of feature :).
 const draftRoomIds: Map<number, string> = new Map()
+const draftRoomClients: Map<string, WebSocket[]> = new Map()
 
 const registerOrGetExistingDraftRoomId = (draftId: number): string => {
   if (!draftRoomIds.has(draftId)) {
     draftRoomIds.set(draftId, uuid())
   } 
   return draftRoomIds.get(draftId) as string
+}
+
+const registerClientForDraftRoomId = (draftRoomId: string, client: WebSocket): void => {
+  if (!draftRoomClients.has(draftRoomId)) {
+    draftRoomClients.set(draftRoomId, [])
+  }
+  draftRoomClients.get(draftRoomId)?.push(client)
 }
 
 export const liveDraftSelectionMiddleware = (
@@ -49,6 +58,7 @@ export const liveDraftSelectionMiddleware = (
       }
       const draftRoomId = registerOrGetExistingDraftRoomId(Number(id))
       logger.info(`User with id = ${liveSession.userId} has entered the draft live selection room with id = ${draftRoomId}. Welcome!`)
+      registerClientForDraftRoomId(draftRoomId, ctx.websocket)
 
       ctx.websocket.on("message", (message: string) => {
         const receivedMessage = JSON.parse(
@@ -66,6 +76,10 @@ export const liveDraftSelectionMiddleware = (
               )
               .then((draftedPokemon: DraftSelection) => {
                 ctx.websocket.send(JSON.stringify(draftedPokemon));
+                const otherClients = draftRoomClients.get(draftRoomId)
+                otherClients?.forEach(client => {
+                  client.send('Draft pick has been finalized!')
+                })
               })
               .catch((error: Error) => {
                 logger.error(`User with id = ${liveSession.userId} had their attempt to finalize a draft selection fail due to ${error.message}`)

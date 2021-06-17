@@ -1,17 +1,15 @@
 import "./ChallengeView.scss";
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
 import { HttpClient } from "../../api/http";
 import { HeadingGroup } from "../../components/heading-group";
-import { ChallengeResults } from "../../components/challenge/challenge-results";
 import { ChallengeResult } from "../../api/challenge/ChallengeResult";
-import { ChallengeResultAction } from "../../components/challenge/challenge-results/ChallengeResultAction";
 import { SessionPayload } from "../../api/session";
-import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
-import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
-import { Link } from "react-router-dom";
+import { ChallengeParticipants } from "./components/participants/ChallengeParticipants";
+import { ChallengeVersion } from "./components/version/ChallengeVersion";
+import { ChallengeViewActions } from "./components/ChallengeViewActions";
 
 type ChallengeViewParams = {
   id?: string;
@@ -19,7 +17,7 @@ type ChallengeViewParams = {
 
 type ChallengeViewProps = {
   httpClient: HttpClient;
-  sessionPayload?: SessionPayload;
+  sessionPayload: SessionPayload;
 };
 
 export const ChallengeView = ({
@@ -28,14 +26,10 @@ export const ChallengeView = ({
 }: ChallengeViewProps) => {
   const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
-  const [results, setResults] = useState<ChallengeResult[]>();
+  const [results, setResults] = useState<ChallengeResult[]>([]);
 
   const challengeService = useMemo(
     () => new HttpChallengeService(httpClient),
-    [httpClient]
-  );
-  const challengeParticipantService = useMemo(
-    () => new HttpChallengeParticipantService(httpClient),
     [httpClient]
   );
 
@@ -44,55 +38,40 @@ export const ChallengeView = ({
     setResults(await challengeService.getResultsForChallenge(Number(id)));
   }, [challengeService, id]);
 
-  const updateChallengeResult = useCallback(
-    async (id: number, data: ChallengeParticipantUpdateRequest) => {
-      await challengeParticipantService.updateOne(id, data);
-      await fetchChallenge();
-    },
-    [challengeParticipantService, fetchChallenge]
-  );
-
   useDidMount(() => {
     fetchChallenge();
   });
 
-  const content =
-    challenge && results && sessionPayload ? (
-      <Fragment>
-        <header className="ChallengeView__header">
-          <HeadingGroup
-            title={challenge.name}
-            subtitle={challenge.description}
+  return challenge ? (
+    <div className="container px-4">
+      <header className="ChallengeView__header mb-5">
+        <HeadingGroup
+          title={challenge.name}
+          subtitle={challenge.description}
+          alignment="left"
+        />
+        <div className="ChallengeView__header-buttons">
+          <ChallengeViewActions
+            isOwner={sessionPayload.userId === challenge.creatorId}
           />
-        </header>
-        <div className="container p-5">
-          <div className="columns">
-            <div className="column is-offset-10">
-              <Link
-                className="button is-link is-light is-fullwidth"
-                to={`/challenges/${challenge.id}/draft`}
-              >
-                Check out the Draft
-              </Link>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column is-6">
-              <ChallengeResults results={results} />
-            </div>
-            <div className="column is-6">
-              <ChallengeResultAction
-                results={results}
-                sessionPayload={sessionPayload}
-                onSubmit={updateChallengeResult}
-              />
+        </div>
+      </header>
+      <div className="columns">
+        <div className="column is-9">
+          <div className="card">
+            <div className="card-content">
+              <ChallengeParticipants participants={results} />
             </div>
           </div>
         </div>
-      </Fragment>
-    ) : (
-      <p>Loading Challenge...</p>
-    );
-
-  return <div className="ChallengeView">{content}</div>;
+        <div className="column is-3">
+          <div className="card">
+            <div className="card-content">
+              <ChallengeVersion versionId={challenge.versionId} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
 };

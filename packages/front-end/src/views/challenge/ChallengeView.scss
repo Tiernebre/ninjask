@@ -1,16 +1,35 @@
 @import "bulma/sass/utilities/initial-variables.sass";
 
-.ChallengeView {
-  flex-direction: column;
-  align-items: center;
+.ChallengeView__header {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .title,
+  .subtitle {
+    text-align: center;
+  }
 }
 
-.ChallengeView__header {
+.ChallengeView__header-buttons,
+button {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+}
+
+@media (min-width: $tablet) {
+  .ChallengeView__header {
+    flex-direction: row;
+    justify-content: space-between;
+
+    .title,
+    .subtitle {
+      text-align: left;
+    }
+  }
+
+  .ChallengeView__header-buttons,
+  button {
+    width: auto;
+  }
 }

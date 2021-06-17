@@ -33,7 +33,7 @@ export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   return (
-    <nav className="navbar" aria-label="Main Navigation Bar">
+    <nav className="navbar is-light" aria-label="Main Navigation Bar">
       <div className="navbar-brand">
         <Link className="navbar-item" to="/">
           <img src={logo} alt="Logo" />

@@ -68,7 +68,9 @@ export const ChallengeView = ({
           alignment="left"
         />
         <div className="ChallengeView__header-buttons">
-          <ChallengeViewActions isOwner={sessionPayload.userId === challenge.creatorId} />
+          <ChallengeViewActions
+            isOwner={sessionPayload.userId === challenge.creatorId}
+          />
         </div>
       </header>
       <div className="columns">
@@ -88,5 +90,5 @@ export const ChallengeView = ({
         </div>
       </div>
     </div>
-  ) : null
+  ) : null;
 };

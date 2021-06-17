@@ -6,12 +6,14 @@
   align-items: center;
   flex-direction: column;
 
-  .title, .subtitle {
+  .title,
+  .subtitle {
     text-align: center;
   }
 }
 
-.ChallengeView__header-buttons, button {
+.ChallengeView__header-buttons,
+button {
   width: 100%;
 }
 
@@ -20,13 +22,14 @@
     flex-direction: row;
     justify-content: space-between;
 
-    .title, .subtitle {
+    .title,
+    .subtitle {
       text-align: left;
     }
   }
 
-  .ChallengeView__header-buttons, button {
+  .ChallengeView__header-buttons,
+  button {
     width: auto;
   }
-
 }

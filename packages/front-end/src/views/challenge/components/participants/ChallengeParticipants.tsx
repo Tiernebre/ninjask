@@ -1,16 +1,17 @@
-import { ChallengeResult } from "../../../../api/challenge/ChallengeResult"
+import { ChallengeResult } from "../../../../api/challenge/ChallengeResult";
 
 type ChallengeParticipantsProps = {
-  participants: ChallengeResult[]
-}
+  participants: ChallengeResult[];
+};
 
-export const ChallengeParticipants = ({ participants }: ChallengeParticipantsProps) => {
-  const rows =
-    participants.map(participant => (
-      <tr key={participant.participantId}>
-        <td>{participant.nickname}</td>
-      </tr>
-    ))
+export const ChallengeParticipants = ({
+  participants,
+}: ChallengeParticipantsProps) => {
+  const rows = participants.map((participant) => (
+    <tr key={participant.participantId}>
+      <td>{participant.nickname}</td>
+    </tr>
+  ));
 
   return (
     <div className="ChallengeParticipants is-fullwidth">
@@ -21,10 +22,8 @@ export const ChallengeParticipants = ({ participants }: ChallengeParticipantsPro
             <th>Name</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
     </div>
-  )
-}
+  );
+};

@@ -1,3 +1,4 @@
+import "./ChallengeView.scss";
 import { useState, useCallback, useMemo, Fragment } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
@@ -59,11 +60,15 @@ export const ChallengeView = ({
 
   return challenge ? (
     <div className="container">
-      <header className="ChallengeView__header">
+      <header className="ChallengeView__header mb-5">
         <HeadingGroup
           title={challenge.name}
           subtitle={challenge.description}
+          alignment="left"
         />
+        <div className="ChallengeView__header-buttons">
+          <button>Foo</button>
+        </div>
       </header>
       <div className="columns">
         <div className="column is-9">

@@ -5,8 +5,6 @@ type ChallengeViewActionsProps = {
 }
 
 export const ChallengeViewActions = ({ isOwner }: ChallengeViewActionsProps) => {
-  const buttons = []
-
   const advanceButton = isOwner ? <button className="button is-success">Advance</button> : null
 
   return (

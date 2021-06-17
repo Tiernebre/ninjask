@@ -67,7 +67,6 @@ export const ChallengeView = ({
           alignment="left"
         />
         <div className="ChallengeView__header-buttons">
-          <button>Foo</button>
         </div>
       </header>
       <div className="columns">

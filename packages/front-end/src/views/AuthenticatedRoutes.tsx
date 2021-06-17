@@ -36,7 +36,7 @@ export const AuthenticatedRoutes = ({
     }
   }, [authedHttpClient, accessToken]);
 
-  return (
+  return sessionPayload ? (
     <Fragment>
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
@@ -54,5 +54,5 @@ export const AuthenticatedRoutes = ({
         />
       </Route>
     </Fragment>
-  );
+  ) : null;
 };

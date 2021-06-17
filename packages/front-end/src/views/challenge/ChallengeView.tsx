@@ -14,6 +14,7 @@ import { ChallengeParticipantUpdateRequest } from "../../api/challenge/Challenge
 import { Link } from "react-router-dom";
 import { ChallengeParticipants } from "./components/participants/ChallengeParticipants";
 import { ChallengeVersion } from "./components/version/ChallengeVersion";
+import { ChallengeViewActions } from "./components/ChallengeViewActions";
 
 type ChallengeViewParams = {
   id?: string;
@@ -21,7 +22,7 @@ type ChallengeViewParams = {
 
 type ChallengeViewProps = {
   httpClient: HttpClient;
-  sessionPayload?: SessionPayload;
+  sessionPayload: SessionPayload;
 };
 
 export const ChallengeView = ({
@@ -59,7 +60,7 @@ export const ChallengeView = ({
   });
 
   return challenge ? (
-    <div className="container">
+    <div className="container px-4">
       <header className="ChallengeView__header mb-5">
         <HeadingGroup
           title={challenge.name}
@@ -67,6 +68,7 @@ export const ChallengeView = ({
           alignment="left"
         />
         <div className="ChallengeView__header-buttons">
+          <ChallengeViewActions isOwner={sessionPayload.userId === challenge.creatorId} />
         </div>
       </header>
       <div className="columns">

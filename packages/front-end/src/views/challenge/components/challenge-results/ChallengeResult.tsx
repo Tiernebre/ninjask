@@ -1,5 +1,5 @@
 import "./ChallengeResult.scss";
-import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
+import { ChallengeResult as ChallengeResultTyping } from "../../../../api/challenge/ChallengeResult";
 
 type ChallengeResultProps = {
   result: ChallengeResultTyping;

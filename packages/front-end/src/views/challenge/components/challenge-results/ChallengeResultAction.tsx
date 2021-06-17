@@ -1,6 +1,6 @@
-import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
-import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
-import { SessionPayload } from "../../../api/session";
+import { ChallengeParticipantUpdateRequest } from "../../../../api/challenge/ChallengeParticipantUpdateRequest";
+import { ChallengeResult as ChallengeResultTyping } from "../../../../api/challenge/ChallengeResult";
+import { SessionPayload } from "../../../../api/session";
 import { ChallengeResultForm } from "./ChallengeResultForm";
 
 type ChallengeResultActionProps = {

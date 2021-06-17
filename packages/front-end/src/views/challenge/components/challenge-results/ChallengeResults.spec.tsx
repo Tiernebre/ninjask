@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { ChallengeResults } from "./ChallengeResults";
-import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
+import { ChallengeResult as ChallengeResultTyping } from "../../../../api/challenge/ChallengeResult";
 
 const challengeResultOne: ChallengeResultTyping = {
   participantId: 1,

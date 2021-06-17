@@ -1,8 +1,8 @@
 import "./ChallengeResultForm.scss";
 import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "../../form/ErrorMessage";
-import { ChallengeResult } from "../../../api/challenge/ChallengeResult";
+import { ErrorMessage } from "../../../../components/form/ErrorMessage";
+import { ChallengeResult } from "../../../../api/challenge/ChallengeResult";
 
 type ChallengeResultFormData = {
   completionTimeHour: number;

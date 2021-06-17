@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
+import { ChallengeResult as ChallengeResultTyping } from "../../../../api/challenge/ChallengeResult";
 import { ChallengeResult } from "./ChallengeResult";
 
 it("displays the rank correctly", () => {

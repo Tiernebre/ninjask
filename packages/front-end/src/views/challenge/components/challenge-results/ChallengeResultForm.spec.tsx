@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { ChallengeResultForm } from "./ChallengeResultForm";
 import user from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import { ChallengeResult as ChallengeResultTyping } from "../../../api/challenge/ChallengeResult";
+import { ChallengeResult as ChallengeResultTyping } from "../../../../api/challenge/ChallengeResult";
 
 const getHourInput = () => screen.getByRole("spinbutton", { name: /Hour/i });
 const getMinutesInput = () =>

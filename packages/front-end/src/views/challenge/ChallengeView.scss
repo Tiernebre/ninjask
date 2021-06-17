@@ -17,6 +17,16 @@
 
 @media (min-width: $tablet) {
   .ChallengeView__header {
+    flex-direction: row;
+    justify-content: space-between;
 
+    .title, .subtitle {
+      text-align: left;
+    }
   }
+
+  .ChallengeView__header-buttons, button {
+    width: auto;
+  }
+
 }

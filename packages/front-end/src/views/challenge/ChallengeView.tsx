@@ -1,17 +1,12 @@
 import "./ChallengeView.scss";
-import { useState, useCallback, useMemo, Fragment } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router";
 import { useDidMount } from "rooks";
 import { Challenge, HttpChallengeService } from "../../api/challenge";
 import { HttpClient } from "../../api/http";
 import { HeadingGroup } from "../../components/heading-group";
-import { ChallengeResults } from "./components/results";
 import { ChallengeResult } from "../../api/challenge/ChallengeResult";
-import { ChallengeResultAction } from "./components/results/ChallengeResultAction";
 import { SessionPayload } from "../../api/session";
-import { HttpChallengeParticipantService } from "../../api/challenge/HttpChallengeParticipantService";
-import { ChallengeParticipantUpdateRequest } from "../../api/challenge/ChallengeParticipantUpdateRequest";
-import { Link } from "react-router-dom";
 import { ChallengeParticipants } from "./components/participants/ChallengeParticipants";
 import { ChallengeVersion } from "./components/version/ChallengeVersion";
 import { ChallengeViewActions } from "./components/ChallengeViewActions";
@@ -37,23 +32,11 @@ export const ChallengeView = ({
     () => new HttpChallengeService(httpClient),
     [httpClient]
   );
-  const challengeParticipantService = useMemo(
-    () => new HttpChallengeParticipantService(httpClient),
-    [httpClient]
-  );
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(Number(id)));
     setResults(await challengeService.getResultsForChallenge(Number(id)));
   }, [challengeService, id]);
-
-  const updateChallengeResult = useCallback(
-    async (id: number, data: ChallengeParticipantUpdateRequest) => {
-      await challengeParticipantService.updateOne(id, data);
-      await fetchChallenge();
-    },
-    [challengeParticipantService, fetchChallenge]
-  );
 
   useDidMount(() => {
     fetchChallenge();

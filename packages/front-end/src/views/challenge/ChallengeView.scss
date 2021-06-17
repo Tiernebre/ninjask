@@ -1,5 +1,22 @@
+@import "bulma/sass/utilities/initial-variables.sass";
+
 .ChallengeView__header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
+
+  .title, .subtitle {
+    text-align: center;
+  }
+}
+
+.ChallengeView__header-buttons, button {
+  width: 100%;
+}
+
+@media (min-width: $tablet) {
+  .ChallengeView__header {
+
+  }
 }

@@ -12,7 +12,7 @@ const alignmentClassMap: Map<Alignment, string> = new Map([
 ])
 
 export const HeadingGroup = ({ title, subtitle, alignment = 'center' }: HeadingGroupProps) => (
-  <header className={alignmentClassMap.get(alignment)}>
+  <header className={`${alignmentClassMap.get(alignment)} mb-4`}>
     <h1 className="title">{title}</h1>
     <p role="doc-subtitle" className="subtitle">
       {subtitle}

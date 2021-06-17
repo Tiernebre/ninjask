@@ -1,0 +1,13 @@
+@import "bulma/sass/utilities/initial-variables.sass";
+
+.ChallengeViewActions {
+  button:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}
+
+@media (min-width: $tablet) {
+  button:not(:last-child) {
+    margin-right: 0.5em;
+  }
+}

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import "./ChallengeViewActions.scss";
 
 type ChallengeViewActionsProps = {
   isOwner: boolean;
@@ -11,5 +11,14 @@ export const ChallengeViewActions = ({
     <button className="button is-success">Advance</button>
   ) : null;
 
-  return <Fragment>{advanceButton}</Fragment>;
+  const deleteButton = isOwner ? (
+    <button className="button is-danger">Delete</button>
+  ) : null;
+
+  return (
+    <div className="ChallengeViewActions">
+      {deleteButton}
+      {advanceButton}
+    </div>
+  );
 };

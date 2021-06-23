@@ -2827,9 +2827,9 @@
     "@babel/runtime" "^7.12.5"
 
 "@tiernebre/kecleon@^1.5.0":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.8.1.tgz#e58b22a662f53c8cf912418db9a940654373117b"
-  integrity sha512-T21idh9TRd/e8iMWnlHofARc+RwBE583IZVdrPjTMSMW+B/D5vkSYXuoaHwDlw+0QrB4h0RmV6/w0tLxsjOTew==
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.9.0.tgz#5f4267a296abdfd72b521972cc4072493f9604ec"
+  integrity sha512-WImS8bDL+pLSSl44Ag0qs0tumUgY9L+2q49lOhbiJ0HfbAe3I2IPREd0iWoCcpG/m4gJ8ysJtWU1VD2V5o07BQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"

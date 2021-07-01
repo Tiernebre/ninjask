@@ -1,5 +1,5 @@
+import { Button, FormField, SemanticFormField } from "@tiernebre/kecleon";
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "../form/ErrorMessage";
 import "./LoginForm.css";
 
 type LoginFormData = {
@@ -25,58 +25,35 @@ export const LoginForm = (props: LoginFormProps) => {
 
   return (
     <form className="LoginForm" onSubmit={onSubmit}>
-      <div className="field">
-        <label className="label" htmlFor="LoginForm__access-key">
-          Access Key
-        </label>
-        <input
-          className={`input ${errors.accessKey ? "is-danger" : ""}`}
-          type="text"
-          id="LoginForm__access-key"
-          aria-invalid={!!errors.accessKey}
-          {...register("accessKey", {
-            required: {
-              value: true,
-              message: "Access Key is required.",
-            },
-          })}
-        />
-        <ErrorMessage
-          htmlFor="LoginForm__access-key"
-          fieldError={errors.accessKey}
-        />
-      </div>
-      <div className="field">
-        <label className="label" htmlFor="LoginForm__password">
-          Password
-        </label>
-        <input
-          className={`input ${errors.password ? "is-danger" : ""}`}
-          type="password"
-          id="LoginForm__password"
-          aria-invalid={!!errors.password}
-          autoComplete="on"
-          {...register("password", {
-            required: {
-              value: true,
-              message: "Password is required.",
-            },
-          })}
-        />
-        <ErrorMessage
-          htmlFor="LoginForm__password"
-          fieldError={errors.password}
-        />
-      </div>
-      <div className="field">
-        <button
-          className={`LoginForm__button button is-success is-fullwidth is-medium ${
-            props.loading ? "is-loading" : ""
-          }`}
-        >
+      <SemanticFormField
+        id="access-key"
+        label="Access Key"
+        input={{ type: "text" }}
+        register={register("accessKey", {
+          required: {
+            value: true,
+            message: "Access Key is required.",
+          },
+        })}
+        error={errors.accessKey}
+      />
+      <SemanticFormField
+        id="password"
+        label="Password"
+        input={{ type: "password" }}
+        register={register("password", {
+          required: {
+            value: true,
+            message: "Password is required.",
+          },
+        })}
+        error={errors.password}
+      />
+      <FormField>
+        <Button color="success" loading={props.loading} size="medium" fullWidth>
           Login
-        </button>
-      </div>
+        </Button>
+      </FormField>
     </form>
   );
 };

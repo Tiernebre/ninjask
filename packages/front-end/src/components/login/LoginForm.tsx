@@ -1,3 +1,4 @@
+import { SemanticFormField } from "@tiernebre/kecleon";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../form/ErrorMessage";
 import "./LoginForm.css";
@@ -25,27 +26,20 @@ export const LoginForm = (props: LoginFormProps) => {
 
   return (
     <form className="LoginForm" onSubmit={onSubmit}>
-      <div className="field">
-        <label className="label" htmlFor="LoginForm__access-key">
-          Access Key
-        </label>
-        <input
-          className={`input ${errors.accessKey ? "is-danger" : ""}`}
-          type="text"
-          id="LoginForm__access-key"
-          aria-invalid={!!errors.accessKey}
-          {...register("accessKey", {
+      <SemanticFormField
+        id="access-key"
+        label="Access Key"
+        input={{ type: "text" }}
+        register={
+          register("accessKey", {
             required: {
               value: true,
               message: "Access Key is required.",
             },
-          })}
-        />
-        <ErrorMessage
-          htmlFor="LoginForm__access-key"
-          fieldError={errors.accessKey}
-        />
-      </div>
+          })
+        }
+        error={errors.accessKey}
+      />
       <div className="field">
         <label className="label" htmlFor="LoginForm__password">
           Password
@@ -70,9 +64,8 @@ export const LoginForm = (props: LoginFormProps) => {
       </div>
       <div className="field">
         <button
-          className={`LoginForm__button button is-success is-fullwidth is-medium ${
-            props.loading ? "is-loading" : ""
-          }`}
+          className={`LoginForm__button button is-success is-fullwidth is-medium ${props.loading ? "is-loading" : ""
+            }`}
         >
           Login
         </button>

@@ -2851,10 +2851,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^1.24.3":
-  version "1.24.3"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.24.3.tgz#aa68dea02075b69e06b9ae4c3d429b8c1752dd30"
-  integrity sha512-1v86rl26i7vtvLf/sjThxrBHoyk09qzEquq9lyeJH++JL3BzaOSGD0tAy7IZzoB7FSUI50rVGWVviLE3rd11Tg==
+"@tiernebre/kecleon@^1.24.4":
+  version "1.24.4"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.24.4.tgz#37229dd22420d52af5497db890cb15841a024852"
+  integrity sha512-b60z7OD7ZK6yPPU+zBAz/i2JxATdJSQUj97GvRJ2wh0190toOy2A+6BJsvEP6ZgKPWqir3ExDdsBNluv26K0Ow==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"
@@ -11506,10 +11506,10 @@ node-sass@^6.0.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-nodemon@^2.0.7:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.8.tgz#95719984d4ae57c2b5ce2a1e1bf1ca14de36f500"
-  integrity sha512-omq5AbNSMZjjZf12qd5vRpVobbuBJsLhTOS/vwy5ApnO6jpHbS/YuN97X4/zzB9YkdAa3q73HG5IuyM6kIQw8Q==
+nodemon@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.9.tgz#f5cd550ba215da3c1081459ae2c1c8da2c353165"
+  integrity sha512-6O4k7C8f2HQArGpaPBOqGGddjzDLQAqCYmq3tKMeNIbz7Is/hOphMHy2dcY10sSq5wl3cqyn9Iz+Ep2j51JOLg==
   dependencies:
     chokidar "^3.2.2"
     debug "^3.2.6"
@@ -16028,10 +16028,10 @@ typeorm@^0.2.34:
     yargs "^16.2.0"
     zen-observable-ts "^1.0.0"
 
-typescript@^4.3.2:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.4.tgz#3f85b986945bcf31071decdd96cf8bfa65f9dcbc"
-  integrity sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==
+typescript@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 uglify-js@^3.1.4:
   version "3.13.6"

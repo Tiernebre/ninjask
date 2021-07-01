@@ -9,8 +9,7 @@ const getPasswordInput = () => screen.getByLabelText("Password");
 const getSubmitButton = () => screen.getByRole("button", { name: /Login/i });
 const getAccessKeyErrorMessage = () =>
   screen.getByText("Access Key is required.");
-const getPasswordErrorMessage = () =>
-  screen.getByText("Password is required.")
+const getPasswordErrorMessage = () => screen.getByText("Password is required.");
 
 it("renders an error message and marks the access key input invalid if it is not filled out", async () => {
   const onSubmit = jest.fn();

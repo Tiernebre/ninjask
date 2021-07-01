@@ -29,32 +29,30 @@ export const LoginForm = (props: LoginFormProps) => {
         id="access-key"
         label="Access Key"
         input={{ type: "text" }}
-        register={
-          register("accessKey", {
-            required: {
-              value: true,
-              message: "Access Key is required.",
-            },
-          })
-        }
+        register={register("accessKey", {
+          required: {
+            value: true,
+            message: "Access Key is required.",
+          },
+        })}
         error={errors.accessKey}
       />
       <SemanticFormField
         id="password"
         label="Password"
         input={{ type: "password" }}
-        register={
-            register("password", {
-            required: {
-              value: true,
-              message: "Password is required.",
-            },
-          })
-        }
+        register={register("password", {
+          required: {
+            value: true,
+            message: "Password is required.",
+          },
+        })}
         error={errors.password}
       />
       <FormField>
-        <Button color="success" loading={props.loading} size="medium" fullWidth>Login</Button>
+        <Button color="success" loading={props.loading} size="medium" fullWidth>
+          Login
+        </Button>
       </FormField>
     </form>
   );

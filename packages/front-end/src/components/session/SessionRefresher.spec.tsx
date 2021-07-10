@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { object, verify, when } from "testdouble";
+import { object, when } from "testdouble";
 import { SessionService } from "../../api/session";
 import { SessionRefresher } from "./SessionRefresher";
 import MockDate from "mockdate";

@@ -52,8 +52,8 @@ it("displays a login error message if the login submission did not work", async 
     new Error()
   );
   render(<Login onSuccess={jest.fn()} sessionService={sessionService} />);
-  user.type(getAccessKeyInput(), "access-key");
-  user.type(getPasswordInput(), "p@55w0rd");
+  user.type(getAccessKeyInput(), accessKey);
+  user.type(getPasswordInput(), password);
   user.click(getSubmitButton());
   await waitFor(() => screen.getByRole("alert"))
   const errorMessage = screen.getByRole("alert");

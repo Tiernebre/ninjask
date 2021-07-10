@@ -14,7 +14,7 @@ it("logs the user out if they are logged in", async () => {
   );
   const logoutButton = screen.getByRole("button", { name: /Log Out/g });
   user.click(logoutButton);
-  await waitFor(() => expect(onLogOut).toHaveBeenCalledTimes(1))
+  await waitFor(() => expect(onLogOut).toHaveBeenCalledTimes(1));
 });
 
 it("does not show the logout button if the user is not logged in", () => {

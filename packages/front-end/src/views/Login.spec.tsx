@@ -35,8 +35,8 @@ it("processes a fully valid login", async () => {
   user.type(getPasswordInput(), password);
   user.click(getSubmitButton());
   await waitFor(() => {
-    verify(sessionService.createOne(matchers.anything()))
-  })
+    verify(sessionService.createOne(matchers.anything()));
+  });
   expect(onSuccess).toHaveBeenCalledWith({
     accessToken,
     accessTokenExpiration,
@@ -55,7 +55,7 @@ it("displays a login error message if the login submission did not work", async 
   user.type(getAccessKeyInput(), accessKey);
   user.type(getPasswordInput(), password);
   user.click(getSubmitButton());
-  await waitFor(() => screen.getByRole("alert"))
+  await waitFor(() => screen.getByRole("alert"));
   const errorMessage = screen.getByRole("alert");
   expect(errorMessage).toBeInTheDocument();
   expect(errorMessage).toHaveTextContent(

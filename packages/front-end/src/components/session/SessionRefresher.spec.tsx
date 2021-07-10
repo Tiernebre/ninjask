@@ -49,7 +49,7 @@ it("handles a successful refresh", async () => {
     </SessionRefresher>
   );
   jest.runAllTimers();
-  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(1))
+  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(1));
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
   expect(onSessionRefresh).toHaveBeenCalledWith({
@@ -63,8 +63,8 @@ it("handles a failed refresh", async () => {
   const sessionService = object<SessionService>();
   const onSessionRefresh = jest.fn();
   const onSessionRefreshFail = jest.fn();
-  const refreshCurrentSession = jest.fn().mockRejectedValue(new Error())
-  sessionService.refreshCurrentSession = refreshCurrentSession
+  const refreshCurrentSession = jest.fn().mockRejectedValue(new Error());
+  sessionService.refreshCurrentSession = refreshCurrentSession;
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}
@@ -74,7 +74,7 @@ it("handles a failed refresh", async () => {
       <p>{childrenMessage}</p>
     </SessionRefresher>
   );
-  await waitFor(() => expect(refreshCurrentSession).toHaveBeenCalledTimes(1))
+  await waitFor(() => expect(refreshCurrentSession).toHaveBeenCalledTimes(1));
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
   expect(onSessionRefresh).not.toHaveBeenCalled();
@@ -107,7 +107,7 @@ it("automatically refreshes at a given timeout in the future", async () => {
     </SessionRefresher>
   );
   jest.runAllTimers();
-  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(2))
+  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(2));
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
   expect(onSessionRefresh).toHaveBeenCalledTimes(2);

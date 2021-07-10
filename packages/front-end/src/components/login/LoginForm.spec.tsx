@@ -15,7 +15,7 @@ it("renders an error message and marks the access key input invalid if it is not
   render(<LoginForm onSubmit={onSubmit} loading={false} />);
   user.type(getPasswordInput(), "p@55w0rd");
   user.click(getSubmitButton());
-  await waitFor(() => getAccessKeyErrorMessage())
+  await waitFor(() => getAccessKeyErrorMessage());
   expect(getAccessKeyInput()).toBeInvalid();
   expect(getAccessKeyInput()).toHaveClass("is-danger");
   expect(getAccessKeyErrorMessage()).toBeInTheDocument();
@@ -27,7 +27,7 @@ it("renders an error message and marks the password input invalid if it is not f
   render(<LoginForm onSubmit={onSubmit} loading={false} />);
   user.type(getAccessKeyInput(), "some-access-key-value");
   user.click(getSubmitButton());
-  await waitFor(() => getPasswordErrorMessage())
+  await waitFor(() => getPasswordErrorMessage());
   expect(getPasswordInput()).toBeInvalid();
   expect(getPasswordInput()).toHaveClass("is-danger");
   expect(getPasswordErrorMessage()).toBeInTheDocument();
@@ -42,7 +42,7 @@ it("submits the form when the form is filled out and valid and the user clicks o
   user.type(getAccessKeyInput(), accessKey);
   user.type(getPasswordInput(), password);
   user.click(getSubmitButton());
-  await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1))
+  await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
   expect(onSubmit).toHaveBeenCalledTimes(1);
   expect(onSubmit).toHaveBeenCalledWith({
     accessKey,

@@ -1,7 +1,7 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Login } from "./Login";
-import { object, when } from "testdouble";
+import { matchers, object, verify, when } from "testdouble";
 import { SessionService } from "../api/session";
 import { MemoryRouter, Route, Switch } from "react-router";
 
@@ -9,7 +9,7 @@ const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);
 const getPasswordInput = () => screen.getByLabelText(/Password/i);
 const getSubmitButton = () => screen.getByRole("button", { name: /Login/i });
 
-it("processes a fully valid login", () => {
+it("processes a fully valid login", async () => {
   const accessKey = "access-key";
   const password = "p@55w0rd";
   const sessionService = object<SessionService>();
@@ -31,11 +31,12 @@ it("processes a fully valid login", () => {
       </Switch>
     </MemoryRouter>
   );
-  act(() => {
-    user.type(getAccessKeyInput(), "access-key");
-    user.type(getPasswordInput(), "p@55w0rd");
-    user.click(getSubmitButton());
-  });
+  user.type(getAccessKeyInput(), accessKey);
+  user.type(getPasswordInput(), password);
+  user.click(getSubmitButton());
+  await waitFor(() => {
+    verify(sessionService.createOne(matchers.anything()))
+  })
   expect(onSuccess).toHaveBeenCalledWith({
     accessToken,
     accessTokenExpiration,
@@ -43,7 +44,7 @@ it("processes a fully valid login", () => {
   expect(screen.getByText(expectedHomeMessage)).toBeInTheDocument();
 });
 
-it("displays a login error message if the login submission did not work", () => {
+it("displays a login error message if the login submission did not work", async () => {
   const accessKey = "access-key";
   const password = "p@55w0rd";
   const sessionService = object<SessionService>();
@@ -51,11 +52,10 @@ it("displays a login error message if the login submission did not work", () => 
     new Error()
   );
   render(<Login onSuccess={jest.fn()} sessionService={sessionService} />);
-  act(() => {
-    user.type(getAccessKeyInput(), "access-key");
-    user.type(getPasswordInput(), "p@55w0rd");
-    user.click(getSubmitButton());
-  });
+  user.type(getAccessKeyInput(), "access-key");
+  user.type(getPasswordInput(), "p@55w0rd");
+  user.click(getSubmitButton());
+  await waitFor(() => screen.getByRole("alert"))
   const errorMessage = screen.getByRole("alert");
   expect(errorMessage).toBeInTheDocument();
   expect(errorMessage).toHaveTextContent(

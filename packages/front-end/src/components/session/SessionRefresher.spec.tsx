@@ -1,7 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import flushPromises from "flush-promises";
-import { act } from "react-dom/test-utils";
-import { object, when } from "testdouble";
+import { render, screen, waitFor } from "@testing-library/react";
+import { object, verify, when } from "testdouble";
 import { SessionService } from "../../api/session";
 import { SessionRefresher } from "./SessionRefresher";
 import MockDate from "mockdate";
@@ -50,13 +48,10 @@ it("handles a successful refresh", async () => {
       <p>{childrenMessage}</p>
     </SessionRefresher>
   );
-  await act(async () => {
-    await flushPromises();
-    jest.runAllTimers();
-  });
+  jest.runAllTimers();
+  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(1))
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
-  expect(onSessionRefresh).toHaveBeenCalledTimes(1);
   expect(onSessionRefresh).toHaveBeenCalledWith({
     accessToken,
     accessTokenExpiration,
@@ -68,7 +63,8 @@ it("handles a failed refresh", async () => {
   const sessionService = object<SessionService>();
   const onSessionRefresh = jest.fn();
   const onSessionRefreshFail = jest.fn();
-  when(sessionService.refreshCurrentSession()).thenReject(new Error());
+  const refreshCurrentSession = jest.fn().mockRejectedValue(new Error())
+  sessionService.refreshCurrentSession = refreshCurrentSession
   render(
     <SessionRefresher
       onSessionRefresh={onSessionRefresh}
@@ -78,9 +74,7 @@ it("handles a failed refresh", async () => {
       <p>{childrenMessage}</p>
     </SessionRefresher>
   );
-  await act(async () => {
-    await flushPromises();
-  });
+  await waitFor(() => expect(refreshCurrentSession).toHaveBeenCalledTimes(1))
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
   expect(onSessionRefresh).not.toHaveBeenCalled();
@@ -112,10 +106,8 @@ it("automatically refreshes at a given timeout in the future", async () => {
       <p>{childrenMessage}</p>
     </SessionRefresher>
   );
-  await act(async () => {
-    await flushPromises();
-    jest.runAllTimers();
-  });
+  jest.runAllTimers();
+  await waitFor(() => expect(onSessionRefresh).toHaveBeenCalledTimes(2))
   expect(screen.getByText(childrenMessage)).toBeInTheDocument();
   expect(screen.queryByText(loadingMessage)).toBeNull();
   expect(onSessionRefresh).toHaveBeenCalledTimes(2);

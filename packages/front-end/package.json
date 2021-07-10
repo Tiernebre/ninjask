@@ -69,7 +69,6 @@
     "@types/mockdate": "^3.0.0",
     "@types/react-router-dom": "^5.1.8",
     "fetch-mock-jest": "^1.5.1",
-    "flush-promises": "^1.0.2",
     "mockdate": "^3.0.5",
     "testdouble": "^3.16.1"
   },

@@ -31,16 +31,26 @@
     "compile": "react-scripts build",
     "test:unit": "react-scripts test --watchAll=false",
     "test": "yarn test:unit",
-    "lint": "yarn lint:style",
+    "lint": "yarn lint:style && eslint . --max-warnings=0",
     "lint:style": "prettier --check .",
     "eject": "react-scripts eject",
     "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "plugin:jsx-a11y/recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
+    }
   },
   "browserslist": {
     "production": [

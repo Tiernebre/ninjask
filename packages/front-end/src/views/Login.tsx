@@ -10,7 +10,10 @@ type LoginProps = {
   onSuccess: (session: Session) => void;
 };
 
-export const Login = ({ sessionService, onSuccess }: LoginProps): JSX.Element => {
+export const Login = ({
+  sessionService,
+  onSuccess,
+}: LoginProps): JSX.Element => {
   const [loginErrored, setLoginErrored] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();

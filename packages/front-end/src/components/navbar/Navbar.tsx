@@ -29,7 +29,10 @@ type NavbarProps = {
   onLogOut: () => void;
 };
 
-export const Navbar = ({ isAuthenticated, onLogOut }: NavbarProps) => {
+export const Navbar = ({
+  isAuthenticated,
+  onLogOut,
+}: NavbarProps): JSX.Element => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   return (

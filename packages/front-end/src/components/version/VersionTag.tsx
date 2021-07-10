@@ -19,7 +19,7 @@ type VersionTagProps = {
 
 export const VersionTag = ({ id }: VersionTagProps): JSX.Element => {
   const versionName = pokemonVersionCopyMap.get(id);
-  const versionNameClass = versionName ? `VersionTag__${versionName}` : ""
+  const versionNameClass = versionName ? `VersionTag__${versionName}` : "";
   return (
     <p className={`tag VersionTag ${versionNameClass} is-medium`}>
       {versionName}

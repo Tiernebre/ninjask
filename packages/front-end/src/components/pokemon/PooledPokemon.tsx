@@ -6,14 +6,17 @@ type PooledPokemonProps = {
   poolSize: number;
 };
 
-const PooledPokemonListing = (pokemon: Pokemon) => (
+const PooledPokemonListing = (pokemon: Pokemon): JSX.Element => (
   <li className="PooledPokemon__pokemon" key={pokemon.id}>
     <img src={pokemon.imageUrls.icon} alt={pokemon.name}></img>
     <p>{pokemon.name}</p>
   </li>
 );
 
-export const PooledPokemon = ({ pokemon, poolSize }: PooledPokemonProps) => {
+export const PooledPokemon = ({
+  pokemon,
+  poolSize,
+}: PooledPokemonProps): JSX.Element => {
   return (
     <div className="PooledPokemon">
       <h2 role="banner" className="PooledPokemon__heading">

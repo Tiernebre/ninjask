@@ -5,7 +5,7 @@ type PokemonCardProps = {
   pokemon: Pokemon;
 };
 
-export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+export const PokemonCard = ({ pokemon }: PokemonCardProps): JSX.Element => {
   return (
     <div className="PokemonCard p-5">
       <img

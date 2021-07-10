@@ -1,4 +1,4 @@
-export const Footer = () => (
+export const Footer = (): JSX.Element => (
   <footer className="Footer footer">
     <div className="content has-text-centered">
       <p>

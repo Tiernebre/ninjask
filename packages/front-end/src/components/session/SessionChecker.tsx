@@ -11,7 +11,7 @@ type SessionCheckerProps = {
 
 const CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS = 5 * 1000; // 5 seconds
 
-export const SessionChecker = (props: SessionCheckerProps) => {
+export const SessionChecker = (props: SessionCheckerProps): JSX.Element => {
   useEffect(() => {
     const expiredSessionPulse = setInterval(() => {
       if (

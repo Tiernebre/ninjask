@@ -19,7 +19,7 @@ export const SessionRefresher = ({
   sessionService,
   session,
   children,
-}: SessionRefresherProps) => {
+}: SessionRefresherProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshSession = useCallback(async () => {
@@ -34,7 +34,7 @@ export const SessionRefresher = ({
   }, [onSessionRefresh, onSessionRefreshFail, sessionService]);
 
   useEffect(() => {
-    refreshSession();
+    void refreshSession();
   }, [refreshSession]);
 
   useEffect(() => {

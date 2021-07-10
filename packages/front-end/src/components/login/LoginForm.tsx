@@ -12,7 +12,7 @@ type LoginFormProps = {
   loading: boolean;
 };
 
-export const LoginForm = (props: LoginFormProps) => {
+export const LoginForm = (props: LoginFormProps): JSX.Element => {
   const {
     register,
     handleSubmit,

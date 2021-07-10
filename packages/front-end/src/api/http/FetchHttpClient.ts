@@ -29,7 +29,7 @@ export class FetchHttpClient implements HttpClient {
     return this.parseResponse(response);
   }
 
-  public async post<T>(uri: string, request?: any): Promise<T> {
+  public async post<T>(uri: string, request?: unknown): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
       method: "POST",
@@ -38,7 +38,7 @@ export class FetchHttpClient implements HttpClient {
     return this.parseResponse(response);
   }
 
-  public async put<T>(uri: string, request?: any): Promise<T> {
+  public async put<T>(uri: string, request?: unknown): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
       method: "PUT",
@@ -55,7 +55,7 @@ export class FetchHttpClient implements HttpClient {
     this.checkResponseForErrors(response);
   }
 
-  public async patch<T>(uri: string, request?: any): Promise<T> {
+  public async patch<T>(uri: string, request?: unknown): Promise<T> {
     const response = await fetch(`${this.rootUrl}${uri}`, {
       ...this.getCommonConfiguration(),
       method: "PATCH",
@@ -66,7 +66,7 @@ export class FetchHttpClient implements HttpClient {
 
   private parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
-      return response.json();
+      return response.json() as Promise<T>;
     } else {
       if (response.status >= 500) {
         throw new HttpServerError(

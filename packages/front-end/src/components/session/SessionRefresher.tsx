@@ -19,7 +19,7 @@ export const SessionRefresher = ({
   sessionService,
   session,
   children,
-}: SessionRefresherProps) => {
+}: SessionRefresherProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshSession = useCallback(async () => {
@@ -34,7 +34,7 @@ export const SessionRefresher = ({
   }, [onSessionRefresh, onSessionRefreshFail, sessionService]);
 
   useEffect(() => {
-    refreshSession();
+    void refreshSession();
   }, [refreshSession]);
 
   useEffect(() => {
@@ -45,10 +45,9 @@ export const SessionRefresher = ({
           ONE_MINUTE_IN_SECONDS -
           secondsSinceEpoch()) *
         1000;
-      refreshTimeout = window.setTimeout(refreshSession, refreshTimeoutInMs);
-    } else {
-      // no-op, as a refresh timestamp has not been setup yet.
-      refreshTimeout = window.setTimeout(() => {});
+      refreshTimeout = window.setTimeout(() => {
+        void refreshSession();
+      }, refreshTimeoutInMs);
     }
 
     return () => {

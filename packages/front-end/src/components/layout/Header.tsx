@@ -5,7 +5,7 @@ interface HeaderProps {
   onLogOut: () => void;
 }
 
-export const Header = (props: HeaderProps) => (
+export const Header = (props: HeaderProps): JSX.Element => (
   <header className="Header mb-5">
     <Navbar {...props} />
   </header>

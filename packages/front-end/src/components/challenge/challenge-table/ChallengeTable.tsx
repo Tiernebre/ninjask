@@ -3,7 +3,7 @@ import { Challenge } from "../../../api/challenge";
 import { VersionTag } from "../../version/VersionTag";
 import { Link } from "react-router-dom";
 
-const ChallengeRow = (challenge: Challenge) => (
+const ChallengeRow = (challenge: Challenge): JSX.Element => (
   <tr key={challenge.id}>
     <td className="ChallengeTableRow__name">
       <Link className="is-link" to={`/challenges/${challenge.id}`}>
@@ -29,7 +29,9 @@ type ChallengeTableProps = {
   challenges: Challenge[];
 };
 
-export const ChallengeTable = ({ challenges }: ChallengeTableProps) => (
+export const ChallengeTable = ({
+  challenges,
+}: ChallengeTableProps): JSX.Element => (
   <table className="ChallengeTable table is-striped is-fullwidth">
     <thead>
       <tr>

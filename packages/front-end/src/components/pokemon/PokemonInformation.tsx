@@ -9,7 +9,7 @@ type PokemonInformationProps = {
 export const PokemonInformation = ({
   pokemon,
   emptyPlaceholder,
-}: PokemonInformationProps) => {
+}: PokemonInformationProps): JSX.Element => {
   return pokemon ? (
     <div className="PokemonInformation">
       <img

@@ -1,9 +1,8 @@
-import { act, render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Login } from "./Login";
-import { object, when } from "testdouble";
+import { matchers, object, verify, when } from "testdouble";
 import { SessionService } from "../api/session";
-import flushPromises from "flush-promises";
 import { MemoryRouter, Route, Switch } from "react-router";
 
 const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);
@@ -32,12 +31,12 @@ it("processes a fully valid login", async () => {
       </Switch>
     </MemoryRouter>
   );
-  await act(async () => {
-    await user.type(getAccessKeyInput(), "access-key");
-    await user.type(getPasswordInput(), "p@55w0rd");
-    await user.click(getSubmitButton());
+  user.type(getAccessKeyInput(), accessKey);
+  user.type(getPasswordInput(), password);
+  user.click(getSubmitButton());
+  await waitFor(() => {
+    verify(sessionService.createOne(matchers.anything()));
   });
-  await flushPromises();
   expect(onSuccess).toHaveBeenCalledWith({
     accessToken,
     accessTokenExpiration,
@@ -53,12 +52,10 @@ it("displays a login error message if the login submission did not work", async 
     new Error()
   );
   render(<Login onSuccess={jest.fn()} sessionService={sessionService} />);
-  await act(async () => {
-    await user.type(getAccessKeyInput(), "access-key");
-    await user.type(getPasswordInput(), "p@55w0rd");
-    await user.click(getSubmitButton());
-  });
-  await flushPromises();
+  user.type(getAccessKeyInput(), accessKey);
+  user.type(getPasswordInput(), password);
+  user.click(getSubmitButton());
+  await waitFor(() => screen.getByRole("alert"));
   const errorMessage = screen.getByRole("alert");
   expect(errorMessage).toBeInTheDocument();
   expect(errorMessage).toHaveTextContent(

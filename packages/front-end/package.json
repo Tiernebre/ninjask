@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
-    "@tiernebre/kecleon": "^1.28.0",
+    "@tiernebre/kecleon": "^1.29.1",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.3.1",
     "@types/react": "^17.0.14",
@@ -31,16 +31,26 @@
     "compile": "react-scripts build",
     "test:unit": "react-scripts test --watchAll=false",
     "test": "yarn test:unit",
-    "lint": "yarn lint:style",
+    "lint": "yarn lint:style && eslint . --max-warnings=0",
     "lint:style": "prettier --check .",
     "eject": "react-scripts eject",
     "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "plugin:jsx-a11y/recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "project": [
+        "tsconfig.json"
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -59,7 +69,6 @@
     "@types/mockdate": "^3.0.0",
     "@types/react-router-dom": "^5.1.8",
     "fetch-mock-jest": "^1.5.1",
-    "flush-promises": "^1.0.2",
     "mockdate": "^3.0.5",
     "testdouble": "^3.16.1"
   },

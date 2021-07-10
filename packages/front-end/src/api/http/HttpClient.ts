@@ -30,7 +30,7 @@ export interface HttpClient {
    * @throws HttpClientError if the HTTP response has a 4xx status code.
    * @throws HttpServerError if the HTTP response has a 5xx status code.
    */
-  post<T>(uri: string, request?: any): Promise<T>;
+  post<T>(uri: string, request?: unknown): Promise<T>;
 
   /**
    * Performs an HTTP PUT request with an optionally provided request object
@@ -41,7 +41,7 @@ export interface HttpClient {
    * @throws HttpClientError if the HTTP response has a 4xx status code.
    * @throws HttpServerError if the HTTP response has a 5xx status code.
    */
-  put<T>(uri: string, request?: any): Promise<T>;
+  put<T>(uri: string, request?: unknown): Promise<T>;
 
   /**
    * Performs an HTTP DELETE request with an optionally provided request object
@@ -62,5 +62,5 @@ export interface HttpClient {
    * @throws HttpClientError if the HTTP response has a 4xx status code.
    * @throws HttpServerError if the HTTP response has a 5xx status code.
    */
-  patch<T>(uri: string, request?: any): Promise<T>;
+  patch<T>(uri: string, request?: unknown): Promise<T>;
 }

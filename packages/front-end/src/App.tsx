@@ -15,7 +15,7 @@ const backEndHttpClient = new FetchHttpClient(
 );
 const sessionService = new HttpSessionService(backEndHttpClient);
 
-const App = () => {
+const App = (): JSX.Element => {
   const [session, setSession] = useState<Session>();
 
   const accessToken = session?.accessToken;

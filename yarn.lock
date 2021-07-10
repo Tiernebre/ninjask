@@ -2818,10 +2818,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^1.28.0":
-  version "1.28.0"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.28.0.tgz#9ede2f115f0d1f6577f48fd5a8da105e609d101c"
-  integrity sha512-kQ7BzRChLYDJbckfYmP0PEpZsFVBmdO/CffDggeYhueqlaOqb5G07miXz41d7yEUdt0dP81DO955zINaorH/VQ==
+"@tiernebre/kecleon@^1.29.1":
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.29.1.tgz#3bacc84ba5109524d195f6bd51c38c47271bc7b8"
+  integrity sha512-zgCW2I4UXZtSruW8sJAjLTNEAURk2bE6Ml4/jsrFa5n8XdCzLugnjfV6yGriv5PLnbVkFQX5GQBKfi8uP22l7A==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"

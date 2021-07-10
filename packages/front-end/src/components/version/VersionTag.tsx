@@ -17,10 +17,11 @@ type VersionTagProps = {
   id: number;
 };
 
-export const VersionTag = ({ id }: VersionTagProps) => {
+export const VersionTag = ({ id }: VersionTagProps): JSX.Element => {
   const versionName = pokemonVersionCopyMap.get(id);
+  const versionNameClass = versionName ? `VersionTag__${versionName}` : "";
   return (
-    <p className={`tag VersionTag VersionTag__${versionName} is-medium`}>
+    <p className={`tag VersionTag ${versionNameClass} is-medium`}>
       {versionName}
     </p>
   );

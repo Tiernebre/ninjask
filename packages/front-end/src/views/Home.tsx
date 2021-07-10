@@ -9,7 +9,7 @@ type HomeProps = {
   httpClient: HttpClient;
 };
 
-export const Home = ({ httpClient }: HomeProps) => {
+export const Home = ({ httpClient }: HomeProps): JSX.Element => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {
@@ -18,7 +18,7 @@ export const Home = ({ httpClient }: HomeProps) => {
   }, [httpClient]);
 
   useDidMount(() => {
-    fetchChallenges();
+    void fetchChallenges();
   });
 
   return (

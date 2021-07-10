@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import { FetchHttpClient, HttpClient } from "../api/http";
 import { HttpSessionService, SessionPayload } from "../api/session";
 import { ChallengeView } from "./challenge/ChallengeView";
-import { DraftView } from "./draft/DraftView";
 import { Home } from "./Home";
 
 type AuthenticatedRoutesProps = {
@@ -17,7 +16,7 @@ const buildAuthedHttpClient = (accessToken?: string) =>
 export const AuthenticatedRoutes = ({
   homeRoutes,
   accessToken,
-}: AuthenticatedRoutesProps) => {
+}: AuthenticatedRoutesProps): JSX.Element | null => {
   const [authedHttpClient, setAuthedHttpClient] = useState<HttpClient>(
     buildAuthedHttpClient(accessToken)
   );
@@ -40,12 +39,6 @@ export const AuthenticatedRoutes = ({
     <Fragment>
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
-      </Route>
-      <Route path="/challenges/:challengeId/draft" exact>
-        <DraftView
-          httpClient={authedHttpClient}
-          sessionPayload={sessionPayload}
-        />
       </Route>
       <Route path="/challenges/:id" exact>
         <ChallengeView

@@ -47,6 +47,10 @@
       "plugin:jsx-a11y/recommended",
       "prettier"
     ],
+    "plugins": [
+      "testing-library",
+      "jest-dom"
+    ],
     "parserOptions": {
       "project": [
         "tsconfig.json"

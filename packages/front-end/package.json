@@ -43,6 +43,7 @@
       "plugin:@typescript-eslint/recommended-requiring-type-checking",
       "react-app",
       "react-app/jest",
+      "plugin:testing-library/react",
       "plugin:jsx-a11y/recommended",
       "prettier"
     ],

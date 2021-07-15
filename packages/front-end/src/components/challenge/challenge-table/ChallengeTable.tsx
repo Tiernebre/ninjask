@@ -6,9 +6,7 @@ import { Button, Table } from "@tiernebre/kecleon";
 const ChallengeRow = (challenge: Challenge): JSX.Element => (
   <tr key={challenge.id}>
     <td>
-      <Link to={`/challenges/${challenge.id}`}>
-        {challenge.name}
-      </Link>
+      <Link to={`/challenges/${challenge.id}`}>{challenge.name}</Link>
     </td>
     <td>{challenge.description}</td>
     <td>

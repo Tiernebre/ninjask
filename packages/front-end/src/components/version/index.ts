@@ -1,1 +1,1 @@
-export * from "./VersionTag"
+export * from "./VersionTag";

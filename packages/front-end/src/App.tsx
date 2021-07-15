@@ -2,13 +2,12 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Login } from "./views/Login";
 import { HttpSessionService, Session } from "./api/session";
 import { FetchHttpClient } from "./api/http";
-import { Footer } from "./components/layout/Footer";
 import { useCallback, useState } from "react";
 import { SessionChecker } from "./components/session/SessionChecker";
-import { Header } from "./components/layout/Header";
 import { SessionRefresher } from "./components/session/SessionRefresher";
 import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
 import "./App.scss";
+import { Header, Footer } from "./components";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL

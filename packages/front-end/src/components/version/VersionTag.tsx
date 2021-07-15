@@ -1,3 +1,4 @@
+import { Tag } from "@tiernebre/kecleon";
 import "./VersionTag.scss";
 
 // ids are mapped to their PokeAPI equivalents
@@ -20,9 +21,5 @@ type VersionTagProps = {
 export const VersionTag = ({ id }: VersionTagProps): JSX.Element => {
   const versionName = pokemonVersionCopyMap.get(id);
   const versionNameClass = versionName ? `VersionTag__${versionName}` : "";
-  return (
-    <p className={`tag VersionTag ${versionNameClass} is-medium`}>
-      {versionName}
-    </p>
-  );
+  return <Tag className={`VersionTag ${versionNameClass}`}>{versionName}</Tag>
 };

@@ -28,7 +28,10 @@ export const Login = ({
       } catch (error) {
         console.error(error);
         setLoading(false);
-        showAlert({ message: "Could Not Login, Please Double Check your Credentials", color: "danger" })
+        showAlert({
+          message: "Could Not Login, Please Double Check your Credentials",
+          color: "danger",
+        });
       }
     },
     [onSuccess, history, sessionService, showAlert]

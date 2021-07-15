@@ -1,7 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import { FetchHttpClient, HttpClient } from "../api/http";
-import { HttpSessionService, SessionPayload } from "../api/session";
+import {
+  FetchHttpClient,
+  HttpClient,
+  HttpSessionService,
+  SessionPayload,
+} from "../api";
 import { Home } from "./Home";
 
 type AuthenticatedRoutesProps = {

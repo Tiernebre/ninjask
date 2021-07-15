@@ -1,10 +1,9 @@
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HttpSessionService, Session } from "./api/session";
-import { FetchHttpClient } from "./api/http";
+import { AlertsProvider, SmartAlerts } from "@tiernebre/kecleon";
+import { HttpSessionService, Session, FetchHttpClient } from "./api";
 import { useCallback, useState } from "react";
-import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
-import { Login } from "./views";
+import { AuthenticatedRoutes, Login } from "./views";
 import { Header, Footer, SessionChecker, SessionRefresher } from "./components";
 
 const backEndHttpClient = new FetchHttpClient(
@@ -40,26 +39,32 @@ const App = (): JSX.Element => {
           onSessionRefreshFail={logOut}
           session={session}
         >
-          <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
-          <main className="App__content">
-            <Switch>
-              <Route path={loginRoutes} exact>
-                <Login sessionService={sessionService} onSuccess={setSession} />
-              </Route>
-              <SessionChecker
-                accessToken={accessToken}
-                sessionService={sessionService}
-                onExpiredSession={logOut}
-              >
-                <AuthenticatedRoutes
+          <AlertsProvider>
+            <SmartAlerts />
+            <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
+            <main className="App__content">
+              <Switch>
+                <Route path={loginRoutes} exact>
+                  <Login
+                    sessionService={sessionService}
+                    onSuccess={setSession}
+                  />
+                </Route>
+                <SessionChecker
                   accessToken={accessToken}
-                  homeRoutes={homeRoutes}
-                />
-              </SessionChecker>
-            </Switch>
-            <Route></Route>
-          </main>
-          <Footer />
+                  sessionService={sessionService}
+                  onExpiredSession={logOut}
+                >
+                  <AuthenticatedRoutes
+                    accessToken={accessToken}
+                    homeRoutes={homeRoutes}
+                  />
+                </SessionChecker>
+              </Switch>
+              <Route></Route>
+            </main>
+            <Footer />
+          </AlertsProvider>
         </SessionRefresher>
       </div>
     </Router>

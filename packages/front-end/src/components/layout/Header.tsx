@@ -6,7 +6,7 @@ interface HeaderProps {
 }
 
 export const Header = (props: HeaderProps): JSX.Element => (
-  <header className="Header mb-5">
+  <header className="Header">
     <Navbar {...props} />
   </header>
 );

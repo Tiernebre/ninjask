@@ -1,4 +1,4 @@
-import { Footer as KecleonFooter } from "@tiernebre/kecleon"
+import { Footer as KecleonFooter } from "@tiernebre/kecleon";
 
 export const Footer = (): JSX.Element => (
   <KecleonFooter>

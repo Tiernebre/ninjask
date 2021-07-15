@@ -12,6 +12,7 @@ export const Navbar = ({
 }: NavbarProps): JSX.Element => {
   return (
     <SmartNavbar
+      spaced
       brandItems={
         <NavbarItem link={{ to: "/" }}>
           <img src={logo} alt="Logo" />
@@ -29,5 +30,5 @@ export const Navbar = ({
         </NavbarItem>
       }
     />
-  )
+  );
 };

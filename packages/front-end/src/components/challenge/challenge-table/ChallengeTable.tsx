@@ -1,12 +1,12 @@
 import { Challenge } from "../../../api/challenge";
 import { VersionTag } from "../../version/VersionTag";
 import { Link } from "react-router-dom";
-import { Table } from "@tiernebre/kecleon";
+import { Button, Table } from "@tiernebre/kecleon";
 
 const ChallengeRow = (challenge: Challenge): JSX.Element => (
   <tr key={challenge.id}>
     <td>
-      <Link className="is-link" to={`/challenges/${challenge.id}`}>
+      <Link to={`/challenges/${challenge.id}`}>
         {challenge.name}
       </Link>
     </td>
@@ -15,12 +15,14 @@ const ChallengeRow = (challenge: Challenge): JSX.Element => (
       <VersionTag id={challenge.versionId} />
     </td>
     <td>
-      <Link
-        className="button is-link is-light is-fullwidth"
-        to={`/challenges/${challenge.id}/draft`}
+      <Button
+        color="link"
+        light
+        fullWidth
+        link={{ to: `/challenges/${challenge.id}` }}
       >
         Draft
-      </Link>
+      </Button>
     </td>
   </tr>
 );

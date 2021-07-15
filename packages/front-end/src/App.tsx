@@ -1,10 +1,8 @@
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HttpSessionService, Session } from "./api/session";
-import { FetchHttpClient } from "./api/http";
+import { HttpSessionService, Session, FetchHttpClient } from "./api";
 import { useCallback, useState } from "react";
-import { AuthenticatedRoutes } from "./views/AuthenticatedRoutes";
-import { Login } from "./views";
+import { AuthenticatedRoutes, Login } from "./views";
 import { Header, Footer, SessionChecker, SessionRefresher } from "./components";
 
 const backEndHttpClient = new FetchHttpClient(

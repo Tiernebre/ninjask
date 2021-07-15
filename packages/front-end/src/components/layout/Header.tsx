@@ -1,4 +1,4 @@
-import { Navbar } from "../navbar/Navbar";
+import { Navbar } from "..";
 
 interface HeaderProps {
   isAuthenticated: boolean;

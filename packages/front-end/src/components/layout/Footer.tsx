@@ -1,5 +1,7 @@
+import { Footer as KecleonFooter } from "@tiernebre/kecleon";
+
 export const Footer = (): JSX.Element => (
-  <footer className="Footer footer">
+  <KecleonFooter>
     <div className="content has-text-centered">
       <p>
         Built by{" "}
@@ -21,5 +23,5 @@ export const Footer = (): JSX.Element => (
         !
       </p>
     </div>
-  </footer>
+  </KecleonFooter>
 );

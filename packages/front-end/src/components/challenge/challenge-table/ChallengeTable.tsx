@@ -1,11 +1,11 @@
-import "./ChallengeTable.scss";
 import { Challenge } from "../../../api/challenge";
 import { VersionTag } from "../../version/VersionTag";
 import { Link } from "react-router-dom";
+import { Table } from "@tiernebre/kecleon";
 
 const ChallengeRow = (challenge: Challenge): JSX.Element => (
   <tr key={challenge.id}>
-    <td className="ChallengeTableRow__name">
+    <td>
       <Link className="is-link" to={`/challenges/${challenge.id}`}>
         {challenge.name}
       </Link>
@@ -32,7 +32,7 @@ type ChallengeTableProps = {
 export const ChallengeTable = ({
   challenges,
 }: ChallengeTableProps): JSX.Element => (
-  <table className="ChallengeTable table is-striped is-fullwidth">
+  <Table striped fullwidth>
     <thead>
       <tr>
         <th>Name</th>
@@ -42,5 +42,5 @@ export const ChallengeTable = ({
       </tr>
     </thead>
     <tbody>{challenges.map(ChallengeRow)}</tbody>
-  </table>
+  </Table>
 );

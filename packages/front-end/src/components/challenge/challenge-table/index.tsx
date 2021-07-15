@@ -1,1 +1,0 @@
-export { ChallengeTable } from "./ChallengeTable";

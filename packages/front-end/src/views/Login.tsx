@@ -1,9 +1,8 @@
+import "./Login.scss";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService, Session } from "../api/session";
-import { SessionRequest } from "../api/session/SessionRequest";
-import { LoginForm } from "../components/login/LoginForm";
-import "./Login.scss";
+import { SessionService, Session, SessionRequest } from "../api/session";
+import { LoginForm } from "../components";
 
 type LoginProps = {
   sessionService: SessionService;

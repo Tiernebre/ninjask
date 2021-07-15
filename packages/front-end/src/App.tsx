@@ -1,6 +1,6 @@
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { AlertsProvider } from "@tiernebre/kecleon";
+import { AlertsProvider, SmartAlerts } from "@tiernebre/kecleon";
 import { HttpSessionService, Session, FetchHttpClient } from "./api";
 import { useCallback, useState } from "react";
 import { AuthenticatedRoutes, Login } from "./views";
@@ -40,11 +40,15 @@ const App = (): JSX.Element => {
           session={session}
         >
           <AlertsProvider>
+            <SmartAlerts />
             <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
             <main className="App__content">
               <Switch>
                 <Route path={loginRoutes} exact>
-                  <Login sessionService={sessionService} onSuccess={setSession} />
+                  <Login
+                    sessionService={sessionService}
+                    onSuccess={setSession}
+                  />
                 </Route>
                 <SessionChecker
                   accessToken={accessToken}

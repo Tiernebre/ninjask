@@ -17,7 +17,7 @@ const ChallengeRow = (challenge: Challenge): JSX.Element => (
         color="link"
         light
         fullWidth
-        link={{ to: `/challenges/${challenge.id}` }}
+        link={{ to: `/challenges/${challenge.id}/draft` }}
       >
         Draft
       </Button>

@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
 import { SessionService, Session, SessionRequest } from "../api";
 import { LoginForm } from "../components";
+import { useAlerts } from "@tiernebre/kecleon";
 
 type LoginProps = {
   sessionService: SessionService;
@@ -13,25 +14,24 @@ export const Login = ({
   sessionService,
   onSuccess,
 }: LoginProps): JSX.Element => {
-  const [loginErrored, setLoginErrored] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const { showAlert } = useAlerts();
 
   const submitLogin = useCallback(
     async (sessionRequest: SessionRequest) => {
       try {
-        setLoginErrored(false);
         setLoading(true);
         const session = await sessionService.createOne(sessionRequest);
         onSuccess(session);
         history.push("/home");
       } catch (error) {
         console.error(error);
-        setLoginErrored(true);
         setLoading(false);
+        showAlert({ message: "Could Not Login, Please Double Check your Credentials", color: "danger" })
       }
     },
-    [onSuccess, history, sessionService]
+    [onSuccess, history, sessionService, showAlert]
   );
 
   return (
@@ -43,14 +43,6 @@ export const Login = ({
           tracking your Pokémon challenges!
         </h2>
         <LoginForm onSubmit={submitLogin} loading={loading} />
-        {loginErrored && (
-          <article role="alert" className="message is-danger mt-3">
-            <div className="message-body">
-              The information submitted was incorrect. Please double check and
-              try again.
-            </div>
-          </article>
-        )}
       </div>
     </div>
   );

@@ -14,9 +14,7 @@ const pokemonVersionCopyMap = new Map([
   [9, "emerald"],
 ]);
 
-type VersionTagProps = {
-  id: number;
-};
+type VersionTagProps = { id: number };
 
 export const VersionTag = ({ id }: VersionTagProps): JSX.Element => {
   const versionName = pokemonVersionCopyMap.get(id);

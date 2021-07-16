@@ -1,11 +1,11 @@
-import { Column, Columns, FormField, Input, Label } from "@tiernebre/kecleon";
+import { Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ChallengeResult } from "../../../api";
 
 type ChallengeResultFormData = {
-  completionTimeHour: number;
-  completionTimeMinutes: number;
+  hour: number;
+  minutes: number;
 };
 
 type ChallengeResultFormProps = {
@@ -26,10 +26,10 @@ export const ChallengeResultForm = ({
 
   useEffect(() => {
     if (existingResult?.completionTimeHour) {
-      setValue("completionTimeHour", existingResult.completionTimeHour);
+      setValue("hour", existingResult.completionTimeHour);
     }
     if (existingResult?.completionTimeMinutes) {
-      setValue("completionTimeMinutes", existingResult.completionTimeMinutes);
+      setValue("minutes", existingResult.completionTimeMinutes);
     }
   }, [existingResult, setValue]);
 
@@ -41,16 +41,50 @@ export const ChallengeResultForm = ({
     <form onSubmit={submit}>
       <Columns mobile>
         <Column>
-          <FormField>
-            <Label>Hour</Label>
-            <Input type="number" />
-          </FormField>
+          <SemanticFormField
+            id="hour"
+            label="Hour"
+            input={{ type: "number" }}
+            register={register("hour", {
+              valueAsNumber: true,
+              required: {
+                value: true,
+                message: "Hour is required.",
+              },
+              min: {
+                value: 0,
+                message: "Hour must be between 0-99.",
+              },
+              max: {
+                value: 99,
+                message: "Hour must be between 0-99.",
+              },
+            })}
+            error={errors.hour}
+          />
         </Column>
         <Column>
-          <FormField>
-            <Label>Minutes </Label>
-            <Input type="number" />
-          </FormField>
+          <SemanticFormField
+            id="minutes"
+            label="minutes"
+            input={{ type: "minutes" }}
+            register={register("minutes", {
+              valueAsNumber: true,
+              required: {
+                value: true,
+                message: "Minutes are required.",
+              },
+              min: {
+                value: 0,
+                message: "Minutes must be between 0-59.",
+              },
+              max: {
+                value: 59,
+                message: "Minutes must be between 0-59.",
+              },
+            })}
+            error={errors.minutes}
+          />
         </Column>
       </Columns>
     </form>

@@ -1,5 +1,5 @@
-import { Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
-import { useEffect } from "react";
+import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ChallengeResult } from "../../../api";
 
@@ -66,7 +66,7 @@ export const ChallengeResultForm = ({
         <Column>
           <SemanticFormField
             id="minutes"
-            label="minutes"
+            label="Minutes"
             input={{ type: "minutes" }}
             register={register("minutes", {
               valueAsNumber: true,
@@ -87,6 +87,7 @@ export const ChallengeResultForm = ({
           />
         </Column>
       </Columns>
+      <Button color="success">Submit Result</Button>
     </form>
   );
 };

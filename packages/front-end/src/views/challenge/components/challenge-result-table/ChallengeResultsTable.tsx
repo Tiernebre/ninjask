@@ -1,5 +1,5 @@
 import { Table } from "@tiernebre/kecleon";
-import { ChallengeResult } from "../../../api";
+import { ChallengeResult } from "../../../../api";
 
 const formatCompletionTimeForResult = (result: ChallengeResult): string => {
   const { completionTimeHour: hour, completionTimeMinutes: minutes } = result;

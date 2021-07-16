@@ -1,2 +1,2 @@
 export * from "./ChallengeResultForm";
-export * from "./ChallengeResultsTable";
+export * from "./challenge-result-table";

@@ -13,7 +13,7 @@ import {
   HttpChallengeService,
   HttpClient,
 } from "../../api";
-import { ChallengeResultsTable } from "./components/ChallengeResultsTable";
+import { ChallengeResultsTable } from "./components";
 
 type ChallengeViewParams = {
   id: string;

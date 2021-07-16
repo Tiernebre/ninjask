@@ -39,7 +39,11 @@ export const ChallengeView = ({
 
   return challenge && results ? (
     <Container>
-      <HeadingGroup title={challenge.name} subtitle={challenge.description} />
+      <HeadingGroup
+        spaced
+        title={challenge.name}
+        subtitle={challenge.description}
+      />
     </Container>
   ) : null;
 };

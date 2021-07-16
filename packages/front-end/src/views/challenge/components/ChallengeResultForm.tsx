@@ -34,7 +34,7 @@ export const ChallengeResultForm = ({
             id="hour"
             label="Hour"
             input={{ type: "text" }}
-            register={register("hour", {
+            ref={register("hour", {
               valueAsNumber: true,
               required: {
                 value: true,

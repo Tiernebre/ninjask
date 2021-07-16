@@ -1,16 +1,16 @@
-.Login {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.Login__content {
+.content {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.Login__heading {
+.heading {
   text-align: center;
 }

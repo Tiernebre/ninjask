@@ -1,8 +1,8 @@
-import "./Login.scss";
+import styles from "./Login.module.scss";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService, Session, SessionRequest } from "../api";
-import { LoginForm } from "../components";
+import { SessionService, Session, SessionRequest } from "../../api";
+import { LoginForm } from "../../components";
 import { useAlerts } from "@tiernebre/kecleon";
 
 type LoginProps = {
@@ -38,9 +38,11 @@ export const Login = ({
   );
 
   return (
-    <div className="Login container p-5">
-      <div className="Login__content">
-        <h1 className="Login__heading title is-spaced">Welcome to Ninjask!</h1>
+    <div className={`${styles.container} container p-5`}>
+      <div className={styles.content}>
+        <h1 className={`${styles.heading} title is-spaced`}>
+          Welcome to Ninjask!
+        </h1>
         <h2 className="subtitle">
           Please fill out your login information below to start drafting and
           tracking your Pokémon challenges!

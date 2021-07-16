@@ -1,8 +1,8 @@
 import "./Home.scss";
 import { useCallback, useState } from "react";
 import { useDidMount } from "rooks";
-import { Challenge, HttpClient, HttpChallengeService } from "../api";
-import { ChallengeTable } from "../components";
+import { Challenge, HttpClient, HttpChallengeService } from "../../api";
+import { ChallengeTable } from "../../components";
 
 type HomeProps = {
   httpClient: HttpClient;

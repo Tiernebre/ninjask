@@ -1,3 +1,4 @@
 export * from "./AuthenticatedRoutes";
-export * from "./Home";
-export * from "./Login";
+export * from "./challenge";
+export * from "./home";
+export * from "./login";

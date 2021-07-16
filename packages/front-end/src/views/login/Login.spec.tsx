@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Login } from "./Login";
 import { matchers, object, verify, when } from "testdouble";
-import { SessionService } from "../api/session";
+import { SessionService } from "../../api";
 import { MemoryRouter, Route, Switch } from "react-router";
 import { AlertsProvider } from "@tiernebre/kecleon";
 

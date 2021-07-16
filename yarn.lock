@@ -2931,10 +2931,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^1.32.6":
-  version "1.32.6"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.32.6.tgz#4cbeb8bd2eaf001d70d6df0247085650f2e86090"
-  integrity sha512-K93tgdhkjRik1UEEQAD6c/duUA0nEAcYAxgww32UNQuhCAGWpzJEAq7w0KMBp1tnsdYBSnbVuYlEJ9sVEL36Uw==
+"@tiernebre/kecleon@^1.33.0":
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.33.0.tgz#2e409661122240688581a28f0229c1d052c24470"
+  integrity sha512-ZiK9Uc7chzrqh9aEa6bi9/2xeQwVLhXReGR8mSTV/1goyaEKYs93P3GgcJKwBQIt5WXFUm/xAKmNQUYcBWPPGg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"

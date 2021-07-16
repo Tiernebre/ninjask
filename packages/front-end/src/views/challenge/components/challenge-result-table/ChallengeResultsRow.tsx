@@ -1,14 +1,23 @@
 import { ChallengeResult } from "../../../../api";
 
 const hasCompleted = (result: ChallengeResult): boolean => {
-  return !!(result.completionTimeHour && result.completionTimeMinutes);
+  return (
+    result.completionTimeHour !== null && result.completionTimeMinutes !== null
+  );
+};
+
+const formatNumberForTime = (num: number): string => {
+  return num.toString().padStart(2, "0");
 };
 
 const formatCompletionTimeForResult = (result: ChallengeResult): string => {
-  const { completionTimeHour: hour, completionTimeMinutes: minutes } = result;
-  return hasCompleted(result)
-    ? `${hour as number}:${minutes as number}`
-    : "Not Completed Yet";
+  if (hasCompleted(result)) {
+    const hour = result.completionTimeHour as number;
+    const minutes = result.completionTimeMinutes as number;
+    return `${formatNumberForTime(hour)}:${formatNumberForTime(minutes)}`;
+  } else {
+    return "Not Completed Yet";
+  }
 };
 
 const formatPlacement = (

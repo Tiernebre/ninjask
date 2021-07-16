@@ -8,13 +8,16 @@ const formatCompletionTimeForResult = (result: ChallengeResult): string => {
 
 export type ChallengeResultsTableRowProps = {
   result: ChallengeResult;
+  placement: number;
 };
 
 const ChallengeResultsTableRow = ({
   result,
+  placement,
 }: ChallengeResultsTableRowProps): JSX.Element => {
   return (
     <tr>
+      <td>{placement}</td>
       <td>{result.nickname}</td>
       <td>{formatCompletionTimeForResult(result)}</td>
     </tr>
@@ -32,13 +35,18 @@ export const ChallengeResultsTable = ({
     <Table fullwidth striped>
       <thead>
         <tr>
+          <th>Ranking</th>
           <th>Name</th>
           <th>Completion Time</th>
         </tr>
       </thead>
       <tbody>
-        {results.map((result) => (
-          <ChallengeResultsTableRow key={result.resultId} result={result} />
+        {results.map((result, index) => (
+          <ChallengeResultsTableRow
+            key={result.resultId}
+            result={result}
+            placement={index + 1}
+          />
         ))}
       </tbody>
     </Table>

@@ -29,7 +29,7 @@ export const ChallengeResultsTable = ({
   results,
 }: ChallengeResultsTableProps): JSX.Element => {
   return (
-    <Table>
+    <Table fullwidth striped>
       <thead>
         <tr>
           <th>Name</th>

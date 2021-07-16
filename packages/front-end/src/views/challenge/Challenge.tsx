@@ -13,6 +13,7 @@ import {
   HttpChallengeService,
   HttpClient,
 } from "../../api";
+import { ChallengeResultsTable } from "./components/ChallengeResultsTable";
 
 type ChallengeViewParams = {
   id: string;
@@ -52,11 +53,7 @@ export const ChallengeView = ({
       />
       <Box>
         <Title level={5}>Participants</Title>
-        <ol>
-          {results.map((result) => (
-            <li key={result.resultId}>{result.nickname}</li>
-          ))}
-        </ol>
+        <ChallengeResultsTable results={results} />
       </Box>
     </Container>
   ) : null;

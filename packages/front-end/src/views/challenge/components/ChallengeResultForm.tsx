@@ -1,3 +1,4 @@
+import { Column, Columns, FormField, Input, Label } from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ChallengeResult } from "../../../api";
@@ -36,5 +37,22 @@ export const ChallengeResultForm = ({
     onSubmit(data);
   });
 
-  return <form onSubmit={submit}>Challenge Result Form</form>;
+  return (
+    <form onSubmit={submit}>
+      <Columns mobile>
+        <Column>
+          <FormField>
+            <Label>Hour</Label>
+            <Input type="number" />
+          </FormField>
+        </Column>
+        <Column>
+          <FormField>
+            <Label>Minutes </Label>
+            <Input type="number" />
+          </FormField>
+        </Column>
+      </Columns>
+    </form>
+  );
 };

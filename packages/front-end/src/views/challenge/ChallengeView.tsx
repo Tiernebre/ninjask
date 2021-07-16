@@ -1,11 +1,13 @@
 import {
   Box,
+  Column,
+  Columns,
   Container,
   HeadingGroup,
   Title,
   useDidMount,
 } from "@tiernebre/kecleon";
-import { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
   Challenge,
@@ -52,18 +54,24 @@ export const ChallengeView = ({
         title={challenge.name}
         subtitle={challenge.description}
       />
-      <Box>
-        <Title level={4}>Participants</Title>
-        <ChallengeResultsTable results={results} />
-      </Box>
-      <Box>
-        <Title level={4}>Submit Your Result</Title>
-        <ChallengeResultForm
-          onSubmit={() => {
-            console.log("yo");
-          }}
-        />
-      </Box>
+      <Columns>
+        <Column size={8}>
+          <Box>
+            <Title level={4}>Participants</Title>
+            <ChallengeResultsTable results={results} />
+          </Box>
+        </Column>
+        <Column size={4}>
+          <Box>
+            <Title level={4}>Submit Your Result</Title>
+            <ChallengeResultForm
+              onSubmit={() => {
+                console.log("yo");
+              }}
+            />
+          </Box>
+        </Column>
+      </Columns>
     </Container>
   ) : null;
 };

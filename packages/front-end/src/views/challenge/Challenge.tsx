@@ -1,3 +1,5 @@
+import { Container } from "@tiernebre/kecleon";
+
 export const Challenge = (): JSX.Element => {
-  return <div>Challenge</div>;
+  return <Container>Challenge</Container>;
 };

@@ -1,4 +1,4 @@
-import "./App.scss";
+import styles from "./App.module.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AlertsProvider, SmartAlerts } from "@tiernebre/kecleon";
 import { HttpSessionService, Session, FetchHttpClient } from "./api";
@@ -32,7 +32,7 @@ const App = (): JSX.Element => {
 
   return (
     <Router>
-      <div className="App">
+      <div className={styles.container}>
         <SessionRefresher
           sessionService={sessionService}
           onSessionRefresh={setSession}
@@ -42,7 +42,7 @@ const App = (): JSX.Element => {
           <AlertsProvider>
             <SmartAlerts />
             <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
-            <main className="App__content">
+            <main className={styles.content}>
               <Switch>
                 <Route path={loginRoutes} exact>
                   <Login

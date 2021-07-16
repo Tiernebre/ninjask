@@ -7,6 +7,7 @@ import {
   SessionPayload,
 } from "../api";
 import { Home } from ".";
+import { Challenge } from "./challenge";
 
 type AuthenticatedRoutesProps = {
   accessToken?: string;
@@ -42,6 +43,9 @@ export const AuthenticatedRoutes = ({
     <Fragment>
       <Route path={homeRoutes} exact>
         <Home httpClient={authedHttpClient} />
+      </Route>
+      <Route path="/challenges/:id">
+        <Challenge />
       </Route>
     </Fragment>
   ) : null;

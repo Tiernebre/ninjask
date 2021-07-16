@@ -14,6 +14,7 @@ import {
   HttpClient,
 } from "../../api";
 import { ChallengeResultsTable } from "./components";
+import { ChallengeResultForm } from "./components/ChallengeResultForm";
 
 type ChallengeViewParams = {
   id: string;
@@ -52,8 +53,16 @@ export const ChallengeView = ({
         subtitle={challenge.description}
       />
       <Box>
-        <Title level={5}>Participants</Title>
+        <Title level={4}>Participants</Title>
         <ChallengeResultsTable results={results} />
+      </Box>
+      <Box>
+        <Title level={4}>Submit Your Result</Title>
+        <ChallengeResultForm
+          onSubmit={() => {
+            console.log("yo");
+          }}
+        />
       </Box>
     </Container>
   ) : null;

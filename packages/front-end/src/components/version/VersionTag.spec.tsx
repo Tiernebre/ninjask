@@ -17,6 +17,6 @@ it.each([
     render(<VersionTag id={versionId} />);
     const foundTag = screen.getByText(expectedName);
     expect(foundTag).toBeInTheDocument();
-    expect(foundTag).toHaveClass(`VersionTag__${expectedName}`);
+    expect(foundTag).toHaveClass(expectedName);
   }
 );

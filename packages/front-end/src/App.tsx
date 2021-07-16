@@ -32,7 +32,7 @@ const App = (): JSX.Element => {
 
   return (
     <Router>
-      <div className={styles.App}>
+      <div className={styles.container}>
         <SessionRefresher
           sessionService={sessionService}
           onSessionRefresh={setSession}
@@ -42,7 +42,7 @@ const App = (): JSX.Element => {
           <AlertsProvider>
             <SmartAlerts />
             <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
-            <main className={styles.App__content}>
+            <main className={styles.content}>
               <Switch>
                 <Route path={loginRoutes} exact>
                   <Login

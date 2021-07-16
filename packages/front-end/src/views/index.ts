@@ -1,3 +1,3 @@
 export * from "./AuthenticatedRoutes";
-export * from "./Home";
+export * from "./home";
 export * from "./Login";

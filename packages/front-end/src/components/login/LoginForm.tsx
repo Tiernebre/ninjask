@@ -1,6 +1,6 @@
 import { Button, FormField, SemanticFormField } from "@tiernebre/kecleon";
 import { useForm } from "react-hook-form";
-import "./LoginForm.css";
+import styles from "./LoginForm.module.scss";
 
 type LoginFormData = {
   accessKey: string;
@@ -24,7 +24,7 @@ export const LoginForm = (props: LoginFormProps): JSX.Element => {
   });
 
   return (
-    <form className="LoginForm" onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <SemanticFormField
         id="access-key"
         label="Access Key"

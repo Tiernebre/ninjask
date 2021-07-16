@@ -1,6 +1,6 @@
 @use "sass:map";
 
-.VersionTag {
+.tag {
   margin: 0;
   text-transform: capitalize;
 }
@@ -45,7 +45,7 @@ $pokemon-version-stylings: (
 );
 
 @each $version, $styling in $pokemon-version-stylings {
-  .VersionTag__#{$version} {
+  .#{$version} {
     color: map-get($styling, "color") !important;
     background-color: map-get($styling, "background-color") !important;
   }

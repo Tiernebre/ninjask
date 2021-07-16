@@ -15,8 +15,7 @@ import {
   HttpChallengeService,
   HttpClient,
 } from "../../api";
-import { ChallengeResultsTable } from "./components";
-import { ChallengeResultForm } from "./components/ChallengeResultForm";
+import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 
 type ChallengeViewParams = {
   id: string;

@@ -1,4 +1,4 @@
-import { Container, useDidMount } from "@tiernebre/kecleon";
+import { Container, HeadingGroup, useDidMount } from "@tiernebre/kecleon";
 import { useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -37,5 +37,9 @@ export const ChallengeView = ({
     void fetchChallenge();
   });
 
-  return challenge && results ? <Container>Challenge</Container> : null;
+  return challenge && results ? (
+    <Container>
+      <HeadingGroup title={challenge.name} subtitle={challenge.description} />
+    </Container>
+  ) : null;
 };

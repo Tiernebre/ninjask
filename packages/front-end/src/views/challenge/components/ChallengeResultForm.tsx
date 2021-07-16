@@ -20,7 +20,6 @@ export const ChallengeResultForm = ({
     control,
     formState: { errors },
   } = useForm<ChallengeResultFormData>();
-  console.log(errors);
 
   const submit = handleSubmit((data) => {
     onSubmit(data);
@@ -34,7 +33,7 @@ export const ChallengeResultForm = ({
             id="hour"
             label="Hour"
             input={{ type: "text" }}
-            ref={register("hour", {
+            register={register("hour", {
               valueAsNumber: true,
               required: {
                 value: true,

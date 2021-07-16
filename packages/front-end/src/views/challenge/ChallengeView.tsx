@@ -64,11 +64,7 @@ export const ChallengeView = ({
         <Column size={4}>
           <Box>
             <Title level={4}>Submit Your Result</Title>
-            <ChallengeResultForm
-              onSubmit={() => {
-                console.log("yo");
-              }}
-            />
+            <ChallengeResultForm onSubmit={(data) => console.log(data)} />
           </Box>
         </Column>
       </Columns>

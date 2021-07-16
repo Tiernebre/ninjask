@@ -6,7 +6,7 @@ import {
   HttpSessionService,
   SessionPayload,
 } from "../api";
-import { Home } from "./Home";
+import { Home } from ".";
 
 type AuthenticatedRoutesProps = {
   accessToken?: string;

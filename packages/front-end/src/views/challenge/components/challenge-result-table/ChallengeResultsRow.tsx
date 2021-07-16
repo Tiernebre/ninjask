@@ -1,8 +1,21 @@
 import { ChallengeResult } from "../../../../api";
 
+const hasCompleted = (result: ChallengeResult): boolean => {
+  return !!(result.completionTimeHour && result.completionTimeMinutes);
+};
+
 const formatCompletionTimeForResult = (result: ChallengeResult): string => {
   const { completionTimeHour: hour, completionTimeMinutes: minutes } = result;
-  return hour && minutes ? `${hour}:${minutes}` : "Not Completed Yet";
+  return hasCompleted(result)
+    ? `${hour as number}:${minutes as number}`
+    : "Not Completed Yet";
+};
+
+const formatPlacement = (
+  result: ChallengeResult,
+  placement: number
+): string => {
+  return hasCompleted(result) ? placement.toString() : "N/A";
 };
 
 type ChallengeResultsTableRowProps = {
@@ -16,7 +29,7 @@ export const ChallengeResultsTableRow = ({
 }: ChallengeResultsTableRowProps): JSX.Element => {
   return (
     <tr>
-      <td>{placement}</td>
+      <td>{formatPlacement(result, placement)}</td>
       <td>{result.nickname}</td>
       <td>{formatCompletionTimeForResult(result)}</td>
     </tr>

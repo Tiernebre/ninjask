@@ -1,8 +1,8 @@
 import "./Login.scss";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService, Session, SessionRequest } from "../api";
-import { LoginForm } from "../components";
+import { SessionService, Session, SessionRequest } from "../../api";
+import { LoginForm } from "../../components";
 import { useAlerts } from "@tiernebre/kecleon";
 
 type LoginProps = {

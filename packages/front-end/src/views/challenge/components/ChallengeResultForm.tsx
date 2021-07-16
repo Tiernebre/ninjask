@@ -1,5 +1,4 @@
 import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
-import { DevTool } from "@hookform/devtools";
 import { useForm } from "react-hook-form";
 
 type ChallengeResultFormData = {
@@ -17,7 +16,6 @@ export const ChallengeResultForm = ({
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<ChallengeResultFormData>();
 
@@ -76,8 +74,6 @@ export const ChallengeResultForm = ({
         </Column>
       </Columns>
       <Button color="success">Submit Result</Button>
-      <DevTool control={control} placement="bottom-right" />{" "}
-      {/* set up the dev tool */}
     </form>
   );
 };

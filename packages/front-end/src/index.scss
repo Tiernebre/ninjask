@@ -8,18 +8,6 @@ body {
   color: $black;
 }
 
-/* Remove the annoying arrows on number inputs. */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
-input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
-}
-
 .container {
   width: 100%;
 }

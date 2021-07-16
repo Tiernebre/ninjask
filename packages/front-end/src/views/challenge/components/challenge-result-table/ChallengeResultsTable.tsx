@@ -1,28 +1,6 @@
 import { Table } from "@tiernebre/kecleon";
-import { ChallengeResult } from "../../../api";
-
-const formatCompletionTimeForResult = (result: ChallengeResult): string => {
-  const { completionTimeHour: hour, completionTimeMinutes: minutes } = result;
-  return hour && minutes ? `${hour}:${minutes}` : "Not Completed Yet";
-};
-
-export type ChallengeResultsTableRowProps = {
-  result: ChallengeResult;
-  placement: number;
-};
-
-const ChallengeResultsTableRow = ({
-  result,
-  placement,
-}: ChallengeResultsTableRowProps): JSX.Element => {
-  return (
-    <tr>
-      <td>{placement}</td>
-      <td>{result.nickname}</td>
-      <td>{formatCompletionTimeForResult(result)}</td>
-    </tr>
-  );
-};
+import { ChallengeResult } from "../../../../api";
+import { ChallengeResultsTableRow } from "./ChallengeResultsRow";
 
 type ChallengeResultsTableProps = {
   results: ChallengeResult[];

@@ -1,7 +1,6 @@
 import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
-import React, { useEffect } from "react";
+import { DevTool } from "@hookform/devtools";
 import { useForm } from "react-hook-form";
-import { ChallengeResult } from "../../../api";
 
 type ChallengeResultFormData = {
   hour: number;
@@ -9,29 +8,19 @@ type ChallengeResultFormData = {
 };
 
 type ChallengeResultFormProps = {
-  existingResult?: ChallengeResult;
   onSubmit: (data: ChallengeResultFormData) => void;
 };
 
 export const ChallengeResultForm = ({
-  existingResult,
   onSubmit,
 }: ChallengeResultFormProps): JSX.Element => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-    setValue,
   } = useForm<ChallengeResultFormData>();
-
-  useEffect(() => {
-    if (existingResult?.completionTimeHour) {
-      setValue("hour", existingResult.completionTimeHour);
-    }
-    if (existingResult?.completionTimeMinutes) {
-      setValue("minutes", existingResult.completionTimeMinutes);
-    }
-  }, [existingResult, setValue]);
+  console.log(errors);
 
   const submit = handleSubmit((data) => {
     onSubmit(data);
@@ -44,7 +33,7 @@ export const ChallengeResultForm = ({
           <SemanticFormField
             id="hour"
             label="Hour"
-            input={{ type: "number" }}
+            input={{ type: "text" }}
             register={register("hour", {
               valueAsNumber: true,
               required: {
@@ -67,7 +56,7 @@ export const ChallengeResultForm = ({
           <SemanticFormField
             id="minutes"
             label="Minutes"
-            input={{ type: "minutes" }}
+            input={{ type: "text" }}
             register={register("minutes", {
               valueAsNumber: true,
               required: {
@@ -88,6 +77,8 @@ export const ChallengeResultForm = ({
         </Column>
       </Columns>
       <Button color="success">Submit Result</Button>
+      <DevTool control={control} placement="bottom-right" />{" "}
+      {/* set up the dev tool */}
     </form>
   );
 };

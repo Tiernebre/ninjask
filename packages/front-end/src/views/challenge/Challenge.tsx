@@ -1,4 +1,4 @@
-import { Container, HeadingGroup, useDidMount } from "@tiernebre/kecleon";
+import { Box, Container, HeadingGroup, useDidMount } from "@tiernebre/kecleon";
 import { useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -44,6 +44,13 @@ export const ChallengeView = ({
         title={challenge.name}
         subtitle={challenge.description}
       />
+      <Box>
+        <ol>
+          {results.map((result) => (
+            <li key={result.resultId}>{result.nickname}</li>
+          ))}
+        </ol>
+      </Box>
     </Container>
   ) : null;
 };

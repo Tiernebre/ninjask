@@ -5,6 +5,7 @@ import {
   Container,
   HeadingGroup,
   Title,
+  useAlerts,
   useDidMount,
 } from "@tiernebre/kecleon";
 import React, { useState, useMemo, useCallback } from "react";
@@ -39,6 +40,7 @@ export const ChallengeView = ({
   const { id } = useParams<ChallengeViewParams>();
   const [challenge, setChallenge] = useState<Challenge>();
   const [results, setResults] = useState<ChallengeResult[]>([]);
+  const { showAlert } = useAlerts();
 
   const challengeService = useMemo(
     () => new HttpChallengeService(httpClient),
@@ -68,9 +70,13 @@ export const ChallengeView = ({
             completionTimeMinutes: formData.minutes,
           }
         );
+        showAlert({
+          message: "Challenge Submission Successfully Submitted",
+          color: "success",
+        });
       }
     },
-    [challengeParticipantService, existingResultForUser]
+    [challengeParticipantService, existingResultForUser, showAlert]
   );
 
   useDidMount(() => {

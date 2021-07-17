@@ -91,11 +91,18 @@ export const ChallengeView = ({
 
   return challenge && results ? (
     <Container>
-      <HeadingGroup
-        spaced
-        title={challenge.name}
-        subtitle={challenge.description}
-      />
+      <Columns>
+        <Column>
+          <HeadingGroup
+            spaced
+            title={challenge.name}
+            subtitle={challenge.description}
+          />
+        </Column>
+        <Column>
+          {existingResultForUser ? <div>Delete</div> : <div>Join</div>}
+        </Column>
+      </Columns>
       <Columns>
         <Column size={8}>
           <Box>

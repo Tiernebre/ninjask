@@ -45,7 +45,7 @@ export const useChallenge = ({
   const refreshChallenge = useCallback(async () => {
     await Promise.all([
       challengeApi.fetchChallenge(),
-      challengeResultsApi.fetchChallengeResults,
+      challengeResultsApi.fetchChallengeResults(),
     ]);
   }, [challengeApi, challengeResultsApi]);
 

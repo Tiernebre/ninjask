@@ -19,8 +19,10 @@ export type ChallengeHookParameters = {
 export type ChallengeHookReturnValue = {
   challenge: Challenge | undefined;
   results: ChallengeResult[] | undefined;
+  existingResultForUser: ChallengeResult | undefined;
   userIsInChallenge: boolean;
   userOwnsChallenge: boolean;
+  fetchChallenge: () => Promise<void>;
   submitResult: (request: ChallengeParticipantUpdateRequest) => Promise<void>;
 };
 
@@ -78,6 +80,8 @@ export const useChallengeApi = ({
   return {
     challenge,
     results,
+    existingResultForUser,
+    fetchChallenge,
     userIsInChallenge,
     userOwnsChallenge,
     submitResult,

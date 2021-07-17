@@ -4,25 +4,13 @@ import {
   Columns,
   Container,
   Title,
-  useAlerts,
   useDidMount,
 } from "@tiernebre/kecleon";
-import { useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Challenge,
-  ChallengeResult,
-  HttpChallengeParticipantService,
-  HttpChallengeService,
-  HttpClient,
-  SessionPayload,
-} from "../../api";
-import {
-  ChallengeResultsTable,
-  ChallengeResultForm,
-  ChallengeResultFormData,
-} from "./components";
+import { HttpClient, SessionPayload } from "../../api";
+import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
+import { useChallengeApi } from "./hooks";
 
 type ChallengeViewParams = {
   id: string;
@@ -38,54 +26,19 @@ export const ChallengeView = ({
   session,
 }: ChallengeProps): JSX.Element | null => {
   const { id } = useParams<ChallengeViewParams>();
-  const [challenge, setChallenge] = useState<Challenge>();
-  const [results, setResults] = useState<ChallengeResult[]>([]);
-  const { showAlert } = useAlerts();
-
-  const challengeService = useMemo(
-    () => new HttpChallengeService(httpClient),
-    [httpClient]
-  );
-  const challengeParticipantService = useMemo(
-    () => new HttpChallengeParticipantService(httpClient),
-    [httpClient]
-  );
-
-  const existingResultForUser = results.find(
-    (result) => result.participantId === session.userId
-  );
-  const userIsInChallenge = !!existingResultForUser;
-  const userOwnsChallenge = challenge?.creatorId === session.userId;
-
-  const fetchChallenge = useCallback(async () => {
-    setChallenge(await challengeService.getOneById(Number(id)));
-    setResults(await challengeService.getResultsForChallenge(Number(id)));
-  }, [challengeService, id]);
-
-  const submitResult = useCallback(
-    async (formData: ChallengeResultFormData) => {
-      if (existingResultForUser) {
-        await challengeParticipantService.updateOne(
-          existingResultForUser.resultId,
-          {
-            completionTimeHour: formData.hour,
-            completionTimeMinutes: formData.minutes,
-          }
-        );
-        await fetchChallenge();
-        showAlert({
-          message: "Challenge Submission Successfully Submitted",
-          color: "success",
-        });
-      }
-    },
-    [
-      challengeParticipantService,
-      existingResultForUser,
-      showAlert,
-      fetchChallenge,
-    ]
-  );
+  const {
+    challenge,
+    existingResultForUser,
+    results,
+    submitResult,
+    fetchChallenge,
+    userIsInChallenge,
+    userOwnsChallenge,
+  } = useChallengeApi({
+    challengeId: Number(id),
+    httpClient,
+    session,
+  });
 
   useDidMount(() => {
     void fetchChallenge();
@@ -98,6 +51,8 @@ export const ChallengeView = ({
           challenge={challenge}
           inChallenge={userIsInChallenge}
           ownsChallenge={userOwnsChallenge}
+          onJoinChallenge={() => console.log("Join")}
+          onLeaveChallenge={() => console.log("Leave")}
         />
         <Columns>
           <Column size={8}>
@@ -110,7 +65,12 @@ export const ChallengeView = ({
             <Box>
               <Title level={4}>Submit Your Result</Title>
               <ChallengeResultForm
-                onSubmit={submitResult}
+                onSubmit={(data) =>
+                  submitResult({
+                    completionTimeHour: data.hour,
+                    completionTimeMinutes: data.minutes,
+                  })
+                }
                 existingResult={existingResultForUser}
               />
             </Box>

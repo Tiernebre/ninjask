@@ -99,7 +99,7 @@ export const ChallengeView = ({
             subtitle={challenge.description}
           />
         </Column>
-        <Column>
+        <Column align="right">
           {existingResultForUser ? <div>Delete</div> : <div>Join</div>}
         </Column>
       </Columns>

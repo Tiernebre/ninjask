@@ -42,3 +42,19 @@ it("displays an error message if the minutes field is not filled out", async () 
   expect(getMinutesInput()).toBeInvalid();
   expect(onSubmit).not.toHaveBeenCalled();
 });
+
+it.each([-1000, -1, 60, Number.MAX_SAFE_INTEGER])(
+  "displays an error message that minutes needs to be within a range when %p is provided",
+  async (minutesToInput: number) => {
+    const onSubmit = jest.fn();
+    render(<ChallengeResultForm onSubmit={onSubmit} />);
+    user.type(getMinutesInput(), minutesToInput.toString());
+    user.click(getSubmitButton());
+    const minutesErrorMessage = await screen.findByText(
+      "Minutes must be between 0-59."
+    );
+    expect(minutesErrorMessage).toBeInTheDocument();
+    expect(getMinutesInput()).toBeInvalid();
+    expect(onSubmit).not.toHaveBeenCalled();
+  }
+);

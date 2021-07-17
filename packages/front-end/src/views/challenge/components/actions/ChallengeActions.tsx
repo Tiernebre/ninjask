@@ -1,8 +1,14 @@
 import { Buttons, IconButton } from "@tiernebre/kecleon";
 
-export const ChallengeActions = (): JSX.Element => {
-  return (
-    <Buttons>
+export type ChallengeActionsProps = {
+  inChallenge: boolean;
+};
+
+const ChallengeParticipantActions = ({
+  inChallenge,
+}: ChallengeActionsProps): JSX.Element => {
+  if (inChallenge) {
+    return (
       <IconButton
         color="danger"
         icon={{
@@ -11,6 +17,9 @@ export const ChallengeActions = (): JSX.Element => {
       >
         Leave Challenge
       </IconButton>
+    );
+  } else {
+    return (
       <IconButton
         color="success"
         icon={{
@@ -19,6 +28,16 @@ export const ChallengeActions = (): JSX.Element => {
       >
         Join Challenge
       </IconButton>
+    );
+  }
+};
+
+export const ChallengeActions = ({
+  inChallenge,
+}: ChallengeActionsProps): JSX.Element => {
+  return (
+    <Buttons>
+      <ChallengeParticipantActions inChallenge={inChallenge} />
     </Buttons>
   );
 };

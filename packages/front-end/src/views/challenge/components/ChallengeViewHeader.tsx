@@ -5,10 +5,13 @@ import { ChallengeActions } from "./actions";
 
 export type ChallengeViewHeaderProps = {
   challenge: Challenge;
+  inChallenge: boolean;
+  ownsChallenge: boolean;
 };
 
 export const ChallengeViewHeader = ({
   challenge,
+  inChallenge,
 }: ChallengeViewHeaderProps): JSX.Element => {
   return (
     <header className={`${styles.header} mb-5`}>
@@ -19,7 +22,7 @@ export const ChallengeViewHeader = ({
           subtitle={challenge.description}
         />
       </div>
-      <ChallengeActions />
+      <ChallengeActions inChallenge={inChallenge} />
     </header>
   );
 };

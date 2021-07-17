@@ -54,6 +54,8 @@ export const ChallengeView = ({
   const existingResultForUser = results.find(
     (result) => result.participantId === session.userId
   );
+  const userIsInChallenge = !!existingResultForUser;
+  const userOwnsChallenge = challenge?.creatorId === session.userId;
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(Number(id)));
@@ -92,7 +94,11 @@ export const ChallengeView = ({
   return challenge && results ? (
     <section>
       <Container>
-        <ChallengeViewHeader challenge={challenge} />
+        <ChallengeViewHeader
+          challenge={challenge}
+          inChallenge={userIsInChallenge}
+          ownsChallenge={userOwnsChallenge}
+        />
         <Columns>
           <Column size={8}>
             <Box>

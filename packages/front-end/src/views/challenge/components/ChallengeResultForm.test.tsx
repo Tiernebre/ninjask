@@ -1,4 +1,4 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { ChallengeResultForm } from ".";
 
@@ -58,3 +58,13 @@ it.each([-1000, -1, 60, Number.MAX_SAFE_INTEGER])(
     expect(onSubmit).not.toHaveBeenCalled();
   }
 );
+
+it("submits the form when valid information is filled in", async () => {
+  const onSubmit = jest.fn();
+  render(<ChallengeResultForm onSubmit={onSubmit} />);
+  user.type(getHourInput(), "23");
+  user.type(getMinutesInput(), "55");
+  user.click(getSubmitButton());
+  await waitFor(() => expect(onSubmit).toHaveBeenCalled());
+  expect(onSubmit).toHaveBeenCalledTimes(1);
+});

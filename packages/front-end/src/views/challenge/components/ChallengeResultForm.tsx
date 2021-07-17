@@ -30,7 +30,7 @@ export const ChallengeResultForm = ({
           <SemanticFormField
             id="hour"
             label="Hour"
-            input={{ type: "text" }}
+            input={{ type: "number" }}
             register={register("hour", {
               valueAsNumber: true,
               required: {
@@ -53,7 +53,7 @@ export const ChallengeResultForm = ({
           <SemanticFormField
             id="minutes"
             label="Minutes"
-            input={{ type: "text" }}
+            input={{ type: "number" }}
             register={register("minutes", {
               valueAsNumber: true,
               required: {

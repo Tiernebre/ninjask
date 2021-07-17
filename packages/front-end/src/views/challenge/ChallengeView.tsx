@@ -70,13 +70,19 @@ export const ChallengeView = ({
             completionTimeMinutes: formData.minutes,
           }
         );
+        await fetchChallenge();
         showAlert({
           message: "Challenge Submission Successfully Submitted",
           color: "success",
         });
       }
     },
-    [challengeParticipantService, existingResultForUser, showAlert]
+    [
+      challengeParticipantService,
+      existingResultForUser,
+      showAlert,
+      fetchChallenge,
+    ]
   );
 
   useDidMount(() => {

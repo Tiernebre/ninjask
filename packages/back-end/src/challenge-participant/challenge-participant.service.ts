@@ -77,6 +77,21 @@ export class ChallengeParticipantService {
       .getRawMany<ChallengeResult>();
   }
 
+  public async removeOneForChallenge(
+    userId: number,
+    challengeId: number
+  ): Promise<ChallengeParticipant> {
+    const participantToDelete = await this.getOneForUserOnChallenge(
+      userId,
+      challengeId
+    );
+
+    await this.challengeParticipantRepository.delete({
+      id: participantToDelete.id,
+    });
+    return participantToDelete;
+  }
+
   public async getOneForUserOnChallenge(
     userId: number,
     challengeId: number

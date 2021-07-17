@@ -8,7 +8,7 @@ import {
   useAlerts,
   useDidMount,
 } from "@tiernebre/kecleon";
-import React, { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import {
   Challenge,

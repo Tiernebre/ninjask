@@ -13,6 +13,7 @@ const ChallengeParticipantActions = ({
         color="danger"
         icon={{
           name: "times",
+          fontSize: "sm",
         }}
       >
         Leave Challenge
@@ -24,6 +25,7 @@ const ChallengeParticipantActions = ({
         color="success"
         icon={{
           name: "plus",
+          fontSize: "sm",
         }}
       >
         Join Challenge

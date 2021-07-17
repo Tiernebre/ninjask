@@ -263,4 +263,64 @@ describe("ChallengeParticipantService", () => {
       expect(foundParticipants[1].id).toEqual(expectedParticipants[1].id);
     });
   });
+
+  describe("removeOneForChallenge", () => {
+    it("returns the mapped entity if found", async () => {
+      const userId = generateRandomNumber();
+      const challengeId = generateRandomNumber();
+      const expectedParticipantEntity =
+        generateMockChallengeParticipantEntity();
+      when(
+        challengeParticipantRepository.findOne({ userId, challengeId })
+      ).thenResolve(expectedParticipantEntity);
+      const foundParticipant =
+        await challengeParticipantService.removeOneForChallenge(
+          userId,
+          challengeId
+        );
+      expect(foundParticipant.id).toEqual(expectedParticipantEntity.id);
+      expect(foundParticipant.userId).toEqual(expectedParticipantEntity.userId);
+      expect(foundParticipant.challengeId).toEqual(
+        expectedParticipantEntity.challengeId
+      );
+      expect(foundParticipant.completionTimeHour).toEqual(
+        expectedParticipantEntity.completionTimeHour
+      );
+      expect(foundParticipant.completionTimeMinutes).toEqual(
+        expectedParticipantEntity.completionTimeMinutes
+      );
+    });
+
+    it("throws an error if not found", async () => {
+      const userId = generateRandomNumber();
+      const challengeId = generateRandomNumber();
+      when(
+        challengeParticipantRepository.findOne({ userId, challengeId })
+      ).thenResolve(undefined);
+      await expect(
+        challengeParticipantService.removeOneForChallenge(userId, challengeId)
+      ).rejects.toThrowError(NotFoundError);
+    });
+
+    it.each(INVALID_NUMBER_CASES)(
+      "throws a ZodError if the userId provided is %p",
+      async (userId) => {
+        await expect(
+          challengeParticipantService.removeOneForChallenge(userId as number, 1)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it.each(INVALID_NUMBER_CASES)(
+      "throws a ZodError if the challengeId provided is %p",
+      async (challengeId) => {
+        await expect(
+          challengeParticipantService.removeOneForChallenge(
+            1,
+            challengeId as number
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+  });
 });

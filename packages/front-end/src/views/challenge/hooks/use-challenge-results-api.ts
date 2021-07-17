@@ -40,6 +40,12 @@ export const useChallengeResultsApi = ({
   );
   const userIsInChallenge = !!existingResultForUser;
 
+  const fetchChallengeResults = useCallback(async () => {
+    setResults(
+      await challengeParticipantService.getAllForChallenge(challengeId)
+    );
+  }, [challengeParticipantService, challengeId]);
+
   const submitResult = useCallback(
     async (request: ChallengeParticipantUpdateRequest) => {
       if (existingResultForUser) {
@@ -51,16 +57,16 @@ export const useChallengeResultsApi = ({
           message: "Challenge Submission Successfully Submitted",
           color: "success",
         });
+        await fetchChallengeResults();
       }
     },
-    [challengeParticipantService, existingResultForUser, showAlert]
+    [
+      challengeParticipantService,
+      existingResultForUser,
+      showAlert,
+      fetchChallengeResults,
+    ]
   );
-
-  const fetchChallengeResults = useCallback(async () => {
-    setResults(
-      await challengeParticipantService.getAllForChallenge(challengeId)
-    );
-  }, [challengeParticipantService, challengeId]);
 
   return {
     results,

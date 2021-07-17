@@ -1,6 +1,7 @@
 import { screen, render, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { ChallengeResultForm } from ".";
+import { ChallengeResult } from "../../../api";
 
 const getHourInput = () => screen.getByRole("spinbutton", { name: /Hour/i });
 const getMinutesInput = () =>
@@ -67,4 +68,22 @@ it("submits the form when valid information is filled in", async () => {
   user.click(getSubmitButton());
   await waitFor(() => expect(onSubmit).toHaveBeenCalled());
   expect(onSubmit).toHaveBeenCalledTimes(1);
+});
+
+it("pre-fills the form if an existing result is provided", async () => {
+  const onSubmit = jest.fn();
+  const result: ChallengeResult = {
+    participantId: 1,
+    nickname: "Test User",
+    completionTimeHour: 23,
+    completionTimeMinutes: 45,
+    resultId: 1,
+  };
+  render(<ChallengeResultForm onSubmit={onSubmit} existingResult={result} />);
+  await waitFor(() =>
+    expect(getHourInput()).toHaveValue(result.completionTimeHour)
+  );
+  await waitFor(() =>
+    expect(getMinutesInput()).toHaveValue(result.completionTimeMinutes)
+  );
 });

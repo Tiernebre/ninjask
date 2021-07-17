@@ -1,5 +1,7 @@
 import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { ChallengeResult } from "../../../api";
 
 export type ChallengeResultFormData = {
   hour: number;
@@ -8,16 +10,30 @@ export type ChallengeResultFormData = {
 
 type ChallengeResultFormProps = {
   onSubmit: (data: ChallengeResultFormData) => void;
+  existingResult?: ChallengeResult;
 };
 
 export const ChallengeResultForm = ({
   onSubmit,
+  existingResult,
 }: ChallengeResultFormProps): JSX.Element => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<ChallengeResultFormData>();
+
+  useEffect(() => {
+    if (existingResult) {
+      if (existingResult.completionTimeHour !== null) {
+        setValue("hour", existingResult.completionTimeHour);
+      }
+      if (existingResult.completionTimeMinutes !== null) {
+        setValue("minutes", existingResult.completionTimeMinutes);
+      }
+    }
+  });
 
   const submit = handleSubmit((data) => {
     onSubmit(data);

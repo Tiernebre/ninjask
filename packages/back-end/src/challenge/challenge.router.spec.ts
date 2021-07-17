@@ -179,4 +179,26 @@ describe("Challenge Router (integration)", () => {
       expect(response.body).toEqual(challengeParticipant);
     });
   });
+
+  describe("DELETE /challenges/:id/participants/me", () => {
+    const id = generateRandomNumber();
+    const uri = `/challenges/${id}/participants/me`;
+
+    it("returns with 200 OK status", async () => {
+      when(
+        challengeParticipantService.removeOneForChallenge(session.userId, id)
+      ).thenResolve(generateMockChallengeParticipant());
+      const response = await request.delete(uri).send();
+      expect(response.status).toEqual(OK);
+    });
+
+    it("returns with found participant in the response body", async () => {
+      const challengeParticipant = generateMockChallengeParticipant();
+      when(
+        challengeParticipantService.removeOneForChallenge(session.userId, id)
+      ).thenResolve(challengeParticipant);
+      const response = await request.delete(uri).send();
+      expect(response.body).toEqual(challengeParticipant);
+    });
+  });
 });

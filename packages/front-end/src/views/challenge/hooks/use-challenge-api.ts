@@ -6,13 +6,13 @@ import {
   SessionPayload,
 } from "../../../api";
 
-export type ChallengeHookParameters = {
+export type ChallengeApiHookParameters = {
   challengeId: number;
   httpClient: HttpClient;
   session: SessionPayload;
 };
 
-export type ChallengeHookReturnValue = {
+export type ChallengeApiHookReturnValue = {
   challenge: Challenge | undefined;
   userOwnsChallenge: boolean;
   fetchChallenge: () => Promise<void>;
@@ -22,7 +22,7 @@ export const useChallengeApi = ({
   challengeId,
   httpClient,
   session,
-}: ChallengeHookParameters): ChallengeHookReturnValue => {
+}: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
   const [challenge, setChallenge] = useState<Challenge>();
 
   const challengeService = useMemo(

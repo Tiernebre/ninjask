@@ -2,14 +2,10 @@ import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ChallengeResult } from "../../../api";
-
-export type ChallengeResultFormData = {
-  hour: number;
-  minutes: number;
-};
+import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
 
 type ChallengeResultFormProps = {
-  onSubmit: (data: ChallengeResultFormData) => void;
+  onSubmit: (data: ChallengeParticipantUpdateRequest) => void;
   existingResult?: ChallengeResult;
 };
 
@@ -22,15 +18,15 @@ export const ChallengeResultForm = ({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<ChallengeResultFormData>();
+  } = useForm<ChallengeParticipantUpdateRequest>();
 
   useEffect(() => {
     if (existingResult) {
       if (existingResult.completionTimeHour !== null) {
-        setValue("hour", existingResult.completionTimeHour);
+        setValue("completionTimeHour", existingResult.completionTimeHour);
       }
       if (existingResult.completionTimeMinutes !== null) {
-        setValue("minutes", existingResult.completionTimeMinutes);
+        setValue("completionTimeMinutes", existingResult.completionTimeMinutes);
       }
     }
   });
@@ -47,7 +43,7 @@ export const ChallengeResultForm = ({
             id="hour"
             label="Hour"
             input={{ type: "number" }}
-            register={register("hour", {
+            register={register("completionTimeHour", {
               valueAsNumber: true,
               required: {
                 value: true,
@@ -62,7 +58,7 @@ export const ChallengeResultForm = ({
                 message: "Hour must be between 0-99.",
               },
             })}
-            error={errors.hour}
+            error={errors.completionTimeHour}
           />
         </Column>
         <Column>
@@ -70,7 +66,7 @@ export const ChallengeResultForm = ({
             id="minutes"
             label="Minutes"
             input={{ type: "number" }}
-            register={register("minutes", {
+            register={register("completionTimeMinutes", {
               valueAsNumber: true,
               required: {
                 value: true,
@@ -85,7 +81,7 @@ export const ChallengeResultForm = ({
                 message: "Minutes must be between 0-59.",
               },
             })}
-            error={errors.minutes}
+            error={errors.completionTimeMinutes}
           />
         </Column>
       </Columns>

@@ -1,21 +1,8 @@
-import {
-  Box,
-  Column,
-  Columns,
-  Container,
-  Title,
-  useDidMount,
-} from "@tiernebre/kecleon";
-import { useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Box, Column, Columns, Container, Title } from "@tiernebre/kecleon";
 import { HttpClient, SessionPayload } from "../../api";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
-import { useChallengeApi, useChallengeResultsApi } from "./hooks";
-
-type ChallengeViewParams = {
-  id: string;
-};
+import { useChallenge } from "./hooks";
 
 type ChallengeProps = {
   httpClient: HttpClient;
@@ -26,31 +13,14 @@ export const ChallengeView = ({
   httpClient,
   session,
 }: ChallengeProps): JSX.Element | null => {
-  const { id } = useParams<ChallengeViewParams>();
-  const { challenge, fetchChallenge, userOwnsChallenge } = useChallengeApi({
-    challengeId: Number(id),
-    httpClient,
-    session,
-  });
   const {
-    existingResultForUser,
+    challenge,
     results,
-    submitResult,
     userIsInChallenge,
-    fetchChallengeResults,
-  } = useChallengeResultsApi({
-    challengeId: Number(id),
-    httpClient,
-    session,
-  });
-
-  const refreshChallenge = useCallback(async () => {
-    await Promise.all([fetchChallenge(), fetchChallengeResults]);
-  }, [fetchChallenge, fetchChallengeResults]);
-
-  useDidMount(() => {
-    void refreshChallenge();
-  });
+    userOwnsChallenge,
+    existingResultForUser,
+    submitResult,
+  } = useChallenge({ httpClient, session });
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
 
@@ -75,12 +45,7 @@ export const ChallengeView = ({
             <Box>
               <Title level={4}>Submit Your Result</Title>
               <ChallengeResultForm
-                onSubmit={(data) =>
-                  submitResult({
-                    completionTimeHour: data.hour,
-                    completionTimeMinutes: data.minutes,
-                  })
-                }
+                onSubmit={submitResult}
                 existingResult={existingResultForUser}
               />
             </Box>

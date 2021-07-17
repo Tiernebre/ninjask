@@ -11,6 +11,14 @@ export const ChallengeActions = (): JSX.Element => {
       >
         Leave Challenge
       </IconButton>
+      <IconButton
+        color="success"
+        icon={{
+          name: "plus",
+        }}
+      >
+        Join Challenge
+      </IconButton>
     </Buttons>
   );
 };

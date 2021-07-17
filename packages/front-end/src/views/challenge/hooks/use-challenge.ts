@@ -24,7 +24,7 @@ export type ChallengeHookReturnValue = {
   submitResult: (request: ChallengeParticipantUpdateRequest) => Promise<void>;
 };
 
-export const useChallenge = ({
+export const useChallengeApi = ({
   challengeId,
   httpClient,
   session,

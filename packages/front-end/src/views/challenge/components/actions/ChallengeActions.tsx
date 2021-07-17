@@ -6,7 +6,7 @@ export const ChallengeActions = (): JSX.Element => {
       <IconButton
         color="danger"
         icon={{
-          name: "times-square",
+          name: "times",
         }}
       >
         Leave Challenge

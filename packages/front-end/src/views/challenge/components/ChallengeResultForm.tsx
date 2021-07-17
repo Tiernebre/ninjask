@@ -1,7 +1,7 @@
 import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
 import { useForm } from "react-hook-form";
 
-type ChallengeResultFormData = {
+export type ChallengeResultFormData = {
   hour: number;
   minutes: number;
 };

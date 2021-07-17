@@ -3,7 +3,6 @@ import {
   Column,
   Columns,
   Container,
-  HeadingGroup,
   Title,
   useAlerts,
   useDidMount,
@@ -23,6 +22,7 @@ import {
   ChallengeResultForm,
   ChallengeResultFormData,
 } from "./components";
+import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
 
 type ChallengeViewParams = {
   id: string;
@@ -90,29 +90,27 @@ export const ChallengeView = ({
   });
 
   return challenge && results ? (
-    <Container>
-      <HeadingGroup
-        spaced
-        title={challenge.name}
-        subtitle={challenge.description}
-      />
-      <Columns>
-        <Column size={8}>
-          <Box>
-            <Title level={4}>Participants</Title>
-            <ChallengeResultsTable results={results} />
-          </Box>
-        </Column>
-        <Column size={4}>
-          <Box>
-            <Title level={4}>Submit Your Result</Title>
-            <ChallengeResultForm
-              onSubmit={submitResult}
-              existingResult={existingResultForUser}
-            />
-          </Box>
-        </Column>
-      </Columns>
-    </Container>
+    <section>
+      <Container>
+        <ChallengeViewHeader challenge={challenge} />
+        <Columns>
+          <Column size={8}>
+            <Box>
+              <Title level={4}>Participants</Title>
+              <ChallengeResultsTable results={results} />
+            </Box>
+          </Column>
+          <Column size={4}>
+            <Box>
+              <Title level={4}>Submit Your Result</Title>
+              <ChallengeResultForm
+                onSubmit={submitResult}
+                existingResult={existingResultForUser}
+              />
+            </Box>
+          </Column>
+        </Columns>
+      </Container>
+    </section>
   ) : null;
 };

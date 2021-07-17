@@ -1,17 +1,15 @@
 import styles from "./ChallengeViewHeader.module.scss";
 import { Challenge } from "../../../api";
 import { HeadingGroup } from "@tiernebre/kecleon";
-import { ChallengeActions } from "./actions";
+import { ChallengeActions, ChallengeActionsProps } from "./actions";
 
 export type ChallengeViewHeaderProps = {
   challenge: Challenge;
-  inChallenge: boolean;
-  ownsChallenge: boolean;
-};
+} & ChallengeActionsProps;
 
 export const ChallengeViewHeader = ({
   challenge,
-  inChallenge,
+  ...actionProps
 }: ChallengeViewHeaderProps): JSX.Element => {
   return (
     <header className={`${styles.header} mb-5`}>
@@ -22,7 +20,7 @@ export const ChallengeViewHeader = ({
           subtitle={challenge.description}
         />
       </div>
-      <ChallengeActions inChallenge={inChallenge} />
+      <ChallengeActions {...actionProps} />
     </header>
   );
 };

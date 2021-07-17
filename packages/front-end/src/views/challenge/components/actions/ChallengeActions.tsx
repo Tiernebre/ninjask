@@ -2,10 +2,15 @@ import { Buttons, IconButton } from "@tiernebre/kecleon";
 
 export type ChallengeActionsProps = {
   inChallenge: boolean;
+  ownsChallenge: boolean;
+  onLeaveChallenge: () => void;
+  onJoinChallenge: () => void;
 };
 
 const ChallengeParticipantActions = ({
   inChallenge,
+  onLeaveChallenge,
+  onJoinChallenge,
 }: ChallengeActionsProps): JSX.Element => {
   if (inChallenge) {
     return (
@@ -15,6 +20,7 @@ const ChallengeParticipantActions = ({
           name: "times",
           fontSize: "sm",
         }}
+        onClick={onLeaveChallenge}
       >
         Leave Challenge
       </IconButton>
@@ -27,6 +33,7 @@ const ChallengeParticipantActions = ({
           name: "plus",
           fontSize: "sm",
         }}
+        onClick={onJoinChallenge}
       >
         Join Challenge
       </IconButton>
@@ -34,12 +41,10 @@ const ChallengeParticipantActions = ({
   }
 };
 
-export const ChallengeActions = ({
-  inChallenge,
-}: ChallengeActionsProps): JSX.Element => {
+export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   return (
     <Buttons>
-      <ChallengeParticipantActions inChallenge={inChallenge} />
+      <ChallengeParticipantActions {...props} />
     </Buttons>
   );
 };

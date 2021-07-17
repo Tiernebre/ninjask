@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import { HttpClient, SessionPayload } from "../../../api";
+import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
 import {
   ChallengeApiHookReturnValue,
   useChallengeApi,
@@ -53,9 +54,18 @@ export const useChallenge = ({
     void refreshChallenge();
   });
 
+  const submitResult = useCallback(
+    async (request: ChallengeParticipantUpdateRequest): Promise<void> => {
+      await challengeResultsApi.submitResult(request);
+      await refreshChallenge();
+    },
+    [challengeResultsApi, refreshChallenge]
+  );
+
   return {
-    refreshChallenge,
     ...challengeResultsApi,
     ...challengeApi,
+    refreshChallenge,
+    submitResult,
   };
 };

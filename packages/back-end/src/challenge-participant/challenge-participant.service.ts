@@ -85,7 +85,6 @@ export class ChallengeParticipantService {
       userId,
       challengeId
     );
-
     await this.challengeParticipantRepository.delete({
       id: participantToDelete.id,
     });

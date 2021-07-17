@@ -11,7 +11,7 @@ export const ChallengeViewHeader = ({
   challenge,
 }: ChallengeViewHeaderProps): JSX.Element => {
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} mb-5`}>
       <div>
         <HeadingGroup
           spaced

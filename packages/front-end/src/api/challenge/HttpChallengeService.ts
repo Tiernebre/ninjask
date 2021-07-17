@@ -1,6 +1,5 @@
 import { HttpClient } from "../http";
 import { Challenge } from "./Challenge";
-import { ChallengeResult } from "./ChallengeResult";
 import { ChallengeService } from "./ChallengeService";
 
 export class HttpChallengeService implements ChallengeService {
@@ -12,9 +11,5 @@ export class HttpChallengeService implements ChallengeService {
 
   getOneById(id: number): Promise<Challenge> {
     return this.httpClient.get(`challenges/${id}`);
-  }
-
-  getResultsForChallenge(id: number): Promise<ChallengeResult[]> {
-    return this.httpClient.get(`challenges/${id}/results`);
   }
 }

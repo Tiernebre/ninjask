@@ -6,4 +6,6 @@ export interface ChallengeParticipantService {
     id: number,
     request: ChallengeParticipantUpdateRequest
   ): Promise<ChallengeResult>;
+
+  getAllForChallenge(challengeId: number): Promise<ChallengeResult[]>;
 }

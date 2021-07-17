@@ -14,4 +14,8 @@ export class HttpChallengeParticipantService
   ): Promise<ChallengeResult> {
     return this.httpClient.patch(`challenge-participants/${id}`, request);
   }
+
+  getAllForChallenge(challengeId: number): Promise<ChallengeResult[]> {
+    return this.httpClient.get(`challenges/${challengeId}/results`);
+  }
 }

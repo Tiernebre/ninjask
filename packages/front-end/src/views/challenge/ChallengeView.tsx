@@ -22,6 +22,8 @@ export const ChallengeView = ({
     submitResult,
   } = useChallenge({ httpClient, session });
 
+  const participantsColumnSize = userIsInChallenge ? 8 : 12;
+
   return challenge && results ? (
     <section>
       <Container>
@@ -33,7 +35,7 @@ export const ChallengeView = ({
           onLeaveChallenge={() => console.log("Leave")}
         />
         <Columns>
-          <Column size={8}>
+          <Column size={participantsColumnSize}>
             <Box>
               <Title level={4}>Participants</Title>
               <ChallengeResultsTable results={results} />

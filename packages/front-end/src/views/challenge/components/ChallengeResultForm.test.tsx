@@ -3,6 +3,8 @@ import user from "@testing-library/user-event";
 import { ChallengeResultForm } from ".";
 
 const getHourInput = () => screen.getByRole("spinbutton", { name: /Hour/i });
+const getMinutesInput = () =>
+  screen.getByRole("spinbutton", { name: /Minutes/i });
 const getSubmitButton = () => screen.getByRole("button", { name: /Submit/i });
 
 it("displays an error message if the hour field is not filled out", async () => {
@@ -30,3 +32,13 @@ it.each([-1000, -1, 100, Number.MAX_SAFE_INTEGER])(
     expect(onSubmit).not.toHaveBeenCalled();
   }
 );
+
+it("displays an error message if the minutes field is not filled out", async () => {
+  const onSubmit = jest.fn();
+  render(<ChallengeResultForm onSubmit={onSubmit} />);
+  user.click(getSubmitButton());
+  const minutesErrorMessage = await screen.findByText("Minutes are required.");
+  expect(minutesErrorMessage).toBeInTheDocument();
+  expect(getMinutesInput()).toBeInvalid();
+  expect(onSubmit).not.toHaveBeenCalled();
+});

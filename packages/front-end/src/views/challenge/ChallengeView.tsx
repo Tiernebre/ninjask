@@ -6,11 +6,12 @@ import {
   Title,
   useDidMount,
 } from "@tiernebre/kecleon";
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { HttpClient, SessionPayload } from "../../api";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
-import { useChallengeApi } from "./hooks";
+import { useChallengeApi, useChallengeResultsApi } from "./hooks";
 
 type ChallengeViewParams = {
   id: string;
@@ -26,22 +27,29 @@ export const ChallengeView = ({
   session,
 }: ChallengeProps): JSX.Element | null => {
   const { id } = useParams<ChallengeViewParams>();
+  const { challenge, fetchChallenge, userOwnsChallenge } = useChallengeApi({
+    challengeId: Number(id),
+    httpClient,
+    session,
+  });
   const {
-    challenge,
     existingResultForUser,
     results,
     submitResult,
-    fetchChallenge,
     userIsInChallenge,
-    userOwnsChallenge,
-  } = useChallengeApi({
+    fetchChallengeResults,
+  } = useChallengeResultsApi({
     challengeId: Number(id),
     httpClient,
     session,
   });
 
+  const refreshChallenge = useCallback(async () => {
+    await Promise.all([fetchChallenge(), fetchChallengeResults]);
+  }, [fetchChallenge, fetchChallengeResults]);
+
   useDidMount(() => {
-    void fetchChallenge();
+    void refreshChallenge();
   });
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;

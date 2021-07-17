@@ -2818,10 +2818,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^1.33.0":
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.33.0.tgz#2e409661122240688581a28f0229c1d052c24470"
-  integrity sha512-ZiK9Uc7chzrqh9aEa6bi9/2xeQwVLhXReGR8mSTV/1goyaEKYs93P3GgcJKwBQIt5WXFUm/xAKmNQUYcBWPPGg==
+"@tiernebre/kecleon@^1.33.2":
+  version "1.33.2"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.33.2.tgz#e74b59991a38d7d5977035adde36ab6852f70dbc"
+  integrity sha512-71UkxtY/CHkQJhJkfNfoMeFSYvO76p6WGJvoLkWVayMB0ijrYHISbaQWOKtITFhLAsSZb9HV0xbX9H8CwiQabA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"
@@ -3189,10 +3189,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.1.tgz#24691fa2b0c3ec8c0d34bfcfd495edac5593ebb4"
   integrity sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==
 
-"@types/node@^16.3.2":
-  version "16.3.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.2.tgz#655432817f83b51ac869c2d51dd8305fb8342e16"
-  integrity sha512-jJs9ErFLP403I+hMLGnqDRWT0RYKSvArxuBVh2veudHV7ifEC1WAmjJADacZ7mRbA2nWgHtn8xyECMAot0SkAw==
+"@types/node@^16.3.3":
+  version "16.3.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.3.tgz#0c30adff37bbbc7a50eb9b58fae2a504d0d88038"
+  integrity sha512-8h7k1YgQKxKXWckzFCMfsIwn0Y61UK6tlD6y2lOb3hTOIMlK3t9/QwHOhc81TwU+RMf0As5fj7NPjroERCnejQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -13545,10 +13545,10 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-hook-form@^7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.11.0.tgz#9cae5e21ba1c1a98a40c65cfee07db9e677edc21"
-  integrity sha512-aJVvL5VV6JqUWvwx9fbrhc6La83aQAfXfqQr+TD/sWy3LPdqYBgBIHBt8WAKWzKRm3g29YV2CLfn4wkhNB9b+g==
+react-hook-form@^7.11.1:
+  version "7.11.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.11.1.tgz#936f8a14bdf02b0791c2130d7c78c49c10e6de09"
+  integrity sha512-lBt428oU03dNUF5qZy5xqEdANaH3L/ilKWQS2t8wD6zF7FypOv46kEkZmg+oHf3n2xgeGYJgbMIGtYExsfKJ8A==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"

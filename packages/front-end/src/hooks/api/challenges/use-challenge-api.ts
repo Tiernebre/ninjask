@@ -5,6 +5,8 @@ import {
   HttpClient,
   SessionPayload,
 } from "../../../api";
+import { useHttp } from "../../http";
+import { useSession } from "../../session";
 
 export type ChallengeApiHookParameters = {
   challengeId: number;
@@ -20,9 +22,9 @@ export type ChallengeApiHookReturnValue = {
 
 export const useChallengeApi = ({
   challengeId,
-  httpClient,
-  session,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
+  const { sessionPayload: session } = useSession();
+  const { httpClient } = useHttp();
   const [challenge, setChallenge] = useState<Challenge>();
 
   const challengeService = useMemo(
@@ -30,7 +32,7 @@ export const useChallengeApi = ({
     [httpClient]
   );
 
-  const userOwnsChallenge = challenge?.creatorId === session.userId;
+  const userOwnsChallenge = challenge?.creatorId === sessionPayload.userId;
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(challengeId));

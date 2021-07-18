@@ -1,10 +1,22 @@
-import React, { PropsWithChildren, useState } from "react";
-import { Session } from "../../api";
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useState,
+  useMemo,
+} from "react";
+import {
+  FetchHttpClient,
+  HttpClient,
+  HttpSessionService,
+  Session,
+} from "../../api";
 
 type Context = {
   session?: Session;
   accessToken?: string;
+  httpClient: HttpClient;
   setSession: (session: Session) => void;
+  logOut: () => void;
 };
 
 const SessionContext = React.createContext<Context | undefined>(undefined);
@@ -14,8 +26,25 @@ export const SessionProvider = ({
 }: PropsWithChildren<unknown>): JSX.Element => {
   const [session, setSession] = useState<Session>();
   const accessToken = session?.accessToken;
+  const httpClient = useMemo(
+    () =>
+      new FetchHttpClient(
+        process.env.REACT_APP_BACK_END_API_HTTP_URL,
+        accessToken
+      ),
+    [accessToken]
+  );
+  const sessionService = useMemo(
+    () => new HttpSessionService(httpClient),
+    [httpClient]
+  );
 
-  const value = { session, setSession, accessToken };
+  const logOut = useCallback(async () => {
+    setSession(undefined);
+    await sessionService.deleteCurrentSession();
+  }, [sessionService]);
+
+  const value = { session, setSession, accessToken, logOut, httpClient };
   return (
     <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );

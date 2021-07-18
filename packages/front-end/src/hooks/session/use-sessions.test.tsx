@@ -24,4 +24,5 @@ it("can update the session", () => {
     result.current.setSession(session);
   });
   expect(result.current.session).toEqual(session);
+  expect(result.current.accessToken).toEqual(session.accessToken);
 });

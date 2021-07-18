@@ -9,7 +9,7 @@ import {
 export type ChallengeApiHookParameters = {
   challengeId: number;
   httpClient: HttpClient;
-  sessionPayload: SessionPayload;
+  session: SessionPayload;
 };
 
 export type ChallengeApiHookReturnValue = {

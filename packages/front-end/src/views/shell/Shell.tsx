@@ -38,10 +38,7 @@ export const Shell = (): JSX.Element => {
               <Login />
             </Route>
             <SessionChecker>
-              <AuthenticatedRoutes
-                accessToken={accessToken}
-                homeRoutes={homeRoutes}
-              />
+              <AuthenticatedRoutes homeRoutes={homeRoutes} />
             </SessionChecker>
           </Switch>
         </main>

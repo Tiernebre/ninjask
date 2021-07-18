@@ -11,5 +11,3 @@ beforeAll(() => server.listen());
 // (which is important for test isolation):
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-
-process.env.REACT_APP_BACK_END_API_HTTP_URL = "localhost";

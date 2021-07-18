@@ -16,6 +16,7 @@ type Context = {
   setSession: (session?: Session) => void;
   accessToken?: string;
   logOut: () => Promise<void>;
+  refreshSession: () => Promise<void>;
   // TODO: This does not belong here, but a lot of components rely on it :/
   sessionService: SessionService;
 };
@@ -33,7 +34,26 @@ export const SessionProvider = ({
     await sessionService.deleteCurrentSession();
   }, [setSession]);
 
-  const value = { session, setSession, accessToken, logOut, sessionService };
+  const refreshSession = useCallback(async () => {
+    try {
+      const refreshedSession = await sessionService.refreshCurrentSession();
+      console.log(refreshedSession);
+      setSession(refreshedSession);
+      console.log("wtf");
+    } catch (error) {
+      await logOut();
+      console.log("wtf");
+    }
+  }, [setSession, logOut]);
+
+  const value = {
+    session,
+    setSession,
+    accessToken,
+    logOut,
+    sessionService,
+    refreshSession,
+  };
   return (
     <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );

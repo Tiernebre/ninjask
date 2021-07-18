@@ -1,41 +1,35 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { SessionService, Session } from "../../api/session";
+import {
+  Fragment,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { useDidMount } from "rooks";
+import { useSession } from "../../hooks";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
 const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
 
-type SessionRefresherProps = {
-  onSessionRefresh: (session: Session) => void;
-  onSessionRefreshFail: () => void;
-  sessionService: SessionService;
-  children: React.ReactNode;
-  session?: Session;
-};
+type SessionRefresherProps = PropsWithChildren<unknown>;
 
 export const SessionRefresher = ({
-  onSessionRefresh,
-  onSessionRefreshFail,
-  sessionService,
-  session,
   children,
 }: SessionRefresherProps): JSX.Element => {
+  const { session, refreshSession } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshSession = useCallback(async () => {
-    try {
-      const refreshedSession = await sessionService.refreshCurrentSession();
-      onSessionRefresh(refreshedSession);
-    } catch (error) {
-      onSessionRefreshFail();
-    } finally {
-      setIsLoading(false);
-    }
-  }, [onSessionRefresh, onSessionRefreshFail, sessionService]);
-
-  useEffect(() => {
-    void refreshSession();
+  const refreshSessionWithLoading = useCallback(async () => {
+    console.log("bruh");
+    await refreshSession();
+    console.log("sooo uhhh..");
+    setIsLoading(false);
   }, [refreshSession]);
+
+  useDidMount(() => {
+    void refreshSessionWithLoading();
+  });
 
   useEffect(() => {
     let refreshTimeout: number;
@@ -46,14 +40,14 @@ export const SessionRefresher = ({
           secondsSinceEpoch()) *
         1000;
       refreshTimeout = window.setTimeout(() => {
-        void refreshSession();
+        void refreshSessionWithLoading();
       }, refreshTimeoutInMs);
     }
 
     return () => {
       clearTimeout(refreshTimeout);
     };
-  }, [session, refreshSession]);
+  }, [session, refreshSessionWithLoading]);
 
   return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
 };

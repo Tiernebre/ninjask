@@ -21,9 +21,7 @@ export const SessionRefresher = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshSessionWithLoading = useCallback(async () => {
-    console.log("bruh");
     await refreshSession();
-    console.log("sooo uhhh..");
     setIsLoading(false);
   }, [refreshSession]);
 

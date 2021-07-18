@@ -1,7 +1,3 @@
-import { Session } from "../../../src/api";
-import { v4 as uuid } from "uuid";
+import { generateMockSession } from "./generate";
 
-export const generateMockSession = (): Session => ({
-  accessToken: uuid(),
-  accessTokenExpiration: new Date().getMilliseconds(),
-});
+export const mockSession = generateMockSession();

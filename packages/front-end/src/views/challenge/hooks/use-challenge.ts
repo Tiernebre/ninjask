@@ -4,7 +4,7 @@ import { useDidMount } from "rooks";
 import {
   useHttp,
   ChallengeApiHookReturnValue,
-  useChallengeApi,
+  useGetChallengeApi,
   useSessionPayload,
 } from "../../../hooks";
 import {
@@ -26,7 +26,7 @@ export const useChallenge = (): ChallengeHookReturnValue => {
   const { httpClient } = useHttp();
   const { id } = useParams<ChallengeViewParams>();
   const challengeId = Number(id);
-  const challengeApi = useChallengeApi({
+  const challengeApi = useGetChallengeApi({
     challengeId,
   });
   const challengeResultsApi = useChallengeResultsApi({

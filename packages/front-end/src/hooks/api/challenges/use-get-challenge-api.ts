@@ -13,7 +13,7 @@ export type ChallengeApiHookReturnValue = {
   fetchChallenge: () => Promise<void>;
 };
 
-export const useChallengeApi = ({
+export const useGetChallengeApi = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
   const sessionPayload = useSessionPayload();

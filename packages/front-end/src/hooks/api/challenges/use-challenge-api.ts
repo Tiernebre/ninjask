@@ -1,17 +1,10 @@
 import { useState, useMemo, useCallback } from "react";
-import {
-  Challenge,
-  HttpChallengeService,
-  HttpClient,
-  SessionPayload,
-} from "../../../api";
+import { Challenge, HttpChallengeService } from "../../../api";
 import { useHttp } from "../../http";
-import { useSession } from "../../session";
+import { useSessionPayload } from "../../session";
 
 export type ChallengeApiHookParameters = {
   challengeId: number;
-  httpClient: HttpClient;
-  session: SessionPayload;
 };
 
 export type ChallengeApiHookReturnValue = {
@@ -23,7 +16,7 @@ export type ChallengeApiHookReturnValue = {
 export const useChallengeApi = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
-  const { sessionPayload: session } = useSession();
+  const sessionPayload = useSessionPayload();
   const { httpClient } = useHttp();
   const [challenge, setChallenge] = useState<Challenge>();
 

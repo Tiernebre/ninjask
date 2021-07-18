@@ -7,7 +7,7 @@ import { useAlerts } from "@tiernebre/kecleon";
 import { useSession } from "../../hooks";
 
 export const Login = (): JSX.Element => {
-  const { setSession, sessionService } = useSession();
+  const { logIn } = useSession();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { showAlert } = useAlerts();
@@ -16,7 +16,7 @@ export const Login = (): JSX.Element => {
     async (sessionRequest: SessionRequest) => {
       try {
         setLoading(true);
-        setSession(await sessionService.createOne(sessionRequest));
+        await logIn(sessionRequest);
         history.push("/home");
       } catch (error) {
         console.error(error);
@@ -27,7 +27,7 @@ export const Login = (): JSX.Element => {
         });
       }
     },
-    [history, setSession, sessionService, showAlert]
+    [history, logIn, showAlert]
   );
 
   return (

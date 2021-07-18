@@ -11,6 +11,7 @@ export const generateMockSessionContext = (): ISessionContext => ({
   },
   accessToken: uuid(),
   sessionService: object<SessionService>(),
+  logIn: jest.fn(),
   logOut: jest.fn(),
   setSession: jest.fn(),
   refreshSession: jest.fn(),

@@ -1,14 +1,7 @@
 import styles from "./Shell.module.scss";
-import { Route, Switch } from "react-router-dom";
 import { SmartAlerts } from "@tiernebre/kecleon";
-import { AuthenticatedRoutes, Login } from "..";
-import {
-  Header,
-  Footer,
-  SessionChecker,
-  SessionRefresher,
-} from "../../components";
-import { useSession } from "../../hooks";
+import { Header, Footer, SessionRefresher } from "../../components";
+import { Routes } from "..";
 
 /**
  * Shell should be the direct child of the App component and all of its
@@ -16,31 +9,13 @@ import { useSession } from "../../hooks";
  * logic of Ninjask begins.
  */
 export const Shell = (): JSX.Element => {
-  const { accessToken } = useSession();
-
-  const loginRoutes = ["/login"];
-  const homeRoutes = ["/home"];
-
-  if (accessToken) {
-    homeRoutes.push("/");
-  } else {
-    loginRoutes.push("/");
-  }
-
   return (
     <div className={styles.container}>
       <SessionRefresher>
         <SmartAlerts />
         <Header />
         <main className={styles.content}>
-          <Switch>
-            <Route path={loginRoutes} exact>
-              <Login />
-            </Route>
-            <SessionChecker>
-              <AuthenticatedRoutes homeRoutes={homeRoutes} />
-            </SessionChecker>
-          </Switch>
+          <Routes />
         </main>
         <Footer />
       </SessionRefresher>

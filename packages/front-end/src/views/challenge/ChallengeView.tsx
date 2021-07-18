@@ -1,18 +1,9 @@
 import { Box, Column, Columns, Container, Title } from "@tiernebre/kecleon";
-import { HttpClient, SessionPayload } from "../../api";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
 import { useChallenge } from "./hooks";
 
-type ChallengeProps = {
-  httpClient: HttpClient;
-  session: SessionPayload;
-};
-
-export const ChallengeView = ({
-  httpClient,
-  session,
-}: ChallengeProps): JSX.Element | null => {
+export const ChallengeView = (): JSX.Element | null => {
   const {
     challenge,
     results,
@@ -20,7 +11,7 @@ export const ChallengeView = ({
     userOwnsChallenge,
     existingResultForUser,
     submitResult,
-  } = useChallenge({ httpClient, session });
+  } = useChallenge();
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
 

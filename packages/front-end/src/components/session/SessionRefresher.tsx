@@ -16,7 +16,7 @@ type SessionRefresherProps = PropsWithChildren<unknown>;
 
 export const SessionRefresher = ({
   children,
-}: SessionRefresherProps): JSX.Element => {
+}: SessionRefresherProps): JSX.Element | null => {
   const { session, refreshSession } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,5 +43,5 @@ export const SessionRefresher = ({
     };
   }, [session, refreshSession]);
 
-  return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
+  return isLoading ? null : <Fragment>{children}</Fragment>;
 };

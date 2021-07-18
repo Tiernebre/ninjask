@@ -6,7 +6,7 @@ import { when } from "testdouble";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test/hooks";
+} from "../../../test";
 
 const loadingMessage = "Loading...";
 const childrenMessage = "Session has refreshed";

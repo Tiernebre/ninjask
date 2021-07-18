@@ -4,7 +4,7 @@ import { ISessionContext } from ".";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test";
+} from "../../../test";
 import { useSessionPayload } from "./use-session-payload";
 import { v4 as uuid } from "uuid";
 

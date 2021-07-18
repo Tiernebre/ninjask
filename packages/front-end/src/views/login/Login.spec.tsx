@@ -6,7 +6,7 @@ import { AlertsProvider } from "@tiernebre/kecleon";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test/hooks";
+} from "../../../test";
 
 const getAccessKeyInput = () => screen.getByLabelText(/Access Key/i);
 const getPasswordInput = () => screen.getByLabelText(/Password/i);

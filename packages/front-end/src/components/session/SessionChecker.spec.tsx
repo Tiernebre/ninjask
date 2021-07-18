@@ -4,7 +4,7 @@ import { when } from "testdouble";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test/hooks";
+} from "../../../test";
 import { SessionChecker } from "./SessionChecker";
 
 it("renders given children elements if an access token is provided", () => {

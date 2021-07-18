@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test";
+} from "../../../test";
 import { ISessionContext } from "../session";
 import { useHttp } from "./use-http";
 import { v4 as uuid } from "uuid";

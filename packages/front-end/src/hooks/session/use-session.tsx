@@ -13,11 +13,11 @@ export const SessionProvider = ({
   children,
 }: PropsWithChildren<unknown>): JSX.Element => {
   const [session, setSession] = useState<Session>();
+  const accessToken = session?.accessToken;
 
+  const value = { session, setSession, accessToken };
   return (
-    <SessionContext.Provider
-      value={{ session, setSession }}
-    ></SessionContext.Provider>
+    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );
 };
 

@@ -3,6 +3,7 @@ import { Session } from "../../api";
 
 type Context = {
   session?: Session;
+  accessToken?: string;
   setSession: (session: Session) => void;
 };
 

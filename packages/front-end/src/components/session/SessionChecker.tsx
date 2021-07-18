@@ -1,35 +1,32 @@
 import React, { Fragment, useEffect } from "react";
 import { Redirect } from "react-router";
-import { SessionService } from "../../api/session";
+import { useSession } from "../../hooks";
 
 type SessionCheckerProps = {
-  accessToken?: string;
   children: React.ReactNode;
-  sessionService: SessionService;
-  onExpiredSession: () => void;
 };
 
 const CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS = 5 * 1000; // 5 seconds
 
-export const SessionChecker = (props: SessionCheckerProps): JSX.Element => {
+export const SessionChecker = ({
+  children,
+}: SessionCheckerProps): JSX.Element => {
+  const { accessToken, sessionService, logOut } = useSession();
+
   useEffect(() => {
     const expiredSessionPulse = setInterval(() => {
-      if (
-        props.accessToken &&
-        !props.sessionService.accessTokenIsValid(props.accessToken)
-      ) {
-        props.onExpiredSession();
+      if (accessToken && !sessionService.accessTokenIsValid(accessToken)) {
+        void logOut();
       }
     }, CHECK_IF_SESSION_IS_EXPIRED_RATE_IN_MS);
 
     return () => {
       clearInterval(expiredSessionPulse);
     };
-  }, [props]);
+  }, [accessToken, sessionService, logOut]);
 
-  return props.accessToken &&
-    props.sessionService.accessTokenIsValid(props.accessToken) ? (
-    <Fragment>{props.children}</Fragment>
+  return accessToken && sessionService.accessTokenIsValid(accessToken) ? (
+    <Fragment>{children}</Fragment>
   ) : (
     <Redirect to="/login" />
   );

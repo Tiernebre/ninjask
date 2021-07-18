@@ -1,11 +1,12 @@
 import { renderHook } from "@testing-library/react-hooks";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { ISessionContext } from ".";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
 } from "../../test";
 import { useSessionPayload } from "./use-session-payload";
+import { v4 as uuid } from "uuid";
 
 const wrapper =
   (value: ISessionContext) =>
@@ -26,4 +27,16 @@ it("throws an error if the session payload does not exist", () => {
   expect(result.error?.message).toEqual(
     "There is no proper session, could not load Session Payload"
   );
+});
+
+it("returns the session payload", () => {
+  const context = generateMockSessionContext();
+  context.sessionPayload = {
+    userId: 1,
+    accessKey: uuid(),
+  };
+  const { result } = renderHook(() => useSessionPayload(), {
+    wrapper: wrapper(context),
+  });
+  expect(result.current).toEqual(context.sessionPayload);
 });

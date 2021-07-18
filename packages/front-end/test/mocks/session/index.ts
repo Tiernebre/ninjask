@@ -1,1 +1,1 @@
-export * from "./session-mock";
+export * from "./generate";

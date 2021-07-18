@@ -16,7 +16,7 @@ import { useSession } from "../../hooks";
  * logic of Ninjask begins.
  */
 export const Shell = (): JSX.Element => {
-  const { setSession, accessToken, logOut, sessionService } = useSession();
+  const { setSession, accessToken, sessionService } = useSession();
 
   const loginRoutes = ["/login"];
   const homeRoutes = ["/home"];
@@ -31,7 +31,7 @@ export const Shell = (): JSX.Element => {
     <div className={styles.container}>
       <SessionRefresher>
         <SmartAlerts />
-        <Header onLogOut={logOut} isAuthenticated={!!accessToken} />
+        <Header />
         <main className={styles.content}>
           <Switch>
             <Route path={loginRoutes} exact>

@@ -1,12 +1,12 @@
 import { Navbar } from "..";
+import { useSession } from "../../hooks";
 
-interface HeaderProps {
-  isAuthenticated: boolean;
-  onLogOut: () => void;
-}
+export const Header = (): JSX.Element => {
+  const { session, logOut } = useSession();
 
-export const Header = (props: HeaderProps): JSX.Element => (
-  <header className="Header">
-    <Navbar {...props} />
-  </header>
-);
+  return (
+    <header className="Header">
+      <Navbar onLogOut={logOut} isAuthenticated={!!session} />
+    </header>
+  );
+};

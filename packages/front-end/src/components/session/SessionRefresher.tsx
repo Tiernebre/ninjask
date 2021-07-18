@@ -1,41 +1,23 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { SessionService, Session } from "../../api/session";
+import { Fragment, PropsWithChildren, useEffect, useState } from "react";
+import { useDidMount } from "rooks";
+import { useSession } from "../../hooks";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
 const secondsSinceEpoch = () => Math.round(Date.now() / 1000);
 
-type SessionRefresherProps = {
-  onSessionRefresh: (session: Session) => void;
-  onSessionRefreshFail: () => void;
-  sessionService: SessionService;
-  children: React.ReactNode;
-  session?: Session;
-};
+type SessionRefresherProps = PropsWithChildren<unknown>;
 
 export const SessionRefresher = ({
-  onSessionRefresh,
-  onSessionRefreshFail,
-  sessionService,
-  session,
   children,
-}: SessionRefresherProps): JSX.Element => {
+}: SessionRefresherProps): JSX.Element | null => {
+  const { session, refreshSession } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshSession = useCallback(async () => {
-    try {
-      const refreshedSession = await sessionService.refreshCurrentSession();
-      onSessionRefresh(refreshedSession);
-    } catch (error) {
-      onSessionRefreshFail();
-    } finally {
-      setIsLoading(false);
-    }
-  }, [onSessionRefresh, onSessionRefreshFail, sessionService]);
-
-  useEffect(() => {
-    void refreshSession();
-  }, [refreshSession]);
+  useDidMount(async () => {
+    await refreshSession();
+    setIsLoading(false);
+  });
 
   useEffect(() => {
     let refreshTimeout: number;
@@ -55,5 +37,5 @@ export const SessionRefresher = ({
     };
   }, [session, refreshSession]);
 
-  return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
+  return isLoading ? null : <Fragment>{children}</Fragment>;
 };

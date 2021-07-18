@@ -11,7 +11,7 @@ const httpClient = new FetchHttpClient(
 );
 const sessionService = new HttpSessionService(httpClient);
 
-type Context = {
+export type ISessionContext = {
   session?: Session;
   setSession: (session?: Session) => void;
   accessToken?: string;
@@ -21,7 +21,9 @@ type Context = {
   sessionService: SessionService;
 };
 
-const SessionContext = React.createContext<Context | undefined>(undefined);
+export const SessionContext = React.createContext<ISessionContext | undefined>(
+  undefined
+);
 
 export const SessionProvider = ({
   children,
@@ -57,7 +59,7 @@ export const SessionProvider = ({
   );
 };
 
-export const useSession = (): Context => {
+export const useSession = (): ISessionContext => {
   const context = React.useContext(SessionContext);
   if (!context) {
     throw new Error("useSession must be used within a SessionProvider");

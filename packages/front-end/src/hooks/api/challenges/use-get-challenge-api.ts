@@ -1,15 +1,10 @@
 import { useState, useMemo, useCallback } from "react";
-import {
-  Challenge,
-  HttpChallengeService,
-  HttpClient,
-  SessionPayload,
-} from "../../../api";
+import { Challenge, HttpChallengeService } from "../../../api";
+import { useHttp } from "../../http";
+import { useSessionPayload } from "../../session";
 
 export type ChallengeApiHookParameters = {
   challengeId: number;
-  httpClient: HttpClient;
-  session: SessionPayload;
 };
 
 export type ChallengeApiHookReturnValue = {
@@ -18,11 +13,11 @@ export type ChallengeApiHookReturnValue = {
   fetchChallenge: () => Promise<void>;
 };
 
-export const useChallengeApi = ({
+export const useGetChallengeApi = ({
   challengeId,
-  httpClient,
-  session,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
+  const sessionPayload = useSessionPayload();
+  const { httpClient } = useHttp();
   const [challenge, setChallenge] = useState<Challenge>();
 
   const challengeService = useMemo(
@@ -30,7 +25,7 @@ export const useChallengeApi = ({
     [httpClient]
   );
 
-  const userOwnsChallenge = challenge?.creatorId === session.userId;
+  const userOwnsChallenge = challenge?.creatorId === sessionPayload.userId;
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(challengeId));

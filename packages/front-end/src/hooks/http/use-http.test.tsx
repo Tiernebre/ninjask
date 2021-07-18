@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import {
   generateMockSessionContext,
   MockSessionContextProvider,
-} from "../../test";
+} from "../../../test";
 import { ISessionContext } from "../session";
 import { useHttp } from "./use-http";
 import { v4 as uuid } from "uuid";
@@ -17,7 +17,7 @@ const wrapper =
       </MockSessionContextProvider>
     );
 
-it("returns an http client if no access token is available", () => {
+it("returns an http client if no access token is not available", () => {
   const context = generateMockSessionContext();
   context.accessToken = undefined;
   const { result } = renderHook(() => useHttp(), { wrapper: wrapper(context) });

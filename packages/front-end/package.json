@@ -54,7 +54,7 @@
     ],
     "parserOptions": {
       "project": [
-        "tsconfig.json"
+        "tsconfig.eslint.json"
       ]
     }
   },
@@ -79,6 +79,7 @@
     "eslint-plugin-testing-library": "^4.9.0",
     "fetch-mock-jest": "^1.5.1",
     "mockdate": "^3.0.5",
+    "msw": "^0.32.0",
     "testdouble": "^3.16.1",
     "uuid": "^8.3.2"
   },

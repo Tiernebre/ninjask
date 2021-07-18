@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { object } from "testdouble";
-import { SessionService } from "../../../api";
-import { ISessionContext, SessionContext } from "../../../hooks";
+import { SessionService } from "../../../src/api";
+import { ISessionContext, SessionContext } from "../../../src/hooks";
 import { v4 as uuid } from "uuid";
 
 export const generateMockSessionContext = (): ISessionContext => ({

@@ -6,7 +6,7 @@ import { SessionService } from "../../api/session";
 import { ISessionContext, SessionContext } from "../../hooks";
 import { SessionChecker } from "./SessionChecker";
 
-export type MockSessionContextProviderProps = PropsWithChildren<{
+type MockSessionContextProviderProps = PropsWithChildren<{
   accessToken?: string;
   sessionService: SessionService;
   logOut?: () => Promise<void>;

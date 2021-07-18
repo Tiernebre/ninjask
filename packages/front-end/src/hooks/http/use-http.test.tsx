@@ -6,6 +6,7 @@ import {
 } from "../../test";
 import { ISessionContext } from "../session";
 import { useHttp } from "./use-http";
+import { v4 as uuid } from "uuid";
 
 const wrapper =
   (value: ISessionContext) =>
@@ -19,6 +20,13 @@ const wrapper =
 it("returns an http client if no access token is available", () => {
   const context = generateMockSessionContext();
   context.accessToken = undefined;
+  const { result } = renderHook(() => useHttp(), { wrapper: wrapper(context) });
+  expect(result.current.httpClient).toBeTruthy();
+});
+
+it("returns an http client if an access token is available", () => {
+  const context = generateMockSessionContext();
+  context.accessToken = uuid();
   const { result } = renderHook(() => useHttp(), { wrapper: wrapper(context) });
   expect(result.current.httpClient).toBeTruthy();
 });

@@ -9,6 +9,7 @@ export const generateMockSessionContext = (): ISessionContext => ({
     accessToken: uuid(),
     accessTokenExpiration: 1,
   },
+  accessToken: uuid(),
   sessionService: object<SessionService>(),
   logOut: jest.fn(),
   setSession: jest.fn(),

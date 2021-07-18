@@ -71,6 +71,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.1",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mockdate": "^3.0.0",
     "@types/react-router-dom": "^5.1.8",
@@ -78,7 +79,8 @@
     "eslint-plugin-testing-library": "^4.9.0",
     "fetch-mock-jest": "^1.5.1",
     "mockdate": "^3.0.5",
-    "testdouble": "^3.16.1"
+    "testdouble": "^3.16.1",
+    "uuid": "^8.3.2"
   },
   "jest": {
     "transform": {

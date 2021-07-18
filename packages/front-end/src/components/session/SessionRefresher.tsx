@@ -20,13 +20,9 @@ export const SessionRefresher = ({
   const { session, refreshSession } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshSessionWithLoading = useCallback(async () => {
+  useDidMount(async () => {
     await refreshSession();
     setIsLoading(false);
-  }, [refreshSession]);
-
-  useDidMount(() => {
-    void refreshSessionWithLoading();
   });
 
   useEffect(() => {
@@ -38,14 +34,14 @@ export const SessionRefresher = ({
           secondsSinceEpoch()) *
         1000;
       refreshTimeout = window.setTimeout(() => {
-        void refreshSessionWithLoading();
+        void refreshSession();
       }, refreshTimeoutInMs);
     }
 
     return () => {
       clearTimeout(refreshTimeout);
     };
-  }, [session, refreshSessionWithLoading]);
+  }, [session, refreshSession]);
 
   return isLoading ? <p>Loading...</p> : <Fragment>{children}</Fragment>;
 };

@@ -1,11 +1,12 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
-import { useHttp, useSession } from "../../../hooks";
 import {
+  useHttp,
+  useSession,
   ChallengeApiHookReturnValue,
   useChallengeApi,
-} from "./use-challenge-api";
+} from "../../../hooks";
 import {
   ChallengeResultsApiHookReturnValue,
   useChallengeResultsApi,

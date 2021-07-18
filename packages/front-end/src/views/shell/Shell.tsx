@@ -1,8 +1,7 @@
 import styles from "./Shell.module.scss";
 import { Route, Switch } from "react-router-dom";
 import { SmartAlerts } from "@tiernebre/kecleon";
-import { HttpSessionService, Session, FetchHttpClient } from "../../api";
-import { useCallback, useState } from "react";
+import { HttpSessionService, FetchHttpClient } from "../../api";
 import { AuthenticatedRoutes, Login } from "..";
 import {
   Header,
@@ -11,6 +10,7 @@ import {
   SessionRefresher,
 } from "../../components";
 import { useSession } from "../../hooks";
+import { useCallback } from "react";
 
 const backEndHttpClient = new FetchHttpClient(
   process.env.REACT_APP_BACK_END_API_HTTP_URL
@@ -24,6 +24,11 @@ const sessionService = new HttpSessionService(backEndHttpClient);
  */
 export const Shell = (): JSX.Element => {
   const { session, setSession, accessToken } = useSession();
+
+  const logOut = useCallback(async () => {
+    setSession(undefined);
+    await sessionService.deleteCurrentSession();
+  }, [setSession]);
 
   const loginRoutes = ["/login"];
   const homeRoutes = ["/home"];

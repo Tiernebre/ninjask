@@ -39,10 +39,8 @@ export const SessionProvider = ({
       const refreshedSession = await sessionService.refreshCurrentSession();
       console.log(refreshedSession);
       setSession(refreshedSession);
-      console.log("wtf");
     } catch (error) {
       await logOut();
-      console.log("wtf");
     }
   }, [setSession, logOut]);
 

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
-import { HttpClient, SessionPayload } from "../../../api";
+import { useHttp, useSession } from "../../../hooks";
 import {
   ChallengeApiHookReturnValue,
   useChallengeApi,
@@ -20,15 +20,12 @@ type ChallengeHookReturnValue = ChallengeResultsApiHookReturnValue &
     refreshChallenge: () => Promise<void>;
   };
 
-type ChallengeHookParameters = {
-  httpClient: HttpClient;
-  session: SessionPayload;
-};
-
-export const useChallenge = ({
-  httpClient,
-  session,
-}: ChallengeHookParameters): ChallengeHookReturnValue => {
+export const useChallenge = (): ChallengeHookReturnValue => {
+  const { sessionPayload: session } = useSession();
+  if (!session) {
+    throw new Error("Session Payload is required for Challenge API.");
+  }
+  const { httpClient } = useHttp();
   const { id } = useParams<ChallengeViewParams>();
   const challengeId = Number(id);
   const challengeApi = useChallengeApi({

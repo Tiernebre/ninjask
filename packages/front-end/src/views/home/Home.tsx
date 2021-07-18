@@ -1,14 +1,12 @@
 import "./Home.scss";
 import { useCallback, useState } from "react";
 import { useDidMount } from "rooks";
-import { Challenge, HttpClient, HttpChallengeService } from "../../api";
+import { Challenge, HttpChallengeService } from "../../api";
 import { ChallengeTable } from "../../components";
+import { useHttp } from "../../hooks";
 
-type HomeProps = {
-  httpClient: HttpClient;
-};
-
-export const Home = ({ httpClient }: HomeProps): JSX.Element => {
+export const Home = (): JSX.Element => {
+  const { httpClient } = useHttp();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {

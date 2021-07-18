@@ -3,6 +3,7 @@ import {
   FetchHttpClient,
   HttpSessionService,
   Session,
+  SessionPayload,
   SessionRequest,
   SessionService,
 } from "../../api";
@@ -14,6 +15,7 @@ const sessionService = new HttpSessionService(httpClient);
 
 export type ISessionContext = {
   session?: Session;
+  sessionPayload: SessionPayload | null;
   setSession: (session?: Session) => void;
   accessToken?: string;
   logIn: (request: SessionRequest) => Promise<void>;
@@ -32,6 +34,9 @@ export const SessionProvider = ({
 }: PropsWithChildren<unknown>): JSX.Element => {
   const [session, setSession] = useState<Session>();
   const accessToken = session?.accessToken;
+  const sessionPayload = accessToken
+    ? sessionService.getSessionPayloadFromAccessToken(accessToken)
+    : null;
 
   const logIn = useCallback(
     async (request: SessionRequest) => {
@@ -57,6 +62,7 @@ export const SessionProvider = ({
 
   const value = {
     session,
+    sessionPayload,
     setSession,
     accessToken,
     logIn,

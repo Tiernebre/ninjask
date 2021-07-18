@@ -1,48 +1,22 @@
 import { render, screen } from "@testing-library/react";
-import { PropsWithChildren } from "react";
 import { MemoryRouter, Route, Switch } from "react-router";
-import { object, when } from "testdouble";
-import { SessionService } from "../../api/session";
-import { ISessionContext, SessionContext } from "../../hooks";
+import { when } from "testdouble";
+import {
+  generateMockSessionContext,
+  MockSessionContextProvider,
+} from "../../test/hooks";
 import { SessionChecker } from "./SessionChecker";
-
-type MockSessionContextProviderProps = PropsWithChildren<{
-  accessToken?: string;
-  sessionService: SessionService;
-  logOut?: () => Promise<void>;
-}>;
-const MockSessionContextProvider = ({
-  children,
-  logOut = jest.fn(),
-  ...props
-}: MockSessionContextProviderProps): JSX.Element => {
-  const value: ISessionContext = {
-    session: {
-      accessToken: props.accessToken ?? "",
-      accessTokenExpiration: 0,
-    },
-    setSession: jest.fn(),
-    refreshSession: jest.fn(),
-    logOut,
-    ...props,
-  };
-  return (
-    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
-  );
-};
 
 it("renders given children elements if an access token is provided", () => {
   const expectedMessage = "Valid Session Token Content.";
   const unexpectedLoginMessage = "Redirected to Login!";
-  const accessToken = "valid-access-token";
-  const sessionService = object<SessionService>();
-  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(true);
+  const context = generateMockSessionContext();
+  when(
+    context.sessionService.accessTokenIsValid(context.accessToken as string)
+  ).thenReturn(true);
 
   const testBed = (
-    <MockSessionContextProvider
-      accessToken={accessToken}
-      sessionService={sessionService}
-    >
+    <MockSessionContextProvider value={context}>
       <MemoryRouter>
         <SessionChecker>
           <p>{expectedMessage}</p>
@@ -61,17 +35,15 @@ it("renders given children elements if an access token is provided", () => {
 });
 
 it("redirects to login if access token provided has expired", () => {
+  const context = generateMockSessionContext();
+  when(
+    context.sessionService.accessTokenIsValid(context.accessToken as string)
+  ).thenReturn(false);
   const unexpectedMessage = "Valid Session Token Content.";
   const expectedLoginMessage = "Redirected to Login!";
-  const accessToken = "expired-access-token";
-  const sessionService = object<SessionService>();
-  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(false);
 
   const testBed = (
-    <MockSessionContextProvider
-      accessToken={accessToken}
-      sessionService={sessionService}
-    >
+    <MockSessionContextProvider value={context}>
       <MemoryRouter>
         <SessionChecker>
           <p>{unexpectedMessage}</p>
@@ -93,17 +65,13 @@ it("periodically checks and handles an expired access token", () => {
   jest.useFakeTimers();
   const unexpectedMessage = "Valid Session Token Content.";
   const expectedLoginMessage = "Redirected to Login!";
-  const accessToken = "expired-access-token";
-  const sessionService = object<SessionService>();
-  when(sessionService.accessTokenIsValid(accessToken)).thenReturn(false);
-  const logOut = jest.fn();
+  const context = generateMockSessionContext();
+  when(
+    context.sessionService.accessTokenIsValid(context.accessToken as string)
+  ).thenReturn(false);
 
   const testBed = (
-    <MockSessionContextProvider
-      accessToken={accessToken}
-      sessionService={sessionService}
-      logOut={logOut}
-    >
+    <MockSessionContextProvider value={context}>
       <MemoryRouter>
         <SessionChecker>
           <p>{unexpectedMessage}</p>
@@ -116,10 +84,10 @@ it("periodically checks and handles an expired access token", () => {
       </MemoryRouter>
     </MockSessionContextProvider>
   );
-  expect(logOut).not.toHaveBeenCalled();
+  expect(context.logOut).not.toHaveBeenCalled();
   render(testBed);
   jest.advanceTimersByTime(100000);
-  expect(logOut).toHaveBeenCalled();
+  expect(context.logOut).toHaveBeenCalled();
 });
 
 it.each(["", undefined])(
@@ -127,11 +95,14 @@ it.each(["", undefined])(
   (accessToken) => {
     const unexpectedMessage = "Valid Session Token Content.";
     const expectedLoginMessage = "Redirected to Login!";
+    const context = generateMockSessionContext();
+    context.accessToken = accessToken;
+    when(
+      context.sessionService.accessTokenIsValid(context.accessToken as string)
+    ).thenReturn(false);
+
     const testBed = (
-      <MockSessionContextProvider
-        accessToken={accessToken}
-        sessionService={object<SessionService>()}
-      >
+      <MockSessionContextProvider value={context}>
         <MemoryRouter>
           <SessionChecker>
             <p>{unexpectedMessage}</p>

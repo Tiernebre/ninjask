@@ -3,6 +3,7 @@ import {
   FetchHttpClient,
   HttpSessionService,
   Session,
+  SessionRequest,
   SessionService,
 } from "../../api";
 
@@ -15,6 +16,7 @@ export type ISessionContext = {
   session?: Session;
   setSession: (session?: Session) => void;
   accessToken?: string;
+  logIn: (request: SessionRequest) => Promise<void>;
   logOut: () => Promise<void>;
   refreshSession: () => Promise<void>;
   // TODO: This does not belong here, but a lot of components rely on it :/
@@ -30,6 +32,13 @@ export const SessionProvider = ({
 }: PropsWithChildren<unknown>): JSX.Element => {
   const [session, setSession] = useState<Session>();
   const accessToken = session?.accessToken;
+
+  const logIn = useCallback(
+    async (request: SessionRequest) => {
+      setSession(await sessionService.createOne(request));
+    },
+    [setSession]
+  );
 
   const logOut = useCallback(async () => {
     setSession(undefined);
@@ -50,6 +59,7 @@ export const SessionProvider = ({
     session,
     setSession,
     accessToken,
+    logIn,
     logOut,
     sessionService,
     refreshSession,

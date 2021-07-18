@@ -1,19 +1,13 @@
 import styles from "./Login.module.scss";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { SessionService, Session, SessionRequest } from "../../api";
+import { SessionRequest } from "../../api";
 import { LoginForm } from "../../components";
 import { useAlerts } from "@tiernebre/kecleon";
+import { useSession } from "../../hooks";
 
-type LoginProps = {
-  sessionService: SessionService;
-  onSuccess: (session: Session) => void;
-};
-
-export const Login = ({
-  sessionService,
-  onSuccess,
-}: LoginProps): JSX.Element => {
+export const Login = (): JSX.Element => {
+  const { logIn } = useSession();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { showAlert } = useAlerts();
@@ -22,8 +16,7 @@ export const Login = ({
     async (sessionRequest: SessionRequest) => {
       try {
         setLoading(true);
-        const session = await sessionService.createOne(sessionRequest);
-        onSuccess(session);
+        await logIn(sessionRequest);
         history.push("/home");
       } catch (error) {
         console.error(error);
@@ -34,7 +27,7 @@ export const Login = ({
         });
       }
     },
-    [onSuccess, history, sessionService, showAlert]
+    [history, logIn, showAlert]
   );
 
   return (

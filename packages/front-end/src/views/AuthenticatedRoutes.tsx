@@ -8,9 +8,9 @@ import {
 } from "../api";
 import { Home } from ".";
 import { ChallengeView } from "./challenge";
+import { useSession } from "../hooks";
 
 type AuthenticatedRoutesProps = {
-  accessToken?: string;
   homeRoutes: string[];
 };
 
@@ -19,8 +19,9 @@ const buildAuthedHttpClient = (accessToken?: string) =>
 
 export const AuthenticatedRoutes = ({
   homeRoutes,
-  accessToken,
 }: AuthenticatedRoutesProps): JSX.Element | null => {
+  const { accessToken } = useSession();
+
   const [authedHttpClient, setAuthedHttpClient] = useState<HttpClient>(
     buildAuthedHttpClient(accessToken)
   );

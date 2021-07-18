@@ -1,37 +1,15 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { object, when } from "testdouble";
-import { SessionService } from "../../api/session";
 import { SessionRefresher } from "./SessionRefresher";
 import MockDate from "mockdate";
-import { PropsWithChildren } from "react";
-import { ISessionContext, SessionContext } from "../../hooks";
 import { v4 as uuid } from "uuid";
+import { when } from "testdouble";
+import {
+  generateMockSessionContext,
+  MockSessionContextProvider,
+} from "../../test/hooks";
 
 const loadingMessage = "Loading...";
 const childrenMessage = "Session has refreshed";
-
-const generateMockSessionContext = (): ISessionContext => ({
-  session: {
-    accessToken: uuid(),
-    accessTokenExpiration: 1,
-  },
-  sessionService: object<SessionService>(),
-  logOut: jest.fn(),
-  setSession: jest.fn(),
-  refreshSession: jest.fn(),
-});
-
-type MockSessionContextProviderProps = PropsWithChildren<{
-  value?: ISessionContext;
-}>;
-const MockSessionContextProvider = ({
-  children,
-  value = generateMockSessionContext(),
-}: MockSessionContextProviderProps): JSX.Element => {
-  return (
-    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
-  );
-};
 
 beforeEach(() => {
   MockDate.set(0);

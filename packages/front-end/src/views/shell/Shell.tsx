@@ -37,11 +37,7 @@ export const Shell = (): JSX.Element => {
             <Route path={loginRoutes} exact>
               <Login sessionService={sessionService} onSuccess={setSession} />
             </Route>
-            <SessionChecker
-              accessToken={accessToken}
-              sessionService={sessionService}
-              onExpiredSession={logOut}
-            >
+            <SessionChecker>
               <AuthenticatedRoutes
                 accessToken={accessToken}
                 homeRoutes={homeRoutes}

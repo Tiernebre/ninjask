@@ -1,1 +1,1 @@
-export * from "./use-challenge-api";
+export * from "./use-get-challenge-api";

@@ -5,12 +5,14 @@ import { generateChallengeResults } from "./generate";
 
 const createMockChallengeResults = (): Record<
   number,
-  Writeable<ChallengeResult>
+  Writeable<ChallengeResult>[]
 > => {
-  const challengeResults = {};
-  Object.keys(challenges).forEach((challengeId) => {
-    challengeResults[challengeId] = generateChallengeResults();
-  });
+  const challengeResults: Record<number, Writeable<ChallengeResult>[]> = {};
+  Object.keys(challenges)
+    .map(Number)
+    .forEach((challengeId) => {
+      challengeResults[challengeId] = generateChallengeResults();
+    });
   return challengeResults;
 };
 

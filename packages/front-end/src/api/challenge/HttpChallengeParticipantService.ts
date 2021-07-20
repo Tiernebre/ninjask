@@ -18,4 +18,8 @@ export class HttpChallengeParticipantService
   getAllForChallenge(challengeId: number): Promise<ChallengeResult[]> {
     return this.httpClient.get(`challenges/${challengeId}/results`);
   }
+
+  async removeMeFromChallenge(challengeId: number): Promise<void> {
+    await this.httpClient.delete(`challenges/${challengeId}/results/me`);
+  }
 }

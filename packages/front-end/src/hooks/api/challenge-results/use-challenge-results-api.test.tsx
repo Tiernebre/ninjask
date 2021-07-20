@@ -45,7 +45,6 @@ it("can find the existing result for a user for a given challenge", async () => 
   const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
     wrapper: wrapper(context),
   });
-  expect(result.current.results).toEqual([]);
 
   await act(async () => {
     await result.current.fetchChallengeResults();
@@ -63,7 +62,6 @@ it("will not find an existing result if the user does not have a result", async 
   const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
     wrapper: wrapper(context),
   });
-  expect(result.current.results).toEqual([]);
 
   await act(async () => {
     await result.current.fetchChallengeResults();

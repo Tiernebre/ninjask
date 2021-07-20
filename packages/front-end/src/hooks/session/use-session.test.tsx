@@ -2,6 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { Session } from "../../api";
 import { SessionProvider, useSession } from "./use-session";
 import { v4 as uuid } from "uuid";
+import { mockSession, testUser } from "../../../test/mocks";
 
 it("has the correct initial values", () => {
   const { result } = renderHook(() => useSession(), {
@@ -25,4 +26,21 @@ it("can update the session", () => {
   });
   expect(result.current.session).toEqual(session);
   expect(result.current.accessToken).toEqual(session.accessToken);
+});
+
+it("can login and then logout", async () => {
+  const { result } = renderHook(() => useSession(), {
+    wrapper: SessionProvider,
+  });
+  await act(async () => {
+    await result.current.logIn({
+      accessKey: testUser.accessKey,
+      password: testUser.password,
+    });
+  });
+  expect(result.current.session).toEqual(mockSession);
+  await act(async () => {
+    await result.current.logOut();
+  });
+  expect(result.current.session).toBeUndefined();
 });

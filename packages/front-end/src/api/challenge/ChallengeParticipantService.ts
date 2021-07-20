@@ -8,4 +8,8 @@ export interface ChallengeParticipantService {
   ): Promise<ChallengeResult>;
 
   getAllForChallenge(challengeId: number): Promise<ChallengeResult[]>;
+
+  removeMeFromChallenge(challengeId: number): Promise<void>;
+
+  addMeToChallenge(challengeId: number): Promise<void>;
 }

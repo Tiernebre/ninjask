@@ -1,12 +1,9 @@
 import { useAlerts } from "@tiernebre/kecleon";
 import { useState, useMemo, useCallback } from "react";
-import {
-  ChallengeResult,
-  HttpChallengeParticipantService,
-  HttpClient,
-  SessionPayload,
-} from "../../../api";
+import { ChallengeResult, HttpChallengeParticipantService } from "../../../api";
 import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
+import { useHttp } from "../../http";
+import { useSessionPayload } from "../../session";
 
 export type ChallengeResultsApiHookReturnValue = {
   results: ChallengeResult[] | undefined;
@@ -14,19 +11,19 @@ export type ChallengeResultsApiHookReturnValue = {
   existingResultForUser: ChallengeResult | undefined;
   submitResult: (request: ChallengeParticipantUpdateRequest) => Promise<void>;
   fetchChallengeResults: () => Promise<void>;
+  addUserToChallenge: () => Promise<void>;
+  removeUserFromChallenge: () => Promise<void>;
 };
 
 export type ChallengeResultsApiHookParameters = {
   challengeId: number;
-  httpClient: HttpClient;
-  session: SessionPayload;
 };
 
 export const useChallengeResultsApi = ({
   challengeId,
-  httpClient,
-  session,
 }: ChallengeResultsApiHookParameters): ChallengeResultsApiHookReturnValue => {
+  const { httpClient } = useHttp();
+  const session = useSessionPayload();
   const [results, setResults] = useState<ChallengeResult[]>([]);
   const { showAlert } = useAlerts();
 
@@ -74,5 +71,13 @@ export const useChallengeResultsApi = ({
     userIsInChallenge,
     submitResult,
     fetchChallengeResults,
+    addUserToChallenge: async () => {
+      await challengeParticipantService.addMeToChallenge(challengeId);
+      await fetchChallengeResults();
+    },
+    removeUserFromChallenge: async () => {
+      await challengeParticipantService.removeMeFromChallenge(challengeId);
+      await fetchChallengeResults();
+    },
   };
 };

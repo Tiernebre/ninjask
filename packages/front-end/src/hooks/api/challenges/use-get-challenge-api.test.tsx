@@ -1,22 +1,67 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { PropsWithChildren } from "react";
-import { MockSessionContextProvider } from "../../../../test";
-import { challenges } from "../../../../test/mocks/challenge/challenges";
+import { ISessionContext } from "../..";
+import {
+  MockSessionContextProvider,
+  generateMockSessionContext,
+} from "../../../../test";
+import { challenges } from "../../../../test/mocks";
+import { SessionPayload } from "../../../api";
 import { useGetChallengeApi } from "./use-get-challenge-api";
 
-const wrapper = ({ children }: PropsWithChildren<unknown>): JSX.Element => (
-  <MockSessionContextProvider>{children}</MockSessionContextProvider>
-);
+const wrapper =
+  (value: ISessionContext) =>
+  ({ children }: PropsWithChildren<unknown>): JSX.Element =>
+    (
+      <MockSessionContextProvider value={value}>
+        {children}
+      </MockSessionContextProvider>
+    );
 
 it("fetches a challenge", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallenge = challenges[challengeId];
   const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
-    wrapper,
+    wrapper: wrapper(generateMockSessionContext()),
   });
+  expect(result.current.challenge).toBeUndefined();
 
   await act(async () => {
     await result.current.fetchChallenge();
   });
   expect(result.current.challenge).toEqual(expectedChallenge);
+});
+
+it("informs if the current user owns the fetched challenge", async () => {
+  const context = generateMockSessionContext();
+  const sessionPayload = context.sessionPayload as SessionPayload;
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const expectedChallenge = challenges[challengeId];
+  expectedChallenge.creatorId = sessionPayload.userId;
+  challenges[challengeId] = expectedChallenge;
+  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+    wrapper: wrapper(context),
+  });
+
+  await act(async () => {
+    await result.current.fetchChallenge();
+  });
+  expect(result.current.userOwnsChallenge).toEqual(true);
+});
+
+it("informs if the current user does not own the fetched challenge", async () => {
+  const context = generateMockSessionContext();
+  const sessionPayload = context.sessionPayload as SessionPayload;
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const expectedChallenge = challenges[challengeId];
+  expectedChallenge.creatorId = sessionPayload.userId + 1;
+  challenges[challengeId] = expectedChallenge;
+  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+    wrapper: wrapper(context),
+  });
+
+  await act(async () => {
+    await result.current.fetchChallenge();
+  });
+  expect(result.current.userOwnsChallenge).toEqual(false);
 });

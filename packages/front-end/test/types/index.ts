@@ -1,1 +1,1 @@
-export * from "./writable";
+export * from "./writeable";

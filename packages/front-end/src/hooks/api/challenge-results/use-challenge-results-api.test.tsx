@@ -70,3 +70,20 @@ it("will not find an existing result if the user does not have a result", async 
   expect(result.current.existingResultForUser).toBeUndefined();
   expect(result.current.userIsInChallenge).toEqual(false);
 });
+
+it("can add a user to the challenge", async () => {
+  const context = generateMockSessionContext();
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const expectedChallengeResults = challengeResults[challengeId];
+  const originalLength = expectedChallengeResults.length;
+  const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
+    wrapper: wrapper(context),
+  });
+
+  await act(async () => {
+    await result.current.fetchChallengeResults();
+    await result.current.addUserToChallenge();
+    await result.current.fetchChallengeResults();
+  });
+  expect(originalLength + 1).toEqual(result.current.results?.length);
+});

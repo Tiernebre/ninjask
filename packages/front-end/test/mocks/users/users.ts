@@ -5,9 +5,7 @@ type User = {
   password: string;
 };
 
-export const users: User[] = [
-  {
-    accessKey: uuid(),
-    password: uuid(),
-  },
-];
+export const testUser: User = {
+  accessKey: uuid(),
+  password: uuid(),
+};

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import {
@@ -17,9 +16,7 @@ type ChallengeViewParams = {
 };
 
 type ChallengeHookReturnValue = ChallengeResultsApiHookReturnValue &
-  ChallengeApiHookReturnValue & {
-    refreshChallenge: () => Promise<void>;
-  };
+  ChallengeApiHookReturnValue;
 
 export const useChallenge = (): ChallengeHookReturnValue => {
   const session = useSessionPayload();
@@ -35,20 +32,15 @@ export const useChallenge = (): ChallengeHookReturnValue => {
     session,
   });
 
-  const refreshChallenge = useCallback(async () => {
-    await Promise.all([
+  useDidMount(() => {
+    void Promise.all([
       challengeApi.fetchChallenge(),
       challengeResultsApi.fetchChallengeResults(),
     ]);
-  }, [challengeApi, challengeResultsApi]);
-
-  useDidMount(() => {
-    void refreshChallenge();
   });
 
   return {
     ...challengeResultsApi,
     ...challengeApi,
-    refreshChallenge,
   };
 };

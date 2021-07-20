@@ -50,6 +50,7 @@ it("can find the existing result for a user for a given challenge", async () => 
     await result.current.fetchChallengeResults();
   });
   expect(result.current.existingResultForUser).toEqual(expectedChallengeResult);
+  expect(result.current.userIsInChallenge).toEqual(true);
 });
 
 it("will not find an existing result if the user does not have a result", async () => {
@@ -67,4 +68,5 @@ it("will not find an existing result if the user does not have a result", async 
     await result.current.fetchChallengeResults();
   });
   expect(result.current.existingResultForUser).toBeUndefined();
+  expect(result.current.userIsInChallenge).toEqual(false);
 });

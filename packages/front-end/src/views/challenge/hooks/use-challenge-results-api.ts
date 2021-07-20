@@ -14,6 +14,8 @@ export type ChallengeResultsApiHookReturnValue = {
   existingResultForUser: ChallengeResult | undefined;
   submitResult: (request: ChallengeParticipantUpdateRequest) => Promise<void>;
   fetchChallengeResults: () => Promise<void>;
+  addUserToChallenge: () => Promise<void>;
+  removeUserFromChallenge: () => Promise<void>;
 };
 
 export type ChallengeResultsApiHookParameters = {
@@ -74,5 +76,9 @@ export const useChallengeResultsApi = ({
     userIsInChallenge,
     submitResult,
     fetchChallengeResults,
+    addUserToChallenge: () =>
+      challengeParticipantService.addMeToChallenge(challengeId),
+    removeUserFromChallenge: () =>
+      challengeParticipantService.removeMeFromChallenge(challengeId),
   };
 };

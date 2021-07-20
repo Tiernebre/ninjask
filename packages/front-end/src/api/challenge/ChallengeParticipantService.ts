@@ -10,4 +10,6 @@ export interface ChallengeParticipantService {
   getAllForChallenge(challengeId: number): Promise<ChallengeResult[]>;
 
   removeMeFromChallenge(challengeId: number): Promise<void>;
+
+  addMeToChallenge(challengeId: number): Promise<void>;
 }

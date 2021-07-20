@@ -1,12 +1,9 @@
 import { useAlerts } from "@tiernebre/kecleon";
 import { useState, useMemo, useCallback } from "react";
-import {
-  ChallengeResult,
-  HttpChallengeParticipantService,
-  HttpClient,
-  SessionPayload,
-} from "../../../api";
+import { ChallengeResult, HttpChallengeParticipantService } from "../../../api";
 import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
+import { useHttp } from "../../http";
+import { useSessionPayload } from "../../session";
 
 export type ChallengeResultsApiHookReturnValue = {
   results: ChallengeResult[] | undefined;
@@ -20,15 +17,13 @@ export type ChallengeResultsApiHookReturnValue = {
 
 export type ChallengeResultsApiHookParameters = {
   challengeId: number;
-  httpClient: HttpClient;
-  session: SessionPayload;
 };
 
 export const useChallengeResultsApi = ({
   challengeId,
-  httpClient,
-  session,
 }: ChallengeResultsApiHookParameters): ChallengeResultsApiHookReturnValue => {
+  const { httpClient } = useHttp();
+  const session = useSessionPayload();
   const [results, setResults] = useState<ChallengeResult[]>([]);
   const { showAlert } = useAlerts();
 

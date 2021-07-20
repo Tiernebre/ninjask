@@ -6,11 +6,7 @@ import {
   MockSessionContextProvider,
   generateMockSessionContext,
 } from "../../../../test";
-import {
-  challengeResults,
-  challenges,
-  mockSession,
-} from "../../../../test/mocks";
+import { challengeResults, challenges } from "../../../../test/mocks";
 import { SessionPayload } from "../../../api";
 import { useChallengeResultsApi } from "./use-challenge-results-api";
 
@@ -55,4 +51,22 @@ it("can find the existing result for a user for a given challenge", async () => 
     await result.current.fetchChallengeResults();
   });
   expect(result.current.existingResultForUser).toEqual(expectedChallengeResult);
+});
+
+it("will not find an existing result if the user does not have a result", async () => {
+  const context = generateMockSessionContext();
+  const sessionPayload = context.sessionPayload as SessionPayload;
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const expectedChallengeResults = challengeResults[challengeId];
+  const [expectedChallengeResult] = expectedChallengeResults;
+  expectedChallengeResult.participantId = sessionPayload.userId + 1;
+  const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
+    wrapper: wrapper(context),
+  });
+  expect(result.current.results).toEqual([]);
+
+  await act(async () => {
+    await result.current.fetchChallengeResults();
+  });
+  expect(result.current.existingResultForUser).toBeUndefined();
 });

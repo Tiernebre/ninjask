@@ -20,7 +20,7 @@ export class HttpChallengeParticipantService
   }
 
   async removeMeFromChallenge(challengeId: number): Promise<void> {
-    await this.httpClient.delete(`challenges/${challengeId}/results/me`);
+    await this.httpClient.delete(`challenges/${challengeId}/participants/me`);
   }
 
   async addMeToChallenge(challengeId: number): Promise<void> {

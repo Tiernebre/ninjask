@@ -28,7 +28,7 @@ it("can update the session", () => {
   expect(result.current.accessToken).toEqual(session.accessToken);
 });
 
-it("can login", async () => {
+it("can login and then logout", async () => {
   const { result } = renderHook(() => useSession(), {
     wrapper: SessionProvider,
   });
@@ -39,4 +39,8 @@ it("can login", async () => {
     });
   });
   expect(result.current.session).toEqual(mockSession);
+  await act(async () => {
+    await result.current.logOut();
+  });
+  expect(result.current.session).toBeUndefined();
 });

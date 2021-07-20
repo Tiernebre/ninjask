@@ -5,11 +5,9 @@ import {
   ChallengeApiHookReturnValue,
   useGetChallengeApi,
   useSessionPayload,
-} from "../../../hooks";
-import {
   ChallengeResultsApiHookReturnValue,
   useChallengeResultsApi,
-} from "./use-challenge-results-api";
+} from "../../../hooks";
 
 type ChallengeViewParams = {
   id: string;

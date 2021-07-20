@@ -15,3 +15,11 @@ export const generateChallengeResult = (): Writeable<ChallengeResult> => {
     resultId: generateRandomNumber(),
   };
 };
+
+export const generateChallengeResults = (): Writeable<ChallengeResult>[] => {
+  const results = [];
+  for (let i = 0; i < getRandomInt(1, 9); i++) {
+    results.push(generateChallengeResult());
+  }
+  return results;
+};

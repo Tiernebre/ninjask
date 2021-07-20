@@ -1,7 +1,7 @@
 import { ChallengeResult } from "../../../src/api/challenge/ChallengeResult";
 import { Writeable } from "../../types";
 import { challenges } from "../challenge";
-import { generateChallengeResult } from "./generate";
+import { generateChallengeResults } from "./generate";
 
 const createMockChallengeResults = (): Record<
   number,
@@ -9,7 +9,7 @@ const createMockChallengeResults = (): Record<
 > => {
   const challengeResults = {};
   Object.keys(challenges).forEach((challengeId) => {
-    challengeResults[challengeId] = generateChallengeResult();
+    challengeResults[challengeId] = generateChallengeResults();
   });
   return challengeResults;
 };

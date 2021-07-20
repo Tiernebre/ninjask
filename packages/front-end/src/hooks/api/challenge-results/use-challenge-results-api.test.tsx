@@ -83,7 +83,6 @@ it("can add a user to the challenge", async () => {
   await act(async () => {
     await result.current.fetchChallengeResults();
     await result.current.addUserToChallenge();
-    await result.current.fetchChallengeResults();
   });
   expect(originalLength + 1).toEqual(result.current.results?.length);
 });

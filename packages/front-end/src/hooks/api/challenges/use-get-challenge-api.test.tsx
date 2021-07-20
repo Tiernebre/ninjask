@@ -24,6 +24,7 @@ it("fetches a challenge", async () => {
   const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
     wrapper: wrapper(generateMockSessionContext()),
   });
+  expect(result.current.challenge).toBeUndefined();
 
   await act(async () => {
     await result.current.fetchChallenge();

@@ -20,12 +20,13 @@ const wrapper =
       </AlertsProvider>
     );
 
-it("fetches a challenge", async () => {
+it("fetches challenge results", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallengeResults = challengeResults[challengeId];
   const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
     wrapper: wrapper(generateMockSessionContext()),
   });
+  expect(result.current.results).toEqual([]);
 
   await act(async () => {
     await result.current.fetchChallengeResults();

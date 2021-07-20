@@ -86,3 +86,19 @@ it("can add a user to the challenge", async () => {
   });
   expect(originalLength + 1).toEqual(result.current.results?.length);
 });
+
+it("can remove a user from the challenge", async () => {
+  const context = generateMockSessionContext();
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const expectedChallengeResults = challengeResults[challengeId];
+  const originalLength = expectedChallengeResults.length;
+  const { result } = renderHook(() => useChallengeResultsApi({ challengeId }), {
+    wrapper: wrapper(context),
+  });
+
+  await act(async () => {
+    await result.current.fetchChallengeResults();
+    await result.current.removeUserFromChallenge();
+  });
+  expect(originalLength - 1).toEqual(result.current.results?.length);
+});

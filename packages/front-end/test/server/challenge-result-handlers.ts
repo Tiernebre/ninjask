@@ -26,4 +26,19 @@ export const challengeResultHandlers = [
 
     return res(ctx.json(challengeResultsToAddTo));
   }),
+  rest.delete(
+    `${HOST}challenges/:challengeId/participants/me`,
+    (req, res, ctx) => {
+      if (!isAuthorized(req)) {
+        return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+      }
+
+      const { challengeId } = req.params;
+      const challengeResultsToRemoveFrom =
+        challengeResults[Number(challengeId)];
+      challengeResultsToRemoveFrom.pop();
+
+      return res(ctx.json(challengeResultsToRemoveFrom));
+    }
+  ),
 ];

@@ -29,7 +29,7 @@ export const ChallengeResultForm = ({
         setValue("completionTimeMinutes", existingResult.completionTimeMinutes);
       }
     }
-  });
+  }, [existingResult, setValue]);
 
   const submit = handleSubmit((data) => {
     onSubmit(data);

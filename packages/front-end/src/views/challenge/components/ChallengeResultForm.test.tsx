@@ -63,11 +63,16 @@ it.each([-1000, -1, 60, Number.MAX_SAFE_INTEGER])(
 it("submits the form when valid information is filled in", async () => {
   const onSubmit = jest.fn();
   render(<ChallengeResultForm onSubmit={onSubmit} />);
-  user.type(getHourInput(), "23");
-  user.type(getMinutesInput(), "55");
+  const completionTimeHour = 23;
+  const completionTimeMinutes = 55;
+  user.type(getHourInput(), completionTimeHour.toString());
+  user.type(getMinutesInput(), completionTimeMinutes.toString());
   user.click(getSubmitButton());
   await waitFor(() => expect(onSubmit).toHaveBeenCalled());
-  expect(onSubmit).toHaveBeenCalledTimes(1);
+  expect(onSubmit).toHaveBeenCalledWith({
+    completionTimeHour,
+    completionTimeMinutes,
+  });
 });
 
 it("pre-fills the form if an existing result is provided", async () => {
@@ -86,4 +91,38 @@ it("pre-fills the form if an existing result is provided", async () => {
   await waitFor(() =>
     expect(getMinutesInput()).toHaveValue(result.completionTimeMinutes)
   );
+});
+
+it("allows a user to manually override even if existing results are provided", async () => {
+  const onSubmit = jest.fn();
+  const result: ChallengeResult = {
+    participantId: 1,
+    nickname: "Test User",
+    completionTimeHour: 10,
+    completionTimeMinutes: 10,
+    resultId: 1,
+  };
+  render(<ChallengeResultForm onSubmit={onSubmit} existingResult={result} />);
+  await waitFor(() =>
+    expect(getHourInput()).toHaveValue(result.completionTimeHour)
+  );
+  await waitFor(() =>
+    expect(getMinutesInput()).toHaveValue(result.completionTimeMinutes)
+  );
+  const completionTimeHour = 12;
+  const completionTimeMinutes = 7;
+  user.clear(getHourInput());
+  user.type(getHourInput(), completionTimeHour.toString());
+  user.clear(getMinutesInput());
+  user.type(getMinutesInput(), completionTimeMinutes.toString());
+  user.click(getSubmitButton());
+  await waitFor(() => expect(getHourInput()).toHaveValue(completionTimeHour));
+  await waitFor(() =>
+    expect(getMinutesInput()).toHaveValue(completionTimeMinutes)
+  );
+  await waitFor(() => expect(onSubmit).toHaveBeenCalled());
+  expect(onSubmit).toHaveBeenCalledWith({
+    completionTimeHour,
+    completionTimeMinutes,
+  });
 });

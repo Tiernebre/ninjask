@@ -34,15 +34,17 @@ export const ChallengeView = (): JSX.Element | null => {
               <ChallengeResultsTable results={results} />
             </Box>
           </Column>
-          <Column size={4}>
-            <Box>
-              <Title level={4}>Submit Your Result</Title>
-              <ChallengeResultForm
-                onSubmit={submitResult}
-                existingResult={existingResultForUser}
-              />
-            </Box>
-          </Column>
+          {userIsInChallenge && (
+            <Column size={4}>
+              <Box>
+                <Title level={4}>Submit Your Result</Title>
+                <ChallengeResultForm
+                  onSubmit={submitResult}
+                  existingResult={existingResultForUser}
+                />
+              </Box>
+            </Column>
+          )}
         </Columns>
       </Container>
     </section>

@@ -1,7 +1,7 @@
 import { Challenge } from "../../../src/api";
 import { generateMockChallenge } from "./generate";
 
-const createChallenges = (): Record<number, Challenge> => {
+const createChallenges = (): Record<number, Partial<Challenge>> => {
   const challenges: Record<number, Challenge> = {};
   for (let i = 0; i < 10; i++) {
     const challenge = generateMockChallenge();
@@ -10,4 +10,7 @@ const createChallenges = (): Record<number, Challenge> => {
   return challenges;
 };
 
-export const challenges: Record<number, Challenge> = createChallenges();
+export const challenges: Record<
+  number,
+  Partial<Challenge>
+> = createChallenges();

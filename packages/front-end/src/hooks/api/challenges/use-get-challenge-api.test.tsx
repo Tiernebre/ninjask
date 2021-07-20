@@ -1,18 +1,27 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { PropsWithChildren } from "react";
-import { MockSessionContextProvider } from "../../../../test";
+import { ISessionContext } from "../..";
+import {
+  MockSessionContextProvider,
+  generateMockSessionContext,
+} from "../../../../test";
 import { challenges } from "../../../../test/mocks";
 import { useGetChallengeApi } from "./use-get-challenge-api";
 
-const wrapper = ({ children }: PropsWithChildren<unknown>): JSX.Element => (
-  <MockSessionContextProvider>{children}</MockSessionContextProvider>
-);
+const wrapper =
+  (value: ISessionContext) =>
+  ({ children }: PropsWithChildren<unknown>): JSX.Element =>
+    (
+      <MockSessionContextProvider value={value}>
+        {children}
+      </MockSessionContextProvider>
+    );
 
 it("fetches a challenge", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallenge = challenges[challengeId];
   const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
-    wrapper,
+    wrapper: wrapper(generateMockSessionContext()),
   });
 
   await act(async () => {
@@ -22,10 +31,12 @@ it("fetches a challenge", async () => {
 });
 
 it("informs if the current user owns the fetched challenge", async () => {
+  const context = generateMockSessionContext();
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallenge = challenges[challengeId];
+  expectedChallenge.creatorId = context.sessionPayload;
   const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
-    wrapper,
+    wrapper: wrapper(generateMockSessionContext()),
   });
 
   await act(async () => {

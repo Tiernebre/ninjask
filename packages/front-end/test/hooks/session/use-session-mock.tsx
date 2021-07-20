@@ -3,14 +3,15 @@ import { object } from "testdouble";
 import { SessionService } from "../../../src/api";
 import { ISessionContext, SessionContext } from "../../../src/hooks";
 import { v4 as uuid } from "uuid";
+import { generateRandomNumber } from "../../random/random";
 
 export const generateMockSessionContext = (): ISessionContext => ({
   session: {
     accessToken: uuid(),
-    accessTokenExpiration: 1,
+    accessTokenExpiration: generateRandomNumber(),
   },
   sessionPayload: {
-    userId: 1,
+    userId: generateRandomNumber(),
     accessKey: uuid(),
   },
   accessToken: uuid(),

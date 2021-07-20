@@ -76,9 +76,13 @@ export const useChallengeResultsApi = ({
     userIsInChallenge,
     submitResult,
     fetchChallengeResults,
-    addUserToChallenge: () =>
-      challengeParticipantService.addMeToChallenge(challengeId),
-    removeUserFromChallenge: () =>
-      challengeParticipantService.removeMeFromChallenge(challengeId),
+    addUserToChallenge: async () => {
+      await challengeParticipantService.addMeToChallenge(challengeId);
+      await fetchChallengeResults();
+    },
+    removeUserFromChallenge: async () => {
+      await challengeParticipantService.removeMeFromChallenge(challengeId);
+      await fetchChallengeResults();
+    },
   };
 };

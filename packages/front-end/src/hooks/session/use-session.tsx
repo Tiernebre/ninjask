@@ -53,7 +53,6 @@ export const SessionProvider = ({
   const refreshSession = useCallback(async () => {
     try {
       const refreshedSession = await sessionService.refreshCurrentSession();
-      console.log(refreshedSession);
       setSession(refreshedSession);
     } catch (error) {
       await logOut();

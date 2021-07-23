@@ -76,7 +76,7 @@
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
     "pg": "^8.6.0",
-    "pino": "^7.0.0-rc.1",
+    "pino": "^6.3.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.34",
     "typeorm-naming-strategies": "^2.0.0",

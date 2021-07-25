@@ -208,7 +208,7 @@ describe("Challenge Router (integration)", () => {
 
     it("returns with 204 NO_CONTENT status", async () => {
       when(challengeService.deleteOneById(id, session.userId)).thenResolve();
-      const response = await request.get(uri).send();
+      const response = await request.delete(uri).send();
       expect(response.status).toEqual(NO_CONTENT);
     });
   });

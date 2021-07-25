@@ -12,7 +12,12 @@ export class OnDeleteCascadeCleanUpForChallenges1627186725557
       REFERENCES challenge (id)
       ON DELETE CASCADE;
 
-
+    ALTER TABLE draft
+    DROP CONSTRAINT draft_challenge_id_fkey,
+    ADD CONSTRAINT draft_challenge_id_fkey
+      FOREIGN KEY (challenge_id)
+      REFERENCES challenge (id)
+      ON DELETE CASCADE;
   `);
   }
 

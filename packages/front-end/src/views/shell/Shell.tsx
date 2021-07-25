@@ -10,7 +10,7 @@ import { Routes } from "..";
  */
 export const Shell = (): JSX.Element => {
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <SessionRefresher>
         <SmartAlerts />
         <Header />
@@ -19,6 +19,6 @@ export const Shell = (): JSX.Element => {
         </main>
         <Footer />
       </SessionRefresher>
-    </div>
+    </section>
   );
 };

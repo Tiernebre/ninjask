@@ -20,7 +20,7 @@ export const Home = (): JSX.Element => {
 
   return (
     <main className="Home container p-5">
-      <h1 className="title">Challenges</h1>
+      <h1 className="title">Your Current Challenges</h1>
       <ChallengeTable challenges={challenges} />
     </main>
   );

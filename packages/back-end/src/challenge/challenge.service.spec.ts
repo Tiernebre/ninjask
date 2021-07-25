@@ -1,6 +1,7 @@
 import { object, when } from "testdouble";
 import { Repository } from "typeorm";
 import { z } from "zod";
+import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { INVALID_NUMBER_CASES } from "../test/cases";
 import { ChallengeStatus } from "./challenge-status";
@@ -91,6 +92,14 @@ describe("ChallengeService", () => {
       await expect(challengeService.deleteOneById(id, 1)).rejects.toThrowError(
         NotFoundError
       );
+    });
+
+    it("throws a ForbiddenError if the challenge does not exist", async () => {
+      const challenge = generateMockChallenge();
+      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+      await expect(
+        challengeService.deleteOneById(challenge.id, challenge.creatorId + 1)
+      ).rejects.toThrowError(ForbiddenError);
     });
 
     it.each(INVALID_NUMBER_CASES)(

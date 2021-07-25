@@ -83,4 +83,23 @@ describe("ChallengeService", () => {
       }
     );
   });
+
+  describe("deleteOneById", () => {
+    it("throws an error if the challenge does not exist", async () => {
+      const id = 1;
+      when(challengeRepository.findOne(id)).thenResolve(undefined);
+      await expect(challengeService.deleteOneById(id, 1)).rejects.toThrowError(
+        NotFoundError
+      );
+    });
+
+    it.each(INVALID_NUMBER_CASES)(
+      "throws a Zod error if the id provided is %p",
+      async (id: unknown) => {
+        await expect(
+          challengeService.deleteOneById(id as number, 1)
+        ).rejects.toThrowError(z.ZodError);
+      }
+    );
+  });
 });

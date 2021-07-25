@@ -26,6 +26,7 @@ export const ChallengeView = (): JSX.Element | null => {
           ownsChallenge={userOwnsChallenge}
           onLeaveChallenge={removeUserFromChallenge}
           onJoinChallenge={addUserToChallenge}
+          onDeleteChallenge={console.log}
         />
         <Columns>
           <Column size={participantsColumnSize}>

@@ -6,11 +6,12 @@ export type ChallengeActionsProps = {
   ownsChallenge: boolean;
   onLeaveChallenge: () => void;
   onJoinChallenge: () => void;
+  onDeleteChallenge: () => void;
 };
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   return props.ownsChallenge ? (
-    <ChallengeOwnerActions />
+    <ChallengeOwnerActions onDeleteChallenge={props.onDeleteChallenge} />
   ) : (
     <ChallengeParticipantActions {...props} />
   );

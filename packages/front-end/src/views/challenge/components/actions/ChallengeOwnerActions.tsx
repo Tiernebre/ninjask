@@ -1,11 +1,22 @@
-import { SmartDropdown } from "@tiernebre/kecleon";
+import { DropdownItem, SmartDropdown } from "@tiernebre/kecleon";
+import { Fragment } from "react";
 
-export const ChallengeOwnerActions = (): JSX.Element => {
+type ChallengeOwnerActionsProps = {
+  onDeleteChallenge: () => void;
+};
+
+export const ChallengeOwnerActions = ({
+  onDeleteChallenge,
+}: ChallengeOwnerActionsProps): JSX.Element => {
   return (
     <SmartDropdown
       triggerLabel="Actions"
       menuId="challenge-owner-actions"
-      items={null}
+      items={
+        <Fragment>
+          <DropdownItem onClick={onDeleteChallenge}>Delete</DropdownItem>
+        </Fragment>
+      }
     />
   );
 };

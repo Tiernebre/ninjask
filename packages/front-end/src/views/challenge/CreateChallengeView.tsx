@@ -1,3 +1,9 @@
+import { Container } from "@tiernebre/kecleon";
+
 export const CreateChallengeView = (): JSX.Element => {
-  return <div>Create Challenge View</div>;
+  return (
+    <Container as="section">
+      <div>Create Challenge View</div>
+    </Container>
+  );
 };

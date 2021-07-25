@@ -1,2 +1,2 @@
-export * from "./ChallengeResultForm";
+export * from "./forms";
 export * from "./table";

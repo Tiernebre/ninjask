@@ -15,7 +15,6 @@ export const ChallengeParticipantActions = ({
         color="danger"
         icon={{
           name: "times",
-          fontSize: "sm",
         }}
         onClick={onLeaveChallenge}
       >
@@ -28,7 +27,6 @@ export const ChallengeParticipantActions = ({
         color="success"
         icon={{
           name: "plus",
-          fontSize: "sm",
         }}
         onClick={onJoinChallenge}
       >

@@ -6,6 +6,6 @@ export const createChallengeRequestSchema = z.object({
   versionId: number(),
 });
 
-export type CreateChallengeRequestSchema = Readonly<
+export type CreateChallengeRequest = Readonly<
   z.infer<typeof createChallengeRequestSchema>
 >;

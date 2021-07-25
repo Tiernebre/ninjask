@@ -11,6 +11,7 @@ export type ChallengeApiHookReturnValue = {
   challenge: Challenge | undefined;
   userOwnsChallenge: boolean;
   fetchChallenge: () => Promise<void>;
+  deleteChallenge: () => Promise<void>;
 };
 
 export const useGetChallengeApi = ({
@@ -31,9 +32,15 @@ export const useGetChallengeApi = ({
     setChallenge(await challengeService.getOneById(challengeId));
   }, [challengeService, challengeId]);
 
+  const deleteChallenge = useCallback(async () => {
+    await challengeService.deleteOneById(challengeId);
+    setChallenge(undefined);
+  }, [challengeService, challengeId]);
+
   return {
     challenge,
     fetchChallenge,
     userOwnsChallenge,
+    deleteChallenge,
   };
 };

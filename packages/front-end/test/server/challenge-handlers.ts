@@ -13,4 +13,15 @@ export const challengeHandlers = [
 
     return res(ctx.json(challenges[Number(challengeId)]));
   }),
+  rest.delete(`${HOST}challenges/:challengeId`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { challengeId } = req.params;
+
+    delete challenges[Number(challengeId)];
+
+    return res();
+  }),
 ];

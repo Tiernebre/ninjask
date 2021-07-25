@@ -56,6 +56,9 @@ export class ChallengeEntity {
   @Column()
   creatorId!: number;
 
+  @Column()
+  seasonId!: number;
+
   @Column("text")
   status!: ChallengeStatus;
 }

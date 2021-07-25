@@ -18,6 +18,9 @@ export const Navbar = ({
           <img src={logo} alt="Logo" />
         </NavbarItem>
       }
+      menuStartItems={
+        <NavbarItem link={{ to: "/challenges" }}>Challenges</NavbarItem>
+      }
       menuEndItems={
         <NavbarItem>
           <Buttons>

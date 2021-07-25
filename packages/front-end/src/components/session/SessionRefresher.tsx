@@ -1,6 +1,7 @@
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
-import { useDidMount } from "rooks";
+import { useDidMount } from "@tiernebre/kecleon";
 import { useSession } from "../../hooks";
+import { useCallback } from "react";
 
 const ONE_MINUTE_IN_SECONDS = 60;
 
@@ -14,9 +15,13 @@ export const SessionRefresher = ({
   const { session, refreshSession } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
-  useDidMount(async () => {
+  const statefulRefreshSession = useCallback(async () => {
     await refreshSession();
     setIsLoading(false);
+  }, [refreshSession, setIsLoading]);
+
+  useDidMount(() => {
+    void statefulRefreshSession();
   });
 
   useEffect(() => {

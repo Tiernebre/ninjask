@@ -14,6 +14,15 @@ export type ChallengeApiHookReturnValue = {
   deleteChallenge: () => Promise<void>;
 };
 
+/**
+ * useGetChallengeApi is a hook that fetches a challenge
+ * and its result into state and provides an API of operations
+ * on that specific challenge and its results.
+ *
+ * This hook is used for a singular Challenge ID and requires
+ * a given challenge ID. If you're looking to retrieve multiple
+ * challenges use {@link use-get-challenges-api.ts} instead.
+ */
 export const useGetChallengeApi = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {

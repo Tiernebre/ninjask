@@ -54,8 +54,8 @@ describe("Challenge Router (integration)", () => {
     server.close();
   });
 
-  describe("GET /challenges", () => {
-    const uri = "/challenges";
+  describe("GET /me/challenges", () => {
+    const uri = "/me/challenges";
 
     it("returns with 200 OK status", async () => {
       const challenges: Challenge[] = [generateMockChallengeDto()];
@@ -71,6 +71,24 @@ describe("Challenge Router (integration)", () => {
       when(challengeService.getAllForUserWithId(session.userId)).thenResolve(
         challenges
       );
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(challenges);
+    });
+  });
+
+  describe("GET /challenges", () => {
+    const uri = "/challenges";
+
+    it("returns with 200 OK status", async () => {
+      const challenges: Challenge[] = [generateMockChallengeDto()];
+      when(challengeService.getAll()).thenResolve(challenges);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(200);
+    });
+
+    it("returns with found challenges in the response body", async () => {
+      const challenges: Challenge[] = [generateMockChallengeDto()];
+      when(challengeService.getAll()).thenResolve(challenges);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(challenges);
     });

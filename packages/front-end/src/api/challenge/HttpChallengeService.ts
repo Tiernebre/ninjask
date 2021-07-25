@@ -5,8 +5,12 @@ import { ChallengeService } from "./ChallengeService";
 export class HttpChallengeService implements ChallengeService {
   constructor(private readonly httpClient: HttpClient) {}
 
-  getAllForCurrentUser(): Promise<Challenge[]> {
+  getAll(): Promise<Challenge[]> {
     return this.httpClient.get("challenges");
+  }
+
+  getAllForCurrentUser(): Promise<Challenge[]> {
+    return this.httpClient.get("me/challenges");
   }
 
   getOneById(id: number): Promise<Challenge> {

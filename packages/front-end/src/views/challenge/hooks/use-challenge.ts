@@ -1,7 +1,6 @@
-import { useAlerts } from "@tiernebre/kecleon";
+import { useAlerts, useDidMount } from "@tiernebre/kecleon";
 import { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useDidMount } from "rooks";
 import {
   ChallengeApiHookReturnValue,
   useGetChallengeApi,

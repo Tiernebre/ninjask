@@ -2854,10 +2854,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^1.36.0":
-  version "1.36.0"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.36.0.tgz#dd0798db6aada9e2c016f98234f6607cf94d0f11"
-  integrity sha512-eZOS1wmCAHpk23kOxVYOnKiKXfVlUmGBA8atH3msChWeL+TX4wRlaA8TovlxnNf/n7qlXDq6sZ/VzyQUHUEqdw==
+"@tiernebre/kecleon@^1.36.1":
+  version "1.36.1"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-1.36.1.tgz#ca4a5d6f9ecb2268755b732c1fbe11324f62c617"
+  integrity sha512-B5l42iwCIuA1N5l+sJZBKPI5qbvhHjGKbrEj+KQ+wBB3JIzPIKerIS4fNxrp28Hc7a9hoWr0MSj7Z1Iez9CnnQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"
@@ -14387,14 +14387,6 @@ rollup@^1.31.1:
     "@types/estree" "*"
     "@types/node" "*"
     acorn "^7.1.0"
-
-rooks@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/rooks/-/rooks-5.3.0.tgz#a13e3257d2909819ed3b6d9e1fa80491fb9058d5"
-  integrity sha512-Mobn6hWHCdFbPjRkp6gI9FMhf8nV4GPGv/c3eNokhUU47z//JQYVNIBpqxYR2+07eo33A2g2coh4RQ/MeVMyGg==
-  dependencies:
-    lodash.debounce "^4.0.8"
-    raf "^3.4.1"
 
 rsvp@^4.8.4:
   version "4.8.5"

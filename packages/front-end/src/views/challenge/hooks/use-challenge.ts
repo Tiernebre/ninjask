@@ -38,7 +38,7 @@ export const useChallenge = (): ChallengeHookReturnValue => {
   const deleteChallenge = useCallback(async () => {
     await challengeApi.deleteChallenge();
     showAlert({ color: "success", message: "Successfully Deleted Challenge" });
-    history.push("/");
+    history.push("/home");
   }, [challengeApi, showAlert, history]);
 
   return {

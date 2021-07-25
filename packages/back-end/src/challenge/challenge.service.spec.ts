@@ -120,4 +120,20 @@ describe("ChallengeService", () => {
       }
     );
   });
+
+  describe("getAll", () => {
+    it("returns the mapped challenges", async () => {
+      const challenges = [generateMockChallenge(), generateMockChallenge()];
+      when(challengeRepository.find()).thenResolve(challenges);
+      const gottenChallenges = await challengeService.getAll();
+      gottenChallenges.forEach((gottenChallenge, index) => {
+        const challenge = challenges[index];
+        expect(gottenChallenge.id).toEqual(challenge.id);
+        expect(gottenChallenge.name).toEqual(challenge.name);
+        expect(gottenChallenge.description).toEqual(challenge.description);
+        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
+        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+      });
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import { object, when, verify } from "testdouble";
 import { Repository } from "typeorm";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { INVALID_NUMBER_CASES } from "../test/cases";
@@ -8,6 +8,7 @@ import { ChallengeStatus } from "./challenge-status";
 import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeService } from "./challenge.service";
+import { CreateChallengeRequest } from "./create-challenge-request";
 
 describe("ChallengeService", () => {
   let challengeRepository: Repository<ChallengeEntity>;
@@ -134,6 +135,40 @@ describe("ChallengeService", () => {
         expect(gottenChallenge.versionId).toEqual(challenge.versionId);
         expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
       });
+    });
+  });
+
+  describe("createOne", () => {
+    it.each([
+      {},
+      {
+        name: "",
+        description: "",
+        versionId: 1,
+        seasonId: 1,
+      },
+      {
+        name: "a",
+        description: "b",
+        versionId: "1",
+        seasonId: "1",
+      },
+      {
+        name: null,
+        description: null,
+        versionId: null,
+        seasonId: null,
+      },
+      {
+        name: undefined,
+        description: undefined,
+        versionId: undefined,
+        seasonId: undefined,
+      },
+    ])("throws a ZodError if given request %p", async (request: unknown) => {
+      await expect(
+        challengeService.createOne(request as CreateChallengeRequest, 1)
+      ).rejects.toThrowError(ZodError);
     });
   });
 });

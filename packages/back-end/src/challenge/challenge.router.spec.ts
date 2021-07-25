@@ -244,5 +244,15 @@ describe("Challenge Router (integration)", () => {
       const response = await request.post(uri).send(requestDto);
       expect(response.status).toEqual(CREATED);
     });
+
+    it("returns with the created challenge in the response body", async () => {
+      const requestDto = generateCreateChallengeRequestDto();
+      const createdChallenge = generateMockChallengeDto();
+      when(
+        challengeService.createOne(matchers.anything(), session.userId)
+      ).thenResolve(createdChallenge);
+      const response = await request.post(uri).send(requestDto);
+      expect(response.body).toEqual(createdChallenge);
+    });
   });
 });

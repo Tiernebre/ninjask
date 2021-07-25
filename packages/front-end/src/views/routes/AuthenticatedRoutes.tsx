@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { Route } from "react-router-dom";
-import { Home } from "..";
-import { ChallengeView } from "../challenge";
+import { Home, ChallengeView, ChallengesView } from "..";
 import { useSession } from "../../hooks";
 
 type AuthenticatedRoutesProps = {
@@ -17,6 +16,9 @@ export const AuthenticatedRoutes = ({
     <Fragment>
       <Route path={homeRoutes} exact>
         <Home />
+      </Route>
+      <Route path="/challenges">
+        <ChallengesView />
       </Route>
       <Route path="/challenges/:id">
         <ChallengeView />

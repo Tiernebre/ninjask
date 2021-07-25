@@ -10,7 +10,7 @@ export const ChallengesView = (): JSX.Element => {
   });
 
   return (
-    <Container>
+    <Container as="section">
       <HeadingGroup
         title="Challenges"
         subtitle="View and join challenges from other leagues"

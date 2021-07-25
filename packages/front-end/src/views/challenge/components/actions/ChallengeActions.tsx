@@ -1,5 +1,5 @@
-import { Buttons } from "@tiernebre/kecleon";
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
+import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
 
 export type ChallengeActionsProps = {
   inChallenge: boolean;
@@ -9,9 +9,9 @@ export type ChallengeActionsProps = {
 };
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
-  return (
-    <Buttons>
-      <ChallengeParticipantActions {...props} />
-    </Buttons>
+  return props.ownsChallenge ? (
+    <ChallengeOwnerActions />
+  ) : (
+    <ChallengeParticipantActions {...props} />
   );
 };

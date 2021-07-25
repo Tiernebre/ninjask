@@ -1,6 +1,6 @@
 import { SmartDropdown } from "@tiernebre/kecleon";
 
-export const ChallengeParticipantActions = (): JSX.Element => {
+export const ChallengeOwnerActions = (): JSX.Element => {
   return (
     <SmartDropdown
       triggerLabel="Actions"

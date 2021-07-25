@@ -1,7 +1,7 @@
 import { screen, render, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { ChallengeResultForm } from ".";
-import { ChallengeResult } from "../../../api";
+import { ChallengeResult } from "../../../../api";
 
 const getHourInput = () => screen.getByRole("spinbutton", { name: /Hour/i });
 const getMinutesInput = () =>

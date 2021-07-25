@@ -18,13 +18,13 @@ export const AuthenticatedRoutes = ({
       <Route path={homeRoutes} exact>
         <Home />
       </Route>
-      <Route path="/challenges" exact>
-        <ChallengesView />
-      </Route>
       <Route path="/challenges/:id" exact>
         <ChallengeView />
       </Route>
-      <Route path="/challenges/create" exact>
+      <Route path="/challenges" exact>
+        <ChallengesView />
+      </Route>
+      <Route path="/create-challenge">
         <CreateChallengeView />
       </Route>
     </Fragment>

@@ -1,3 +1,9 @@
 export const ChallengeForm = (): JSX.Element => {
-  return <div>Form</div>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
+
+  return <form></form>;
 };

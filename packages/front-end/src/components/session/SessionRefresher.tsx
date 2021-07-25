@@ -1,5 +1,5 @@
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
-import { useDidMount } from "rooks";
+import { useDidMount } from "@tiernebre/kecleon";
 import { useSession } from "../../hooks";
 
 const ONE_MINUTE_IN_SECONDS = 60;

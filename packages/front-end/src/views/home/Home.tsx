@@ -1,6 +1,6 @@
 import "./Home.scss";
 import { useCallback, useState } from "react";
-import { useDidMount } from "rooks";
+import { useDidMount } from "@tiernebre/kecleon";
 import { Challenge, HttpChallengeService } from "../../api";
 import { ChallengeTable } from "../../components";
 import { useHttp } from "../../hooks";

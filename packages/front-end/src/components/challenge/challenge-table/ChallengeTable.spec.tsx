@@ -41,12 +41,9 @@ it("renders given challenges", () => {
       ))}
     </MemoryRouter>
   );
-  challenges.forEach((challenge, index) => {
+  challenges.forEach((challenge) => {
     expect(screen.getByText(challenge.name)).toBeInTheDocument();
     expect(screen.getByText(challenge.description)).toBeInTheDocument();
-    const draftLinks = screen.getAllByRole("link", { name: /draft/i });
-    user.click(draftLinks[index]);
-    expect(screen.getByText(`${challenge.name} Draft`)).toBeInTheDocument();
     const challengeLink = screen.getByRole("link", { name: challenge.name });
     user.click(challengeLink);
     expect(

@@ -10,6 +10,7 @@ export const ChallengeOwnerActions = ({
 }: ChallengeOwnerActionsProps): JSX.Element => {
   return (
     <SmartDropdown
+      alignment="right"
       triggerLabel="Actions"
       menuId="challenge-owner-actions"
       items={

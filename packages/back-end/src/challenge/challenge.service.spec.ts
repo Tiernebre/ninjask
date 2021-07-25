@@ -1,6 +1,6 @@
 import { object, when, verify } from "testdouble";
 import { Repository } from "typeorm";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { INVALID_NUMBER_CASES } from "../test/cases";
@@ -8,6 +8,7 @@ import { ChallengeStatus } from "./challenge-status";
 import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeService } from "./challenge.service";
+import { CreateChallengeRequest } from "./create-challenge-request";
 
 describe("ChallengeService", () => {
   let challengeRepository: Repository<ChallengeEntity>;
@@ -134,6 +135,88 @@ describe("ChallengeService", () => {
         expect(gottenChallenge.versionId).toEqual(challenge.versionId);
         expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
       });
+    });
+  });
+
+  describe("createOne", () => {
+    const validCreateChallengeRequest = {
+      name: "Challenge",
+      description: "Description",
+      versionId: 1,
+      seasonId: 1,
+    };
+
+    const setupValidationCase = (request: unknown): CreateChallengeRequest => {
+      return {
+        ...validCreateChallengeRequest,
+        ...(request as CreateChallengeRequest),
+      };
+    };
+
+    it.each([
+      // empty object case
+      {},
+      // name cases
+      setupValidationCase({ name: "" }),
+      setupValidationCase({ name: null }),
+      setupValidationCase({ name: undefined }),
+      setupValidationCase({ name: "a".repeat(33) }),
+      /// description cases
+      setupValidationCase({ description: null }),
+      setupValidationCase({ description: undefined }),
+      setupValidationCase({ description: "a".repeat(129) }),
+      // version id cases
+      setupValidationCase({ versionId: null }),
+      setupValidationCase({ versionId: undefined }),
+      setupValidationCase({ versionId: 35 }),
+      // season id cases
+      setupValidationCase({ versionId: null }),
+      setupValidationCase({ versionId: undefined }),
+      // strict mode cases
+      setupValidationCase({ creatorId: 100 }),
+      setupValidationCase({ someUnknownProperty: "foo" }),
+    ])("throws a ZodError if given request %p", async (request: unknown) => {
+      await expect(
+        challengeService.createOne(request as CreateChallengeRequest, 1)
+      ).rejects.toThrowError(ZodError);
+    });
+
+    it.each([undefined, null, NaN, ""])(
+      "throws a ZodError if given creator ID = %p",
+      async (creatorId: unknown) => {
+        await expect(
+          challengeService.createOne(
+            validCreateChallengeRequest,
+            creatorId as number
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("returns the created challenge", async () => {
+      const creatorId = 1;
+      const expectedChallenge = generateMockChallenge();
+      when(
+        challengeRepository.create({
+          ...validCreateChallengeRequest,
+          creatorId,
+        })
+      ).thenReturn(expectedChallenge);
+      when(challengeRepository.save(expectedChallenge)).thenResolve(
+        expectedChallenge
+      );
+      await challengeService.createOne(validCreateChallengeRequest, creatorId);
+      const createdChallenge = await challengeService.createOne(
+        validCreateChallengeRequest,
+        creatorId
+      );
+      expect(createdChallenge.id).toEqual(expectedChallenge.id);
+      expect(createdChallenge.name).toEqual(expectedChallenge.name);
+      expect(createdChallenge.description).toEqual(
+        expectedChallenge.description
+      );
+      expect(createdChallenge.versionId).toEqual(expectedChallenge.versionId);
+      expect(createdChallenge.creatorId).toEqual(expectedChallenge.creatorId);
     });
   });
 });

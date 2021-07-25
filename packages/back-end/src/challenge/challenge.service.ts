@@ -4,6 +4,10 @@ import { Challenge, ChallengeEntity } from ".";
 import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { ChallengeStatus } from "./challenge-status";
+import {
+  CreateChallengeRequest,
+  createChallengeRequestSchema,
+} from "./create-challenge-request";
 
 const ALLOWED_STATUSES_FOR_POOL_GENERATION: Set<ChallengeStatus> = new Set([
   ChallengeStatus.CREATED,
@@ -18,6 +22,23 @@ export class ChallengeService {
   async oneCanHavePoolGeneratedWithId(id: number): Promise<boolean> {
     const challenge = await this.getOneById(id);
     return ALLOWED_STATUSES_FOR_POOL_GENERATION.has(challenge.status);
+  }
+
+  async createOne(
+    request: CreateChallengeRequest,
+    creatorId: number
+  ): Promise<Challenge> {
+    createChallengeRequestSchema.parse(request);
+    z.number().parse(creatorId);
+
+    const challengeToCreate = this.challengeRepository.create({
+      ...request,
+      creatorId,
+    });
+    const createdChallenge = await this.challengeRepository.save(
+      challengeToCreate
+    );
+    return this.mapFromEntity(createdChallenge);
   }
 
   async deleteOneById(id: number, userId: number): Promise<void> {

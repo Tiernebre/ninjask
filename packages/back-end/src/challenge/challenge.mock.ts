@@ -6,6 +6,7 @@ import {
 import { Challenge, ChallengeResult, ChallengeEntity } from ".";
 import { generateMockChallengeParticipantEntity } from "../challenge-participant/challenge-participant.mock";
 import { ChallengeStatus } from "./challenge-status";
+import { CreateChallengeRequest } from "./create-challenge-request";
 
 export const generateMockChallenge = (): ChallengeEntity => {
   const challenge = new ChallengeEntity();
@@ -46,3 +47,11 @@ export const generateMockChallengeResults = (size = 20): ChallengeResult[] => {
   }
   return results;
 };
+
+export const generateCreateChallengeRequestDto =
+  (): CreateChallengeRequest => ({
+    name: generateRandomString(),
+    description: generateRandomString(),
+    versionId: generateRandomNumber(),
+    seasonId: generateRandomNumber(),
+  });

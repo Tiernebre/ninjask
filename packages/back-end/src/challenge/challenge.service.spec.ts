@@ -180,5 +180,17 @@ describe("ChallengeService", () => {
         challengeService.createOne(request as CreateChallengeRequest, 1)
       ).rejects.toThrowError(ZodError);
     });
+
+    it.each([undefined, null, NaN, ""])(
+      "throws a ZodError if given creator ID = %p",
+      async (creatorId: unknown) => {
+        await expect(
+          challengeService.createOne(
+            validCreateChallengeRequest,
+            creatorId as number
+          )
+        ).rejects.toThrowError(ZodError);
+      }
+    );
   });
 });

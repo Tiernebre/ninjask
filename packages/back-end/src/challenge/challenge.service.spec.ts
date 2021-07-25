@@ -165,6 +165,13 @@ describe("ChallengeService", () => {
         versionId: undefined,
         seasonId: undefined,
       },
+      {
+        name: "Challenge",
+        description: "Description",
+        versionId: 1,
+        seasonId: 1,
+        someUnexpectedProperty: "FOO",
+      },
     ])("throws a ZodError if given request %p", async (request: unknown) => {
       await expect(
         challengeService.createOne(request as CreateChallengeRequest, 1)

@@ -20,6 +20,8 @@ export class ChallengeService {
     return ALLOWED_STATUSES_FOR_POOL_GENERATION.has(challenge.status);
   }
 
+  async createOne();
+
   async deleteOneById(id: number, userId: number): Promise<void> {
     const challenge = await this.getOneById(id);
     if (challenge.creatorId !== userId) {

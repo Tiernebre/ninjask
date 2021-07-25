@@ -139,39 +139,42 @@ describe("ChallengeService", () => {
   });
 
   describe("createOne", () => {
+    const validCreateChallengeRequest = {
+      name: "Challenge",
+      description: "Description",
+      versionId: 1,
+      seasonId: 1,
+    };
+
+    const setupValidationCase = (request: unknown): CreateChallengeRequest => {
+      return {
+        ...validCreateChallengeRequest,
+        ...(request as CreateChallengeRequest),
+      };
+    };
+
     it.each([
+      // empty object case
       {},
-      {
-        name: "",
-        description: "",
-        versionId: 1,
-        seasonId: 1,
-      },
-      {
-        name: "a",
-        description: "b",
-        versionId: "1",
-        seasonId: "1",
-      },
-      {
-        name: null,
-        description: null,
-        versionId: null,
-        seasonId: null,
-      },
-      {
-        name: undefined,
-        description: undefined,
-        versionId: undefined,
-        seasonId: undefined,
-      },
-      {
-        name: "Challenge",
-        description: "Description",
-        versionId: 1,
-        seasonId: 1,
-        someUnexpectedProperty: "FOO",
-      },
+      // name cases
+      setupValidationCase({ name: "" }),
+      setupValidationCase({ name: null }),
+      setupValidationCase({ name: undefined }),
+      setupValidationCase({ name: "a".repeat(33) }),
+      /// description cases
+      setupValidationCase({ description: null }),
+      setupValidationCase({ description: undefined }),
+      setupValidationCase({ description: "a".repeat(129) }),
+      // version id cases
+      setupValidationCase({ versionId: null }),
+      setupValidationCase({ versionId: undefined }),
+      setupValidationCase({ versionId: 35 }),
+      // season id cases
+      setupValidationCase({ versionId: null }),
+      setupValidationCase({ versionId: undefined }),
+      // strict mode cases
+      setupValidationCase({ creatorId: 100 }),
+      setupValidationCase({ someUnknownProperty: "foo" }),
     ])("throws a ZodError if given request %p", async (request: unknown) => {
       await expect(
         challengeService.createOne(request as CreateChallengeRequest, 1)

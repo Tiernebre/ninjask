@@ -26,6 +26,7 @@ export class DraftEntity {
 
   @OneToMany(() => DraftPokemonEntity, (draftPokemon) => draftPokemon.draft, {
     cascade: true,
+    onDelete: "CASCADE",
   })
   pokemon!: Promise<DraftPokemonEntity[]>;
 

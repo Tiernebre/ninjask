@@ -39,6 +39,13 @@ export class OnDeleteCascadeCleanUpForChallenges1627186725557
         FOREIGN KEY (draft_id)
         REFERENCES draft (id)
         ON DELETE CASCADE;
+
+      ALTER TABLE draft_selection
+      DROP CONSTRAINT draft_selection_pokemon_id_fkey,
+      ADD CONSTRAINT draft_selection_pokemon_id_fkey
+        FOREIGN KEY (pokemon_id)
+        REFERENCES draft_pokemon (id)
+        ON DELETE CASCADE;
   `);
   }
 

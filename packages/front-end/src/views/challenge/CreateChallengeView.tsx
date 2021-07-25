@@ -1,4 +1,5 @@
 import { Container, HeadingGroup, Level } from "@tiernebre/kecleon";
+import { ChallengeForm } from "./components/forms/ChallengeForm";
 
 export const CreateChallengeView = (): JSX.Element => {
   return (
@@ -10,6 +11,7 @@ export const CreateChallengeView = (): JSX.Element => {
           </div>
         }
       />
+      <ChallengeForm />
     </Container>
   );
 };

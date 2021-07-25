@@ -1,4 +1,4 @@
-import { object, when } from "testdouble";
+import { object, when, verify } from "testdouble";
 import { Repository } from "typeorm";
 import { z } from "zod";
 import { ForbiddenError } from "../error";
@@ -100,6 +100,15 @@ describe("ChallengeService", () => {
       await expect(
         challengeService.deleteOneById(challenge.id, challenge.creatorId + 1)
       ).rejects.toThrowError(ForbiddenError);
+    });
+
+    it("deletes the challenge", async () => {
+      const challenge = generateMockChallenge();
+      when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
+      await expect(
+        challengeService.deleteOneById(challenge.id, challenge.creatorId)
+      ).resolves.toBeUndefined();
+      verify(challengeRepository.delete({ id: challenge.id }));
     });
 
     it.each(INVALID_NUMBER_CASES)(

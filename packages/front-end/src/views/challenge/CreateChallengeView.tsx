@@ -11,7 +11,7 @@ export const CreateChallengeView = (): JSX.Element => {
           </div>
         }
       />
-      <ChallengeForm />
+      <ChallengeForm onSubmit={console.log} />
     </Container>
   );
 };

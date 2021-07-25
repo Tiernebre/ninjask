@@ -32,7 +32,7 @@ export const ChallengesView = (): JSX.Element => {
             icon={{ name: "plus" }}
             color="success"
             link={{
-              to: "/challenges/create",
+              to: "/create-challenge",
             }}
           >
             Create Challenge

@@ -1,6 +1,5 @@
-import "./Home.scss";
 import { useCallback, useState } from "react";
-import { useDidMount } from "@tiernebre/kecleon";
+import { Container, HeadingGroup, useDidMount } from "@tiernebre/kecleon";
 import { Challenge, HttpChallengeService } from "../../api";
 import { ChallengeTable } from "../../components";
 import { useHttp } from "../../hooks";
@@ -19,9 +18,9 @@ export const Home = (): JSX.Element => {
   });
 
   return (
-    <main className="Home container p-5">
-      <h1 className="title">Your Current Challenges</h1>
+    <Container className="p-5" as="section">
+      <HeadingGroup title="Your Current Challenges" />
       <ChallengeTable challenges={challenges} />
-    </main>
+    </Container>
   );
 };

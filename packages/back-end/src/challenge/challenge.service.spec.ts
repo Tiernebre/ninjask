@@ -192,5 +192,31 @@ describe("ChallengeService", () => {
         ).rejects.toThrowError(ZodError);
       }
     );
+
+    it("returns the created challenge", async () => {
+      const creatorId = 1;
+      const expectedChallenge = generateMockChallenge();
+      when(
+        challengeRepository.create({
+          ...validCreateChallengeRequest,
+          creatorId,
+        })
+      ).thenReturn(expectedChallenge);
+      when(challengeRepository.save(expectedChallenge)).thenResolve(
+        expectedChallenge
+      );
+      await challengeService.createOne(validCreateChallengeRequest, creatorId);
+      const createdChallenge = await challengeService.createOne(
+        validCreateChallengeRequest,
+        creatorId
+      );
+      expect(createdChallenge.id).toEqual(expectedChallenge.id);
+      expect(createdChallenge.name).toEqual(expectedChallenge.name);
+      expect(createdChallenge.description).toEqual(
+        expectedChallenge.description
+      );
+      expect(createdChallenge.versionId).toEqual(expectedChallenge.versionId);
+      expect(createdChallenge.creatorId).toEqual(expectedChallenge.creatorId);
+    });
   });
 });

@@ -40,15 +40,12 @@ export class ChallengeEntity {
   @Column()
   versionId!: number;
 
-  @OneToOne(() => DraftEntity, (draft) => draft.challenge, {
-    onDelete: "CASCADE",
-  })
+  @OneToOne(() => DraftEntity, (draft) => draft.challenge)
   draft!: Promise<DraftEntity>;
 
   @OneToMany(
     () => ChallengeParticipantEntity,
-    (challengeParticipant) => challengeParticipant.challenge,
-    { onDelete: "CASCADE" }
+    (challengeParticipant) => challengeParticipant.challenge
   )
   participants!: Promise<ChallengeParticipantEntity[]>;
 

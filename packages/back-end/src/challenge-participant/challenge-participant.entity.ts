@@ -23,9 +23,7 @@ export class ChallengeParticipantEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ManyToOne(() => ChallengeEntity, (challenge) => challenge.participants, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne(() => ChallengeEntity, (challenge) => challenge.participants)
   challenge!: Promise<Challenge>;
 
   @ManyToOne(() => UserEntity, (user) => user.challengeResults)

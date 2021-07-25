@@ -19,6 +19,7 @@
     "prestart": "yarn compile",
     "start": "node dist/app.js",
     "test": "ts-node ./dockest",
+    "test:int": "ts-node ./dockest --onlyRunIntegrationTests",
     "test:unit": "jest -c jest.unit.config.js --watch"
   },
   "devDependencies": {

@@ -20,10 +20,17 @@ export class ChallengeRouter extends Router {
   }
 
   private setupRoutes(): void {
+    this.get(
+      `/me/challenges`,
+      async (ctx: ParameterizedContext<ContextState>) => {
+        ctx.body = await this.challengeService.getAllForUserWithId(
+          ctx.state.session.userId
+        );
+      }
+    );
+
     this.get(this.URI, async (ctx: ParameterizedContext<ContextState>) => {
-      ctx.body = await this.challengeService.getAllForUserWithId(
-        ctx.state.session.userId
-      );
+      ctx.body = await this.challengeService.getAll();
     });
 
     this.get(

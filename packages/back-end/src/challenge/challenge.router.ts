@@ -39,6 +39,7 @@ export class ChallengeRouter extends Router {
         ctx.body as CreateChallengeRequest,
         ctx.state.session.userId
       );
+      ctx.status = CREATED;
     });
 
     this.get(

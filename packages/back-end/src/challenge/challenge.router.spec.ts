@@ -4,12 +4,13 @@ import { Server } from "http";
 import Application from "koa";
 import { ChallengeRouter } from "./challenge.router";
 import { ChallengeService } from "./challenge.service";
-import { object, when } from "testdouble";
+import { matchers, object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
 import { DraftService } from "../draft/draft.service";
 import {
+  generateCreateChallengeRequestDto,
   generateMockChallengeDto,
   generateMockChallengeResults,
 } from "./challenge.mock";
@@ -231,5 +232,17 @@ describe("Challenge Router (integration)", () => {
     });
   });
 
-  describe("POST /challenges", () => {});
+  describe("POST /challenges", () => {
+    const uri = "/challenges";
+
+    it("returns with 201 CREATED status", async () => {
+      const requestDto = generateCreateChallengeRequestDto();
+      const createdChallenge = generateMockChallengeDto();
+      when(
+        challengeService.createOne(matchers.anything(), session.userId)
+      ).thenResolve(createdChallenge);
+      const response = await request.post(uri).send(requestDto);
+      expect(response.status).toEqual(CREATED);
+    });
+  });
 });

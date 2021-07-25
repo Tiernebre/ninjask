@@ -230,4 +230,6 @@ describe("Challenge Router (integration)", () => {
       expect(response.status).toEqual(NO_CONTENT);
     });
   });
+
+  describe("POST /challenges", () => {});
 });

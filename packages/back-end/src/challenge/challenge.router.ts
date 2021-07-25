@@ -6,6 +6,7 @@ import { ChallengeParticipantService } from "../challenge-participant/challenge-
 import { DraftService } from "../draft/draft.service";
 import { ContextState } from "../types/state";
 import { ChallengeService } from "./challenge.service";
+import { CreateChallengeRequest } from "./create-challenge-request";
 
 export class ChallengeRouter extends Router {
   private readonly URI = "/challenges";
@@ -31,6 +32,13 @@ export class ChallengeRouter extends Router {
 
     this.get(this.URI, async (ctx: ParameterizedContext<ContextState>) => {
       ctx.body = await this.challengeService.getAll();
+    });
+
+    this.post(this.URI, async (ctx: ParameterizedContext<ContextState>) => {
+      ctx.body = await this.challengeService.createOne(
+        ctx.body as CreateChallengeRequest,
+        ctx.state.session.userId
+      );
     });
 
     this.get(

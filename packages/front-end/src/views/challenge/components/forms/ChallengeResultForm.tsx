@@ -1,8 +1,8 @@
 import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ChallengeResult } from "../../../api";
-import { ChallengeParticipantUpdateRequest } from "../../../api/challenge/ChallengeParticipantUpdateRequest";
+import { ChallengeResult } from "../../../../api";
+import { ChallengeParticipantUpdateRequest } from "../../../../api/challenge/ChallengeParticipantUpdateRequest";
 
 type ChallengeResultFormProps = {
   onSubmit: (data: ChallengeParticipantUpdateRequest) => void;

@@ -13,6 +13,7 @@ export const ChallengeView = (): JSX.Element | null => {
     submitResult,
     addUserToChallenge,
     removeUserFromChallenge,
+    deleteChallenge,
   } = useChallenge();
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
@@ -26,7 +27,7 @@ export const ChallengeView = (): JSX.Element | null => {
           ownsChallenge={userOwnsChallenge}
           onLeaveChallenge={removeUserFromChallenge}
           onJoinChallenge={addUserToChallenge}
-          onDeleteChallenge={console.log}
+          onDeleteChallenge={deleteChallenge}
         />
         <Columns>
           <Column size={participantsColumnSize}>

@@ -1,4 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useAlerts } from "@tiernebre/kecleon";
+import { useCallback } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { useDidMount } from "rooks";
 import {
   ChallengeApiHookReturnValue,
@@ -15,7 +17,9 @@ type ChallengeHookReturnValue = ChallengeResultsApiHookReturnValue &
   ChallengeApiHookReturnValue;
 
 export const useChallenge = (): ChallengeHookReturnValue => {
+  const history = useHistory();
   const { id } = useParams<ChallengeViewParams>();
+  const { showAlert } = useAlerts();
   const challengeId = Number(id);
   const challengeApi = useGetChallengeApi({
     challengeId,
@@ -31,8 +35,15 @@ export const useChallenge = (): ChallengeHookReturnValue => {
     ]);
   });
 
+  const deleteChallenge = useCallback(async () => {
+    await challengeApi.deleteChallenge();
+    showAlert({ color: "success", message: "Successfully Deleted Challenge" });
+    history.push("/home");
+  }, [challengeApi, showAlert, history]);
+
   return {
     ...challengeResultsApi,
     ...challengeApi,
+    deleteChallenge,
   };
 };

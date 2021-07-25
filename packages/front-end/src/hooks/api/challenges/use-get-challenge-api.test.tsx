@@ -65,3 +65,19 @@ it("informs if the current user does not own the fetched challenge", async () =>
   });
   expect(result.current.userOwnsChallenge).toEqual(false);
 });
+
+it("deletes a challenge", async () => {
+  const challengeId = Number(Object.keys(challenges)[0]);
+  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+    wrapper: wrapper(generateMockSessionContext()),
+  });
+  expect(result.current.challenge).toBeUndefined();
+
+  await act(async () => {
+    await result.current.fetchChallenge();
+  });
+  await act(async () => {
+    await result.current.deleteChallenge();
+  });
+  expect(result.current.challenge).toBeUndefined();
+});

@@ -1,3 +1,3 @@
 export const CreateChallengeView = (): JSX.Element => {
-  return <div>Challenge View</div>;
+  return <div>Create Challenge View</div>;
 };

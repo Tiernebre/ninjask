@@ -1,4 +1,5 @@
-import { IconButton } from "@tiernebre/kecleon";
+import { Buttons, IconButton } from "@tiernebre/kecleon";
+import { ReactNode } from "react";
 import { ChallengeActionsProps } from ".";
 
 export const ChallengeParticipantActions = ({
@@ -6,8 +7,10 @@ export const ChallengeParticipantActions = ({
   onLeaveChallenge,
   onJoinChallenge,
 }: ChallengeActionsProps): JSX.Element => {
+  let actions: ReactNode;
+
   if (inChallenge) {
-    return (
+    actions = (
       <IconButton
         color="danger"
         icon={{
@@ -20,7 +23,7 @@ export const ChallengeParticipantActions = ({
       </IconButton>
     );
   } else {
-    return (
+    actions = (
       <IconButton
         color="success"
         icon={{
@@ -33,4 +36,6 @@ export const ChallengeParticipantActions = ({
       </IconButton>
     );
   }
+
+  return <Buttons>{actions}</Buttons>;
 };

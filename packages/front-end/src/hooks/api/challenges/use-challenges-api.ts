@@ -16,7 +16,9 @@ export const useGetChallengesApi = (): UseGetChallengesReturnValue => {
     [httpClient]
   );
 
-  const fetchChallenges = useCallback(async () => {}, [challengeService]);
+  const fetchChallenges = useCallback(async () => {
+    setChallenges(await challengeService.getAll());
+  }, [challengeService]);
 
   return {
     challenges,

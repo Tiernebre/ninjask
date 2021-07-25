@@ -85,5 +85,15 @@ export class ChallengeRouter extends Router {
         );
       }
     );
+
+    this.delete(
+      `${this.URI}/:id`,
+      async (ctx: ParameterizedContext<ContextState>) => {
+        ctx.body = await this.challengeService.deleteOneById(
+          Number(ctx.params.id),
+          ctx.state.session.userId
+        );
+      }
+    );
   }
 }

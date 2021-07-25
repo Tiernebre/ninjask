@@ -39,6 +39,12 @@ export class ChallengeService {
     return this.mapFromEntity(challenge);
   }
 
+  async getAll(): Promise<Challenge[]> {
+    return (await this.challengeRepository.find()).map((entity) =>
+      this.mapFromEntity(entity)
+    );
+  }
+
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
     z.number().parse(id);
     const challenges = await this.challengeRepository

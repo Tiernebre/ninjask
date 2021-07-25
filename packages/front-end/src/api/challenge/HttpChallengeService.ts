@@ -12,4 +12,8 @@ export class HttpChallengeService implements ChallengeService {
   getOneById(id: number): Promise<Challenge> {
     return this.httpClient.get(`challenges/${id}`);
   }
+
+  deleteOneById(id: number): Promise<void> {
+    return this.httpClient.delete(`challenges/${id}`);
+  }
 }

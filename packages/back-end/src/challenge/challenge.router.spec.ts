@@ -15,7 +15,7 @@ import {
 } from "./challenge.mock";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { generateRandomNumber } from "../random";
-import { CREATED, OK } from "http-status";
+import { CREATED, NO_CONTENT, OK } from "http-status";
 import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
 import { generateMockChallengeParticipant } from "../challenge-participant/challenge-participant.mock";
 
@@ -199,6 +199,17 @@ describe("Challenge Router (integration)", () => {
       ).thenResolve(challengeParticipant);
       const response = await request.delete(uri).send();
       expect(response.body).toEqual(challengeParticipant);
+    });
+  });
+
+  describe("DELETE /challenges/:id", () => {
+    const id = 5;
+    const uri = `/challenges/${id}`;
+
+    it("returns with 204 NO_CONTENT status", async () => {
+      when(challengeService.deleteOneById(id, session.userId)).thenResolve();
+      const response = await request.delete(uri).send();
+      expect(response.status).toEqual(NO_CONTENT);
     });
   });
 });

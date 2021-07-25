@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
+import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { ChallengeStatus } from "./challenge-status";
 
@@ -17,6 +18,16 @@ export class ChallengeService {
   async oneCanHavePoolGeneratedWithId(id: number): Promise<boolean> {
     const challenge = await this.getOneById(id);
     return ALLOWED_STATUSES_FOR_POOL_GENERATION.has(challenge.status);
+  }
+
+  async deleteOneById(id: number, userId: number): Promise<void> {
+    const challenge = await this.getOneById(id);
+    if (challenge.creatorId !== userId) {
+      throw new ForbiddenError(
+        "Could not delete challenge, requesting user does not own it."
+      );
+    }
+    await this.challengeRepository.delete({ id: challenge.id });
   }
 
   async getOneById(id: number): Promise<Challenge> {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Router from "@koa/router";
-import { CREATED } from "http-status";
+import { CREATED, NO_CONTENT } from "http-status";
 import { ParameterizedContext } from "koa";
 import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
 import { DraftService } from "../draft/draft.service";
@@ -83,6 +83,17 @@ export class ChallengeRouter extends Router {
           ctx.state.session.userId,
           Number(ctx.params.id)
         );
+      }
+    );
+
+    this.delete(
+      `${this.URI}/:id`,
+      async (ctx: ParameterizedContext<ContextState>) => {
+        await this.challengeService.deleteOneById(
+          Number(ctx.params.id),
+          ctx.state.session.userId
+        );
+        ctx.status = NO_CONTENT;
       }
     );
   }

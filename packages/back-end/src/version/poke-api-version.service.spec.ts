@@ -100,4 +100,29 @@ describe("PokeApiVersionService", () => {
       expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
     });
   });
+
+  describe("getAll", () => {
+    it("returns all found versions", async () => {
+      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
+        results: [
+          {
+            id: 1,
+            url: "localhost:1234",
+          },
+        ],
+      });
+      const mockVersion = generateMockPokeApiVersion();
+      jestWhen(mockedFetchOk)
+        .calledWith("localhost:1234")
+        .mockResolvedValue(mockVersion);
+      const versions = await pokeApiVersionService.getAll();
+      expect(versions).toHaveLength(1);
+      expect(versions[0]).toEqual({
+        id: mockVersion.id,
+        name: mockVersion.name,
+        deniedPokemonIds: new Set([]),
+        versionGroupUrl: mockVersion.version_group.url,
+      });
+    });
+  });
 });

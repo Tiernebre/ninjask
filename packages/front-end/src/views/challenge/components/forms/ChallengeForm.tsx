@@ -13,7 +13,6 @@ import {
 } from "@tiernebre/kecleon";
 import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
 import { useEffect } from "react";
-import { Version } from "../../../../api/version/Version";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -56,7 +55,7 @@ export const ChallengeForm = ({
       >
         <MappedSelect
           options={versions}
-          mapToOption={(version: Version) => ({
+          mapToOption={(version) => ({
             value: version.id,
             label: version.name,
           })}

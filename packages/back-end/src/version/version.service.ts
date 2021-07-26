@@ -19,4 +19,6 @@ export interface VersionService {
    * @param version The version to fetch a Pokedex for.
    */
   getPokedexFromOne(version: Version): Promise<Pokedex>;
+
+  getAll(): Promise<Version[]>;
 }

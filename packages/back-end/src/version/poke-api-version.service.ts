@@ -58,4 +58,8 @@ export class PokeApiVersionService implements VersionService {
     );
     return mapPokedexFromPokeApi(pokedexResponse);
   }
+
+  async getAll(): Promise<Version[]> {
+    return this.pokeApiHttpClient.get("version");
+  }
 }

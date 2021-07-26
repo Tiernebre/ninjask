@@ -54,7 +54,7 @@ export const ChallengeForm = ({
         label="Pokemon Version"
         error={errors.versionId}
       >
-        <MappedSelect<Version>
+        <MappedSelect
           options={versions}
           mapToOption={(version: Version) => ({
             value: version.id,

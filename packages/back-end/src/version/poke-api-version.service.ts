@@ -60,6 +60,6 @@ export class PokeApiVersionService implements VersionService {
   }
 
   async getAll(): Promise<Version[]> {
-    return this.pokeApiHttpClient.get("version");
+    return this.pokeApiHttpClient.get("version?limit=100");
   }
 }

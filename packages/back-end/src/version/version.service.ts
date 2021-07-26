@@ -1,4 +1,4 @@
-import { NamedAPIResource } from "../poke-api";
+import { NamedAPIResourceList } from "../poke-api";
 import { Pokedex } from "./pokedex";
 import { Version } from "./version";
 
@@ -21,5 +21,5 @@ export interface VersionService {
    */
   getPokedexFromOne(version: Version): Promise<Pokedex>;
 
-  getAll(): Promise<NamedAPIResource>;
+  getAll(): Promise<NamedAPIResourceList>;
 }

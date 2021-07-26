@@ -1,4 +1,10 @@
-import { Button, Column, Columns, SemanticFormField } from "@tiernebre/kecleon";
+import {
+  Button,
+  Column,
+  Columns,
+  Input,
+  SemanticFormField,
+} from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ChallengeResult } from "../../../../api";
@@ -42,47 +48,53 @@ export const ChallengeResultForm = ({
           <SemanticFormField
             id="hour"
             label="Hour"
-            input={{ type: "number" }}
-            register={register("completionTimeHour", {
-              valueAsNumber: true,
-              required: {
-                value: true,
-                message: "Hour is required.",
-              },
-              min: {
-                value: 0,
-                message: "Hour must be between 0-99.",
-              },
-              max: {
-                value: 99,
-                message: "Hour must be between 0-99.",
-              },
-            })}
             error={errors.completionTimeHour}
-          />
+          >
+            <Input
+              type="number"
+              register={register("completionTimeHour", {
+                valueAsNumber: true,
+                required: {
+                  value: true,
+                  message: "Hour is required.",
+                },
+                min: {
+                  value: 0,
+                  message: "Hour must be between 0-99.",
+                },
+                max: {
+                  value: 99,
+                  message: "Hour must be between 0-99.",
+                },
+              })}
+            />
+          </SemanticFormField>
         </Column>
         <Column>
           <SemanticFormField
             id="minutes"
             label="Minutes"
-            input={{ type: "number" }}
-            register={register("completionTimeMinutes", {
-              valueAsNumber: true,
-              required: {
-                value: true,
-                message: "Minutes are required.",
-              },
-              min: {
-                value: 0,
-                message: "Minutes must be between 0-59.",
-              },
-              max: {
-                value: 59,
-                message: "Minutes must be between 0-59.",
-              },
-            })}
             error={errors.completionTimeMinutes}
-          />
+          >
+            <Input
+              type="number"
+              register={register("completionTimeMinutes", {
+                valueAsNumber: true,
+                required: {
+                  value: true,
+                  message: "Minutes are required.",
+                },
+                min: {
+                  value: 0,
+                  message: "Minutes must be between 0-59.",
+                },
+                max: {
+                  value: 59,
+                  message: "Minutes must be between 0-59.",
+                },
+              })}
+            />
+          </SemanticFormField>
         </Column>
       </Columns>
       <Button color="success">Submit Result</Button>

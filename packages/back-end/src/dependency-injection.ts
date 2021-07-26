@@ -35,11 +35,7 @@ import { PokemonService, PokeApiPokemonService } from "./pokemon";
 import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
 import { UserEntity, UserRouter, UserService } from "./user";
-import {
-  VersionDeniedPokemonEntity,
-  VersionService,
-  PokeApiVersionService,
-} from "./version";
+import { VersionDeniedPokemonEntity, PokeApiVersionService } from "./version";
 import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";
@@ -47,6 +43,7 @@ import { LiveSessionRouter } from "./live-session/live-session.router";
 import { LiveSessionService } from "./live-session/live-session.service";
 import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
 import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
+import { VersionRouter } from "./version/version.router";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -81,19 +78,22 @@ const buildChallengeService = () => {
   return new ChallengeService(challengeRepository);
 };
 
-const buildDraftPoolService = (logger: Logger) => {
+const buildVersionService = (logger: Logger) => {
   const versionDeniedPokemonRepository = getRepository(
     VersionDeniedPokemonEntity
   );
-  const versionService: VersionService = new PokeApiVersionService(
+  return new PokeApiVersionService(
     buildPokeApiHttpClient(),
     versionDeniedPokemonRepository,
     logger
   );
+};
+
+const buildDraftPoolService = (logger: Logger) => {
   return new DraftPoolService(
     buildDraftService(logger),
     getRepository(DraftEntity),
-    versionService,
+    buildVersionService(logger),
     buildPokemonService(logger),
     logger,
     buildChallengeService()
@@ -193,6 +193,10 @@ const buildLiveSessionRouter = () => {
   return new LiveSessionRouter(buildLiveSessionService());
 };
 
+const buildVersionRouter = (logger: Logger) => {
+  return new VersionRouter(buildVersionService(logger));
+};
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -222,6 +226,7 @@ export const injectDependencies = async (
     buildChallengeParticipantsRouter(),
     buildDraftSelectionsRouter(logger),
     buildLiveSessionRouter(),
+    buildVersionRouter(logger),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

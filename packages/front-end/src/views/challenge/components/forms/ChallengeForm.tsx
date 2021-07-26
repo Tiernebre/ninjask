@@ -4,7 +4,15 @@ import {
   createChallengeRequestSchema,
 } from "../../../../api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, SemanticFormField } from "@tiernebre/kecleon";
+import {
+  Button,
+  Input,
+  MappedSelect,
+  SemanticFormField,
+  Textarea,
+} from "@tiernebre/kecleon";
+import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
+import { useEffect } from "react";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -12,7 +20,7 @@ export type ChallengeFormProps = {
 
 export const ChallengeForm = ({
   onSubmit,
-}: ChallengeFormProps): JSX.Element => {
+}: ChallengeFormProps): JSX.Element | null => {
   const {
     register,
     handleSubmit,
@@ -20,10 +28,15 @@ export const ChallengeForm = ({
   } = useForm<CreateChallengeRequest>({
     resolver: zodResolver(createChallengeRequestSchema),
   });
+  const { versions, fetchVersions } = useVersionsApi();
+
+  useEffect(() => {
+    void fetchVersions();
+  }, [fetchVersions]);
 
   const submit = handleSubmit((data) => onSubmit(data));
 
-  return (
+  return versions.length ? (
     <form onSubmit={submit}>
       <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
         <Input type="text" register={register("name")} />
@@ -33,9 +46,25 @@ export const ChallengeForm = ({
         label="Description"
         error={errors.description}
       >
-        <Input type="text" register={register("description")} />
+        <Textarea register={register("description")} rows={2} />
+      </SemanticFormField>
+      <SemanticFormField
+        id="challenge-version"
+        label="Pokemon Version"
+        error={errors.versionId}
+      >
+        <MappedSelect
+          options={versions}
+          mapToOption={(version) => ({
+            value: version.id,
+            label: version.name,
+          })}
+          register={register("versionId", {
+            valueAsNumber: true,
+          })}
+        />
       </SemanticFormField>
       <Button color="success">Create Challenge</Button>
     </form>
-  );
+  ) : null;
 };

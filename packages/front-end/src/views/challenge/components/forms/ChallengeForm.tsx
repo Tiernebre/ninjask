@@ -60,7 +60,9 @@ export const ChallengeForm = ({
             value: version.id,
             label: version.name,
           })}
-          register={register("versionId")}
+          register={register("versionId", {
+            valueAsNumber: true,
+          })}
         />
       </SemanticFormField>
       <Button color="success">Create Challenge</Button>

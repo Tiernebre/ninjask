@@ -4,7 +4,7 @@ import {
   createChallengeRequestSchema,
 } from "../../../../api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, SemanticFormField } from "@tiernebre/kecleon";
+import { Button, Input, SemanticFormField } from "@tiernebre/kecleon";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -25,20 +25,16 @@ export const ChallengeForm = ({
 
   return (
     <form onSubmit={submit}>
-      <SemanticFormField
-        id="challenge-name"
-        label="Name"
-        input={{ type: "text" }}
-        register={register("name")}
-        error={errors.name}
-      />
+      <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
+        <Input type="text" register={register("name")} />
+      </SemanticFormField>
       <SemanticFormField
         id="challenge-description"
         label="Description"
-        input={{ type: "text" }}
-        register={register("name")}
         error={errors.description}
-      />
+      >
+        <Input type="text" register={register("description")} />
+      </SemanticFormField>
       <Button color="success">Create Challenge</Button>
     </form>
   );

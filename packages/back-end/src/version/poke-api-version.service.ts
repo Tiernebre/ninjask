@@ -60,7 +60,15 @@ export class PokeApiVersionService implements VersionService {
     return mapPokedexFromPokeApi(pokedexResponse);
   }
 
-  async getAll(): Promise<NamedAPIResourceList> {
-    return this.pokeApiHttpClient.get("version?limit=100");
+  async getAll(): Promise<Version[]> {
+    const { results } = await this.pokeApiHttpClient.get<NamedAPIResourceList>(
+      "version?limit=100"
+    );
+    const versions = await Promise.all(
+      results.map(async (result) => {
+        return fetchOk<PokeApiVersion>(result.url);
+      })
+    );
+    return versions.map((version) => mapVersionFromPokeApi(version));
   }
 }

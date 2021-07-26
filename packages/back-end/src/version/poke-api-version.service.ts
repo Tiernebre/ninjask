@@ -1,6 +1,7 @@
 import { fetchOk } from "../http";
 import { HttpClient } from "../http/http-client";
 import {
+  NamedAPIResourceList,
   PokeApiPokedex,
   PokeApiVersion,
   PokeApiVersionGroup,
@@ -59,7 +60,7 @@ export class PokeApiVersionService implements VersionService {
     return mapPokedexFromPokeApi(pokedexResponse);
   }
 
-  async getAll(): Promise<Version[]> {
+  async getAll(): Promise<NamedAPIResourceList> {
     return this.pokeApiHttpClient.get("version?limit=100");
   }
 }

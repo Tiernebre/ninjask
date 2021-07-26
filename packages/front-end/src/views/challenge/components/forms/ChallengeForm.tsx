@@ -4,9 +4,16 @@ import {
   createChallengeRequestSchema,
 } from "../../../../api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, SemanticFormField, Textarea } from "@tiernebre/kecleon";
+import {
+  Button,
+  Input,
+  MappedSelect,
+  SemanticFormField,
+  Textarea,
+} from "@tiernebre/kecleon";
 import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
 import { useEffect } from "react";
+import { Version } from "../../../../api/version/Version";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -14,7 +21,7 @@ export type ChallengeFormProps = {
 
 export const ChallengeForm = ({
   onSubmit,
-}: ChallengeFormProps): JSX.Element => {
+}: ChallengeFormProps): JSX.Element | null => {
   const {
     register,
     handleSubmit,
@@ -30,7 +37,7 @@ export const ChallengeForm = ({
 
   const submit = handleSubmit((data) => onSubmit(data));
 
-  return (
+  return versions.length ? (
     <form onSubmit={submit}>
       <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
         <Input type="text" register={register("name")} />
@@ -46,11 +53,17 @@ export const ChallengeForm = ({
         id="challenge-version"
         label="Pokemon Version"
         error={errors.versionId}
-      ></SemanticFormField>
-      {versions.map((version) => (
-        <p key={version.id}>{version.name}</p>
-      ))}
+      >
+        <MappedSelect<Version>
+          options={versions}
+          mapToOption={(version: Version) => ({
+            value: version.id,
+            label: version.name,
+          })}
+          register={register("versionId")}
+        />
+      </SemanticFormField>
       <Button color="success">Create Challenge</Button>
     </form>
-  );
+  ) : null;
 };

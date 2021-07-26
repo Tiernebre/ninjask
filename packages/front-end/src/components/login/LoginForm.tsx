@@ -1,4 +1,9 @@
-import { Button, FormField, SemanticFormField } from "@tiernebre/kecleon";
+import {
+  Button,
+  FormField,
+  Input,
+  SemanticFormField,
+} from "@tiernebre/kecleon";
 import { useForm } from "react-hook-form";
 import styles from "./LoginForm.module.scss";
 
@@ -31,27 +36,29 @@ export const LoginForm = ({
       <SemanticFormField
         id="access-key"
         label="Access Key"
-        input={{ type: "text" }}
-        register={register("accessKey", {
-          required: {
-            value: true,
-            message: "Access Key is required.",
-          },
-        })}
         error={errors.accessKey}
-      />
-      <SemanticFormField
-        id="password"
-        label="Password"
-        input={{ type: "password" }}
-        register={register("password", {
-          required: {
-            value: true,
-            message: "Password is required.",
-          },
-        })}
-        error={errors.password}
-      />
+      >
+        <Input
+          type="text"
+          register={register("accessKey", {
+            required: {
+              value: true,
+              message: "Access Key is required.",
+            },
+          })}
+        />
+      </SemanticFormField>
+      <SemanticFormField id="password" label="Password" error={errors.password}>
+        <Input
+          type="password"
+          register={register("password", {
+            required: {
+              value: true,
+              message: "Password is required.",
+            },
+          })}
+        />
+      </SemanticFormField>
       <FormField>
         <Button color="success" loading={loading} size="medium" fullWidth>
           Login

@@ -8,6 +8,7 @@ import {
   Button,
   Input,
   MappedSelect,
+  PageSpinner,
   SemanticFormField,
   Textarea,
 } from "@tiernebre/kecleon";
@@ -36,35 +37,39 @@ export const ChallengeForm = ({
 
   const submit = handleSubmit((data) => onSubmit(data));
 
-  return versions.length ? (
-    <form onSubmit={submit}>
-      <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
-        <Input type="text" register={register("name")} />
-      </SemanticFormField>
-      <SemanticFormField
-        id="challenge-description"
-        label="Description"
-        error={errors.description}
-      >
-        <Textarea register={register("description")} rows={2} />
-      </SemanticFormField>
-      <SemanticFormField
-        id="challenge-version"
-        label="Pokemon Version"
-        error={errors.versionId}
-      >
-        <MappedSelect
-          options={versions}
-          mapToOption={(version) => ({
-            value: version.id,
-            label: version.name,
-          })}
-          register={register("versionId", {
-            valueAsNumber: true,
-          })}
-        />
-      </SemanticFormField>
-      <Button color="success">Create Challenge</Button>
-    </form>
-  ) : null;
+  if (versions.length) {
+    return (
+      <form onSubmit={submit}>
+        <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
+          <Input type="text" register={register("name")} />
+        </SemanticFormField>
+        <SemanticFormField
+          id="challenge-description"
+          label="Description"
+          error={errors.description}
+        >
+          <Textarea register={register("description")} rows={2} />
+        </SemanticFormField>
+        <SemanticFormField
+          id="challenge-version"
+          label="Pokemon Version"
+          error={errors.versionId}
+        >
+          <MappedSelect
+            options={versions}
+            mapToOption={(version) => ({
+              value: version.id,
+              label: version.name,
+            })}
+            register={register("versionId", {
+              valueAsNumber: true,
+            })}
+          />
+        </SemanticFormField>
+        <Button color="success">Create Challenge</Button>
+      </form>
+    );
+  } else {
+    return <PageSpinner size="medium" />;
+  }
 };

@@ -1,4 +1,11 @@
-import { Box, Column, Columns, Container, Title } from "@tiernebre/kecleon";
+import {
+  Box,
+  Column,
+  Columns,
+  Container,
+  PageSpinner,
+  Title,
+} from "@tiernebre/kecleon";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
 import { useChallenge } from "./hooks";
@@ -18,37 +25,39 @@ export const ChallengeView = (): JSX.Element | null => {
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
 
+  // if (challenge && results) {
+  //   return <PageSpinner size="large" />
+  // }
+
   return challenge && results ? (
-    <section>
-      <Container>
-        <ChallengeViewHeader
-          challenge={challenge}
-          inChallenge={userIsInChallenge}
-          ownsChallenge={userOwnsChallenge}
-          onLeaveChallenge={removeUserFromChallenge}
-          onJoinChallenge={addUserToChallenge}
-          onDeleteChallenge={deleteChallenge}
-        />
-        <Columns>
-          <Column size={participantsColumnSize}>
+    <Container as="section">
+      <ChallengeViewHeader
+        challenge={challenge}
+        inChallenge={userIsInChallenge}
+        ownsChallenge={userOwnsChallenge}
+        onLeaveChallenge={removeUserFromChallenge}
+        onJoinChallenge={addUserToChallenge}
+        onDeleteChallenge={deleteChallenge}
+      />
+      <Columns>
+        <Column size={participantsColumnSize}>
+          <Box>
+            <Title level={4}>Participants</Title>
+            <ChallengeResultsTable results={results} />
+          </Box>
+        </Column>
+        {userIsInChallenge && (
+          <Column size={4}>
             <Box>
-              <Title level={4}>Participants</Title>
-              <ChallengeResultsTable results={results} />
+              <Title level={4}>Submit Your Result</Title>
+              <ChallengeResultForm
+                onSubmit={submitResult}
+                existingResult={existingResultForUser}
+              />
             </Box>
           </Column>
-          {userIsInChallenge && (
-            <Column size={4}>
-              <Box>
-                <Title level={4}>Submit Your Result</Title>
-                <ChallengeResultForm
-                  onSubmit={submitResult}
-                  existingResult={existingResultForUser}
-                />
-              </Box>
-            </Column>
-          )}
-        </Columns>
-      </Container>
-    </section>
+        )}
+      </Columns>
+    </Container>
   ) : null;
 };

@@ -2694,10 +2694,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.1.1.tgz#e497829f7f1bb1c2c6e0a797d4986934eb194fe4"
-  integrity sha512-eHFr2iaBDQLvyx7qUTU9bbHlTZYHYbUtw0QGA5FJFZ/D3iUR/47wy5HaUzx1wF2ENRcq1YV6iA8bX73yr0cnjQ==
+"@tiernebre/kecleon@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.2.1.tgz#f420b1c0405f225f170d68f86ee26a8cb56d1c34"
+  integrity sha512-iApGSWkfmHjMLQLs+oGpLMx2r/XsGH2SEeybg+qClHT77ZoTzLGL77QeEm4IAmQ/hzgJCryHhcbWtPb7ldDd/Q==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"

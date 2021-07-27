@@ -3078,12 +3078,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*":
-  version "16.4.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.2.tgz#0a95d7fd950cb1eaca0ce11031d72e8f680b775a"
-  integrity sha512-vxyhOzFCm+jC/T5KugbVsYy1DbQM0h3NCFUrVbu0+pYa/nr+heeucpqxpa8j4pUmIGLPYzboY9zIdOF0niFAjQ==
-
-"@types/node@^16.4.3":
+"@types/node@*", "@types/node@^16.4.3":
   version "16.4.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.3.tgz#c01c1a215721f6dec71b47d88b4687463601ba48"
   integrity sha512-GKM4FLMkWDc0sfx7tXqPWkM6NBow1kge0fgQh0bOnlqo4iT1kvTvMEKE0c1RtUGnbLlGRXiAA8SumE//90uKAg==
@@ -3113,9 +3108,9 @@
     "@types/node" "*"
 
 "@types/pino@*", "@types/pino@^6.3.9":
-  version "6.3.9"
-  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.9.tgz#dbbbd4a9a6b99935f5ed286c3d998ab83d260482"
-  integrity sha512-2/XV6adNNCLWnT2lJqcSn/OXrCxRFOY6yXYoofrLy5Ts5e8RHTJP1M4XEcCarQQMa6H6JISaa4GkrlGZwIP5aQ==
+  version "6.3.10"
+  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.10.tgz#bbcd4be930b0dc65168d080e6acc211905dca2da"
+  integrity sha512-r2ZOSQmjDGDEus+mif6Aym7cKQdgATv6P09iBwxlh9UdTWHUzHWbr8HxC0fwqYjAicfe2UzP+ahjm1KdbwA4GA==
   dependencies:
     "@types/node" "*"
     "@types/pino-pretty" "*"

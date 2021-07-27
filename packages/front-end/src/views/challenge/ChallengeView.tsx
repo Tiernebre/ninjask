@@ -1,4 +1,11 @@
-import { Box, Column, Columns, Container, Title } from "@tiernebre/kecleon";
+import {
+  Box,
+  Column,
+  Columns,
+  Container,
+  PageSpinner,
+  Title,
+} from "@tiernebre/kecleon";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
 import { useChallenge } from "./hooks";
@@ -18,9 +25,9 @@ export const ChallengeView = (): JSX.Element | null => {
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
 
-  return challenge && results ? (
-    <section>
-      <Container>
+  if (challenge && results) {
+    return (
+      <Container as="section">
         <ChallengeViewHeader
           challenge={challenge}
           inChallenge={userIsInChallenge}
@@ -49,6 +56,8 @@ export const ChallengeView = (): JSX.Element | null => {
           )}
         </Columns>
       </Container>
-    </section>
-  ) : null;
+    );
+  } else {
+    return <PageSpinner />;
+  }
 };

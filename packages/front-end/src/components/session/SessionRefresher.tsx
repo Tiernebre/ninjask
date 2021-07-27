@@ -1,5 +1,5 @@
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
-import { useDidMount } from "@tiernebre/kecleon";
+import { PageSpinner, useDidMount } from "@tiernebre/kecleon";
 import { useSession } from "../../hooks";
 import { useCallback } from "react";
 
@@ -42,5 +42,9 @@ export const SessionRefresher = ({
     };
   }, [session, refreshSession]);
 
-  return isLoading ? null : <Fragment>{children}</Fragment>;
+  return isLoading ? (
+    <PageSpinner size="large" />
+  ) : (
+    <Fragment>{children}</Fragment>
+  );
 };

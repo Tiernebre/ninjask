@@ -43,6 +43,7 @@ const createVersions = (): Version[] => {
   for (let i = 0; i < versionNames.length; i++) {
     versions.push(
       generateMockVersion({
+        id: i + 1,
         name: versionNames[i],
       })
     );

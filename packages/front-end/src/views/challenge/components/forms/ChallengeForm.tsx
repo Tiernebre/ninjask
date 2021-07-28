@@ -36,7 +36,12 @@ export const ChallengeForm = ({
     void fetchVersions();
   }, [fetchVersions]);
 
-  const submit = handleSubmit((data) => onSubmit(data));
+  const submit = handleSubmit((data) => {
+    onSubmit({
+      ...data,
+      seasonId: 1, // TODO: Make this chooseable based upon the seasons a user owns.
+    });
+  });
 
   if (versions.length) {
     return (
@@ -53,7 +58,7 @@ export const ChallengeForm = ({
         </SemanticFormField>
         <SemanticFormField
           id="challenge-version"
-          label="Pokemon Version"
+          label="Pokémon Version"
           error={errors.versionId}
         >
           <MappedSelect

@@ -14,7 +14,7 @@ export const createChallengeRequestSchema = z
       .max(32),
     description: string().max(128),
     versionId: number().max(NUMBER_OF_POKEMON_VERSIONS),
-    seasonId: number().nonnegative().min(1),
+    seasonId: number().optional(),
   })
   .strict();
 

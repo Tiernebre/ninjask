@@ -22,7 +22,8 @@ it("displays error feedback if no name is provided", async () => {
   );
   await waitForLoadingToFinish();
   user.click(getSubmitButton());
-  expect(
-    screen.getByText("The challenge name is required")
-  ).toBeInTheDocument();
+  const errorMessage = await screen.findByText(
+    "The challenge name is required"
+  );
+  expect(errorMessage).toBeInTheDocument();
 });

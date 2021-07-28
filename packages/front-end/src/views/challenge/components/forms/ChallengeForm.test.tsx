@@ -10,6 +10,7 @@ import { MockSessionContextProvider } from "../../../../../test";
 const getSubmitButton = () =>
   screen.getByRole("button", { name: "Create Challenge" });
 const getNameInput = () => screen.getByLabelText("Name");
+const getDescriptionInput = () => screen.getByLabelText("Description");
 
 const waitForLoadingToFinish = () =>
   waitForElementToBeRemoved(screen.getByLabelText("Loading..."));
@@ -41,6 +42,22 @@ it("displays error feedback if the name is too long", async () => {
   user.click(getSubmitButton());
   const errorMessage = await screen.findByText(
     "Should be at most 32 characters long"
+  );
+  expect(errorMessage).toBeInTheDocument();
+});
+
+it("displays error feedback if the description is too long", async () => {
+  const onSubmit = jest.fn();
+  render(
+    <MockSessionContextProvider>
+      <ChallengeForm onSubmit={onSubmit} />
+    </MockSessionContextProvider>
+  );
+  await waitForLoadingToFinish();
+  user.type(getDescriptionInput(), "a".repeat(129));
+  user.click(getSubmitButton());
+  const errorMessage = await screen.findByText(
+    "Should be at most 128 characters long"
   );
   expect(errorMessage).toBeInTheDocument();
 });

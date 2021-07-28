@@ -4,9 +4,9 @@ import {
   generateRandomString,
 } from "../../random/random";
 
-export const generateMockVersion = (): Version => ({
+export const generateMockVersion = ({ name }: Partial<Version>): Version => ({
   id: generateRandomNumber(),
-  name: generateRandomString(),
+  name: name || generateRandomString(),
   versionGroupUrl: generateRandomString(),
   deniedPokemonIds: {},
 });

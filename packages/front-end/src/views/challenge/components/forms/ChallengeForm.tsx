@@ -31,6 +31,7 @@ export const ChallengeForm = ({
     resolver: zodResolver(createChallengeRequestSchema),
   });
   const { versions, fetchVersions } = useVersionsApi();
+  console.log(versions.map(({ name }) => name));
 
   useEffect(() => {
     void fetchVersions();

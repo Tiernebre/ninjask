@@ -73,10 +73,19 @@ it("submits the form when filled out and valid", async () => {
     </MockSessionContextProvider>
   );
   await waitForLoadingToFinish();
-  user.type(getNameInput(), "Valid Challenge");
-  user.type(getDescriptionInput(), "Valid Description");
   const versionToChoose = versions[8];
-  user.selectOptions(getVersionsSelect(), [versionToChoose.id.toString()]);
+  const name = "Valid Challenge";
+  const description = "Valid Challenge Description";
+  const versionId = versionToChoose.id;
+  user.type(getNameInput(), name);
+  user.type(getDescriptionInput(), description);
+  user.selectOptions(getVersionsSelect(), [versionId.toString()]);
   user.click(getSubmitButton());
   await waitFor(() => expect(onSubmit).toHaveBeenCalled());
+  expect(onSubmit).toHaveBeenCalledWith({
+    name,
+    description,
+    versionId,
+    seasonId: 1, // TODO: Hard-coded for now but should be more dynamic
+  });
 });

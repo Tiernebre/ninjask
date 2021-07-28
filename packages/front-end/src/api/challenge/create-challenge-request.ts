@@ -9,7 +9,7 @@ const NUMBER_OF_POKEMON_VERSIONS = 34;
 
 export const createChallengeRequestSchema = z
   .object({
-    name: string().min(1).max(32),
+    name: string().nonempty({ message: "This field is required" }).max(32),
     description: string().max(128),
     versionId: number().max(34),
     seasonId: number().max(NUMBER_OF_POKEMON_VERSIONS),

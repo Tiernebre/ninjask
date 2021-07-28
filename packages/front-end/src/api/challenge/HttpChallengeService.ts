@@ -1,6 +1,7 @@
 import { HttpClient } from "../http";
 import { Challenge } from "./Challenge";
 import { ChallengeService } from "./ChallengeService";
+import { CreateChallengeRequest } from "./create-challenge-request";
 
 export class HttpChallengeService implements ChallengeService {
   constructor(private readonly httpClient: HttpClient) {}
@@ -19,5 +20,9 @@ export class HttpChallengeService implements ChallengeService {
 
   deleteOneById(id: number): Promise<void> {
     return this.httpClient.delete(`challenges/${id}`);
+  }
+
+  createOne(request: CreateChallengeRequest): Promise<Challenge> {
+    return this.httpClient.post("challenges", request);
   }
 }

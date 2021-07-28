@@ -36,7 +36,7 @@ export class ChallengeRouter extends Router<ContextState, Context> {
 
     this.post(this.URI, async (ctx) => {
       ctx.body = await this.challengeService.createOne(
-        ctx.body as CreateChallengeRequest,
+        ctx.request.body as CreateChallengeRequest,
         ctx.state.session.userId
       );
       ctx.status = CREATED;

@@ -14,6 +14,7 @@ import {
 } from "@tiernebre/kecleon";
 import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
 import { useEffect } from "react";
+import { startCase } from "lodash";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -35,7 +36,12 @@ export const ChallengeForm = ({
     void fetchVersions();
   }, [fetchVersions]);
 
-  const submit = handleSubmit((data) => onSubmit(data));
+  const submit = handleSubmit((data) => {
+    onSubmit({
+      ...data,
+      seasonId: 1, // TODO: Make this chooseable based upon the seasons a user owns.
+    });
+  });
 
   if (versions.length) {
     return (
@@ -52,14 +58,14 @@ export const ChallengeForm = ({
         </SemanticFormField>
         <SemanticFormField
           id="challenge-version"
-          label="Pokemon Version"
+          label="Pokémon Version"
           error={errors.versionId}
         >
           <MappedSelect
             options={versions}
             mapToOption={(version) => ({
               value: version.id,
-              label: version.name,
+              label: `Pokémon ${startCase(version.name)}`,
             })}
             register={register("versionId", {
               valueAsNumber: true,

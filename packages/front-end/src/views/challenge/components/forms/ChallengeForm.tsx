@@ -14,6 +14,7 @@ import {
 } from "@tiernebre/kecleon";
 import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
 import { useEffect } from "react";
+import { startCase } from "lodash";
 
 export type ChallengeFormProps = {
   onSubmit: (request: CreateChallengeRequest) => void;
@@ -59,7 +60,7 @@ export const ChallengeForm = ({
             options={versions}
             mapToOption={(version) => ({
               value: version.id,
-              label: version.name,
+              label: `Pokémon ${startCase(version.name)}`,
             })}
             register={register("versionId", {
               valueAsNumber: true,

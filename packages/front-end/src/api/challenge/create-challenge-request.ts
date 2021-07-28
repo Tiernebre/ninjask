@@ -11,8 +11,8 @@ export const createChallengeRequestSchema = z
   .object({
     name: string().nonempty({ message: "This field is required" }).max(32),
     description: string().max(128),
-    versionId: number().max(34),
-    seasonId: number().max(NUMBER_OF_POKEMON_VERSIONS),
+    versionId: number().max(NUMBER_OF_POKEMON_VERSIONS),
+    seasonId: number().nonnegative().min(1),
   })
   .strict();
 

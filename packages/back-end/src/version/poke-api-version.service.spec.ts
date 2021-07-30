@@ -6,7 +6,7 @@ jest.mock("../http", () => ({
 
 import { HttpClient } from "../http";
 import { PokeApiVersionService } from "./poke-api-version.service";
-import { object, when } from "testdouble";
+import { matchers, object, verify, when } from "testdouble";
 import {
   generateMockPokeApiPokedex,
   generateMockPokeApiVersion,
@@ -127,6 +127,36 @@ describe("PokeApiVersionService", () => {
         deniedPokemonIds: new Set([]),
         versionGroupUrl: mockVersion.version_group.url,
       });
+    });
+  });
+
+  describe("fetchAndCacheAll", () => {
+    it("fetches and caches versions in the database", async () => {
+      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
+        results: [
+          {
+            id: 1,
+            url: "localhost:1234",
+          },
+        ],
+      });
+      const mockVersion = generateMockPokeApiVersion();
+      jestWhen(mockedFetchOk)
+        .calledWith("localhost:1234")
+        .mockResolvedValue(mockVersion);
+      const expectedEntity = new PokemonVersionEntity();
+      expectedEntity.id = mockVersion.id;
+      expectedEntity.name = mockVersion.name;
+      expectedEntity.versionGroupUrl = mockVersion.version_group.url;
+      when(
+        repository.create({
+          id: mockVersion.id,
+          name: mockVersion.name,
+          versionGroupUrl: mockVersion.version_group.url,
+        })
+      ).thenReturn(expectedEntity);
+      await pokeApiVersionService.fetchAndCacheAll();
+      verify(repository.save([expectedEntity]));
     });
   });
 });

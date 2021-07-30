@@ -19,7 +19,7 @@ import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { generateMockVersionDeniedPokemon } from "./version.mock";
 import { Logger } from "../logger";
-import { PokemonVersionEntity } from "./pokemon-version-entity";
+import { PokemonVersionEntity } from "./pokemon-version.entity";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 

@@ -17,7 +17,7 @@ import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { Logger } from "../logger";
-import { PokemonVersionEntity } from "./pokemon-version-entity";
+import { PokemonVersionEntity } from "./pokemon-version.entity";
 
 export class PokeApiVersionService implements VersionService {
   constructor(

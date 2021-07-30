@@ -203,10 +203,7 @@ const buildLiveSessionRouter = () => {
 };
 
 const buildVersionRouter = (logger: Logger) => {
-  return new VersionRouter(
-    buildVersionService(logger),
-    buildAdminAuthenticationMiddleware()
-  );
+  return new VersionRouter(buildVersionService(logger));
 };
 
 /**

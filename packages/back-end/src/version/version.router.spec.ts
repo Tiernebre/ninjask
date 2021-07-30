@@ -13,13 +13,11 @@ describe("Version Router (integration)", () => {
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
   let versionService: VersionService;
-  let authMiddleware: jest.Mock;
 
   beforeAll(() => {
     app = new Koa();
     versionService = object<VersionService>();
-    authMiddleware = jest.fn();
-    const router = new VersionRouter(versionService, authMiddleware);
+    const router = new VersionRouter(versionService);
     app.use(router.routes());
 
     server = app.listen();

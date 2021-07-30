@@ -21,4 +21,6 @@ export interface VersionService {
   getPokedexFromOne(version: Version): Promise<Pokedex>;
 
   getAll(): Promise<Version[]>;
+
+  fetchAndCacheAll(): Promise<void>;
 }

@@ -2694,10 +2694,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.2.1.tgz#f420b1c0405f225f170d68f86ee26a8cb56d1c34"
-  integrity sha512-iApGSWkfmHjMLQLs+oGpLMx2r/XsGH2SEeybg+qClHT77ZoTzLGL77QeEm4IAmQ/hzgJCryHhcbWtPb7ldDd/Q==
+"@tiernebre/kecleon@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.2.4.tgz#87746b660061f2f873e03f2dd3d2f531d1684ab4"
+  integrity sha512-cM+cR2/IMz/pco+pUq3PhqVAfGF57qB9L9oqEjrGBqYKjyZi5U/v+pCQe81Yq7tGaKfyauMlZXh0lYJjsQOo8Q==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"
@@ -3083,10 +3083,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.2.tgz#0a95d7fd950cb1eaca0ce11031d72e8f680b775a"
   integrity sha512-vxyhOzFCm+jC/T5KugbVsYy1DbQM0h3NCFUrVbu0+pYa/nr+heeucpqxpa8j4pUmIGLPYzboY9zIdOF0niFAjQ==
 
-"@types/node@^16.4.4":
-  version "16.4.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.4.tgz#bb0744c1dcc1fc374f51d3fd41d028331a2420d4"
-  integrity sha512-BH/jX0HjzElFCQdAwaEMwuGBQwm6ViDZ00X6LKdnRRmGWOzkWugEH4+7a0BwfHQ8DfPPCSd/mdsm3Nu8FKFu0w==
+"@types/node@^16.4.7":
+  version "16.4.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.7.tgz#f7afa78769d4b477f5092d7c3468e2e8653d779c"
+  integrity sha512-aDDY54sst8sx47CWT6QQqIZp45yURq4dic0+HCYfYNcY5Ejlb/CLmFnRLfy3wQuYafOeh3lB/DAKaqRKBtcZmA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -5087,7 +5087,7 @@ cli-cursor@^3.1.0:
   dependencies:
     restore-cursor "^3.1.0"
 
-cli-highlight@^2.1.10:
+cli-highlight@^2.1.11:
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/cli-highlight/-/cli-highlight-2.1.11.tgz#49736fa452f0aaf4fae580e30acb26828d2dc1bf"
   integrity sha512-9KDcoEVwyUXrjcJNvHD0NFc/hiwe/WPVYIleQh2O1N2Zro5gWJZ/K+3DGn8w8P/F6FxOgzyC5bxDyHIgCSPhGg==
@@ -10717,10 +10717,10 @@ ms@^2.0.0, ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-msw@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/msw/-/msw-0.33.0.tgz#6a842dd17a6e8a2aff176106fb18b50a7b37ab8e"
-  integrity sha512-lX0mBSE+kgXYMiqyjaYM+2kfxPg2ywbhZjPDwHk5bN/MqoEvGcj6cpL0j1OgLSitN1ve8F0ePCSrk2jhITRubw==
+msw@^0.33.1:
+  version "0.33.1"
+  resolved "https://registry.yarnpkg.com/msw/-/msw-0.33.1.tgz#945e7b3356867d8c6e404ca4ec5596dca1f2c497"
+  integrity sha512-qeap85aInKCnoFb2Lsulnaw6LXaXHCyBeuajh8iLXiGM9uGaW/CVwr1XXiCHBY1PuHR+3H9kYEgbu2m8IaHwvA==
   dependencies:
     "@mswjs/cookies" "^0.1.6"
     "@mswjs/interceptors" "^0.12.3"
@@ -15363,16 +15363,16 @@ typeorm-naming-strategies@^2.0.0:
   resolved "https://registry.yarnpkg.com/typeorm-naming-strategies/-/typeorm-naming-strategies-2.0.0.tgz#c7c10bc768ddce2592ef9ad4d2dca55fd5fa6ad6"
   integrity sha512-nsJ5jDjhBBEG6olFmxojkO4yrW7hEv38sH7ZXWWx9wnDoo9uaoH/mo2mBYAh/VKgwoFHBLu+CYxGmzXz2GUMcA==
 
-typeorm@^0.2.34:
-  version "0.2.34"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.34.tgz#637b3cec2de54ee7f423012b813a2022c0aacc8b"
-  integrity sha512-FZAeEGGdSGq7uTH3FWRQq67JjKu0mgANsSZ04j3kvDYNgy9KwBl/6RFgMVgiSgjf7Rqd7NrhC2KxVT7I80qf7w==
+typeorm@^0.2.35:
+  version "0.2.35"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.35.tgz#bf6a8cda6e287af8fa662a490c4457e69a3b1752"
+  integrity sha512-vj4U8K1rlBW3N/3AkuEnjdawYp+yo3uw0OWK+5/E5tFuaofV9x3zWtLYKQngsEAZ7l/lLsN5fbz7MtBnwSPe8A==
   dependencies:
     "@sqltools/formatter" "^1.2.2"
     app-root-path "^3.0.0"
     buffer "^6.0.3"
     chalk "^4.1.0"
-    cli-highlight "^2.1.10"
+    cli-highlight "^2.1.11"
     debug "^4.3.1"
     dotenv "^8.2.0"
     glob "^7.1.6"

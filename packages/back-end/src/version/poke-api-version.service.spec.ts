@@ -6,7 +6,7 @@ jest.mock("../http", () => ({
 
 import { HttpClient } from "../http";
 import { PokeApiVersionService } from "./poke-api-version.service";
-import { matchers, object, verify, when } from "testdouble";
+import { object, verify, when } from "testdouble";
 import {
   generateMockPokeApiPokedex,
   generateMockPokeApiVersion,

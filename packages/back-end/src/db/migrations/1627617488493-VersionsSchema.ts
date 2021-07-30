@@ -6,7 +6,7 @@ export class VersionsSchema1627617488493 implements MigrationInterface {
             CREATE TABLE IF NOT EXISTS pokemon_versions (
                 id SERIAL PRIMARY KEY NOT NULL,
                 name TEXT UNIQUE NOT NULL,
-                version_group_id INTEGER NOT NULL
+                version_group_url TEXT NOT NULL
             );
         `);
   }

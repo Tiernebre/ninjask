@@ -9,5 +9,5 @@ export class PokemonVersionEntity {
   name!: string;
 
   @Column()
-  versionGroupId!: number;
+  versionGroupUrl!: string;
 }

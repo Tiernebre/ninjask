@@ -84,11 +84,10 @@ export class PokeApiVersionService implements VersionService {
       })
     );
     const versionsToSave = versions.map((version) => {
-      const versionGroupId = Number(version.version_group.url.split("/").pop());
       return this.versionRepository.create({
         id: version.id,
         name: version.name,
-        versionGroupId,
+        versionGroupUrl: version.version_group.url,
       });
     });
     await this.versionRepository.save(versionsToSave);

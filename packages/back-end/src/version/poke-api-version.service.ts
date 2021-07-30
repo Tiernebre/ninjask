@@ -17,12 +17,14 @@ import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { Logger } from "../logger";
+import { PokemonVersionEntity } from "./pokemon-version-entity";
 
 export class PokeApiVersionService implements VersionService {
   constructor(
     private readonly pokeApiHttpClient: HttpClient,
     private readonly versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly versionRepository: Repository<PokemonVersionEntity>
   ) {}
 
   async getOneById(id: number): Promise<Version> {
@@ -70,5 +72,25 @@ export class PokeApiVersionService implements VersionService {
       })
     );
     return versions.map((version) => mapVersionFromPokeApi(version));
+  }
+
+  async fetchAndCacheAll(): Promise<void> {
+    const { results } = await this.pokeApiHttpClient.get<NamedAPIResourceList>(
+      "version?limit=100"
+    );
+    const versions = await Promise.all(
+      results.map(async (result) => {
+        return fetchOk<PokeApiVersion>(result.url);
+      })
+    );
+    const versionsToSave = versions.map((version) => {
+      const versionGroupId = Number(version.version_group.url.split("/").pop());
+      return this.versionRepository.create({
+        id: version.id,
+        name: version.name,
+        versionGroupId,
+      });
+    });
+    await this.versionRepository.save(versionsToSave);
   }
 }

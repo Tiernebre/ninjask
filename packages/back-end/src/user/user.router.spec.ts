@@ -9,6 +9,7 @@ import { generateMockUser } from "./user.mock";
 import { UserRouter } from "./user.router";
 import { UserService } from "./user.service";
 import { CREATED } from "http-status";
+import { createAdminAuthenticationMiddleware } from "../middleware";
 
 describe("User Router (integration)", () => {
   const username = "admin";
@@ -23,7 +24,10 @@ describe("User Router (integration)", () => {
     app = new Koa();
     app.use(bodyParser());
     userService = object<UserService>();
-    const router = new UserRouter(userService, username, password);
+    const router = new UserRouter(
+      userService,
+      createAdminAuthenticationMiddleware(username, password)
+    );
     app.use(router.routes());
 
     server = app.listen();
@@ -33,26 +37,6 @@ describe("User Router (integration)", () => {
 
   afterAll(() => {
     server.close();
-  });
-
-  describe("constructor", () => {
-    it.each(["", undefined])(
-      "errors out if the username provided is %p",
-      (errorUsername) => {
-        expect(
-          () => new UserRouter(userService, errorUsername, password)
-        ).toThrowError();
-      }
-    );
-
-    it.each(["", undefined])(
-      "errors out if the password provided is %p",
-      (errorPassword) => {
-        expect(
-          () => new UserRouter(userService, username, errorPassword)
-        ).toThrowError();
-      }
-    );
   });
 
   describe("POST /users", () => {

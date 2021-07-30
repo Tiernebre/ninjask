@@ -44,6 +44,8 @@ import { LiveSessionService } from "./live-session/live-session.service";
 import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
 import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
 import { VersionRouter } from "./version/version.router";
+import { createAdminAuthenticationMiddleware } from "./middleware";
+import { PokemonVersionEntity } from "./version/pokemon-version.entity";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -53,6 +55,13 @@ const setupTypeOrmConnection = async (): Promise<void> => {
     synchronize: false,
   });
   await connection.runMigrations();
+};
+
+const buildAdminAuthenticationMiddleware = (): Koa.Middleware => {
+  return createAdminAuthenticationMiddleware(
+    process.env.API_USERS_AUTH_USERNAME,
+    process.env.API_USERS_AUTH_PASSWORD
+  );
 };
 
 const buildPokeApiHttpClient = (): HttpClient => {
@@ -85,7 +94,8 @@ const buildVersionService = (logger: Logger) => {
   return new PokeApiVersionService(
     buildPokeApiHttpClient(),
     versionDeniedPokemonRepository,
-    logger
+    logger,
+    getRepository(PokemonVersionEntity)
   );
 };
 
@@ -130,8 +140,7 @@ const buildSessionRouter = (logger: Logger) => {
 const buildUserRouter = () => {
   return new UserRouter(
     buildUserService(),
-    process.env.API_USERS_AUTH_USERNAME,
-    process.env.API_USERS_AUTH_PASSWORD
+    buildAdminAuthenticationMiddleware()
   );
 };
 

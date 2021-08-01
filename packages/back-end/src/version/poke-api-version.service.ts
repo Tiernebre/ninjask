@@ -9,6 +9,7 @@ import {
 import { VersionService } from "./version.service";
 import {
   mapPokedexFromPokeApi,
+  mapVersionFromEntity,
   mapVersionFromPokeApi,
   mapVersionGroupFromPokeApi,
 } from "./version.mapper";
@@ -17,14 +18,14 @@ import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { Logger } from "../logger";
-import { PokemonVersionEntity } from "./pokemon-version.entity";
+import { VersionEntity } from "./pokemon-version.entity";
 
 export class PokeApiVersionService implements VersionService {
   constructor(
     private readonly pokeApiHttpClient: HttpClient,
     private readonly versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>,
     private readonly logger: Logger,
-    private readonly versionRepository: Repository<PokemonVersionEntity>
+    private readonly versionRepository: Repository<VersionEntity>
   ) {}
 
   async getOneById(id: number): Promise<Version> {
@@ -63,15 +64,13 @@ export class PokeApiVersionService implements VersionService {
   }
 
   async getAll(): Promise<Version[]> {
-    const { results } = await this.pokeApiHttpClient.get<NamedAPIResourceList>(
-      "version?limit=100"
+    if ((await this.versionRepository.count()) <= 0) {
+      await this.fetchAndCacheAll();
+    }
+
+    return (await this.versionRepository.find()).map((version) =>
+      mapVersionFromEntity(version)
     );
-    const versions = await Promise.all(
-      results.map(async (result) => {
-        return fetchOk<PokeApiVersion>(result.url);
-      })
-    );
-    return versions.map((version) => mapVersionFromPokeApi(version));
   }
 
   async fetchAndCacheAll(): Promise<void> {
@@ -90,6 +89,6 @@ export class PokeApiVersionService implements VersionService {
         versionGroupUrl: version.version_group.url,
       });
     });
-    await this.versionRepository.save(versionsToSave);
+    this.versionRepository.save(versionsToSave);
   }
 }

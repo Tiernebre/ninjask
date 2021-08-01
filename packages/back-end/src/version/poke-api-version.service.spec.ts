@@ -14,12 +14,16 @@ import {
 } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { when as jestWhen } from "jest-when";
-import { mapPokedexFromPokeApi, mapVersionFromPokeApi } from "./version.mapper";
+import {
+  mapPokedexFromPokeApi,
+  mapVersionFromEntity,
+  mapVersionFromPokeApi,
+} from "./version.mapper";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { generateMockVersionDeniedPokemon } from "./version.mock";
 import { Logger } from "../logger";
-import { PokemonVersionEntity } from "./pokemon-version.entity";
+import { VersionEntity } from "./pokemon-version.entity";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
@@ -27,13 +31,13 @@ describe("PokeApiVersionService", () => {
   let pokeApiVersionService: PokeApiVersionService;
   let pokeApiHttpClient: HttpClient;
   let versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>;
-  let repository: Repository<PokemonVersionEntity>;
+  let repository: Repository<VersionEntity>;
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
     versionDeniedPokemonRepository =
       object<Repository<VersionDeniedPokemonEntity>>();
-    repository = object<Repository<PokemonVersionEntity>>();
+    repository = object<Repository<VersionEntity>>();
     pokeApiVersionService = new PokeApiVersionService(
       pokeApiHttpClient,
       versionDeniedPokemonRepository,
@@ -106,7 +110,8 @@ describe("PokeApiVersionService", () => {
   });
 
   describe("getAll", () => {
-    it("returns all found versions", async () => {
+    it("fetches and caches versions onto the database if none exist", async () => {
+      when(repository.count()).thenResolve(0);
       when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
         results: [
           {
@@ -119,14 +124,21 @@ describe("PokeApiVersionService", () => {
       jestWhen(mockedFetchOk)
         .calledWith("localhost:1234")
         .mockResolvedValue(mockVersion);
-      const versions = await pokeApiVersionService.getAll();
-      expect(versions).toHaveLength(1);
-      expect(versions[0]).toEqual({
-        id: mockVersion.id,
-        name: mockVersion.name,
-        deniedPokemonIds: new Set([]),
-        versionGroupUrl: mockVersion.version_group.url,
-      });
+      const expectedEntity = new VersionEntity();
+      expectedEntity.id = mockVersion.id;
+      expectedEntity.name = mockVersion.name;
+      expectedEntity.versionGroupUrl = mockVersion.version_group.url;
+      when(
+        repository.create({
+          id: mockVersion.id,
+          name: mockVersion.name,
+          versionGroupUrl: mockVersion.version_group.url,
+        })
+      ).thenReturn(expectedEntity);
+      when(repository.find()).thenResolve([expectedEntity]);
+      const gottenVersions = await pokeApiVersionService.getAll();
+      verify(repository.save([expectedEntity]));
+      expect(gottenVersions).toEqual([mapVersionFromEntity(expectedEntity)]);
     });
   });
 
@@ -144,7 +156,7 @@ describe("PokeApiVersionService", () => {
       jestWhen(mockedFetchOk)
         .calledWith("localhost:1234")
         .mockResolvedValue(mockVersion);
-      const expectedEntity = new PokemonVersionEntity();
+      const expectedEntity = new VersionEntity();
       expectedEntity.id = mockVersion.id;
       expectedEntity.name = mockVersion.name;
       expectedEntity.versionGroupUrl = mockVersion.version_group.url;

@@ -4,6 +4,7 @@ import {
   PokeApiVersionGroup,
 } from "../poke-api";
 import { Pokedex } from "./pokedex";
+import { VersionEntity } from "./pokemon-version.entity";
 import { Version } from "./version";
 import { VersionGroup } from "./version-group";
 
@@ -36,5 +37,14 @@ export const mapVersionFromPokeApi = (
     name: pokeApiVersion.name,
     versionGroupUrl: pokeApiVersion.version_group.url,
     deniedPokemonIds: new Set(deniedPokemonIds),
+  };
+};
+
+export const mapVersionFromEntity = (entity: VersionEntity): Version => {
+  return {
+    id: entity.id,
+    name: entity.name,
+    versionGroupUrl: entity.versionGroupUrl,
+    deniedPokemonIds: new Set(),
   };
 };

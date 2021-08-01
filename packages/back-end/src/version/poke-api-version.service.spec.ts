@@ -21,6 +21,7 @@ import { Repository } from "typeorm";
 import { generateMockVersionEntity } from "./version.mock";
 import { Logger } from "../logger";
 import { VersionEntity } from "./version.entity";
+import { NotFoundError } from "../error";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
@@ -90,6 +91,15 @@ describe("PokeApiVersionService", () => {
       const expected = mapVersionFromEntity(expectedEntity);
       expect(gotten).toEqual(expected);
       verifyCacheDidNotHappen();
+    });
+
+    it("throws a NotFoundError if the version to find does not exist", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntity = generateMockVersionEntity();
+      when(repository.findOne(expectedEntity.id)).thenResolve(undefined);
+      await expect(
+        pokeApiVersionService.getOneById(expectedEntity.id)
+      ).rejects.toThrowError(NotFoundError);
     });
   });
 

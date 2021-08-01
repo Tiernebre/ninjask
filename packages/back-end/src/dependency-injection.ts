@@ -36,13 +36,18 @@ import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
 import { UserEntity, UserRouter, UserService } from "./user";
 import { PokeApiVersionService, VersionRouter, VersionEntity } from "./version";
-import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
+import {
+  DraftSelectionRouter,
+  DraftSelectionService,
+  liveDraftSelectionMiddleware,
+} from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";
-import { LiveSessionRouter } from "./live-session/live-session.router";
-import { LiveSessionService } from "./live-session/live-session.service";
-import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
-import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
+import {
+  LiveSessionRouter,
+  LiveSessionService,
+  LiveSessionTicketEntity,
+} from "./live-session";
 import { createAdminAuthenticationMiddleware } from "./middleware";
 
 const setupTypeOrmConnection = async (): Promise<void> => {

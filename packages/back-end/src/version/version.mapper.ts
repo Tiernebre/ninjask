@@ -10,12 +10,12 @@ import { VersionGroup } from "./version-group";
 export const mapPokedexFromPokeApi = (
   pokeApiPokedex: PokeApiPokedex
 ): Pokedex => {
-  return new Pokedex(
-    pokeApiPokedex.id,
-    pokeApiPokedex.pokemon_entries.map(
+  return {
+    id: pokeApiPokedex.id,
+    pokemonUrls: pokeApiPokedex.pokemon_entries.map(
       ({ pokemon_species }) => pokemon_species.url
-    )
-  );
+    ),
+  };
 };
 
 export const mapVersionGroupFromPokeApi = (

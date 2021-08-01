@@ -1,6 +1,4 @@
-export class Pokedex {
-  constructor(
-    public readonly id: number,
-    public readonly pokemonUrls: string[]
-  ) {}
+export interface Pokedex {
+  readonly id: number;
+  readonly pokemonUrls: string[];
 }

@@ -8,7 +8,10 @@ export const generateMockPokedex = (): Pokedex => {
   for (let i = 0; i < 150; i++) {
     pokemonUrls.push(generateRandomString());
   }
-  return new Pokedex(generateRandomNumber(), pokemonUrls);
+  return {
+    id: generateRandomNumber(),
+    pokemonUrls,
+  };
 };
 
 export const generateMockVersion = (): Version => {

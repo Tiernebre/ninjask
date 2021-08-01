@@ -40,10 +40,6 @@ export class PokeApiVersionService implements VersionService {
     return mapVersionFromEntity(version);
   }
 
-  async getPokedexFromOneWithId(id: number): Promise<Pokedex> {
-    return this.getPokedexFromOne(await this.getOneById(id));
-  }
-
   async getPokedexFromOne(version: Version): Promise<Pokedex> {
     this.logger.info(
       `Retrieving regional pokedex for given version = ${JSON.stringify(

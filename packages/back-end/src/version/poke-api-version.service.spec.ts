@@ -103,42 +103,21 @@ describe("PokeApiVersionService", () => {
     });
   });
 
-  describe("getPokedexFromOneWithId", () => {
-    it("returns an associated pokedex from a given version id", async () => {
+  describe("getPokedexFromOne", () => {
+    it("returns an associated pokedex from a given version", async () => {
       when(repository.count()).thenResolve(1);
       const expectedEntity = generateMockVersionEntity();
       when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
       const version = mapVersionFromEntity(expectedEntity);
       const versionGroup = generateMockPokeApiVersionGroup();
       const pokedex = generateMockPokeApiPokedex();
-      when(pokeApiHttpClient.get(`version/${version.id}`)).thenResolve(version);
       jestWhen(mockedFetchOk)
         .calledWith(version.versionGroupUrl)
         .mockResolvedValue(versionGroup);
       jestWhen(mockedFetchOk)
         .calledWith(versionGroup.pokedexes[0].url)
         .mockResolvedValue(pokedex);
-      const gotten = await pokeApiVersionService.getPokedexFromOneWithId(
-        version.id
-      );
-      expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
-    });
-  });
-
-  describe("getPokedexFromOne", () => {
-    it("returns an associated pokedex from a given version", async () => {
-      const version = generateMockPokeApiVersion();
-      const versionGroup = generateMockPokeApiVersionGroup();
-      const pokedex = generateMockPokeApiPokedex();
-      jestWhen(mockedFetchOk)
-        .calledWith(version.version_group.url)
-        .mockResolvedValue(versionGroup);
-      jestWhen(mockedFetchOk)
-        .calledWith(versionGroup.pokedexes[0].url)
-        .mockResolvedValue(pokedex);
-      const gotten = await pokeApiVersionService.getPokedexFromOne(
-        mapVersionFromPokeApi(version)
-      );
+      const gotten = await pokeApiVersionService.getPokedexFromOne(version);
       expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
     });
   });

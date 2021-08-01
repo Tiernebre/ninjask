@@ -21,10 +21,10 @@ export const mapPokedexFromPokeApi = (
 export const mapVersionGroupFromPokeApi = (
   pokeApiVersionGroup: PokeApiVersionGroup
 ): VersionGroup => {
-  return new VersionGroup(
-    pokeApiVersionGroup.id,
-    pokeApiVersionGroup.pokedexes[0].url
-  );
+  return {
+    id: pokeApiVersionGroup.id,
+    pokedexUrl: pokeApiVersionGroup.pokedexes[0].url,
+  };
 };
 
 export const mapVersionFromPokeApi = (

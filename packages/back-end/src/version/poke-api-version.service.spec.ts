@@ -18,11 +18,7 @@ import {
   mapVersionFromPokeApi,
 } from "./version.mapper";
 import { Repository } from "typeorm";
-import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
-import {
-  generateMockVersionDeniedPokemon,
-  generateMockVersionEntity,
-} from "./version.mock";
+import { generateMockVersionEntity } from "./version.mock";
 import { Logger } from "../logger";
 import { VersionEntity } from "./version.entity";
 
@@ -76,21 +72,24 @@ describe("PokeApiVersionService", () => {
   };
 
   describe("getOneById", () => {
-    it("returns a found version", async () => {
-      const pokeApiVersion = generateMockPokeApiVersion();
-      when(pokeApiHttpClient.get(`version/${pokeApiVersion.id}`)).thenResolve(
-        pokeApiVersion
-      );
-      const versionDeniedList = [
-        generateMockVersionDeniedPokemon(),
-        generateMockVersionDeniedPokemon(),
-      ];
-      const gotten = await pokeApiVersionService.getOneById(pokeApiVersion.id);
-      const expected = mapVersionFromPokeApi(
-        pokeApiVersion,
-        versionDeniedList.map(({ pokemonId }) => pokemonId)
-      );
+    it("caches versions and returns a found version", async () => {
+      when(repository.count()).thenResolve(0);
+      const expectedEntity = stageCacheMocks();
+      when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
+      const gotten = await pokeApiVersionService.getOneById(expectedEntity.id);
+      const expected = mapVersionFromEntity(expectedEntity);
       expect(gotten).toEqual(expected);
+      verifyCacheHappened(expectedEntity);
+    });
+
+    it("does not cache versions and returns a found version", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntity = generateMockVersionEntity();
+      when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
+      const gotten = await pokeApiVersionService.getOneById(expectedEntity.id);
+      const expected = mapVersionFromEntity(expectedEntity);
+      expect(gotten).toEqual(expected);
+      verifyCacheDidNotHappen();
     });
   });
 

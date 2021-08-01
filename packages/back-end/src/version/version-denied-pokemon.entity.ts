@@ -1,15 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { VersionEntity } from "./version.entity";
 
 @Entity({
   name: "version_denied_pokemon",
 })
-@Unique(["versionId", "pokemonId"])
 export class VersionDeniedPokemonEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  versionId!: number;
+  @ManyToOne(() => VersionEntity, (version) => version.deniedPokemon)
+  @JoinColumn({ name: "version_id" })
+  version!: VersionEntity;
 
   @Column()
   pokemonId!: number;

@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 jest.mock("../http", () => ({
   fetchOk: jest.fn(),
 }));
 
 import { HttpClient } from "../http";
 import { PokeApiVersionService } from "./poke-api-version.service";
-import { object, verify, when } from "testdouble";
+import { matchers, object, verify, when } from "testdouble";
 import {
   generateMockPokeApiPokedex,
   generateMockPokeApiVersion,
@@ -14,149 +12,131 @@ import {
 } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { when as jestWhen } from "jest-when";
-import { mapPokedexFromPokeApi, mapVersionFromPokeApi } from "./version.mapper";
+import { mapPokedexFromPokeApi, mapVersionFromEntity } from "./version.mapper";
 import { Repository } from "typeorm";
-import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
-import { generateMockVersionDeniedPokemon } from "./version.mock";
+import { generateMockVersionEntity } from "./version.mock";
 import { Logger } from "../logger";
-import { PokemonVersionEntity } from "./pokemon-version.entity";
+import { VersionEntity } from "./version.entity";
+import { NotFoundError } from "../error";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
 describe("PokeApiVersionService", () => {
   let pokeApiVersionService: PokeApiVersionService;
   let pokeApiHttpClient: HttpClient;
-  let versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>;
-  let repository: Repository<PokemonVersionEntity>;
+  let repository: Repository<VersionEntity>;
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
-    versionDeniedPokemonRepository =
-      object<Repository<VersionDeniedPokemonEntity>>();
-    repository = object<Repository<PokemonVersionEntity>>();
+    repository = object<Repository<VersionEntity>>();
     pokeApiVersionService = new PokeApiVersionService(
       pokeApiHttpClient,
-      versionDeniedPokemonRepository,
       object<Logger>(),
       repository
     );
     mockedFetchOk.mockReset();
   });
 
-  describe("getOneById", () => {
-    it("returns a found version", async () => {
-      const pokeApiVersion = generateMockPokeApiVersion();
-      when(pokeApiHttpClient.get(`version/${pokeApiVersion.id}`)).thenResolve(
-        pokeApiVersion
-      );
-      const versionDeniedList = [
-        generateMockVersionDeniedPokemon(),
-        generateMockVersionDeniedPokemon(),
-      ];
-      when(
-        versionDeniedPokemonRepository.find({ versionId: pokeApiVersion.id })
-      ).thenResolve(versionDeniedList);
-      const gotten = await pokeApiVersionService.getOneById(pokeApiVersion.id);
-      const expected = mapVersionFromPokeApi(
-        pokeApiVersion,
-        versionDeniedList.map(({ pokemonId }) => pokemonId)
-      );
-      expect(gotten).toEqual(expected);
+  const stageCacheMocks = (): VersionEntity => {
+    when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
+      results: [
+        {
+          id: 1,
+          url: "localhost:1234",
+        },
+      ],
     });
-  });
+    const mockVersion = generateMockPokeApiVersion();
+    jestWhen(mockedFetchOk)
+      .calledWith("localhost:1234")
+      .mockResolvedValue(mockVersion);
+    const expectedEntity = generateMockVersionEntity();
+    when(
+      repository.create({
+        id: mockVersion.id,
+        name: mockVersion.name,
+        versionGroupUrl: mockVersion.version_group.url,
+      })
+    ).thenReturn(expectedEntity);
+    return expectedEntity;
+  };
 
-  describe("getPokedexFromOneWithId", () => {
-    it("returns an associated pokedex from a given version id", async () => {
-      const version = generateMockPokeApiVersion();
-      const versionGroup = generateMockPokeApiVersionGroup();
-      const pokedex = generateMockPokeApiPokedex();
-      when(pokeApiHttpClient.get(`version/${version.id}`)).thenResolve(version);
-      when(
-        versionDeniedPokemonRepository.find({ versionId: version.id })
-      ).thenResolve([]);
-      jestWhen(mockedFetchOk)
-        .calledWith(version.version_group.url)
-        .mockResolvedValue(versionGroup);
-      jestWhen(mockedFetchOk)
-        .calledWith(versionGroup.pokedexes[0].url)
-        .mockResolvedValue(pokedex);
-      const gotten = await pokeApiVersionService.getPokedexFromOneWithId(
-        version.id
-      );
-      expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
+  const verifyCacheHappened = (expectedEntity: VersionEntity): void => {
+    verify(repository.save([expectedEntity]));
+  };
+  const verifyCacheDidNotHappen = (): void => {
+    verify(repository.save(matchers.anything()), { times: 0 });
+  };
+
+  describe("getOneById", () => {
+    it("caches versions and returns a found version", async () => {
+      when(repository.count()).thenResolve(0);
+      const expectedEntity = stageCacheMocks();
+      when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
+      const gotten = await pokeApiVersionService.getOneById(expectedEntity.id);
+      const expected = mapVersionFromEntity(expectedEntity);
+      expect(gotten).toEqual(expected);
+      verifyCacheHappened(expectedEntity);
+    });
+
+    it("does not cache versions and returns a found version", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntity = generateMockVersionEntity();
+      when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
+      const gotten = await pokeApiVersionService.getOneById(expectedEntity.id);
+      const expected = mapVersionFromEntity(expectedEntity);
+      expect(gotten).toEqual(expected);
+      verifyCacheDidNotHappen();
+    });
+
+    it("throws a NotFoundError if the version to find does not exist", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntity = generateMockVersionEntity();
+      when(repository.findOne(expectedEntity.id)).thenResolve(undefined);
+      await expect(
+        pokeApiVersionService.getOneById(expectedEntity.id)
+      ).rejects.toThrowError(NotFoundError);
     });
   });
 
   describe("getPokedexFromOne", () => {
     it("returns an associated pokedex from a given version", async () => {
-      const version = generateMockPokeApiVersion();
+      when(repository.count()).thenResolve(1);
+      const expectedEntity = generateMockVersionEntity();
+      when(repository.findOne(expectedEntity.id)).thenResolve(expectedEntity);
+      const version = mapVersionFromEntity(expectedEntity);
       const versionGroup = generateMockPokeApiVersionGroup();
       const pokedex = generateMockPokeApiPokedex();
       jestWhen(mockedFetchOk)
-        .calledWith(version.version_group.url)
+        .calledWith(version.versionGroupUrl)
         .mockResolvedValue(versionGroup);
       jestWhen(mockedFetchOk)
         .calledWith(versionGroup.pokedexes[0].url)
         .mockResolvedValue(pokedex);
-      const gotten = await pokeApiVersionService.getPokedexFromOne(
-        mapVersionFromPokeApi(version)
-      );
+      const gotten = await pokeApiVersionService.getPokedexFromOne(version);
       expect(gotten).toEqual(mapPokedexFromPokeApi(pokedex));
     });
   });
 
   describe("getAll", () => {
-    it("returns all found versions", async () => {
-      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
-        results: [
-          {
-            id: 1,
-            url: "localhost:1234",
-          },
-        ],
-      });
-      const mockVersion = generateMockPokeApiVersion();
-      jestWhen(mockedFetchOk)
-        .calledWith("localhost:1234")
-        .mockResolvedValue(mockVersion);
-      const versions = await pokeApiVersionService.getAll();
-      expect(versions).toHaveLength(1);
-      expect(versions[0]).toEqual({
-        id: mockVersion.id,
-        name: mockVersion.name,
-        deniedPokemonIds: new Set([]),
-        versionGroupUrl: mockVersion.version_group.url,
-      });
+    it("fetches and caches versions onto the database if none exist", async () => {
+      when(repository.count()).thenResolve(0);
+      const expectedEntity = stageCacheMocks();
+      when(repository.find()).thenResolve([expectedEntity]);
+      const gottenVersions = await pokeApiVersionService.getAll();
+      verifyCacheHappened(expectedEntity);
+      expect(gottenVersions).toEqual([mapVersionFromEntity(expectedEntity)]);
     });
-  });
 
-  describe("fetchAndCacheAll", () => {
-    it("fetches and caches versions in the database", async () => {
-      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
-        results: [
-          {
-            id: 1,
-            url: "localhost:1234",
-          },
-        ],
-      });
-      const mockVersion = generateMockPokeApiVersion();
-      jestWhen(mockedFetchOk)
-        .calledWith("localhost:1234")
-        .mockResolvedValue(mockVersion);
-      const expectedEntity = new PokemonVersionEntity();
-      expectedEntity.id = mockVersion.id;
-      expectedEntity.name = mockVersion.name;
-      expectedEntity.versionGroupUrl = mockVersion.version_group.url;
-      when(
-        repository.create({
-          id: mockVersion.id,
-          name: mockVersion.name,
-          versionGroupUrl: mockVersion.version_group.url,
-        })
-      ).thenReturn(expectedEntity);
-      await pokeApiVersionService.fetchAndCacheAll();
-      verify(repository.save([expectedEntity]));
+    it("does not cache if versions already exist", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntities = [generateMockVersionEntity()];
+      when(repository.find()).thenResolve(expectedEntities);
+      const gottenVersions = await pokeApiVersionService.getAll();
+      verifyCacheDidNotHappen();
+      expect(gottenVersions).toEqual(
+        expectedEntities.map(mapVersionFromEntity)
+      );
     });
   });
 });

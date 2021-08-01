@@ -1,9 +1,6 @@
-import {
-  PokeApiPokedex,
-  PokeApiVersion,
-  PokeApiVersionGroup,
-} from "../poke-api";
+import { PokeApiPokedex, PokeApiVersionGroup } from "../poke-api";
 import { Pokedex } from "./pokedex";
+import { VersionEntity } from "./version.entity";
 import { Version } from "./version";
 import { VersionGroup } from "./version-group";
 
@@ -27,14 +24,13 @@ export const mapVersionGroupFromPokeApi = (
   };
 };
 
-export const mapVersionFromPokeApi = (
-  pokeApiVersion: PokeApiVersion,
-  deniedPokemonIds: number[] = []
-): Version => {
+export const mapVersionFromEntity = (entity: VersionEntity): Version => {
   return {
-    id: pokeApiVersion.id,
-    name: pokeApiVersion.name,
-    versionGroupUrl: pokeApiVersion.version_group.url,
-    deniedPokemonIds: new Set(deniedPokemonIds),
+    id: entity.id,
+    name: entity.name,
+    versionGroupUrl: entity.versionGroupUrl,
+    deniedPokemonIds: new Set(
+      entity.deniedPokemon.map(({ pokemonId }) => pokemonId)
+    ),
   };
 };

@@ -35,7 +35,7 @@ import { PokemonService, PokeApiPokemonService } from "./pokemon";
 import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
 import { UserEntity, UserRouter, UserService } from "./user";
-import { VersionDeniedPokemonEntity, PokeApiVersionService } from "./version";
+import { PokeApiVersionService, VersionRouter, VersionEntity } from "./version";
 import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";
@@ -43,9 +43,7 @@ import { LiveSessionRouter } from "./live-session/live-session.router";
 import { LiveSessionService } from "./live-session/live-session.service";
 import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.entity";
 import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
-import { VersionRouter } from "./version/version.router";
 import { createAdminAuthenticationMiddleware } from "./middleware";
-import { PokemonVersionEntity } from "./version/pokemon-version.entity";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -88,14 +86,10 @@ const buildChallengeService = () => {
 };
 
 const buildVersionService = (logger: Logger) => {
-  const versionDeniedPokemonRepository = getRepository(
-    VersionDeniedPokemonEntity
-  );
   return new PokeApiVersionService(
     buildPokeApiHttpClient(),
-    versionDeniedPokemonRepository,
     logger,
-    getRepository(PokemonVersionEntity)
+    getRepository(VersionEntity)
   );
 };
 

@@ -1,5 +1,6 @@
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Pokedex } from "./pokedex";
+import { VersionEntity } from "./version.entity";
 import { Version } from "./version";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 
@@ -23,11 +24,20 @@ export const generateMockVersion = (): Version => {
   };
 };
 
+export const generateMockVersionEntity = (): VersionEntity => {
+  const versionEntity = new VersionEntity();
+  versionEntity.id = generateRandomNumber();
+  versionEntity.name = generateRandomString();
+  versionEntity.versionGroupUrl = generateRandomString();
+  versionEntity.deniedPokemon = [];
+  return versionEntity;
+};
+
 export const generateMockVersionDeniedPokemon =
   (): VersionDeniedPokemonEntity => {
     const versionDeniedPokemon = new VersionDeniedPokemonEntity();
     versionDeniedPokemon.id = generateRandomNumber();
     versionDeniedPokemon.pokemonId = generateRandomNumber();
-    versionDeniedPokemon.versionId = generateRandomNumber();
+    versionDeniedPokemon.version = generateMockVersionEntity();
     return versionDeniedPokemon;
   };

@@ -74,7 +74,7 @@ export class PokeApiVersionService implements VersionService {
     }
   }
 
-  async cacheAll(): Promise<void> {
+  private async cacheAll(): Promise<void> {
     const { results } = await this.pokeApiHttpClient.get<NamedAPIResourceList>(
       "version?limit=100"
     );

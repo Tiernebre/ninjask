@@ -44,6 +44,37 @@ describe("PokeApiVersionService", () => {
     mockedFetchOk.mockReset();
   });
 
+  const stageCacheMocks = (): VersionEntity => {
+    when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
+      results: [
+        {
+          id: 1,
+          url: "localhost:1234",
+        },
+      ],
+    });
+    const mockVersion = generateMockPokeApiVersion();
+    jestWhen(mockedFetchOk)
+      .calledWith("localhost:1234")
+      .mockResolvedValue(mockVersion);
+    const expectedEntity = generateMockVersionEntity();
+    when(
+      repository.create({
+        id: mockVersion.id,
+        name: mockVersion.name,
+        versionGroupUrl: mockVersion.version_group.url,
+      })
+    ).thenReturn(expectedEntity);
+    return expectedEntity;
+  };
+
+  const verifyCacheHappened = (expectedEntity: VersionEntity): void => {
+    verify(repository.save([expectedEntity]));
+  };
+  const verifyCacheDidNotHappen = (): void => {
+    verify(repository.save(matchers.anything()), { times: 0 });
+  };
+
   describe("getOneById", () => {
     it("returns a found version", async () => {
       const pokeApiVersion = generateMockPokeApiVersion();
@@ -103,29 +134,10 @@ describe("PokeApiVersionService", () => {
   describe("getAll", () => {
     it("fetches and caches versions onto the database if none exist", async () => {
       when(repository.count()).thenResolve(0);
-      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
-        results: [
-          {
-            id: 1,
-            url: "localhost:1234",
-          },
-        ],
-      });
-      const mockVersion = generateMockPokeApiVersion();
-      jestWhen(mockedFetchOk)
-        .calledWith("localhost:1234")
-        .mockResolvedValue(mockVersion);
-      const expectedEntity = generateMockVersionEntity();
-      when(
-        repository.create({
-          id: mockVersion.id,
-          name: mockVersion.name,
-          versionGroupUrl: mockVersion.version_group.url,
-        })
-      ).thenReturn(expectedEntity);
+      const expectedEntity = stageCacheMocks();
       when(repository.find()).thenResolve([expectedEntity]);
       const gottenVersions = await pokeApiVersionService.getAll();
-      verify(repository.save([expectedEntity]));
+      verifyCacheHappened(expectedEntity);
       expect(gottenVersions).toEqual([mapVersionFromEntity(expectedEntity)]);
     });
 
@@ -134,37 +146,10 @@ describe("PokeApiVersionService", () => {
       const expectedEntities = [generateMockVersionEntity()];
       when(repository.find()).thenResolve(expectedEntities);
       const gottenVersions = await pokeApiVersionService.getAll();
-      verify(repository.save(matchers.anything()), { times: 0 });
+      verifyCacheDidNotHappen();
       expect(gottenVersions).toEqual(
         expectedEntities.map(mapVersionFromEntity)
       );
-    });
-  });
-
-  describe("cacheAll", () => {
-    it("fetches and caches versions in the database", async () => {
-      when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
-        results: [
-          {
-            id: 1,
-            url: "localhost:1234",
-          },
-        ],
-      });
-      const mockVersion = generateMockPokeApiVersion();
-      jestWhen(mockedFetchOk)
-        .calledWith("localhost:1234")
-        .mockResolvedValue(mockVersion);
-      const expectedEntity = generateMockVersionEntity();
-      when(
-        repository.create({
-          id: mockVersion.id,
-          name: mockVersion.name,
-          versionGroupUrl: mockVersion.version_group.url,
-        })
-      ).thenReturn(expectedEntity);
-      await pokeApiVersionService.cacheAll();
-      verify(repository.save([expectedEntity]));
     });
   });
 });

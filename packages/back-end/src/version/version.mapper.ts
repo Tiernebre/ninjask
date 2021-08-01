@@ -1,8 +1,4 @@
-import {
-  PokeApiPokedex,
-  PokeApiVersion,
-  PokeApiVersionGroup,
-} from "../poke-api";
+import { PokeApiPokedex, PokeApiVersionGroup } from "../poke-api";
 import { Pokedex } from "./pokedex";
 import { VersionEntity } from "./version.entity";
 import { Version } from "./version";

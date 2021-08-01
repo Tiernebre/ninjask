@@ -31,10 +31,10 @@ export const mapVersionFromPokeApi = (
   pokeApiVersion: PokeApiVersion,
   deniedPokemonIds: number[] = []
 ): Version => {
-  return new Version(
-    pokeApiVersion.id,
-    pokeApiVersion.name,
-    pokeApiVersion.version_group.url,
-    new Set(deniedPokemonIds)
-  );
+  return {
+    id: pokeApiVersion.id,
+    name: pokeApiVersion.name,
+    versionGroupUrl: pokeApiVersion.version_group.url,
+    deniedPokemonIds: new Set(deniedPokemonIds),
+  };
 };

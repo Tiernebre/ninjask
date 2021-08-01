@@ -15,12 +15,12 @@ export const generateMockPokedex = (): Pokedex => {
 };
 
 export const generateMockVersion = (): Version => {
-  return new Version(
-    generateRandomNumber(),
-    generateRandomString(),
-    generateRandomString(),
-    new Set()
-  );
+  return {
+    id: generateRandomNumber(),
+    name: generateRandomString(),
+    versionGroupUrl: generateRandomString(),
+    deniedPokemonIds: new Set(),
+  };
 };
 
 export const generateMockVersionDeniedPokemon =

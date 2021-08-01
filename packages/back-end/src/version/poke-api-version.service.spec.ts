@@ -127,10 +127,7 @@ describe("PokeApiVersionService", () => {
       jestWhen(mockedFetchOk)
         .calledWith("localhost:1234")
         .mockResolvedValue(mockVersion);
-      const expectedEntity = new VersionEntity();
-      expectedEntity.id = mockVersion.id;
-      expectedEntity.name = mockVersion.name;
-      expectedEntity.versionGroupUrl = mockVersion.version_group.url;
+      const expectedEntity = generateMockVersionEntity();
       when(
         repository.create({
           id: mockVersion.id,
@@ -170,10 +167,7 @@ describe("PokeApiVersionService", () => {
       jestWhen(mockedFetchOk)
         .calledWith("localhost:1234")
         .mockResolvedValue(mockVersion);
-      const expectedEntity = new VersionEntity();
-      expectedEntity.id = mockVersion.id;
-      expectedEntity.name = mockVersion.name;
-      expectedEntity.versionGroupUrl = mockVersion.version_group.url;
+      const expectedEntity = generateMockVersionEntity();
       when(
         repository.create({
           id: mockVersion.id,

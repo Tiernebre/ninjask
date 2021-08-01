@@ -28,18 +28,6 @@ export const mapVersionGroupFromPokeApi = (
   };
 };
 
-export const mapVersionFromPokeApi = (
-  pokeApiVersion: PokeApiVersion,
-  deniedPokemonIds: number[] = []
-): Version => {
-  return {
-    id: pokeApiVersion.id,
-    name: pokeApiVersion.name,
-    versionGroupUrl: pokeApiVersion.version_group.url,
-    deniedPokemonIds: new Set(deniedPokemonIds),
-  };
-};
-
 export const mapVersionFromEntity = (entity: VersionEntity): Version => {
   return {
     id: entity.id,

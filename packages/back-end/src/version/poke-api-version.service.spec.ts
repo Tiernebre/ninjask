@@ -12,11 +12,7 @@ import {
 } from "../poke-api/games.mock";
 import { fetchOk } from "../http";
 import { when as jestWhen } from "jest-when";
-import {
-  mapPokedexFromPokeApi,
-  mapVersionFromEntity,
-  mapVersionFromPokeApi,
-} from "./version.mapper";
+import { mapPokedexFromPokeApi, mapVersionFromEntity } from "./version.mapper";
 import { Repository } from "typeorm";
 import { generateMockVersionEntity } from "./version.mock";
 import { Logger } from "../logger";

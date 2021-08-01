@@ -1,12 +1,10 @@
 import {
   generateMockPokeApiPokedex,
-  generateMockPokeApiVersion,
   generateMockPokeApiVersionGroup,
 } from "../poke-api/games.mock";
 import {
   mapPokedexFromPokeApi,
   mapVersionFromEntity,
-  mapVersionFromPokeApi,
   mapVersionGroupFromPokeApi,
 } from "./version.mapper";
 import {
@@ -37,29 +35,6 @@ describe("version.mapper", () => {
       expect(mappedVersionGroup.pokedexUrl).toEqual(
         pokeApiVersionGroup.pokedexes[0].url
       );
-    });
-  });
-
-  describe("mapVersionFromPokeApi", () => {
-    it("returns a properly formatted version DTO", () => {
-      const pokeApiVersion = generateMockPokeApiVersion();
-      const mappedVersion = mapVersionFromPokeApi(pokeApiVersion);
-      expect(mappedVersion.id).toEqual(pokeApiVersion.id);
-      expect(mappedVersion.name).toEqual(pokeApiVersion.name);
-      expect(mappedVersion.versionGroupUrl).toEqual(
-        pokeApiVersion.version_group.url
-      );
-      expect(mappedVersion.deniedPokemonIds).toEqual(new Set());
-    });
-
-    it("allows for included mapping of denied pokemon", () => {
-      const deniedPokemonIds = [1, 4, 10];
-      const pokeApiVersion = generateMockPokeApiVersion();
-      const mappedVersion = mapVersionFromPokeApi(
-        pokeApiVersion,
-        deniedPokemonIds
-      );
-      expect(mappedVersion.deniedPokemonIds).toEqual(new Set(deniedPokemonIds));
     });
   });
 

@@ -1,5 +1,6 @@
 import { generateRandomNumber, generateRandomString } from "../random";
 import { Pokedex } from "./pokedex";
+import { VersionEntity } from "./pokemon-version.entity";
 import { Version } from "./version";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 
@@ -31,3 +32,11 @@ export const generateMockVersionDeniedPokemon =
     versionDeniedPokemon.versionId = generateRandomNumber();
     return versionDeniedPokemon;
   };
+
+export const generateMockVersionEntity = (): VersionEntity => {
+  const versionEntity = new VersionEntity();
+  versionEntity.id = generateRandomNumber();
+  versionEntity.name = generateRandomString();
+  versionEntity.versionGroupUrl = generateRandomString();
+  return versionEntity;
+};

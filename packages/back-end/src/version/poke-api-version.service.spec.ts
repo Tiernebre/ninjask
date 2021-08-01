@@ -6,7 +6,7 @@ jest.mock("../http", () => ({
 
 import { HttpClient } from "../http";
 import { PokeApiVersionService } from "./poke-api-version.service";
-import { object, verify, when } from "testdouble";
+import { matchers, object, verify, when } from "testdouble";
 import {
   generateMockPokeApiPokedex,
   generateMockPokeApiVersion,
@@ -21,7 +21,10 @@ import {
 } from "./version.mapper";
 import { Repository } from "typeorm";
 import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
-import { generateMockVersionDeniedPokemon } from "./version.mock";
+import {
+  generateMockVersionDeniedPokemon,
+  generateMockVersionEntity,
+} from "./version.mock";
 import { Logger } from "../logger";
 import { VersionEntity } from "./pokemon-version.entity";
 
@@ -139,6 +142,17 @@ describe("PokeApiVersionService", () => {
       const gottenVersions = await pokeApiVersionService.getAll();
       verify(repository.save([expectedEntity]));
       expect(gottenVersions).toEqual([mapVersionFromEntity(expectedEntity)]);
+    });
+
+    it("does not cache if versions already exist", async () => {
+      when(repository.count()).thenResolve(1);
+      const expectedEntities = [generateMockVersionEntity()];
+      when(repository.find()).thenResolve(expectedEntities);
+      const gottenVersions = await pokeApiVersionService.getAll();
+      verify(repository.save(matchers.anything()), { times: 0 });
+      expect(gottenVersions).toEqual(
+        expectedEntities.map(mapVersionFromEntity)
+      );
     });
   });
 

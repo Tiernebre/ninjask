@@ -8,9 +8,9 @@ export class VersionDeniedPokemonEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ nullable: false })
+  @Column()
   versionId!: number;
 
-  @Column({ nullable: false })
+  @Column()
   pokemonId!: number;
 }

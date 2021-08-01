@@ -24,24 +24,20 @@ import {
   generateMockVersionEntity,
 } from "./version.mock";
 import { Logger } from "../logger";
-import { VersionEntity } from "./pokemon-version.entity";
+import { VersionEntity } from "./version.entity";
 
 const mockedFetchOk = fetchOk as unknown as jest.Mock;
 
 describe("PokeApiVersionService", () => {
   let pokeApiVersionService: PokeApiVersionService;
   let pokeApiHttpClient: HttpClient;
-  let versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>;
   let repository: Repository<VersionEntity>;
 
   beforeEach(() => {
     pokeApiHttpClient = object<HttpClient>();
-    versionDeniedPokemonRepository =
-      object<Repository<VersionDeniedPokemonEntity>>();
     repository = object<Repository<VersionEntity>>();
     pokeApiVersionService = new PokeApiVersionService(
       pokeApiHttpClient,
-      versionDeniedPokemonRepository,
       object<Logger>(),
       repository
     );
@@ -58,9 +54,6 @@ describe("PokeApiVersionService", () => {
         generateMockVersionDeniedPokemon(),
         generateMockVersionDeniedPokemon(),
       ];
-      when(
-        versionDeniedPokemonRepository.find({ versionId: pokeApiVersion.id })
-      ).thenResolve(versionDeniedList);
       const gotten = await pokeApiVersionService.getOneById(pokeApiVersion.id);
       const expected = mapVersionFromPokeApi(
         pokeApiVersion,
@@ -76,9 +69,6 @@ describe("PokeApiVersionService", () => {
       const versionGroup = generateMockPokeApiVersionGroup();
       const pokedex = generateMockPokeApiPokedex();
       when(pokeApiHttpClient.get(`version/${version.id}`)).thenResolve(version);
-      when(
-        versionDeniedPokemonRepository.find({ versionId: version.id })
-      ).thenResolve([]);
       jestWhen(mockedFetchOk)
         .calledWith(version.version_group.url)
         .mockResolvedValue(versionGroup);

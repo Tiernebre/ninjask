@@ -45,7 +45,7 @@ import { LiveSessionTicketEntity } from "./live-session/live-session-ticket.enti
 import { liveDraftSelectionMiddleware } from "./draft-selection/live-draft-selection.middleware";
 import { VersionRouter } from "./version/version.router";
 import { createAdminAuthenticationMiddleware } from "./middleware";
-import { VersionEntity } from "./version/pokemon-version.entity";
+import { VersionEntity } from "./version/version.entity";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();

@@ -10,37 +10,34 @@ import { VersionService } from "./version.service";
 import {
   mapPokedexFromPokeApi,
   mapVersionFromEntity,
-  mapVersionFromPokeApi,
   mapVersionGroupFromPokeApi,
 } from "./version.mapper";
 import { Version } from "./version";
 import { Pokedex } from "./pokedex";
 import { Repository } from "typeorm";
-import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import { Logger } from "../logger";
-import { VersionEntity } from "./pokemon-version.entity";
+import { VersionEntity } from "./version.entity";
+import { NotFoundError } from "../error";
 
 export class PokeApiVersionService implements VersionService {
   constructor(
     private readonly pokeApiHttpClient: HttpClient,
-    private readonly versionDeniedPokemonRepository: Repository<VersionDeniedPokemonEntity>,
     private readonly logger: Logger,
     private readonly versionRepository: Repository<VersionEntity>
   ) {}
 
   async getOneById(id: number): Promise<Version> {
     this.logger.info(`Retrieving version with id = ${id}`);
-    const foundVersion = await this.pokeApiHttpClient.get<PokeApiVersion>(
-      `version/${id}`
-    );
-    const deniedPokemon = await this.versionDeniedPokemonRepository.find({
-      versionId: foundVersion.id,
-    });
-    const deniedPokemonIds = deniedPokemon.map(({ pokemonId }) => pokemonId);
+    await this.cacheVersionsIfTheyDoNotExist();
+
+    const version = await this.versionRepository.findOne(id);
+    if (!version) {
+      throw new NotFoundError(`Version with id = ${id} was not found.`);
+    }
     this.logger.info(
-      `Retrieved version with id = ${id} and name = ${foundVersion.name}`
+      `Retrieved version with id = ${id} and name = ${version.name}`
     );
-    return mapVersionFromPokeApi(foundVersion, deniedPokemonIds);
+    return mapVersionFromEntity(version);
   }
 
   async getPokedexFromOneWithId(id: number): Promise<Pokedex> {
@@ -64,13 +61,17 @@ export class PokeApiVersionService implements VersionService {
   }
 
   async getAll(): Promise<Version[]> {
-    if ((await this.versionRepository.count()) <= 0) {
-      await this.cacheAll();
-    }
+    await this.cacheVersionsIfTheyDoNotExist();
 
     return (await this.versionRepository.find()).map((version) =>
       mapVersionFromEntity(version)
     );
+  }
+
+  private async cacheVersionsIfTheyDoNotExist(): Promise<void> {
+    if ((await this.versionRepository.count()) <= 0) {
+      await this.cacheAll();
+    }
   }
 
   async cacheAll(): Promise<void> {

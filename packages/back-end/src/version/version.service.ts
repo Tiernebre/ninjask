@@ -22,5 +22,5 @@ export interface VersionService {
 
   getAll(): Promise<Version[]>;
 
-  fetchAndCacheAll(): Promise<void>;
+  cacheAllFromPokeApi(): Promise<void>;
 }

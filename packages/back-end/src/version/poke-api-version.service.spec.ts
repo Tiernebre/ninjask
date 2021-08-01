@@ -153,7 +153,7 @@ describe("PokeApiVersionService", () => {
     });
   });
 
-  describe("fetchAndCacheAll", () => {
+  describe("cacheAllFromApi", () => {
     it("fetches and caches versions in the database", async () => {
       when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
         results: [
@@ -175,7 +175,7 @@ describe("PokeApiVersionService", () => {
           versionGroupUrl: mockVersion.version_group.url,
         })
       ).thenReturn(expectedEntity);
-      await pokeApiVersionService.fetchAndCacheAll();
+      await pokeApiVersionService.cacheAllFromPokeApi();
       verify(repository.save([expectedEntity]));
     });
   });

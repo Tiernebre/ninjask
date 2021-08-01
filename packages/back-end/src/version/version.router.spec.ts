@@ -7,6 +7,7 @@ import { VersionService } from "./version.service";
 import { VersionRouter } from "./version.router";
 import { Version } from "./version";
 import { generateMockVersion } from "./version.mock";
+import { NO_CONTENT } from "http-status";
 
 describe("Version Router (integration)", () => {
   let app: Application;
@@ -46,6 +47,16 @@ describe("Version Router (integration)", () => {
       const body = response.body as Version[];
       expect(body).toHaveLength(versions.length);
       expect(body[0].id).toEqual(versions[0].id);
+    });
+  });
+
+  describe("POST /versions-cache", () => {
+    const uri = "/versions-cache";
+
+    it("returns with 204 NO CONTENT status", async () => {
+      when(versionService.cacheAllFromPokeApi()).thenResolve();
+      const response = await request.post(uri).send();
+      expect(response.status).toEqual(NO_CONTENT);
     });
   });
 });

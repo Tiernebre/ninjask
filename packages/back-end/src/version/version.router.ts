@@ -16,7 +16,7 @@ export class VersionRouter extends Router<ContextState, Context> {
     });
 
     this.post("/versions-cache", async (ctx) => {
-      await this.versionService.fetchAndCacheAll();
+      await this.versionService.cacheAllFromPokeApi();
       ctx.status = NO_CONTENT;
     });
   }

@@ -86,6 +86,6 @@ export class PokeApiVersionService implements VersionService {
         versionGroupUrl: version.version_group.url,
       });
     });
-    this.versionRepository.save(versionsToSave);
+    await this.versionRepository.save(versionsToSave);
   }
 }

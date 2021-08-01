@@ -88,12 +88,8 @@ const buildChallengeService = () => {
 };
 
 const buildVersionService = (logger: Logger) => {
-  const versionDeniedPokemonRepository = getRepository(
-    VersionDeniedPokemonEntity
-  );
   return new PokeApiVersionService(
     buildPokeApiHttpClient(),
-    versionDeniedPokemonRepository,
     logger,
     getRepository(VersionEntity)
   );

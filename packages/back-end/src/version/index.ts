@@ -5,3 +5,5 @@ export * from "./version";
 export * from "./version-group";
 export * from "./version.mapper";
 export * from "./version.service";
+export * from "./version.router";
+export * from "./version.entity";

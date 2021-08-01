@@ -5,9 +5,11 @@ import {
 } from "../poke-api/games.mock";
 import {
   mapPokedexFromPokeApi,
+  mapVersionFromEntity,
   mapVersionFromPokeApi,
   mapVersionGroupFromPokeApi,
 } from "./version.mapper";
+import { generateMockVersionEntity } from "./version.mock";
 
 describe("version.mapper", () => {
   describe("mapPokedexFromPokeApi", () => {
@@ -55,6 +57,16 @@ describe("version.mapper", () => {
         deniedPokemonIds
       );
       expect(mappedVersion.deniedPokemonIds).toEqual(new Set(deniedPokemonIds));
+    });
+  });
+
+  describe("mapVersionFromEntity", () => {
+    it("returns a properly formatted version DTO", () => {
+      const entity = generateMockVersionEntity();
+      const mappedVersion = mapVersionFromEntity(entity);
+      expect(mappedVersion.id).toEqual(entity.id);
+      expect(mappedVersion.name).toEqual(entity.name);
+      expect(mappedVersion.versionGroupUrl).toEqual(entity.versionGroupUrl);
     });
   });
 });

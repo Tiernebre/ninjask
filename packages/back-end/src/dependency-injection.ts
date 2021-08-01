@@ -35,7 +35,7 @@ import { PokemonService, PokeApiPokemonService } from "./pokemon";
 import { JwtSessionService, SessionRouter, sessionMiddleware } from "./session";
 import { ContextState } from "./types/state";
 import { UserEntity, UserRouter, UserService } from "./user";
-import { VersionDeniedPokemonEntity, PokeApiVersionService } from "./version";
+import { PokeApiVersionService } from "./version";
 import { DraftSelectionRouter, DraftSelectionService } from "./draft-selection";
 import { DraftSelectionRepository } from "./draft-selection/draft-selection.repository";
 import { DraftPokemonService } from "./draft-pokemon";

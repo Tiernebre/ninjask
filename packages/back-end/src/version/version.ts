@@ -1,8 +1,6 @@
-export class Version {
-  constructor(
-    public readonly id: number,
-    public readonly name: string,
-    public readonly versionGroupUrl: string,
-    public deniedPokemonIds: Set<number>
-  ) {}
+export interface Version {
+  readonly id: number;
+  readonly name: string;
+  readonly versionGroupUrl: string;
+  deniedPokemonIds: Set<number>;
 }

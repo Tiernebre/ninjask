@@ -8,16 +8,19 @@ export const generateMockPokedex = (): Pokedex => {
   for (let i = 0; i < 150; i++) {
     pokemonUrls.push(generateRandomString());
   }
-  return new Pokedex(generateRandomNumber(), pokemonUrls);
+  return {
+    id: generateRandomNumber(),
+    pokemonUrls,
+  };
 };
 
 export const generateMockVersion = (): Version => {
-  return new Version(
-    generateRandomNumber(),
-    generateRandomString(),
-    generateRandomString(),
-    new Set()
-  );
+  return {
+    id: generateRandomNumber(),
+    name: generateRandomString(),
+    versionGroupUrl: generateRandomString(),
+    deniedPokemonIds: new Set(),
+  };
 };
 
 export const generateMockVersionDeniedPokemon =

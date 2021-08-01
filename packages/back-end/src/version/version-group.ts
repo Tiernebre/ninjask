@@ -1,3 +1,4 @@
-export class VersionGroup {
-  constructor(public readonly id: number, public readonly pokedexUrl: string) {}
+export interface VersionGroup {
+  readonly id: number;
+  readonly pokedexUrl: string;
 }

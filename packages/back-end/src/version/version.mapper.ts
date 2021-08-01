@@ -10,31 +10,31 @@ import { VersionGroup } from "./version-group";
 export const mapPokedexFromPokeApi = (
   pokeApiPokedex: PokeApiPokedex
 ): Pokedex => {
-  return new Pokedex(
-    pokeApiPokedex.id,
-    pokeApiPokedex.pokemon_entries.map(
+  return {
+    id: pokeApiPokedex.id,
+    pokemonUrls: pokeApiPokedex.pokemon_entries.map(
       ({ pokemon_species }) => pokemon_species.url
-    )
-  );
+    ),
+  };
 };
 
 export const mapVersionGroupFromPokeApi = (
   pokeApiVersionGroup: PokeApiVersionGroup
 ): VersionGroup => {
-  return new VersionGroup(
-    pokeApiVersionGroup.id,
-    pokeApiVersionGroup.pokedexes[0].url
-  );
+  return {
+    id: pokeApiVersionGroup.id,
+    pokedexUrl: pokeApiVersionGroup.pokedexes[0].url,
+  };
 };
 
 export const mapVersionFromPokeApi = (
   pokeApiVersion: PokeApiVersion,
   deniedPokemonIds: number[] = []
 ): Version => {
-  return new Version(
-    pokeApiVersion.id,
-    pokeApiVersion.name,
-    pokeApiVersion.version_group.url,
-    new Set(deniedPokemonIds)
-  );
+  return {
+    id: pokeApiVersion.id,
+    name: pokeApiVersion.name,
+    versionGroupUrl: pokeApiVersion.version_group.url,
+    deniedPokemonIds: new Set(deniedPokemonIds),
+  };
 };

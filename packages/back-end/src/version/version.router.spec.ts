@@ -50,11 +50,11 @@ describe("Version Router (integration)", () => {
     });
   });
 
-  describe("POST /versions-cache", () => {
-    const uri = "/versions-cache";
+  describe("POST /versions/cache", () => {
+    const uri = "/versions/cache";
 
     it("returns with 204 NO CONTENT status", async () => {
-      when(versionService.cacheAllFromPokeApi()).thenResolve();
+      when(versionService.cacheAll()).thenResolve();
       const response = await request.post(uri).send();
       expect(response.status).toEqual(NO_CONTENT);
     });

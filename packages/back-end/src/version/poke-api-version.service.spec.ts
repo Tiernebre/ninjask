@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 jest.mock("../http", () => ({
   fetchOk: jest.fn(),
 }));
@@ -153,7 +151,7 @@ describe("PokeApiVersionService", () => {
     });
   });
 
-  describe("cacheAllFromApi", () => {
+  describe("cacheAll", () => {
     it("fetches and caches versions in the database", async () => {
       when(pokeApiHttpClient.get("version?limit=100")).thenResolve({
         results: [
@@ -175,7 +173,7 @@ describe("PokeApiVersionService", () => {
           versionGroupUrl: mockVersion.version_group.url,
         })
       ).thenReturn(expectedEntity);
-      await pokeApiVersionService.cacheAllFromPokeApi();
+      await pokeApiVersionService.cacheAll();
       verify(repository.save([expectedEntity]));
     });
   });

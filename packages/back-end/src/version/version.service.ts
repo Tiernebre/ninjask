@@ -20,7 +20,15 @@ export interface VersionService {
    */
   getPokedexFromOne(version: Version): Promise<Pokedex>;
 
+  /**
+   * Gets and returns all versions of the Pokemon games
+   */
   getAll(): Promise<Version[]>;
 
-  cacheAllFromPokeApi(): Promise<void>;
+  /**
+   * Caches versions from its data source. Useful if the
+   * version service implementation is reliant upon a third
+   * party service (i.e. PokeAPI).
+   */
+  cacheAll(): Promise<void>;
 }

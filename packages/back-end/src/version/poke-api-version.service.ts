@@ -65,7 +65,7 @@ export class PokeApiVersionService implements VersionService {
 
   async getAll(): Promise<Version[]> {
     if ((await this.versionRepository.count()) <= 0) {
-      await this.cacheAllFromPokeApi();
+      await this.cacheAll();
     }
 
     return (await this.versionRepository.find()).map((version) =>
@@ -73,7 +73,7 @@ export class PokeApiVersionService implements VersionService {
     );
   }
 
-  async cacheAllFromPokeApi(): Promise<void> {
+  async cacheAll(): Promise<void> {
     const { results } = await this.pokeApiHttpClient.get<NamedAPIResourceList>(
       "version?limit=100"
     );

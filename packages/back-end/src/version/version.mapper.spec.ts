@@ -2,6 +2,7 @@ import {
   generateMockPokeApiPokedex,
   generateMockPokeApiVersionGroup,
 } from "../poke-api/games.mock";
+import { VersionDeniedPokemonEntity } from "./version-denied-pokemon.entity";
 import {
   mapPokedexFromPokeApi,
   mapVersionFromEntity,
@@ -61,6 +62,17 @@ describe("version.mapper", () => {
       expect(mappedVersion.name).toEqual(entity.name);
       expect(mappedVersion.versionGroupUrl).toEqual(entity.versionGroupUrl);
       expect(mappedVersion.deniedPokemonIds).toEqual(new Set(deniedPokemonIds));
+    });
+
+    it("safely handles undefined pokemon denied list", () => {
+      const entity = generateMockVersionEntity();
+      entity.deniedPokemon =
+        undefined as unknown as VersionDeniedPokemonEntity[];
+      const mappedVersion = mapVersionFromEntity(entity);
+      expect(mappedVersion.id).toEqual(entity.id);
+      expect(mappedVersion.name).toEqual(entity.name);
+      expect(mappedVersion.versionGroupUrl).toEqual(entity.versionGroupUrl);
+      expect(mappedVersion.deniedPokemonIds).toEqual(new Set());
     });
   });
 });

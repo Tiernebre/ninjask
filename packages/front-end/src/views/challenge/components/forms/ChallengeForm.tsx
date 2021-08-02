@@ -12,7 +12,7 @@ import {
   SemanticFormField,
   Textarea,
 } from "@tiernebre/kecleon";
-import { useVersionsApi } from "../../../../hooks/api/version/use-versions-api";
+import { useVersionsApi, useGetSeasons } from "../../../../hooks";
 import { useEffect } from "react";
 import { startCase } from "lodash";
 
@@ -31,19 +31,17 @@ export const ChallengeForm = ({
     resolver: zodResolver(createChallengeRequestSchema),
   });
   const { versions, fetchVersions } = useVersionsApi();
+  const { seasons } = useGetSeasons();
 
   useEffect(() => {
-    void fetchVersions();
+    void Promise.all([fetchVersions()]);
   }, [fetchVersions]);
 
   const submit = handleSubmit((data) => {
-    onSubmit({
-      ...data,
-      seasonId: 1, // TODO: Make this chooseable based upon the seasons a user owns.
-    });
+    onSubmit(data);
   });
 
-  if (versions.length) {
+  if (versions.length && seasons.length) {
     return (
       <form onSubmit={submit}>
         <SemanticFormField id="challenge-name" label="Name" error={errors.name}>
@@ -63,11 +61,29 @@ export const ChallengeForm = ({
         >
           <MappedSelect
             options={versions}
+            placeholder="Select Pokémon Version"
             mapToOption={(version) => ({
               value: version.id,
               label: `Pokémon ${startCase(version.name)}`,
             })}
             register={register("versionId", {
+              valueAsNumber: true,
+            })}
+          />
+        </SemanticFormField>
+        <SemanticFormField
+          id="challenge-season"
+          label="Season"
+          error={errors.seasonId}
+        >
+          <MappedSelect
+            options={seasons}
+            placeholder="Select Season"
+            mapToOption={(season) => ({
+              value: season.id,
+              label: season.name,
+            })}
+            register={register("seasonId", {
               valueAsNumber: true,
             })}
           />

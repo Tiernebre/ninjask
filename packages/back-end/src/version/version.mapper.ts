@@ -25,12 +25,11 @@ export const mapVersionGroupFromPokeApi = (
 };
 
 export const mapVersionFromEntity = (entity: VersionEntity): Version => {
+  const deniedPokemon = entity.deniedPokemon ?? [];
   return {
     id: entity.id,
     name: entity.name,
     versionGroupUrl: entity.versionGroupUrl,
-    deniedPokemonIds: new Set(
-      entity.deniedPokemon.map(({ pokemonId }) => pokemonId)
-    ),
+    deniedPokemonIds: new Set(deniedPokemon.map(({ pokemonId }) => pokemonId)),
   };
 };

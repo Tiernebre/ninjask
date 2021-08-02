@@ -2694,10 +2694,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@tiernebre/kecleon@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.2.4.tgz#87746b660061f2f873e03f2dd3d2f531d1684ab4"
-  integrity sha512-cM+cR2/IMz/pco+pUq3PhqVAfGF57qB9L9oqEjrGBqYKjyZi5U/v+pCQe81Yq7tGaKfyauMlZXh0lYJjsQOo8Q==
+"@tiernebre/kecleon@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@tiernebre/kecleon/-/kecleon-2.2.5.tgz#9fb7bcf910f521da8b10e826c8a5c5f7667b2cd0"
+  integrity sha512-HsU3YUEcRl2UqX0TyJ/Hqc9491CLRXGASadGQ/IBwQatF5D09LFa2A7G0Lnol0eT+OZyL+8p5ljAvkqIhh9dyw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
     bulma "^0.9.3"
@@ -16366,7 +16366,7 @@ zen-observable@0.8.15:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-zod@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.6.1.tgz#0015196f963ac59df483a543e1e3a40f543a0879"
-  integrity sha512-Z0/7H7kXtSzurtnxxJrmF9vMdKYciHXPPogoGaMTLCznepy5acwIjdXLOmypR+3X+khrXkdUsJJ7XIqRhwLcMg==
+zod@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.7.1.tgz#143a9f9bc8ebad27525f1b1069dad7328d0f9d53"
+  integrity sha512-9TRjeMKz3xFUOl/CYhBmp/hCrMhk5U6qRnfy9q+HwmQPbMYp3qnM+/cPst+wzHQjfSBjHDYZq7S7TQnlAjqjFg==

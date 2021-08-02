@@ -14,6 +14,7 @@ const getSubmitButton = () =>
 const getNameInput = () => screen.getByLabelText("Name");
 const getDescriptionInput = () => screen.getByLabelText("Description");
 const getVersionsSelect = () => screen.getByLabelText("Pokémon Version");
+const getSeasonsSelect = () => screen.getByLabelText("Season");
 
 const waitForLoadingToFinish = () =>
   waitForElementToBeRemoved(screen.getByLabelText("Loading..."));
@@ -80,6 +81,7 @@ it("submits the form when filled out and valid", async () => {
   user.type(getNameInput(), name);
   user.type(getDescriptionInput(), description);
   user.selectOptions(getVersionsSelect(), [versionId.toString()]);
+  user.selectOptions(getSeasonsSelect(), ["1"]);
   user.click(getSubmitButton());
   await waitFor(() => expect(onSubmit).toHaveBeenCalled());
   expect(onSubmit).toHaveBeenCalledWith({

@@ -9,4 +9,4 @@ export const createMockSeasons = (): Season[] => {
   return seasons;
 };
 
-export const seasons = createMockSeasons();
+export const mockSeasons = createMockSeasons();

@@ -49,6 +49,7 @@ import {
   LiveSessionTicketEntity,
 } from "./live-session";
 import { createAdminAuthenticationMiddleware } from "./middleware";
+import { SeasonEntity, SeasonRouter, SeasonService } from "./season";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -205,6 +206,12 @@ const buildVersionRouter = (logger: Logger) => {
   return new VersionRouter(buildVersionService(logger));
 };
 
+const buildSeasonsRouter = () => {
+  const seasonsRepository = getRepository(SeasonEntity);
+  const seasonService = new SeasonService(seasonsRepository);
+  return new SeasonRouter(seasonService);
+};
+
 /**
  * Sets up dependencies that are needed to run the various appliations and wires
  * them together.
@@ -235,6 +242,7 @@ export const injectDependencies = async (
     buildDraftSelectionsRouter(logger),
     buildLiveSessionRouter(),
     buildVersionRouter(logger),
+    buildSeasonsRouter(),
   ];
   routers.forEach((router) => {
     app.use(router.routes());

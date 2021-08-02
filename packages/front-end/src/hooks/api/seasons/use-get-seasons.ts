@@ -17,7 +17,7 @@ export const useGetSeasons = (): GetSeasonsHookReturnValue => {
 
   useEffect(() => {
     void fetchSeasons();
-  });
+  }, [fetchSeasons]);
 
   return {
     seasons,

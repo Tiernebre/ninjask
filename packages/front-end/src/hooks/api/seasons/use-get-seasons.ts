@@ -1,4 +1,4 @@
-import { Season } from "../../../api/season/Season";
+import { Season } from "../../../api";
 
 type GetSeasonsHookReturnValue = {
   seasons: Season[];

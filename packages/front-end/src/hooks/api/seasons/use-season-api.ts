@@ -2,11 +2,11 @@ import { useCallback } from "react";
 import { Season } from "../../../api";
 import { useHttp } from "../../http";
 
-type SeasonApi = {
+type SeasonsApi = {
   getSeasons: () => Promise<Season[]>;
 };
 
-export const useSeasonApi = (): SeasonApi => {
+export const useSeasonsApi = (): SeasonsApi => {
   const { httpClient } = useHttp();
 
   const getSeasons = useCallback(() => {

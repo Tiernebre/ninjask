@@ -15,3 +15,11 @@ export const createSeason = (): Season => ({
   name: generateRandomString(),
   description: generateRandomString(),
 });
+
+export const createSeasons = (): Season[] => {
+  const seasons = [];
+  for (let i = 0; i < 20; i++) {
+    seasons.push(createSeason());
+  }
+  return seasons;
+};

@@ -8,6 +8,7 @@ import { ChallengeForm } from "./ChallengeForm";
 import user from "@testing-library/user-event";
 import { MockSessionContextProvider } from "../../../../../test";
 import { versions } from "../../../../../test/mocks/versions";
+import { mockSeasons } from "../../../../../test/mocks";
 
 const getSubmitButton = () =>
   screen.getByRole("button", { name: "Create Challenge" });
@@ -75,19 +76,21 @@ it("submits the form when filled out and valid", async () => {
   );
   await waitForLoadingToFinish();
   const versionToChoose = versions[8];
+  const seasonToChoose = mockSeasons[3];
   const name = "Valid Challenge";
   const description = "Valid Challenge Description";
   const versionId = versionToChoose.id;
+  const seasonId = seasonToChoose.id;
   user.type(getNameInput(), name);
   user.type(getDescriptionInput(), description);
   user.selectOptions(getVersionsSelect(), [versionId.toString()]);
-  user.selectOptions(getSeasonsSelect(), ["1"]);
+  user.selectOptions(getSeasonsSelect(), [seasonId.toString()]);
   user.click(getSubmitButton());
   await waitFor(() => expect(onSubmit).toHaveBeenCalled());
   expect(onSubmit).toHaveBeenCalledWith({
     name,
     description,
     versionId,
-    seasonId: 1, // TODO: Hard-coded for now but should be more dynamic
+    seasonId,
   });
 });

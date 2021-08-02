@@ -43,5 +43,12 @@ describe("Challenge Router", () => {
       const response = await request.get(uri).send();
       expect(response.status).toEqual(OK);
     });
+
+    it("returns with the found seasons in the body", async () => {
+      const seasons = createSeasons();
+      when(seasonService.getAll()).thenResolve(seasons);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(seasons);
+    });
   });
 });

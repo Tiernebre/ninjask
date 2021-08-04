@@ -1,4 +1,5 @@
 import { Repository } from "typeorm";
+import { z } from "zod";
 import { Logger } from "../logger";
 import {
   CreateLeagueRequest,
@@ -24,6 +25,7 @@ export class LeagueService {
     creatorId: number
   ): Promise<League> {
     createLeagueRequestSchema.parse(request);
+    z.number().parse(creatorId);
 
     const leagueToSave = this.leagueRepository.create({
       ...request,

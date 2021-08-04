@@ -20,6 +20,9 @@ export const generateMockLeague = (): League => ({
 });
 
 export const generateMockCreateLeagueRequest = (): CreateLeagueRequest => ({
-  name: `Mock League ${generateRandomString()}`,
-  description: `Just a mock league. ${generateRandomString()}`,
+  name: `Mock League ${generateRandomString()}`.substring(0, 5),
+  description: `Just a mock league. ${generateRandomString()}`.substring(
+    0,
+    120
+  ),
 });

@@ -1,15 +1,29 @@
 import Router from "@koa/router";
+import { CREATED } from "http-status";
+import { Context } from "koa";
+import { ContextState } from "../types/state";
+import { CreateLeagueRequest } from "./create-league-request";
 import { LeagueService } from "./league.service";
 
-export class LeagueRouter extends Router {
+const URI = "/leagues";
+
+export class LeagueRouter extends Router<ContextState, Context> {
   constructor(private readonly leagueService: LeagueService) {
     super();
     this.setupRoutes();
   }
 
   private setupRoutes() {
-    this.get("/leagues", async (ctx) => {
+    this.get(URI, async (ctx) => {
       ctx.body = await this.leagueService.getAll();
+    });
+
+    this.post(URI, async (ctx) => {
+      ctx.body = await this.leagueService.createOne(
+        ctx.request.body as CreateLeagueRequest,
+        ctx.state.session.userId
+      );
+      ctx.status = CREATED;
     });
   }
 }

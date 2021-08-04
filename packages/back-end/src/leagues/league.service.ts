@@ -1,6 +1,9 @@
 import { Repository } from "typeorm";
 import { Logger } from "../logger";
-import { CreateLeagueRequest } from "./create-league-request";
+import {
+  CreateLeagueRequest,
+  createLeagueRequestSchema,
+} from "./create-league-request";
 import { League } from "./league";
 import { LeagueEntity } from "./league.entity";
 
@@ -20,6 +23,8 @@ export class LeagueService {
     request: CreateLeagueRequest,
     creatorId: number
   ): Promise<League> {
+    createLeagueRequestSchema.parse(request);
+
     const leagueToSave = this.leagueRepository.create({
       ...request,
       creatorId,

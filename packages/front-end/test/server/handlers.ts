@@ -3,6 +3,7 @@ import { challengeResultHandlers } from "./challenge-result-handlers";
 import { sessionHandlers } from "./session-handlers";
 import { versionsHandler } from "./versions-handler";
 import { seasonHandlers } from "./season-handlers";
+import { leagueHandlers } from "./league-handlers";
 
 export const handlers = [
   ...sessionHandlers,
@@ -10,4 +11,5 @@ export const handlers = [
   ...challengeResultHandlers,
   ...versionsHandler,
   ...seasonHandlers,
+  ...leagueHandlers,
 ];

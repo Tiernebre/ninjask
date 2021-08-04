@@ -162,8 +162,6 @@ describe("ChallengeService", () => {
       setupValidationCase({ name: undefined }),
       setupValidationCase({ name: "a".repeat(33) }),
       /// description cases
-      setupValidationCase({ description: null }),
-      setupValidationCase({ description: undefined }),
       setupValidationCase({ description: "a".repeat(129) }),
       // version id cases
       setupValidationCase({ versionId: null }),

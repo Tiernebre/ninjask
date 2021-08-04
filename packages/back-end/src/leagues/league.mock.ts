@@ -1,6 +1,7 @@
 import { LeagueEntity } from "./league.entity";
 import { generateRandomNumber, generateRandomString } from "../random";
 import { League } from "./league";
+import { CreateLeagueRequest } from "./create-league-request";
 
 export const generateMockLeagueEntity = (): LeagueEntity => {
   const leagueEntity = new LeagueEntity();
@@ -16,4 +17,12 @@ export const generateMockLeague = (): League => ({
   name: `Mock League ${generateRandomString()}`,
   description: `Just a mock league. ${generateRandomString()}`,
   creatorId: generateRandomNumber(),
+});
+
+export const generateMockCreateLeagueRequest = (): CreateLeagueRequest => ({
+  name: `Mock League ${generateRandomString()}`.substring(0, 5),
+  description: `Just a mock league. ${generateRandomString()}`.substring(
+    0,
+    120
+  ),
 });

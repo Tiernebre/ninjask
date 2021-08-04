@@ -4,7 +4,7 @@ import { Server } from "http";
 import Application from "koa";
 import { LeagueRouter } from "./league.router";
 import { LeagueService } from "./league.service";
-import { matchers, object, when } from "testdouble";
+import { object, when } from "testdouble";
 import {
   generateMockLeague,
   generateMockCreateLeagueRequest,

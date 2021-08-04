@@ -25,11 +25,13 @@ describe("LeagueService", () => {
         id: firstEntity.id,
         name: firstEntity.name,
         description: firstEntity.description,
+        creatorId: firstEntity.creatorId,
       });
       expect(secondLeague).toEqual({
         id: secondEntity.id,
         name: secondEntity.name,
         description: secondEntity.description,
+        creatorId: secondEntity.creatorId,
       });
     });
   });

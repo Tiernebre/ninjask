@@ -2,11 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { SeasonEntity } from "../season/season.entity";
+import { UserEntity } from "../user";
 
 @Entity({
   name: "league",
@@ -33,4 +35,10 @@ export class LeagueEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.leagues)
+  creator!: Promise<UserEntity>;
+
+  @Column()
+  creatorId!: number;
 }

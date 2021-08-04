@@ -16,6 +16,7 @@ export class LeagueService {
       id: league.id,
       name: league.name,
       description: league.description,
+      creatorId: league.creatorId,
     }));
   }
 }

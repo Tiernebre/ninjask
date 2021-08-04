@@ -7,6 +7,7 @@ export const generateMockLeagueEntity = (): LeagueEntity => {
   leagueEntity.id = generateRandomNumber();
   leagueEntity.name = `Mock League ${generateRandomString()}`;
   leagueEntity.description = `Just a mock league. ${generateRandomString()}`;
+  leagueEntity.creatorId = generateRandomNumber();
   return leagueEntity;
 };
 
@@ -14,4 +15,5 @@ export const generateMockLeague = (): League => ({
   id: generateRandomNumber(),
   name: `Mock League ${generateRandomString()}`,
   description: `Just a mock league. ${generateRandomString()}`,
+  creatorId: generateRandomNumber(),
 });

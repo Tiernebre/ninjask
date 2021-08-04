@@ -38,6 +38,7 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   let testLeague = leagueRepository.create();
   testLeague.name = "Test League";
   testLeague.description = "Test League";
+  testLeague.creator = Promise.resolve(testUser);
   testLeague = await leagueRepository.save(testLeague);
 
   const seasonRepository = getRepository(SeasonEntity);

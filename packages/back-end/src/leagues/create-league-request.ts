@@ -7,4 +7,6 @@ export const createLeagueRequestSchema = z
   })
   .strict();
 
-export type CreateLeagueRequest = z.infer<typeof createLeagueRequestSchema>;
+export type CreateLeagueRequest = Readonly<
+  z.infer<typeof createLeagueRequestSchema>
+>;

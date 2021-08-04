@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Home, ChallengeView, ChallengesView } from "..";
 import { useSession } from "../../hooks";
 import { CreateChallengeView } from "../challenge/CreateChallengeView";
+import { LeaguesView } from "../leagues";
 
 type AuthenticatedRoutesProps = {
   homeRoutes: string[];
@@ -26,6 +27,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/create-challenge">
         <CreateChallengeView />
+      </Route>
+      <Route path="/leagues" exact>
+        <LeaguesView />
       </Route>
     </Fragment>
   ) : null;

@@ -9,6 +9,7 @@ import {
 } from "./league.mock";
 import { CreateLeagueRequest } from "./create-league-request";
 import { ZodError } from "zod";
+import { INVALID_NUMBER_CASES } from "../test/cases";
 
 describe("LeagueService", () => {
   let leagueService: LeagueService;
@@ -71,5 +72,14 @@ describe("LeagueService", () => {
         leagueService.createOne(request as CreateLeagueRequest, 1)
       ).rejects.toThrowError(ZodError);
     });
+
+    it.each(INVALID_NUMBER_CASES)(
+      "throws a ZodError if given creator id =%p",
+      async (creatorId: unknown) => {
+        await expect(
+          leagueService.createOne(validCreateLeagueRequest, creatorId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
   });
 });

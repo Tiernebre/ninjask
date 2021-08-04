@@ -4,7 +4,7 @@ import { Server } from "http";
 import Application from "koa";
 import { LeagueRouter } from "./league.router";
 import { LeagueService } from "./league.service";
-import { object, when } from "testdouble";
+import { matchers, object, when } from "testdouble";
 import {
   generateMockLeague,
   generateMockCreateLeagueRequest,
@@ -12,6 +12,7 @@ import {
 import { SessionPayload } from "../session";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { CREATED, OK } from "http-status";
+import bodyParser from "koa-bodyparser";
 
 describe("League Router", () => {
   let app: Application;
@@ -25,6 +26,7 @@ describe("League Router", () => {
     leagueService = object<LeagueService>();
     const router = new LeagueRouter(leagueService);
     session = generateMockSessionPayload();
+    app.use(bodyParser());
     app.use((ctx, next) => {
       ctx.state.session = session;
       void next();
@@ -68,8 +70,18 @@ describe("League Router", () => {
       when(
         leagueService.createOne(createLeagueRequest, session.userId)
       ).thenResolve(generateMockLeague());
-      const response = await request.post(uri).send();
+      const response = await request.post(uri).send(createLeagueRequest);
       expect(response.status).toEqual(CREATED);
+    });
+
+    it("returns with the created league in the response body", async () => {
+      const createLeagueRequest = generateMockCreateLeagueRequest();
+      const expectedLeague = generateMockLeague();
+      when(
+        leagueService.createOne(createLeagueRequest, session.userId)
+      ).thenResolve(expectedLeague);
+      const response = await request.post(uri).send(createLeagueRequest);
+      expect(response.body).toEqual(expectedLeague);
     });
   });
 });

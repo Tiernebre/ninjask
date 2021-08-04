@@ -10,7 +10,11 @@ export const LeagueTable = ({ leagues }: LeagueTableProps): JSX.Element => {
   return (
     <Table>
       <thead>
-        <td>ID</td>
+        <tr>
+          <td>ID</td>
+          <td>Name</td>
+          <td>Description</td>
+        </tr>
       </thead>
       <tbody>
         {leagues.map((league) => (

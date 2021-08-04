@@ -38,4 +38,7 @@ export class LeagueEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.leagues)
   creator!: Promise<UserEntity>;
+
+  @Column()
+  creatorId!: number;
 }

@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 import { ChallengeEntity } from "../challenge/challenge.entity";
+import { LeagueEntity } from "../leagues";
 import { LiveSessionTicketEntity } from "../live-session/live-session-ticket.entity";
 
 @Entity({ name: "users" })
@@ -47,4 +48,7 @@ export class UserEntity {
     (liveSessionTicket) => liveSessionTicket.user
   )
   liveSessionTickets!: Promise<LiveSessionTicketEntity[]>;
+
+  @OneToMany(() => LeagueEntity, (league) => league.creator)
+  leagues!: Promise<LeagueEntity[]>;
 }

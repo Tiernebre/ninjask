@@ -17,7 +17,12 @@ export const leagueHandlers = [
     }
 
     const { id } = req.params;
+    const foundLeague = leagues[Number(id)];
 
-    return res(ctx.json(leagues[Number(id)]));
+    if (!foundLeague) {
+      return res(ctx.status(404), ctx.json({ message: "League Not Found" }));
+    }
+
+    return res(ctx.json(foundLeague));
   }),
 ];

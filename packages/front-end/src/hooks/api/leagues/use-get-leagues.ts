@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { League } from "../../../api";
 import { useLeaguesApi } from "./use-leagues-api";
 
-export type GetLeaguesHookReturnValue = {
+type GetLeaguesHookReturnValue = {
   leagues: League[];
   fetchLeagues: () => Promise<void>;
 };

@@ -15,7 +15,6 @@ it("displays the leagues in a table", async () => {
   );
   await waitForElementToBeRemoved(() => screen.getByLabelText(/Loading/i));
   Object.values(leagues).forEach((league) => {
-    expect(screen.getByText(league.id.toString())).toBeInTheDocument();
     expect(screen.getByText(league.name)).toBeInTheDocument();
     expect(screen.getByText(league.description)).toBeInTheDocument();
   });

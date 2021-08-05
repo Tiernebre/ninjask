@@ -49,12 +49,7 @@ import {
   LiveSessionTicketEntity,
 } from "./live-session";
 import { createAdminAuthenticationMiddleware } from "./middleware";
-import {
-  SeasonEntity,
-  SeasonRepository,
-  SeasonRouter,
-  SeasonService,
-} from "./season";
+import { SeasonRepository, SeasonRouter, SeasonService } from "./season";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -81,10 +76,15 @@ const buildPokemonService = (logger: Logger): PokemonService => {
   return new PokeApiPokemonService(buildPokeApiHttpClient(), logger);
 };
 
+const buildSeasonService = (): SeasonService => {
+  const seasonsRepository = getCustomRepository(SeasonRepository);
+  return new SeasonService(seasonsRepository);
+};
+
 const buildLeagueRouter = (logger: Logger) => {
   const leagueRepository = getRepository(LeagueEntity);
   const leagueService = new LeagueService(leagueRepository, logger);
-  return new LeagueRouter(leagueService);
+  return new LeagueRouter(leagueService, buildSeasonService());
 };
 
 const buildDraftService = (logger: Logger) => {
@@ -212,9 +212,7 @@ const buildVersionRouter = (logger: Logger) => {
 };
 
 const buildSeasonsRouter = () => {
-  const seasonsRepository = getCustomRepository(SeasonRepository);
-  const seasonService = new SeasonService(seasonsRepository);
-  return new SeasonRouter(seasonService);
+  return new SeasonRouter(buildSeasonService());
 };
 
 /**

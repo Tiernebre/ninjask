@@ -14,3 +14,11 @@ it("gets leagues", async () => {
     Object.values(leagues)
   );
 });
+
+it("can get a league by id", async () => {
+  const { result } = renderHook(() => useLeaguesApi(), { wrapper });
+  const [expectedLeague] = Object.values(leagues);
+  await expect(
+    result.current.getLeagueById(expectedLeague.id)
+  ).resolves.toEqual(expectedLeague);
+});

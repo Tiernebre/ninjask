@@ -9,6 +9,12 @@ export class SeasonService {
     return (await this.repository.find()).map((entity) => this.map(entity));
   }
 
+  public async getAllForLeague(leagueId: number): Promise<Season[]> {
+    return (await this.repository.findAllWithLeagueId(leagueId)).map((entity) =>
+      this.map(entity)
+    );
+  }
+
   private map(entity: SeasonEntity): Season {
     return {
       id: entity.id,

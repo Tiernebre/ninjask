@@ -3,7 +3,7 @@ import { SeasonEntity } from "./season.entity";
 
 @EntityRepository(SeasonEntity)
 export class SeasonRepository extends Repository<SeasonEntity> {
-  async getAllWithLeagueId(leagueId: number): Promise<SeasonEntity[]> {
+  async findAllWithLeagueId(leagueId: number): Promise<SeasonEntity[]> {
     return this.find({ leagueId });
   }
 }

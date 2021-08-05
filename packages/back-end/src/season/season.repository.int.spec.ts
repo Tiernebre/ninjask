@@ -30,14 +30,16 @@ describe("SeasonRepository", () => {
     await seedSeasons(seasonRepository, otherLeague.id);
   });
 
-  describe("getAllWithLeagueId", () => {
+  describe("findAllWithLeagueId", () => {
     it("returns the seasons tied with a given league id", async () => {
-      const foundSeasons = await seasonRepository.getAllWithLeagueId(league.id);
+      const foundSeasons = await seasonRepository.findAllWithLeagueId(
+        league.id
+      );
       expect(foundSeasons).toEqual(seasons);
     });
 
     it("an empty array if given a non existent league id", async () => {
-      const foundSeasons = await seasonRepository.getAllWithLeagueId(1000);
+      const foundSeasons = await seasonRepository.findAllWithLeagueId(1000);
       expect(foundSeasons).toEqual([]);
     });
   });

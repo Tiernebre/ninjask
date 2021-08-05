@@ -10,7 +10,6 @@ it("displays the correct information", () => {
   render(<LeagueRow league={league} />, {
     container: document.body.appendChild(tableBody),
   });
-  expect(screen.getByText(league.id.toString())).toBeInTheDocument();
   expect(screen.getByText(league.name)).toBeInTheDocument();
   expect(screen.getByText(league.description)).toBeInTheDocument();
 });

@@ -6,7 +6,6 @@ it("displays the correct information", () => {
   const leagues = [generateLeague(), generateLeague()];
   render(<LeagueTable leagues={leagues} />);
   leagues.forEach((league) => {
-    expect(screen.getByText(league.id.toString())).toBeInTheDocument();
     expect(screen.getByText(league.name)).toBeInTheDocument();
     expect(screen.getByText(league.description)).toBeInTheDocument();
   });

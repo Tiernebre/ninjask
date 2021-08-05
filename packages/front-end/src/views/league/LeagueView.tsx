@@ -1,4 +1,4 @@
-import { Container, PageSpinner } from "@tiernebre/kecleon";
+import { Container, HeadingGroup, PageSpinner } from "@tiernebre/kecleon";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetLeague } from "../../hooks/api/leagues/use-get-league";
@@ -16,7 +16,13 @@ export const LeagueView = (): JSX.Element => {
   }, [fetchLeague]);
 
   const content =
-    league && seasons.length ? <div>League dude</div> : <PageSpinner />;
+    league && seasons.length ? (
+      <>
+        <HeadingGroup title={league.name} subtitle={league.description} />
+      </>
+    ) : (
+      <PageSpinner />
+    );
 
   return <Container as="section">{content}</Container>;
 };

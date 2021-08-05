@@ -22,3 +22,8 @@ it("can get a league by id", async () => {
     result.current.getLeagueById(expectedLeague.id)
   ).resolves.toEqual(expectedLeague);
 });
+
+it("throws an error if a league cannot be found by id", async () => {
+  const { result } = renderHook(() => useLeaguesApi(), { wrapper });
+  await expect(result.current.getLeagueById(1000)).rejects.toThrowError();
+});

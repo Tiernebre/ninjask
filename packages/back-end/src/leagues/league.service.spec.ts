@@ -11,6 +11,7 @@ import { CreateLeagueRequest } from "./create-league-request";
 import { ZodError } from "zod";
 import { INVALID_NUMBER_CASES } from "../test/cases";
 import { generateRandomNumber } from "../random";
+import { NotFoundError } from "../error";
 
 describe("LeagueService", () => {
   let leagueService: LeagueService;
@@ -96,6 +97,24 @@ describe("LeagueService", () => {
         creatorId
       );
       expect(expectedEntity).toEqual(expect.objectContaining(createdLeague));
+    });
+  });
+
+  describe("getOneById", () => {
+    it("returns the found league", async () => {
+      const id = generateRandomNumber();
+      const expectedEntity = generateMockLeagueEntity();
+      when(leagueRepository.findOne(id)).thenResolve(expectedEntity);
+      const foundLeague = await leagueService.getOneById(id);
+      expect(expectedEntity).toEqual(expect.objectContaining(foundLeague));
+    });
+
+    it("throws a NotFoundError if a league was not found", async () => {
+      const id = generateRandomNumber();
+      when(leagueRepository.findOne(id)).thenResolve(undefined);
+      await expect(leagueService.getOneById(id)).rejects.toThrowError(
+        NotFoundError
+      );
     });
   });
 });

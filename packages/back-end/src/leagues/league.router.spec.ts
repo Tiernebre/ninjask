@@ -120,5 +120,12 @@ describe("League Router", () => {
       const response = await request.get(uri).send();
       expect(response.status).toEqual(OK);
     });
+
+    it("returns with the found seasons in the response", async () => {
+      const seasons = [createSeason(), createSeason()];
+      when(seasonService.getAllForLeague(id)).thenResolve(seasons);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(seasons);
+    });
   });
 });

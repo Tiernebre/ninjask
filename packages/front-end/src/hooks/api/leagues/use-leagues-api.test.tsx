@@ -36,6 +36,7 @@ it("gets the seasons for a league", async () => {
   const [expectedLeague] = Object.values(leagues);
   const expectedSeasons = mockLeagueSeasons[expectedLeague.id];
   expect(expectedSeasons).toBeTruthy();
+  expect(expectedSeasons.length).toBeGreaterThan(0);
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   await expect(
     result.current.getSeasonsForOne(expectedLeague.id)

@@ -33,5 +33,10 @@ describe("SeasonRepository", () => {
       const foundSeasons = await seasonRepository.getAllWithLeagueId(league.id);
       expect(foundSeasons).toEqual(seasons);
     });
+
+    it("an empty array if given a non existent league id", async () => {
+      const foundSeasons = await seasonRepository.getAllWithLeagueId(1000);
+      expect(foundSeasons).toEqual([]);
+    });
   });
 });

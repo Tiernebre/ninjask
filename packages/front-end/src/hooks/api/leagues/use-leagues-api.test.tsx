@@ -21,6 +21,7 @@ it("gets leagues", async () => {
 it("can get a league by id", async () => {
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   const [expectedLeague] = Object.values(leagues);
+  expect(expectedLeague).toBeTruthy();
   await expect(
     result.current.getLeagueById(expectedLeague.id)
   ).resolves.toEqual(expectedLeague);
@@ -34,6 +35,7 @@ it("throws an error if a league cannot be found by id", async () => {
 it("gets the seasons for a league", async () => {
   const [expectedLeague] = Object.values(leagues);
   const expectedSeasons = mockLeagueSeasons[expectedLeague.id];
+  expect(expectedSeasons).toBeTruthy();
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   await expect(
     result.current.getSeasonsForOne(expectedLeague.id)

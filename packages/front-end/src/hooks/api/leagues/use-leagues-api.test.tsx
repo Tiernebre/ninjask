@@ -27,3 +27,11 @@ it("throws an error if a league cannot be found by id", async () => {
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   await expect(result.current.getLeagueById(1000)).rejects.toThrowError();
 });
+
+it("gets the seasons for a league", async () => {
+  const [expectedLeague] = Object.values(leagues);
+  const { result } = renderHook(() => useLeaguesApi(), { wrapper });
+  await expect(
+    result.current.getSeasonsForOne(expectedLeague.id)
+  ).rejects.toThrowError();
+});

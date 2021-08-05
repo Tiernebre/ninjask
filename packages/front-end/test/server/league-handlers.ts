@@ -1,4 +1,5 @@
 import { rest } from "msw";
+import { mockLeagueSeasons } from "../mocks";
 import { leagues } from "../mocks/league";
 import { HOST } from "./constants";
 import { isAuthorized } from "./helpers";
@@ -24,5 +25,16 @@ export const leagueHandlers = [
     }
 
     return res(ctx.json(foundLeague));
+  }),
+
+  rest.get(`${HOST}leagues/:id/seasons`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+    const foundLeagues = mockLeagueSeasons[Number(id)];
+
+    return res(ctx.json(foundLeagues));
   }),
 ];

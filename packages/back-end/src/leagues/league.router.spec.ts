@@ -95,5 +95,12 @@ describe("League Router", () => {
       const response = await request.get(uri).send();
       expect(response.status).toEqual(OK);
     });
+
+    it("returns with found league in the response body", async () => {
+      const league = generateMockLeague();
+      when(leagueService.getOneById(id)).thenResolve(league);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(league);
+    });
   });
 });

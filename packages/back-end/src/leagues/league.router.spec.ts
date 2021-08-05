@@ -14,18 +14,22 @@ import { generateMockSessionPayload } from "../session/session.mock";
 import { CREATED, OK } from "http-status";
 import bodyParser from "koa-bodyparser";
 import { generateRandomNumber } from "../random";
+import { SeasonService } from "../season";
+import { createSeason } from "../season/season.mock";
 
 describe("League Router", () => {
   let app: Application;
   let server: Server;
   let request: supertest.SuperTest<supertest.Test>;
   let leagueService: LeagueService;
+  let seasonService: SeasonService;
   let session: SessionPayload;
 
   beforeAll(() => {
     app = new Koa();
     leagueService = object<LeagueService>();
-    const router = new LeagueRouter(leagueService);
+    seasonService = object<SeasonService>();
+    const router = new LeagueRouter(leagueService, seasonService);
     session = generateMockSessionPayload();
     app.use(bodyParser());
     app.use((ctx, next) => {
@@ -101,6 +105,20 @@ describe("League Router", () => {
       when(leagueService.getOneById(id)).thenResolve(league);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(league);
+    });
+  });
+
+  describe("GET /leagues/:id/seasons", () => {
+    const id = generateRandomNumber();
+    const uri = `/leagues/${id}/seasons`;
+
+    it("returns with 200 OK status", async () => {
+      when(seasonService.getAllForLeague(id)).thenResolve([
+        createSeason(),
+        createSeason(),
+      ]);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
     });
   });
 });

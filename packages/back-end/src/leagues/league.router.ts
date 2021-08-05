@@ -1,6 +1,7 @@
 import Router from "@koa/router";
 import { CREATED } from "http-status";
 import { Context } from "koa";
+import { SeasonService } from "../season";
 import { ContextState } from "../types/state";
 import { CreateLeagueRequest } from "./create-league-request";
 import { LeagueService } from "./league.service";
@@ -8,7 +9,10 @@ import { LeagueService } from "./league.service";
 const URI = "/leagues";
 
 export class LeagueRouter extends Router<ContextState, Context> {
-  constructor(private readonly leagueService: LeagueService) {
+  constructor(
+    private readonly leagueService: LeagueService,
+    private readonly seasonService: SeasonService
+  ) {
     super();
     this.setupRoutes();
   }
@@ -20,6 +24,12 @@ export class LeagueRouter extends Router<ContextState, Context> {
 
     this.get(`${URI}/:id`, async (ctx) => {
       ctx.body = await this.leagueService.getOneById(Number(ctx.params.id));
+    });
+
+    this.get(`${URI}/:id/seasons`, async (ctx) => {
+      ctx.body = await this.seasonService.getAllForLeague(
+        Number(ctx.params.id)
+      );
     });
 
     this.post(URI, async (ctx) => {

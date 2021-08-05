@@ -1,14 +1,14 @@
-import { Repository } from "typeorm";
-import { SeasonEntity, SeasonService } from ".";
+import { SeasonService } from ".";
 import { object, when } from "testdouble";
 import { createSeasonEntity } from "./season.mock";
+import { SeasonRepository } from "./season.repository";
 
 describe("SeasonService", () => {
-  let repository: Repository<SeasonEntity>;
+  let repository: SeasonRepository;
   let service: SeasonService;
 
   beforeEach(() => {
-    repository = object<Repository<SeasonEntity>>();
+    repository = object<SeasonRepository>();
     service = new SeasonService(repository);
   });
 

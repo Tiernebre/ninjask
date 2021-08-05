@@ -49,7 +49,12 @@ import {
   LiveSessionTicketEntity,
 } from "./live-session";
 import { createAdminAuthenticationMiddleware } from "./middleware";
-import { SeasonEntity, SeasonRouter, SeasonService } from "./season";
+import {
+  SeasonEntity,
+  SeasonRepository,
+  SeasonRouter,
+  SeasonService,
+} from "./season";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -207,7 +212,7 @@ const buildVersionRouter = (logger: Logger) => {
 };
 
 const buildSeasonsRouter = () => {
-  const seasonsRepository = getRepository(SeasonEntity);
+  const seasonsRepository = getCustomRepository(SeasonRepository);
   const seasonService = new SeasonService(seasonsRepository);
   return new SeasonRouter(seasonService);
 };

@@ -4,6 +4,7 @@ import { useHttp } from "../../http";
 
 type LeaguesApi = {
   getLeagues: () => Promise<League[]>;
+  getLeagueById: (id: number) => Promise<League>;
 };
 
 export const useLeaguesApi = (): LeaguesApi => {
@@ -13,7 +14,15 @@ export const useLeaguesApi = (): LeaguesApi => {
     return httpClient.get<League[]>("leagues");
   }, [httpClient]);
 
+  const getLeagueById = useCallback(
+    (id: number) => {
+      return httpClient.get<League>(`leagues/${id}`);
+    },
+    [httpClient]
+  );
+
   return {
     getLeagues,
+    getLeagueById,
   };
 };

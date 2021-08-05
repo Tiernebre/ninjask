@@ -1,6 +1,9 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { PropsWithChildren } from "react";
-import { MockSessionContextProvider } from "../../../../test";
+import {
+  mockLeagueSeasons,
+  MockSessionContextProvider,
+} from "../../../../test";
 import { leagues } from "../../../../test/mocks/league";
 import { useLeaguesApi } from "./use-leagues-api";
 
@@ -30,8 +33,9 @@ it("throws an error if a league cannot be found by id", async () => {
 
 it("gets the seasons for a league", async () => {
   const [expectedLeague] = Object.values(leagues);
+  const expectedSeasons = mockLeagueSeasons[expectedLeague.id];
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   await expect(
     result.current.getSeasonsForOne(expectedLeague.id)
-  ).rejects.toThrowError();
+  ).resolves.toEqual(expectedSeasons);
 });

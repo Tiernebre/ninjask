@@ -11,7 +11,7 @@ type GetLeagueHookParameters = {
   id: number;
 };
 
-export const useGetLeagues = ({
+export const useGetLeague = ({
   id,
 }: GetLeagueHookParameters): GetLeagueHookReturnValue => {
   const [league, setLeague] = useState<League>();

@@ -8,7 +8,7 @@ type SeasonTableProps = {
 
 export const SeasonTable = ({ seasons }: SeasonTableProps): JSX.Element => {
   return (
-    <Table>
+    <Table fullwidth>
       <thead>
         <tr>
           <td>ID</td>

@@ -38,4 +38,7 @@ export class SeasonEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt!: Date;
+
+  @Column()
+  leagueId!: number;
 }

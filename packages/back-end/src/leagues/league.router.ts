@@ -18,6 +18,10 @@ export class LeagueRouter extends Router<ContextState, Context> {
       ctx.body = await this.leagueService.getAll();
     });
 
+    this.get(`${URI}/:id`, async (ctx) => {
+      ctx.body = await this.leagueService.getOneById(Number(ctx.params.id));
+    });
+
     this.post(URI, async (ctx) => {
       ctx.body = await this.leagueService.createOne(
         ctx.request.body as CreateLeagueRequest,

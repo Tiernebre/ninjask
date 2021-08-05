@@ -13,6 +13,7 @@ import { SessionPayload } from "../session";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { CREATED, OK } from "http-status";
 import bodyParser from "koa-bodyparser";
+import { generateRandomNumber } from "../random";
 
 describe("League Router", () => {
   let app: Application;
@@ -82,6 +83,17 @@ describe("League Router", () => {
       ).thenResolve(expectedLeague);
       const response = await request.post(uri).send(createLeagueRequest);
       expect(response.body).toEqual(expectedLeague);
+    });
+  });
+
+  describe("GET /leagues", () => {
+    const id = generateRandomNumber();
+    const uri = `/leagues/${id}`;
+
+    it("returns with 200 OK status", async () => {
+      when(leagueService.getOneById(id)).thenResolve(generateMockLeague());
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
     });
   });
 });

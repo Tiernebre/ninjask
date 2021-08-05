@@ -10,4 +10,14 @@ export const leagueHandlers = [
     }
     return res(ctx.json(Object.values(leagues)));
   }),
+
+  rest.get(`${HOST}leagues/:id`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+
+    return res(ctx.json(leagues[Number(id)]));
+  }),
 ];

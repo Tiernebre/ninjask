@@ -25,7 +25,9 @@ describe("SeasonRepository", () => {
     userRepository = getRepository(UserEntity);
     const creator = await seedUser(userRepository);
     league = await seedLeague(leagueRepository, creator.id);
+    const otherLeague = await seedLeague(leagueRepository, creator.id);
     seasons = await seedSeasons(seasonRepository, league.id);
+    await seedSeasons(seasonRepository, otherLeague.id);
   });
 
   describe("getAllWithLeagueId", () => {

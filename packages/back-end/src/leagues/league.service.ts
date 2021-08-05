@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { z } from "zod";
+import { NotFoundError } from "../error";
 import { Logger } from "../logger";
 import {
   CreateLeagueRequest,
@@ -18,6 +19,14 @@ export class LeagueService {
     this.logger.info("Retrieving all of the leagues.");
     const foundLeagues = await this.leagueRepository.find();
     return foundLeagues.map((league) => this.map(league));
+  }
+
+  public async getOneById(id: number): Promise<League> {
+    const foundLeague = await this.leagueRepository.findOne(id);
+    if (!foundLeague) {
+      throw new NotFoundError(`League with id = ${id} was not found.`);
+    }
+    return this.map(foundLeague);
   }
 
   public async createOne(

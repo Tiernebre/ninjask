@@ -45,4 +45,13 @@ describe("SeasonService", () => {
       });
     });
   });
+
+  describe("getOneById", () => {
+    it("returns the found season as a mapped DTO", async () => {
+      const entity = createSeasonEntity();
+      when(repository.findOne(entity.id)).thenResolve(entity);
+      const foundSeason = await service.getOneById(entity.id);
+      expect(entity).toEqual(expect.objectContaining(foundSeason));
+    });
+  });
 });

@@ -10,4 +10,10 @@ export class ChallengeRepository extends Repository<ChallengeEntity> {
       .where("user.id = :id", { id })
       .getMany();
   }
+
+  public async findAllWithSeasonId(
+    seasonId: number
+  ): Promise<ChallengeEntity[]> {
+    return this.find({ seasonId });
+  }
 }

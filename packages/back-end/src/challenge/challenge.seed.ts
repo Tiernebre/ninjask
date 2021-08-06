@@ -7,6 +7,7 @@ import { ChallengeParticipantEntity } from "../challenge-participant/challenge-p
 
 export const seedChallenges = async (
   repository: Repository<ChallengeEntity>,
+  seasonId?: number,
   count = 20
 ): Promise<ChallengeEntity[]> => {
   const userRepository = getRepository(UserEntity);
@@ -19,15 +20,19 @@ export const seedChallenges = async (
     challenge.description = generateRandomString();
     challenge.versionId = i;
     challenge.creator = Promise.resolve(user);
+    if (seasonId) {
+      challenge.seasonId = seasonId;
+    }
     challenges.push(challenge);
   }
   return repository.save(challenges);
 };
 
 export const seedChallenge = async (
-  repository: Repository<ChallengeEntity>
+  repository: Repository<ChallengeEntity>,
+  seasonId?: number
 ): Promise<ChallengeEntity> => {
-  const [challenge] = await seedChallenges(repository, 1);
+  const [challenge] = await seedChallenges(repository, seasonId, 1);
   return challenge;
 };
 

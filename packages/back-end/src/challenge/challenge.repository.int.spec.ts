@@ -1,10 +1,14 @@
 import { getCustomRepository, getRepository, Repository } from "typeorm";
 import { seedChallengeParticipant, seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
-import { seedUsers } from "../user/user.seed";
+import { seedUser, seedUsers } from "../user/user.seed";
 import { establishDbConnection } from "../test/create-db-connection";
 import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
 import { ChallengeRepository } from "./challenge.repository";
+import { seedSeason } from "../season/season.seed";
+import { seedLeague } from "../leagues/league.seed";
+import { SeasonRepository } from "../season";
+import { LeagueEntity } from "../leagues";
 
 describe("ChallengeRepository (integration)", () => {
   let challengeRepository: ChallengeRepository;
@@ -42,6 +46,33 @@ describe("ChallengeRepository (integration)", () => {
       expect(firstChallenge.name).toEqual(challenges[0].name);
       expect(secondChallenge.id).toEqual(challenges[1].id);
       expect(secondChallenge.name).toEqual(challenges[1].name);
+    });
+  });
+
+  describe("findAllWithSeasonId", () => {
+    it("returns all of the challenges tied to a given season", async () => {
+      const user = await seedUser(getRepository(UserEntity));
+      const league = await seedLeague(getRepository(LeagueEntity), user.id);
+      const season = await seedSeason(
+        getCustomRepository(SeasonRepository),
+        league.id
+      );
+      const challenges = await seedChallenges(challengeRepository, season.id);
+      const foundChallenges = await challengeRepository.findAllWithSeasonId(
+        season.id
+      );
+      foundChallenges.forEach((foundChallenge, index) => {
+        const correspondingChallenge = challenges[index];
+        expect(foundChallenge.id).toEqual(correspondingChallenge.id);
+        expect(foundChallenge.name).toEqual(correspondingChallenge.name);
+        expect(foundChallenge.description).toEqual(
+          correspondingChallenge.description
+        );
+        expect(foundChallenge.seasonId).toEqual(season.id);
+        expect(foundChallenge.creatorId).toEqual(
+          correspondingChallenge.creatorId
+        );
+      });
     });
   });
 });

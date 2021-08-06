@@ -9,6 +9,8 @@ import { SeasonService, SeasonRouter } from ".";
 import { createSeason, createSeasons } from "./season.mock";
 import { OK } from "http-status";
 import { generateRandomNumber } from "../random";
+import { ChallengeService } from "../challenge";
+import { generateMockChallengeDto } from "../challenge/challenge.mock";
 
 describe("Challenge Router", () => {
   let app: Application;
@@ -16,11 +18,13 @@ describe("Challenge Router", () => {
   let request: supertest.SuperTest<supertest.Test>;
   let seasonService: SeasonService;
   let session: SessionPayload;
+  let challengeService: ChallengeService;
 
   beforeAll(() => {
     app = new Koa();
     seasonService = object<SeasonService>();
-    const router = new SeasonRouter(seasonService);
+    challengeService = object<ChallengeService>();
+    const router = new SeasonRouter(seasonService, challengeService);
     session = generateMockSessionPayload();
     app.use((ctx, next) => {
       ctx.state.session = session;
@@ -68,6 +72,30 @@ describe("Challenge Router", () => {
       when(seasonService.getOneById(id)).thenResolve(season);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(season);
+    });
+  });
+
+  describe("GET /seasons/:id/challenges", () => {
+    const id = generateRandomNumber();
+    const uri = `/seasons/${id}/challenges`;
+
+    it("returns 200 OK status", async () => {
+      when(challengeService.getAllForSeason(id)).thenResolve([
+        generateMockChallengeDto(),
+        generateMockChallengeDto(),
+      ]);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
+    });
+
+    it("returns with the found seasons in the body", async () => {
+      const challenges = [
+        generateMockChallengeDto(),
+        generateMockChallengeDto(),
+      ];
+      when(challengeService.getAllForSeason(id)).thenResolve(challenges);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(challenges);
     });
   });
 });

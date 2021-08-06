@@ -1,9 +1,9 @@
-import { Repository } from "typeorm";
 import { z } from "zod";
 import { Challenge, ChallengeEntity } from ".";
 import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { ChallengeStatus } from "./challenge-status";
+import { ChallengeRepository } from "./challenge.repository";
 import {
   CreateChallengeRequest,
   createChallengeRequestSchema,
@@ -15,9 +15,7 @@ const ALLOWED_STATUSES_FOR_POOL_GENERATION: Set<ChallengeStatus> = new Set([
 ]);
 
 export class ChallengeService {
-  constructor(
-    private readonly challengeRepository: Repository<ChallengeEntity>
-  ) {}
+  constructor(private readonly challengeRepository: ChallengeRepository) {}
 
   async oneCanHavePoolGeneratedWithId(id: number): Promise<boolean> {
     const challenge = await this.getOneById(id);
@@ -68,12 +66,15 @@ export class ChallengeService {
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
     z.number().parse(id);
-    const challenges = await this.challengeRepository
-      .createQueryBuilder("challenge")
-      .innerJoin("challenge.participants", "participant")
-      .innerJoin("participant.user", "user")
-      .where("user.id = :id", { id })
-      .getMany();
+    const challenges = await this.challengeRepository.findAllForUserWithId(id);
+    return challenges.map((entity) => this.mapFromEntity(entity));
+  }
+
+  async getAllForSeason(seasonId: number): Promise<Challenge[]> {
+    z.number().parse(seasonId);
+    const challenges = await this.challengeRepository.findAllWithSeasonId(
+      seasonId
+    );
     return challenges.map((entity) => this.mapFromEntity(entity));
   }
 

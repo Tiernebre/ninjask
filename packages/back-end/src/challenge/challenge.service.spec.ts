@@ -1,21 +1,21 @@
 import { object, when, verify } from "testdouble";
-import { Repository } from "typeorm";
 import { z, ZodError } from "zod";
 import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
+import { generateRandomNumber } from "../random";
 import { INVALID_NUMBER_CASES } from "../test/cases";
 import { ChallengeStatus } from "./challenge-status";
-import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
+import { ChallengeRepository } from "./challenge.repository";
 import { ChallengeService } from "./challenge.service";
 import { CreateChallengeRequest } from "./create-challenge-request";
 
 describe("ChallengeService", () => {
-  let challengeRepository: Repository<ChallengeEntity>;
+  let challengeRepository: ChallengeRepository;
   let challengeService: ChallengeService;
 
   beforeEach(() => {
-    challengeRepository = object<Repository<ChallengeEntity>>();
+    challengeRepository = object<ChallengeRepository>();
     challengeService = new ChallengeService(challengeRepository);
   });
 
@@ -58,6 +58,21 @@ describe("ChallengeService", () => {
         ).rejects.toThrowError(z.ZodError);
       }
     );
+
+    it("returns the mapped entities for the user", async () => {
+      const id = generateRandomNumber();
+      const entities = [generateMockChallenge(), generateMockChallenge()];
+      when(challengeRepository.findAllForUserWithId(id)).thenResolve(entities);
+      const gottenChallenges = await challengeService.getAllForUserWithId(id);
+      gottenChallenges.forEach((gottenChallenge, index) => {
+        const challenge = entities[index];
+        expect(gottenChallenge.id).toEqual(challenge.id);
+        expect(gottenChallenge.name).toEqual(challenge.name);
+        expect(gottenChallenge.description).toEqual(challenge.description);
+        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
+        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+      });
+    });
   });
 
   describe("oneCanHavePoolGeneratedWithId", () => {
@@ -84,6 +99,17 @@ describe("ChallengeService", () => {
         ).resolves.toEqual(false);
       }
     );
+  });
+
+  describe("updateStatusForOneWithId", () => {
+    it("updates the status for one with id", async () => {
+      const id = generateRandomNumber();
+      const status = ChallengeStatus.COMPLETED;
+      await expect(
+        challengeService.updateStatusForOneWithId(id, status)
+      ).resolves.not.toThrowError();
+      verify(challengeRepository.update(id, { status }));
+    });
   });
 
   describe("deleteOneById", () => {
@@ -215,6 +241,34 @@ describe("ChallengeService", () => {
       );
       expect(createdChallenge.versionId).toEqual(expectedChallenge.versionId);
       expect(createdChallenge.creatorId).toEqual(expectedChallenge.creatorId);
+    });
+  });
+
+  describe("getAllForSeason", () => {
+    it.each(INVALID_NUMBER_CASES)(
+      "throws ZodError if the given season id = %p",
+      async (seasonId: unknown) => {
+        await expect(
+          challengeService.getAllForSeason(seasonId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("returns the found challenges from a given season ID", async () => {
+      const challenges = [generateMockChallenge(), generateMockChallenge()];
+      const seasonId = generateRandomNumber();
+      when(challengeRepository.findAllWithSeasonId(seasonId)).thenResolve(
+        challenges
+      );
+      const gottenChallenges = await challengeService.getAllForSeason(seasonId);
+      gottenChallenges.forEach((gottenChallenge, index) => {
+        const challenge = challenges[index];
+        expect(gottenChallenge.id).toEqual(challenge.id);
+        expect(gottenChallenge.name).toEqual(challenge.name);
+        expect(gottenChallenge.description).toEqual(challenge.description);
+        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
+        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+      });
     });
   });
 });

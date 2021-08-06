@@ -70,6 +70,14 @@ export class ChallengeService {
     return challenges.map((entity) => this.mapFromEntity(entity));
   }
 
+  async getAllForSeason(seasonId: number): Promise<Challenge[]> {
+    z.number().parse(seasonId);
+    const challenges = await this.challengeRepository.findAllWithSeasonId(
+      seasonId
+    );
+    return challenges.map((entity) => this.mapFromEntity(entity));
+  }
+
   async updateStatusForOneWithId(
     id: number,
     status: ChallengeStatus

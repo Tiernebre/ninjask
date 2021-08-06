@@ -243,4 +243,32 @@ describe("ChallengeService", () => {
       expect(createdChallenge.creatorId).toEqual(expectedChallenge.creatorId);
     });
   });
+
+  describe("getAllForSeason", () => {
+    it.each(INVALID_NUMBER_CASES)(
+      "throws ZodError if the given season id = %p",
+      async (seasonId: unknown) => {
+        await expect(
+          challengeService.getAllForSeason(seasonId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("returns the found challenges from a given season ID", async () => {
+      const challenges = [generateMockChallenge(), generateMockChallenge()];
+      const seasonId = generateRandomNumber();
+      when(challengeRepository.findAllWithSeasonId(seasonId)).thenResolve(
+        challenges
+      );
+      const gottenChallenges = await challengeService.getAllForSeason(seasonId);
+      gottenChallenges.forEach((gottenChallenge, index) => {
+        const challenge = challenges[index];
+        expect(gottenChallenge.id).toEqual(challenge.id);
+        expect(gottenChallenge.name).toEqual(challenge.name);
+        expect(gottenChallenge.description).toEqual(challenge.description);
+        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
+        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+      });
+    });
+  });
 });

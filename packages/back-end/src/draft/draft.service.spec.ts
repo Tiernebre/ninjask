@@ -108,6 +108,16 @@ describe("DraftService", () => {
         draftService.getOneForChallengeId(challengeId)
       ).rejects.toThrowError(NotFoundError);
     });
+
+    it("returns a mapped draft from a given challenge id", async () => {
+      const draftEntity = generateMockDraftEntity();
+      const challengeId = generateRandomNumber();
+      when(draftRepository.findOne({ challengeId })).thenResolve(draftEntity);
+      const gottenDraft = await draftService.getOneForChallengeId(challengeId);
+      expect(gottenDraft.id).toEqual(draftEntity.id);
+      expect(gottenDraft.extraPoolSize).toEqual(draftEntity.extraPoolSize);
+      expect(gottenDraft.challengeId).toEqual(draftEntity.challengeId);
+    });
   });
 
   describe("incrementPoolIndexForOneWithId", () => {

@@ -1,35 +1,27 @@
-import { getRepository, Repository } from "typeorm";
-import { ChallengeEntity } from "./challenge.entity";
-import { ChallengeService } from "./challenge.service";
-import {
-  seedChallenge,
-  seedChallengeParticipant,
-  seedChallenges,
-} from "./challenge.seed";
+import { getCustomRepository, getRepository, Repository } from "typeorm";
+import { seedChallengeParticipant, seedChallenges } from "./challenge.seed";
 import { UserEntity } from "../user/user.entity";
 import { seedUsers } from "../user/user.seed";
 import { establishDbConnection } from "../test/create-db-connection";
 import { ChallengeParticipantEntity } from "../challenge-participant/challenge-participant.entity";
-import { ChallengeStatus } from "./challenge-status";
+import { ChallengeRepository } from "./challenge.repository";
 
-describe("ChallengeService (integration)", () => {
-  let challengeService: ChallengeService;
-  let challengeRepository: Repository<ChallengeEntity>;
+describe("ChallengeRepository (integration)", () => {
+  let challengeRepository: ChallengeRepository;
   let userRepository: Repository<UserEntity>;
 
   beforeAll(async () => {
     await establishDbConnection();
-    challengeRepository = getRepository(ChallengeEntity);
+  });
+
+  beforeEach(async () => {
+    challengeRepository = getCustomRepository(ChallengeRepository);
     userRepository = getRepository(UserEntity);
     await seedChallenges(challengeRepository);
     await seedUsers(userRepository);
   });
 
-  beforeEach(() => {
-    challengeService = new ChallengeService(challengeRepository);
-  });
-
-  describe("getAllForUserWithId", () => {
+  describe("findAllForUserWithId", () => {
     it("returns all of the challenges that are only tied to a user", async () => {
       const challenges = await challengeRepository.findByIds([1, 3]);
       const user = (await userRepository.findOne()) as UserEntity;
@@ -41,7 +33,7 @@ describe("ChallengeService (integration)", () => {
         );
       }
       await challengeRepository.save(challenges);
-      const challengesFound = await challengeService.getAllForUserWithId(
+      const challengesFound = await challengeRepository.findAllForUserWithId(
         user.id
       );
       expect(challengesFound).toHaveLength(2);
@@ -51,19 +43,5 @@ describe("ChallengeService (integration)", () => {
       expect(secondChallenge.id).toEqual(challenges[1].id);
       expect(secondChallenge.name).toEqual(challenges[1].name);
     });
-  });
-
-  describe("updateStatusForOneWithId", () => {
-    it.each(Object.values(ChallengeStatus))(
-      "updates the status to %p for a given challenge",
-      async (status: ChallengeStatus) => {
-        const challenge = await seedChallenge(challengeRepository);
-        await challengeService.updateStatusForOneWithId(challenge.id, status);
-        const updatedChallenge = (await challengeRepository.findOne(
-          challenge.id
-        )) as ChallengeEntity;
-        expect(updatedChallenge.status).toEqual(status);
-      }
-    );
   });
 });

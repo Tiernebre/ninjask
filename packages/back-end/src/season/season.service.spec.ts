@@ -3,6 +3,7 @@ import { object, when } from "testdouble";
 import { createSeasonEntity } from "./season.mock";
 import { SeasonRepository } from "./season.repository";
 import { generateRandomNumber } from "../random";
+import { NotFoundError } from "../error";
 
 describe("SeasonService", () => {
   let repository: SeasonRepository;
@@ -52,6 +53,12 @@ describe("SeasonService", () => {
       when(repository.findOne(entity.id)).thenResolve(entity);
       const foundSeason = await service.getOneById(entity.id);
       expect(entity).toEqual(expect.objectContaining(foundSeason));
+    });
+
+    it("throws a NotFoundError if no entity was found", async () => {
+      const id = generateRandomNumber();
+      when(repository.findOne(id)).thenResolve(undefined);
+      await expect(service.getOneById(id)).rejects.toThrowError(NotFoundError);
     });
   });
 });

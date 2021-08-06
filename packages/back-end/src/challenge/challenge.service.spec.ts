@@ -101,6 +101,17 @@ describe("ChallengeService", () => {
     );
   });
 
+  describe("updateStatusForOneWithId", () => {
+    it("updates the status for one with id", async () => {
+      const id = generateRandomNumber();
+      const status = ChallengeStatus.COMPLETED;
+      await expect(
+        challengeService.updateStatusForOneWithId(id, status)
+      ).resolves.not.toThrowError();
+      verify(challengeRepository.update(id, { status }));
+    });
+  });
+
   describe("deleteOneById", () => {
     it("throws an error if the challenge does not exist", async () => {
       const id = 1;

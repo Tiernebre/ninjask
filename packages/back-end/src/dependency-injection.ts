@@ -8,11 +8,7 @@ import {
   getCustomRepository,
 } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import {
-  ChallengeEntity,
-  ChallengeService,
-  ChallengeRouter,
-} from "./challenge";
+import { ChallengeService, ChallengeRouter } from "./challenge";
 import {
   ChallengeParticipantService,
   ChallengeParticipantEntity,
@@ -50,6 +46,7 @@ import {
 } from "./live-session";
 import { createAdminAuthenticationMiddleware } from "./middleware";
 import { SeasonRepository, SeasonRouter, SeasonService } from "./season";
+import { ChallengeRepository } from "./challenge/challenge.repository";
 
 const setupTypeOrmConnection = async (): Promise<void> => {
   const existingConfiguration = await getConnectionOptions();
@@ -92,7 +89,7 @@ const buildDraftService = (logger: Logger) => {
 };
 
 const buildChallengeService = () => {
-  const challengeRepository = getRepository(ChallengeEntity);
+  const challengeRepository = getCustomRepository(ChallengeRepository);
   return new ChallengeService(challengeRepository);
 };
 
@@ -212,7 +209,7 @@ const buildVersionRouter = (logger: Logger) => {
 };
 
 const buildSeasonsRouter = () => {
-  return new SeasonRouter(buildSeasonService());
+  return new SeasonRouter(buildSeasonService(), buildChallengeService());
 };
 
 /**

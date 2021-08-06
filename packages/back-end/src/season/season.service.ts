@@ -1,3 +1,4 @@
+import { NotFoundError } from "../error";
 import { Season } from "./season";
 import { SeasonEntity } from "./season.entity";
 import { SeasonRepository } from "./season.repository";
@@ -13,6 +14,14 @@ export class SeasonService {
     return (await this.repository.findAllWithLeagueId(leagueId)).map((entity) =>
       this.map(entity)
     );
+  }
+
+  public async getOneById(id: number): Promise<Season> {
+    const foundSeason = await this.repository.findOne(id);
+    if (!foundSeason) {
+      throw new NotFoundError(`Season with id = ${id} not found.`);
+    }
+    return this.map(foundSeason);
   }
 
   private map(entity: SeasonEntity): Season {

@@ -1,4 +1,4 @@
-import { matchers, object, when } from "testdouble";
+import { matchers, object, when, verify } from "testdouble";
 import { Repository } from "typeorm";
 import { DraftEntity } from "./draft.entity";
 import {
@@ -97,6 +97,26 @@ describe("DraftService", () => {
       await expect(
         draftService.getOneAsEntityWithPool(id)
       ).rejects.toThrowError(`Draft with id ${id} was not found.`);
+    });
+  });
+
+  describe("getOneForChallengeId", () => {
+    it("throws a NotFoundError if one was not found with given challenge id", async () => {
+      const challengeId = generateRandomNumber();
+      when(draftRepository.findOne({ challengeId })).thenResolve(undefined);
+      await expect(
+        draftService.getOneForChallengeId(challengeId)
+      ).rejects.toThrowError(NotFoundError);
+    });
+  });
+
+  describe("incrementPoolIndexForOneWithId", () => {
+    it("gets called correctly", async () => {
+      const id = generateRandomNumber();
+      await expect(
+        draftService.incrementPoolIndexForOneWithId(id)
+      ).resolves.not.toThrowError();
+      verify(draftRepository.increment({ id }, "livePoolPokemonIndex", 1));
     });
   });
 });

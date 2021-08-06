@@ -22,7 +22,7 @@ export class DraftService {
     this.logger.info(`Fetching draft for challenge with id = ${challengeId}`);
     const draft = await this.draftRepository.findOne({ challengeId });
     if (!draft) {
-      throw new Error(
+      throw new NotFoundError(
         `Draft was not found for challenge with id = ${challengeId}`
       );
     }
@@ -35,7 +35,7 @@ export class DraftService {
       relations: ["pokemon"],
     });
     if (!draft) {
-      throw new Error(`Draft with id ${id} was not found.`);
+      throw new NotFoundError(`Draft with id ${id} was not found.`);
     }
     this.logger.info(`Returning draft ${JSON.stringify(draft)}`);
     return draft;

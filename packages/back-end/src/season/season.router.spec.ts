@@ -6,8 +6,9 @@ import { object, when } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { SeasonService, SeasonRouter } from ".";
-import { createSeasons } from "./season.mock";
+import { createSeason, createSeasons } from "./season.mock";
 import { OK } from "http-status";
+import { generateRandomNumber } from "../random";
 
 describe("Challenge Router", () => {
   let app: Application;
@@ -49,6 +50,24 @@ describe("Challenge Router", () => {
       when(seasonService.getAll()).thenResolve(seasons);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(seasons);
+    });
+  });
+
+  describe("GET /seasons/:id", () => {
+    const id = generateRandomNumber();
+    const uri = `/seasons/${id}`;
+
+    it("returns 200 OK status", async () => {
+      when(seasonService.getOneById(id)).thenResolve(createSeason());
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
+    });
+
+    it("returns with the found seasons in the body", async () => {
+      const season = createSeason();
+      when(seasonService.getOneById(id)).thenResolve(season);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(season);
     });
   });
 });

@@ -17,6 +17,7 @@ import { generateRandomNumber } from "../random";
 import { SeasonService } from "../season";
 import { createSeason } from "../season/season.mock";
 import { ChallengeService } from "../challenge";
+import { generateMockChallengeDto } from "../challenge/challenge.mock";
 
 describe("League Router", () => {
   let app: Application;
@@ -133,6 +134,30 @@ describe("League Router", () => {
       when(seasonService.getAllForLeague(id)).thenResolve(seasons);
       const response = await request.get(uri).send();
       expect(response.body).toEqual(seasons);
+    });
+  });
+
+  describe("GET /leagues/:id/challenges", () => {
+    const id = generateRandomNumber();
+    const uri = `/leagues/${id}/challenges`;
+
+    it("returns with 200 OK status", async () => {
+      when(challengeService.getAllForLeague(id)).thenResolve([
+        generateMockChallengeDto(),
+        generateMockChallengeDto(),
+      ]);
+      const response = await request.get(uri).send();
+      expect(response.status).toEqual(OK);
+    });
+
+    it("returns with the found seasons in the response", async () => {
+      const challenges = [
+        generateMockChallengeDto(),
+        generateMockChallengeDto(),
+      ];
+      when(challengeService.getAllForLeague(id)).thenResolve(challenges);
+      const response = await request.get(uri).send();
+      expect(response.body).toEqual(challenges);
     });
   });
 });

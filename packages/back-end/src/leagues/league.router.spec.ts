@@ -16,6 +16,7 @@ import bodyParser from "koa-bodyparser";
 import { generateRandomNumber } from "../random";
 import { SeasonService } from "../season";
 import { createSeason } from "../season/season.mock";
+import { ChallengeService } from "../challenge";
 
 describe("League Router", () => {
   let app: Application;
@@ -24,12 +25,18 @@ describe("League Router", () => {
   let leagueService: LeagueService;
   let seasonService: SeasonService;
   let session: SessionPayload;
+  let challengeService: ChallengeService;
 
   beforeAll(() => {
     app = new Koa();
     leagueService = object<LeagueService>();
     seasonService = object<SeasonService>();
-    const router = new LeagueRouter(leagueService, seasonService);
+    challengeService = object<ChallengeService>();
+    const router = new LeagueRouter(
+      leagueService,
+      seasonService,
+      challengeService
+    );
     session = generateMockSessionPayload();
     app.use(bodyParser());
     app.use((ctx, next) => {

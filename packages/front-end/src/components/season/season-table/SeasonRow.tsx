@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Season } from "../../../api";
 
 type SeasonRowProps = {
@@ -7,8 +8,9 @@ type SeasonRowProps = {
 export const SeasonRow = ({ season }: SeasonRowProps): JSX.Element => {
   return (
     <tr>
-      <td>{season.id}</td>
-      <td>{season.name}</td>
+      <td>
+        <Link to={`/seasons/${season.id}`}>{season.name}</Link>
+      </td>
       <td>{season.description}</td>
     </tr>
   );

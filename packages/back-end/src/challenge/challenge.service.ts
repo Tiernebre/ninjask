@@ -76,6 +76,13 @@ export class ChallengeService {
     );
   }
 
+  async getAllForLeague(leagueId: number): Promise<Challenge[]> {
+    z.number().parse(leagueId);
+    return this.mapMany(
+      await this.challengeRepository.findAllForLeagueWithId(leagueId)
+    );
+  }
+
   async updateStatusForOneWithId(
     id: number,
     status: ChallengeStatus

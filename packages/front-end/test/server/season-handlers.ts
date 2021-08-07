@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import { seasons } from "../mocks";
+import { seasonChallenges, seasons } from "../mocks";
 import { HOST } from "./constants";
 import { isAuthorized } from "./helpers";
 
@@ -24,5 +24,16 @@ export const seasonHandlers = [
     }
 
     return res(ctx.json(season));
+  }),
+
+  rest.get(`${HOST}seasons/:id/challenges`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+    const challenges = seasonChallenges[Number(id)];
+
+    return res(ctx.json(challenges));
   }),
 ];

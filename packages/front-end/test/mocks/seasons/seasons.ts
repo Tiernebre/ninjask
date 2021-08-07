@@ -1,5 +1,6 @@
-import { Season } from "../../../src/api";
+import { Challenge, Season } from "../../../src/api";
 import { Writeable } from "../../types";
+import { generateMockChallenges } from "../challenge/generate";
 import { generateSeason } from "./generate";
 
 export const createMockSeasons = (): Record<number, Writeable<Season>> => {
@@ -11,4 +12,20 @@ export const createMockSeasons = (): Record<number, Writeable<Season>> => {
   return seasons;
 };
 
-export const seasons = createMockSeasons();
+const seasons = createMockSeasons();
+
+const createSeasonChallenges = (): Record<number, Writeable<Challenge[]>> => {
+  const seasonChallenges: Record<number, Writeable<Challenge[]>> = {};
+  Object.values(seasons).forEach((season) => {
+    const challenges = generateMockChallenges();
+    seasonChallenges[season.id] = challenges;
+  });
+  return seasonChallenges;
+};
+
+const seasonChallenges: Record<
+  number,
+  Writeable<Challenge[]>
+> = createSeasonChallenges();
+
+export { seasons, seasonChallenges };

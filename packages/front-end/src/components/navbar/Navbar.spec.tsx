@@ -64,3 +64,16 @@ it("shows challenges route when challenges link is clicked", () => {
   user.click(screen.getByRole("link", { name: "Challenges" }));
   expect(screen.getByText("Challenges View")).toBeInTheDocument();
 });
+
+it("shows leagues route when leagues link is clicked", () => {
+  render(
+    <MemoryRouter>
+      <Navbar isAuthenticated={true} onLogOut={jest.fn()} />
+      <Route path="/leagues" exact>
+        Leagues View
+      </Route>
+    </MemoryRouter>
+  );
+  user.click(screen.getByRole("link", { name: "Leagues" }));
+  expect(screen.getByText("Leagues View")).toBeInTheDocument();
+});

@@ -4,7 +4,7 @@ import {
   mockLeagueSeasons,
   MockSessionContextProvider,
 } from "../../../../test";
-import { leagues } from "../../../../test/mocks/league";
+import { leagueChallenges, leagues } from "../../../../test/mocks/league";
 import { useLeaguesApi } from "./use-leagues-api";
 
 const wrapper = ({ children }: PropsWithChildren<unknown>): JSX.Element => (
@@ -41,4 +41,15 @@ it("gets the seasons for a league", async () => {
   await expect(
     result.current.getSeasonsForOne(expectedLeague.id)
   ).resolves.toEqual(expectedSeasons);
+});
+
+it("gets the challenges for a league", async () => {
+  const [expectedLeague] = Object.values(leagues);
+  const expectedChallenges = leagueChallenges[expectedLeague.id];
+  expect(expectedChallenges).toBeTruthy();
+  expect(expectedChallenges.length).toBeGreaterThan(0);
+  const { result } = renderHook(() => useLeaguesApi(), { wrapper });
+  await expect(
+    result.current.getChallengesForOne(expectedLeague.id)
+  ).resolves.toEqual(expectedChallenges);
 });

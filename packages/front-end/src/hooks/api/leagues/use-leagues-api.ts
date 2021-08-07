@@ -1,11 +1,12 @@
 import { useCallback } from "react";
-import { League, Season } from "../../../api";
+import { Challenge, League, Season } from "../../../api";
 import { useHttp } from "../../http";
 
 type LeaguesApi = {
   getLeagues: () => Promise<League[]>;
   getLeagueById: (id: number) => Promise<League>;
   getSeasonsForOne: (id: number) => Promise<Season[]>;
+  getChallengesForOne: (id: number) => Promise<Challenge[]>;
 };
 
 export const useLeaguesApi = (): LeaguesApi => {
@@ -29,9 +30,17 @@ export const useLeaguesApi = (): LeaguesApi => {
     [httpClient]
   );
 
+  const getChallengesForOne = useCallback(
+    (id: number) => {
+      return httpClient.get<Challenge[]>(`leagues/${id}/challenges`);
+    },
+    [httpClient]
+  );
+
   return {
     getLeagues,
     getLeagueById,
     getSeasonsForOne,
+    getChallengesForOne,
   };
 };

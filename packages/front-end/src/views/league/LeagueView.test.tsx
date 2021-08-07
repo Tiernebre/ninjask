@@ -4,16 +4,16 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import { mockLeagueSeasons, MockSessionContextProvider } from "../../../test";
+import { MockSessionContextProvider } from "../../../test";
 import { LeagueView } from "./LeagueView";
 import { Router } from "react-router";
 import { Route } from "react-router-dom";
-import { leagues } from "../../../test/mocks/league";
+import { leagues, leagueSeasons } from "../../../test/mocks/league";
 
 it("displays information about the league", async () => {
   const history = createMemoryHistory();
   const [leagueToTest] = Object.values(leagues);
-  const seasonsToTest = mockLeagueSeasons[leagueToTest.id];
+  const seasonsToTest = leagueSeasons[leagueToTest.id];
   history.push(`/leagues/${leagueToTest.id}`);
   render(
     <Router history={history}>

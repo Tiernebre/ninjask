@@ -1,6 +1,5 @@
 import { rest } from "msw";
-import { mockLeagueSeasons } from "../mocks";
-import { leagues, leagueChallenges } from "../mocks/league";
+import { leagues, leagueChallenges, leagueSeasons } from "../mocks/league";
 import { HOST } from "./constants";
 import { isAuthorized } from "./helpers";
 
@@ -33,7 +32,7 @@ export const leagueHandlers = [
     }
 
     const { id } = req.params;
-    const foundSeasons = mockLeagueSeasons[Number(id)];
+    const foundSeasons = leagueSeasons[Number(id)];
 
     return res(ctx.json(foundSeasons));
   }),

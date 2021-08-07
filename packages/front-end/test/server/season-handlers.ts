@@ -19,6 +19,10 @@ export const seasonHandlers = [
     const { id } = req.params;
     const season = seasons[Number(id)];
 
+    if (!season) {
+      return res(ctx.status(404), ctx.json({ message: "Season Not Found" }));
+    }
+
     return res(ctx.json(season));
   }),
 ];

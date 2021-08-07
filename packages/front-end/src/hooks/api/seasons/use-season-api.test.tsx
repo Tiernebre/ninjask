@@ -21,3 +21,8 @@ it("gets a season by id", async () => {
     result.current.getSeasonById(expectedSeason.id)
   ).resolves.toEqual(expectedSeason);
 });
+
+it("throws an error if a season ID is given for one that does not exist", async () => {
+  const { result } = renderHook(() => useSeasonsApi(), { wrapper });
+  await expect(result.current.getSeasonById(10000)).rejects.toThrowError();
+});

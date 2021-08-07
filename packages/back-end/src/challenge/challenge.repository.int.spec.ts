@@ -74,5 +74,44 @@ describe("ChallengeRepository (integration)", () => {
         );
       });
     });
+
+    it("returns an empty array if the season does not exist", async () => {
+      await expect(
+        challengeRepository.findAllWithSeasonId(10000)
+      ).resolves.toEqual([]);
+    });
+  });
+
+  describe("findAllForLeagueWithId", () => {
+    it("returns all of the challenges tied to a given league", async () => {
+      const user = await seedUser(getRepository(UserEntity));
+      const league = await seedLeague(getRepository(LeagueEntity), user.id);
+      const season = await seedSeason(
+        getCustomRepository(SeasonRepository),
+        league.id
+      );
+      const challenges = await seedChallenges(challengeRepository, season.id);
+      const foundChallenges = await challengeRepository.findAllForLeagueWithId(
+        league.id
+      );
+      foundChallenges.forEach((foundChallenge, index) => {
+        const correspondingChallenge = challenges[index];
+        expect(foundChallenge.id).toEqual(correspondingChallenge.id);
+        expect(foundChallenge.name).toEqual(correspondingChallenge.name);
+        expect(foundChallenge.description).toEqual(
+          correspondingChallenge.description
+        );
+        expect(foundChallenge.seasonId).toEqual(season.id);
+        expect(foundChallenge.creatorId).toEqual(
+          correspondingChallenge.creatorId
+        );
+      });
+    });
+
+    it("returns an empty array if the league does not exist", async () => {
+      await expect(
+        challengeRepository.findAllForLeagueWithId(10000)
+      ).resolves.toEqual([]);
+    });
   });
 });

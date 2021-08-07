@@ -59,23 +59,28 @@ export class ChallengeService {
   }
 
   async getAll(): Promise<Challenge[]> {
-    return (await this.challengeRepository.find()).map((entity) =>
-      this.mapFromEntity(entity)
-    );
+    return this.mapMany(await this.challengeRepository.find());
   }
 
   async getAllForUserWithId(id: number): Promise<Challenge[]> {
     z.number().parse(id);
-    const challenges = await this.challengeRepository.findAllForUserWithId(id);
-    return challenges.map((entity) => this.mapFromEntity(entity));
+    return this.mapMany(
+      await this.challengeRepository.findAllForUserWithId(id)
+    );
   }
 
   async getAllForSeason(seasonId: number): Promise<Challenge[]> {
     z.number().parse(seasonId);
-    const challenges = await this.challengeRepository.findAllWithSeasonId(
-      seasonId
+    return this.mapMany(
+      await this.challengeRepository.findAllWithSeasonId(seasonId)
     );
-    return challenges.map((entity) => this.mapFromEntity(entity));
+  }
+
+  async getAllForLeague(leagueId: number): Promise<Challenge[]> {
+    z.number().parse(leagueId);
+    return this.mapMany(
+      await this.challengeRepository.findAllForLeagueWithId(leagueId)
+    );
   }
 
   async updateStatusForOneWithId(
@@ -83,6 +88,10 @@ export class ChallengeService {
     status: ChallengeStatus
   ): Promise<void> {
     await this.challengeRepository.update(id, { status });
+  }
+
+  private mapMany(entities: ChallengeEntity[]): Challenge[] {
+    return entities.map((entity) => this.mapFromEntity(entity));
   }
 
   private mapFromEntity(entity: ChallengeEntity): Challenge {

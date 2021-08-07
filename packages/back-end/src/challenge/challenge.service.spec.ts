@@ -4,7 +4,9 @@ import { ForbiddenError } from "../error";
 import { NotFoundError } from "../error/not-found-error";
 import { generateRandomNumber } from "../random";
 import { INVALID_NUMBER_CASES } from "../test/cases";
+import { Challenge } from "./challenge";
 import { ChallengeStatus } from "./challenge-status";
+import { ChallengeEntity } from "./challenge.entity";
 import { generateMockChallenge } from "./challenge.mock";
 import { ChallengeRepository } from "./challenge.repository";
 import { ChallengeService } from "./challenge.service";
@@ -19,16 +21,23 @@ describe("ChallengeService", () => {
     challengeService = new ChallengeService(challengeRepository);
   });
 
+  const assertChallenge = (
+    gotten: Challenge,
+    expected: ChallengeEntity
+  ): void => {
+    expect(gotten.id).toEqual(expected.id);
+    expect(gotten.name).toEqual(expected.name);
+    expect(gotten.description).toEqual(expected.description);
+    expect(gotten.versionId).toEqual(expected.versionId);
+    expect(gotten.creatorId).toEqual(expected.creatorId);
+  };
+
   describe("getOneById", () => {
     it("returns the challenge if it exists", async () => {
       const challenge = generateMockChallenge();
       when(challengeRepository.findOne(challenge.id)).thenResolve(challenge);
       const gottenChallenge = await challengeService.getOneById(challenge.id);
-      expect(gottenChallenge.id).toEqual(challenge.id);
-      expect(gottenChallenge.name).toEqual(challenge.name);
-      expect(gottenChallenge.description).toEqual(challenge.description);
-      expect(gottenChallenge.versionId).toEqual(challenge.versionId);
-      expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+      assertChallenge(gottenChallenge, challenge);
     });
 
     it("throws an error if the challenge does not exist", async () => {
@@ -66,11 +75,7 @@ describe("ChallengeService", () => {
       const gottenChallenges = await challengeService.getAllForUserWithId(id);
       gottenChallenges.forEach((gottenChallenge, index) => {
         const challenge = entities[index];
-        expect(gottenChallenge.id).toEqual(challenge.id);
-        expect(gottenChallenge.name).toEqual(challenge.name);
-        expect(gottenChallenge.description).toEqual(challenge.description);
-        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
-        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+        assertChallenge(gottenChallenge, challenge);
       });
     });
   });
@@ -155,11 +160,7 @@ describe("ChallengeService", () => {
       const gottenChallenges = await challengeService.getAll();
       gottenChallenges.forEach((gottenChallenge, index) => {
         const challenge = challenges[index];
-        expect(gottenChallenge.id).toEqual(challenge.id);
-        expect(gottenChallenge.name).toEqual(challenge.name);
-        expect(gottenChallenge.description).toEqual(challenge.description);
-        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
-        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+        assertChallenge(gottenChallenge, challenge);
       });
     });
   });
@@ -234,13 +235,7 @@ describe("ChallengeService", () => {
         validCreateChallengeRequest,
         creatorId
       );
-      expect(createdChallenge.id).toEqual(expectedChallenge.id);
-      expect(createdChallenge.name).toEqual(expectedChallenge.name);
-      expect(createdChallenge.description).toEqual(
-        expectedChallenge.description
-      );
-      expect(createdChallenge.versionId).toEqual(expectedChallenge.versionId);
-      expect(createdChallenge.creatorId).toEqual(expectedChallenge.creatorId);
+      assertChallenge(createdChallenge, expectedChallenge);
     });
   });
 
@@ -263,11 +258,31 @@ describe("ChallengeService", () => {
       const gottenChallenges = await challengeService.getAllForSeason(seasonId);
       gottenChallenges.forEach((gottenChallenge, index) => {
         const challenge = challenges[index];
-        expect(gottenChallenge.id).toEqual(challenge.id);
-        expect(gottenChallenge.name).toEqual(challenge.name);
-        expect(gottenChallenge.description).toEqual(challenge.description);
-        expect(gottenChallenge.versionId).toEqual(challenge.versionId);
-        expect(gottenChallenge.creatorId).toEqual(challenge.creatorId);
+        assertChallenge(gottenChallenge, challenge);
+      });
+    });
+  });
+
+  describe("getAllForLeague", () => {
+    it.each(INVALID_NUMBER_CASES)(
+      "throws ZodError if the given season id = %p",
+      async (seasonId: unknown) => {
+        await expect(
+          challengeService.getAllForLeague(seasonId as number)
+        ).rejects.toThrowError(ZodError);
+      }
+    );
+
+    it("returns the found challenges from a given season ID", async () => {
+      const challenges = [generateMockChallenge(), generateMockChallenge()];
+      const leagueId = generateRandomNumber();
+      when(challengeRepository.findAllForLeagueWithId(leagueId)).thenResolve(
+        challenges
+      );
+      const gottenChallenges = await challengeService.getAllForLeague(leagueId);
+      gottenChallenges.forEach((gottenChallenge, index) => {
+        const challenge = challenges[index];
+        assertChallenge(gottenChallenge, challenge);
       });
     });
   });

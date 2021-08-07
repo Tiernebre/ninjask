@@ -78,19 +78,23 @@ const buildSeasonService = (): SeasonService => {
   return new SeasonService(seasonsRepository);
 };
 
+const buildChallengeService = () => {
+  const challengeRepository = getCustomRepository(ChallengeRepository);
+  return new ChallengeService(challengeRepository);
+};
+
 const buildLeagueRouter = (logger: Logger) => {
   const leagueRepository = getRepository(LeagueEntity);
   const leagueService = new LeagueService(leagueRepository, logger);
-  return new LeagueRouter(leagueService, buildSeasonService());
+  return new LeagueRouter(
+    leagueService,
+    buildSeasonService(),
+    buildChallengeService()
+  );
 };
 
 const buildDraftService = (logger: Logger) => {
   return new DraftService(getRepository(DraftEntity), logger);
-};
-
-const buildChallengeService = () => {
-  const challengeRepository = getCustomRepository(ChallengeRepository);
-  return new ChallengeService(challengeRepository);
 };
 
 const buildVersionService = (logger: Logger) => {

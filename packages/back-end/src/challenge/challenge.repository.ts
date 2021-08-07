@@ -16,4 +16,11 @@ export class ChallengeRepository extends Repository<ChallengeEntity> {
   ): Promise<ChallengeEntity[]> {
     return this.find({ seasonId });
   }
+
+  public async findAllForLeagueWithId(id: number): Promise<ChallengeEntity[]> {
+    return this.createQueryBuilder("challenge")
+      .innerJoin("challenge.season", "season")
+      .where("season.leagueId = :id", { id })
+      .getMany();
+  }
 }

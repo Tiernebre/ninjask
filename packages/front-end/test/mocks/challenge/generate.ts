@@ -9,3 +9,11 @@ export const generateMockChallenge = (): Challenge => ({
   versionId: generateRandomNumber(),
   creatorId: generateRandomNumber(),
 });
+
+export const generateMockChallenges = (): Challenge[] => {
+  const challenges = [];
+  for (let i = 0; i < 20; i++) {
+    challenges.push(generateMockChallenge());
+  }
+  return challenges;
+};

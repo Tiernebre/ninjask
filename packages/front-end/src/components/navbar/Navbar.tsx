@@ -19,10 +19,12 @@ export const Navbar = ({
         </NavbarItem>
       }
       menuStartItems={
-        <>
-          <NavbarItem link={{ to: "/challenges" }}>Challenges</NavbarItem>
-          <NavbarItem link={{ to: "/leagues" }}>Leagues</NavbarItem>
-        </>
+        isAuthenticated && (
+          <>
+            <NavbarItem link={{ to: "/challenges" }}>Challenges</NavbarItem>
+            <NavbarItem link={{ to: "/leagues" }}>Leagues</NavbarItem>
+          </>
+        )
       }
       menuEndItems={
         <NavbarItem>

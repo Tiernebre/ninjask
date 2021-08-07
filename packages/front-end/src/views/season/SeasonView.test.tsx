@@ -5,29 +5,29 @@ import {
 } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { MockSessionContextProvider } from "../../../test";
-import { LeagueView } from "./LeagueView";
+import { SeasonView } from "./SeasonView";
 import { Router } from "react-router";
 import { Route } from "react-router-dom";
-import { leagues, leagueSeasons } from "../../../test/mocks/league";
+import { seasons, seasonChallenges } from "../../../test/mocks";
 
-it("displays information about the league", async () => {
+it("displays information about the season", async () => {
   const history = createMemoryHistory();
-  const [leagueToTest] = Object.values(leagues);
-  const seasonsToTest = leagueSeasons[leagueToTest.id];
-  history.push(`/leagues/${leagueToTest.id}`);
+  const [seasonToTest] = Object.values(seasons);
+  const challengesToTest = seasonChallenges[seasonToTest.id];
+  history.push(`/seasons/${seasonToTest.id}`);
   render(
     <Router history={history}>
-      <Route path="/leagues/:id">
+      <Route path="/seasons/:id">
         <MockSessionContextProvider>
-          <LeagueView />
+          <SeasonView />
         </MockSessionContextProvider>
       </Route>
     </Router>
   );
   await waitForElementToBeRemoved(() => screen.getByLabelText(/Loading/i));
-  expect(screen.getByText(leagueToTest.name)).toBeInTheDocument();
-  expect(screen.getByText(leagueToTest.description)).toBeInTheDocument();
-  seasonsToTest.forEach((season) => {
+  expect(screen.getByText(seasonToTest.name)).toBeInTheDocument();
+  expect(screen.getByText(seasonToTest.description)).toBeInTheDocument();
+  challengesToTest.forEach((season) => {
     expect(screen.getByText(season.name)).toBeInTheDocument();
     expect(screen.getByText(season.description)).toBeInTheDocument();
   });

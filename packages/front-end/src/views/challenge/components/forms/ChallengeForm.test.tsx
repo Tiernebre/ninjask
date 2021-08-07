@@ -8,7 +8,7 @@ import { ChallengeForm } from "./ChallengeForm";
 import user from "@testing-library/user-event";
 import { MockSessionContextProvider } from "../../../../../test";
 import { versions } from "../../../../../test/mocks/versions";
-import { mockSeasons } from "../../../../../test/mocks";
+import { seasons } from "../../../../../test/mocks";
 
 const getSubmitButton = () =>
   screen.getByRole("button", { name: "Create Challenge" });
@@ -76,7 +76,7 @@ it("submits the form when filled out and valid", async () => {
   );
   await waitForLoadingToFinish();
   const versionToChoose = versions[8];
-  const seasonToChoose = mockSeasons[3];
+  const seasonToChoose = Object.values(seasons)[3];
   const name = "Valid Challenge";
   const description = "Valid Challenge Description";
   const versionId = versionToChoose.id;

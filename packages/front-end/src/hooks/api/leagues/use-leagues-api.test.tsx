@@ -1,10 +1,11 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { PropsWithChildren } from "react";
+import { MockSessionContextProvider } from "../../../../test";
 import {
-  mockLeagueSeasons,
-  MockSessionContextProvider,
-} from "../../../../test";
-import { leagues } from "../../../../test/mocks/league";
+  leagueChallenges,
+  leagues,
+  leagueSeasons,
+} from "../../../../test/mocks/league";
 import { useLeaguesApi } from "./use-leagues-api";
 
 const wrapper = ({ children }: PropsWithChildren<unknown>): JSX.Element => (
@@ -34,11 +35,22 @@ it("throws an error if a league cannot be found by id", async () => {
 
 it("gets the seasons for a league", async () => {
   const [expectedLeague] = Object.values(leagues);
-  const expectedSeasons = mockLeagueSeasons[expectedLeague.id];
+  const expectedSeasons = leagueSeasons[expectedLeague.id];
   expect(expectedSeasons).toBeTruthy();
   expect(expectedSeasons.length).toBeGreaterThan(0);
   const { result } = renderHook(() => useLeaguesApi(), { wrapper });
   await expect(
     result.current.getSeasonsForOne(expectedLeague.id)
   ).resolves.toEqual(expectedSeasons);
+});
+
+it("gets the challenges for a league", async () => {
+  const [expectedLeague] = Object.values(leagues);
+  const expectedChallenges = leagueChallenges[expectedLeague.id];
+  expect(expectedChallenges).toBeTruthy();
+  expect(expectedChallenges.length).toBeGreaterThan(0);
+  const { result } = renderHook(() => useLeaguesApi(), { wrapper });
+  await expect(
+    result.current.getChallengesForOne(expectedLeague.id)
+  ).resolves.toEqual(expectedChallenges);
 });

@@ -11,7 +11,6 @@ export const SeasonTable = ({ seasons }: SeasonTableProps): JSX.Element => {
     <Table fullwidth>
       <thead>
         <tr>
-          <td>ID</td>
           <td>Name</td>
           <td>Description</td>
         </tr>

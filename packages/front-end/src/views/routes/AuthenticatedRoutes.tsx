@@ -5,6 +5,7 @@ import { useSession } from "../../hooks";
 import { CreateChallengeView } from "../challenge/CreateChallengeView";
 import { LeagueView } from "../league";
 import { LeaguesView } from "../leagues";
+import { SeasonView } from "../season";
 
 type AuthenticatedRoutesProps = {
   homeRoutes: string[];
@@ -34,6 +35,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/leagues" exact>
         <LeaguesView />
+      </Route>
+      <Route path="/seasons/:id" exact>
+        <SeasonView />
       </Route>
     </Fragment>
   ) : null;

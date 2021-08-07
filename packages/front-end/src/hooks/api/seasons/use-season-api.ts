@@ -4,6 +4,7 @@ import { useHttp } from "../../http";
 
 type SeasonsApi = {
   getSeasons: () => Promise<Season[]>;
+  getSeasonById: (id: number) => Promise<Season>;
 };
 
 export const useSeasonsApi = (): SeasonsApi => {
@@ -13,7 +14,15 @@ export const useSeasonsApi = (): SeasonsApi => {
     return httpClient.get<Season[]>("seasons");
   }, [httpClient]);
 
+  const getSeasonById = useCallback(
+    (id: number) => {
+      return httpClient.get<Season>(`seasons/${id}`);
+    },
+    [httpClient]
+  );
+
   return {
     getSeasons,
+    getSeasonById,
   };
 };

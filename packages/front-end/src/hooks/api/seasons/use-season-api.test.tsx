@@ -13,3 +13,11 @@ it("gets seasons", async () => {
     Object.values(seasons)
   );
 });
+
+it("gets a season by id", async () => {
+  const [expectedSeason] = Object.values(seasons);
+  const { result } = renderHook(() => useSeasonsApi(), { wrapper });
+  await expect(
+    result.current.getSeasonById(expectedSeason.id)
+  ).resolves.toEqual(expectedSeason);
+});

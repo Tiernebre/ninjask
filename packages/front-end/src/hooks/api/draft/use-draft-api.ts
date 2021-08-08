@@ -6,6 +6,7 @@ type DraftApi = {
   getPoolForDraft: (draftId: number) => Promise<Pokemon[]>;
   generatePoolForDraft: (draftId: number) => Promise<void>;
   getSelectionsForDraft: (draftId: number) => Promise<DraftSelection[]>;
+  generateSelectionsForDraft: (draftId: number) => Promise<DraftSelection[]>;
 };
 
 export const useDraftApi = (): DraftApi => {
@@ -32,9 +33,17 @@ export const useDraftApi = (): DraftApi => {
     [httpClient]
   );
 
+  const generateSelectionsForDraft = useCallback(
+    (draftId: number) => {
+      return httpClient.post<DraftSelection[]>(`drafts/${draftId}/selections`);
+    },
+    [httpClient]
+  );
+
   return {
     getPoolForDraft,
     generatePoolForDraft,
     getSelectionsForDraft,
+    generateSelectionsForDraft,
   };
 };

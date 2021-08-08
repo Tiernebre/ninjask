@@ -5,6 +5,7 @@ import { ChallengeStatus } from "../../../../api";
 type ChallengeOwnerActionsProps = {
   onDeleteChallenge: () => void;
   challengeStatus: ChallengeStatus;
+  onGenerateDraftPool: () => void;
 };
 
 export const ChallengeOwnerActions = ({

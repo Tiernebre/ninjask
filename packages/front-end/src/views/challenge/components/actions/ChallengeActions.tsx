@@ -9,6 +9,7 @@ export type ChallengeActionsProps = {
   onLeaveChallenge: () => void;
   onJoinChallenge: () => void;
   onDeleteChallenge: () => void;
+  onGenerateDraftPool: () => void;
 };
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
@@ -16,6 +17,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
     <ChallengeOwnerActions
       onDeleteChallenge={props.onDeleteChallenge}
       challengeStatus={props.challenge.status}
+      onGenerateDraftPool={props.onGenerateDraftPool}
     />
   ) : (
     <ChallengeParticipantActions {...props} />

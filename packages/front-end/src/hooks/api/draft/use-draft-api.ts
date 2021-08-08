@@ -24,6 +24,13 @@ export const useDraftApi = (): DraftApi => {
     [httpClient]
   );
 
+  const getSelectionsForDraft = useCallback(
+    async (draftId: number) => {
+      await httpClient.get(`drafts/${draftId}/selections`);
+    },
+    [httpClient]
+  );
+
   return {
     getPoolForDraft,
     generatePoolForDraft,

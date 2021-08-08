@@ -13,7 +13,10 @@ export type ChallengeActionsProps = {
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   return props.ownsChallenge ? (
-    <ChallengeOwnerActions onDeleteChallenge={props.onDeleteChallenge} />
+    <ChallengeOwnerActions
+      onDeleteChallenge={props.onDeleteChallenge}
+      challengeStatus={props.challenge.status}
+    />
   ) : (
     <ChallengeParticipantActions {...props} />
   );

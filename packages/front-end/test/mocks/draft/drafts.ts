@@ -1,5 +1,6 @@
-import { Draft } from "../../../src/api";
+import { Draft, Pokemon } from "../../../src/api";
 import { Writeable } from "../../types/writeable";
+import { generatePokemon } from "../pokemon/generate";
 import { generateDraft } from "./generate";
 
 const createMockDrafts = (): Record<number, Writeable<Draft>> => {
@@ -11,4 +12,15 @@ const createMockDrafts = (): Record<number, Writeable<Draft>> => {
   return drafts;
 };
 
-export const drafts = createMockDrafts();
+const drafts = createMockDrafts();
+
+const createMockDraftPools = (): Record<number, Writeable<Pokemon>[]> => {
+  const draftPools = {};
+  Object.values(drafts).forEach((draft) => {
+    draftPools[draft.id] = generatePokemon();
+  });
+  return draftPools;
+};
+const draftPools = createMockDraftPools();
+
+export { drafts, draftPools };

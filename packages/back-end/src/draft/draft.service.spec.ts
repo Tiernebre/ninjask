@@ -9,6 +9,8 @@ import { DraftService } from "./draft.service";
 import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
 import { NotFoundError } from "../error";
+import { CreateDraftRequest } from "./create-draft-request";
+import { ZodError } from "zod";
 
 describe("DraftService", () => {
   let draftService: DraftService;
@@ -127,6 +129,57 @@ describe("DraftService", () => {
         draftService.incrementPoolIndexForOneWithId(id)
       ).resolves.not.toThrowError();
       verify(draftRepository.increment({ id }, "livePoolPokemonIndex", 1));
+    });
+  });
+
+  describe("createOne", () => {
+    const validCreateDraftRequest: CreateDraftRequest = {
+      challengeId: generateRandomNumber(),
+      extraPoolSize: generateRandomNumber(),
+    };
+
+    const setupValidationCase = (request: unknown): CreateDraftRequest => {
+      return {
+        ...validCreateDraftRequest,
+        ...(request as CreateDraftRequest),
+      };
+    };
+
+    it.each([
+      // empty object case
+      {},
+      // challenge id cases
+      setupValidationCase({ challengeId: null }),
+      setupValidationCase({ challengeId: undefined }),
+      setupValidationCase({ challengeId: 0 }),
+      setupValidationCase({ challengeId: -1 }),
+      // strict mode cases
+      setupValidationCase({ creatorId: 100 }),
+      setupValidationCase({ someUnknownProperty: "foo" }),
+    ])("throws a ZodError if given request %p", async (request: unknown) => {
+      await expect(
+        draftService.createOne(request as CreateDraftRequest)
+      ).rejects.toThrowError(ZodError);
+    });
+
+    it("returns the created mapped draft", async () => {
+      const expected = generateMockDraftEntity();
+      when(
+        draftRepository.create({
+          ...validCreateDraftRequest,
+        })
+      ).thenReturn(expected);
+      when(draftRepository.save(expected)).thenResolve(expected);
+      await expect(
+        draftService.createOne(validCreateDraftRequest)
+      ).resolves.toEqual({
+        id: expected.id,
+        poolSize: (await expected.pokemon).length,
+        extraPoolSize: expected.extraPoolSize,
+        livePoolingHasFinished: false,
+        challengeId: expected.challengeId,
+        numberOfRounds: expected.numberOfRounds,
+      });
     });
   });
 });

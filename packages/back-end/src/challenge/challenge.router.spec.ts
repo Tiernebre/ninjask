@@ -19,6 +19,7 @@ import { generateRandomNumber } from "../random";
 import { CREATED, NO_CONTENT, OK } from "http-status";
 import { ChallengeParticipantService } from "../challenge-participant/challenge-participant.service";
 import { generateMockChallengeParticipant } from "../challenge-participant/challenge-participant.mock";
+import bodyParser from "koa-bodyparser";
 
 describe("Challenge Router (integration)", () => {
   let app: Application;
@@ -34,12 +35,16 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
     challengeParticipantService = object<ChallengeParticipantService>();
+    when(draftService.createOne(matchers.anything())).thenResolve(
+      generateMockDraft()
+    );
     const router = new ChallengeRouter(
       challengeService,
       draftService,
       challengeParticipantService
     );
     session = generateMockSessionPayload();
+    app.use(bodyParser());
     app.use((ctx, next) => {
       ctx.state.session = session;
       void next();
@@ -238,9 +243,15 @@ describe("Challenge Router (integration)", () => {
     it("returns with 201 CREATED status", async () => {
       const requestDto = generateCreateChallengeRequestDto();
       const createdChallenge = generateMockChallengeDto();
+      when(challengeService.createOne(requestDto, session.userId)).thenResolve(
+        createdChallenge
+      );
       when(
-        challengeService.createOne(matchers.anything(), session.userId)
-      ).thenResolve(createdChallenge);
+        draftService.createOne({
+          challengeId: createdChallenge.id,
+          extraPoolSize: 10,
+        })
+      ).thenResolve(generateMockDraft());
       const response = await request.post(uri).send(requestDto);
       expect(response.status).toEqual(CREATED);
     });
@@ -248,9 +259,15 @@ describe("Challenge Router (integration)", () => {
     it("returns with the created challenge in the response body", async () => {
       const requestDto = generateCreateChallengeRequestDto();
       const createdChallenge = generateMockChallengeDto();
+      when(challengeService.createOne(requestDto, session.userId)).thenResolve(
+        createdChallenge
+      );
       when(
-        challengeService.createOne(matchers.anything(), session.userId)
-      ).thenResolve(createdChallenge);
+        draftService.createOne({
+          challengeId: createdChallenge.id,
+          extraPoolSize: 10,
+        })
+      ).thenResolve(generateMockDraft());
       const response = await request.post(uri).send(requestDto);
       expect(response.body).toEqual(createdChallenge);
     });

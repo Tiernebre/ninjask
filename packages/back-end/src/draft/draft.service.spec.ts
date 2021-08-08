@@ -9,6 +9,9 @@ import { DraftService } from "./draft.service";
 import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
 import { NotFoundError } from "../error";
+import { CreateChallengeRequest } from "../challenge/create-challenge-request";
+import { CreateDraftRequest } from "./create-draft-request";
+import { ZodError } from "zod";
 
 describe("DraftService", () => {
   let draftService: DraftService;
@@ -127,6 +130,37 @@ describe("DraftService", () => {
         draftService.incrementPoolIndexForOneWithId(id)
       ).resolves.not.toThrowError();
       verify(draftRepository.increment({ id }, "livePoolPokemonIndex", 1));
+    });
+  });
+
+  describe("createOne", () => {
+    const validCreateDraftRequest: CreateDraftRequest = {
+      challengeId: generateRandomNumber(),
+      extraPoolSize: generateRandomNumber(),
+    };
+
+    const setupValidationCase = (request: unknown): CreateDraftRequest => {
+      return {
+        ...validCreateDraftRequest,
+        ...(request as CreateDraftRequest),
+      };
+    };
+
+    it.each([
+      // empty object case
+      {},
+      // challenge id cases
+      setupValidationCase({ challengeId: null }),
+      setupValidationCase({ challengeId: undefined }),
+      setupValidationCase({ challengeId: 0 }),
+      setupValidationCase({ challengeId: -1 }),
+      // strict mode cases
+      setupValidationCase({ creatorId: 100 }),
+      setupValidationCase({ someUnknownProperty: "foo" }),
+    ])("throws a ZodError if given request %p", async (request: unknown) => {
+      await expect(
+        draftService.createOne(request as CreateDraftRequest)
+      ).rejects.toThrowError(ZodError);
     });
   });
 });

@@ -9,15 +9,17 @@ export const ChallengeOwnerActions = ({
   onDeleteChallenge,
 }: ChallengeOwnerActionsProps): JSX.Element => {
   return (
-    <SmartDropdown
-      alignment="right"
-      triggerLabel="Actions"
-      menuId="challenge-owner-actions"
-      items={
-        <Fragment>
-          <DropdownItem onClick={onDeleteChallenge}>Delete</DropdownItem>
-        </Fragment>
-      }
-    />
+    <>
+      <SmartDropdown
+        alignment="right"
+        triggerLabel="Actions"
+        menuId="challenge-owner-actions"
+        items={
+          <Fragment>
+            <DropdownItem onClick={onDeleteChallenge}>Delete</DropdownItem>
+          </Fragment>
+        }
+      />
+    </>
   );
 };

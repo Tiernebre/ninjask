@@ -14,6 +14,7 @@ export type ChallengeApiHookReturnValue = {
   userOwnsChallenge: boolean;
   fetchChallenge: () => Promise<void>;
   deleteChallenge: () => Promise<void>;
+  generateDraftPoolForChallenge: () => Promise<void>;
 };
 
 /**
@@ -32,7 +33,7 @@ export const useGetChallengeApi = ({
   const [draft, setDraft] = useState<Draft>();
   const sessionPayload = useSessionPayload();
   const { httpClient } = useHttp();
-  const { getDraftForChallengeId } = useDraftApi();
+  const { getDraftForChallengeId, generatePoolForDraft } = useDraftApi();
 
   const challengeService = useMemo(
     () => new HttpChallengeService(httpClient),
@@ -51,11 +52,18 @@ export const useGetChallengeApi = ({
     setChallenge(undefined);
   }, [challengeService, challengeId]);
 
+  const generateDraftPoolForChallenge = useCallback(async () => {
+    if (draft) {
+      await generatePoolForDraft(draft.id);
+    }
+  }, [draft, generatePoolForDraft]);
+
   return {
     challenge,
     draft,
     fetchChallenge,
     userOwnsChallenge,
     deleteChallenge,
+    generateDraftPoolForChallenge,
   };
 };

@@ -13,6 +13,7 @@
     "@types/node": "^16.4.13",
     "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.9",
+    "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "prettier": "^2.3.1",

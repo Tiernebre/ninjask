@@ -4,6 +4,7 @@ import { useHttp } from "../../http";
 
 type DraftApi = {
   getDraftForChallengeId: (challengeId: number) => Promise<Draft>;
+  generatePoolForDraft: (draftId: number) => Promise<void>;
 };
 
 export const useDraftApi = (): DraftApi => {
@@ -16,7 +17,15 @@ export const useDraftApi = (): DraftApi => {
     [httpClient]
   );
 
+  const generatePoolForDraft = useCallback(
+    async (draftId: number) => {
+      await httpClient.post(`drafts/${draftId}/pool`);
+    },
+    [httpClient]
+  );
+
   return {
     getDraftForChallengeId,
+    generatePoolForDraft,
   };
 };

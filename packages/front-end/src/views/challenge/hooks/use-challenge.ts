@@ -40,9 +40,21 @@ export const useChallenge = (): ChallengeHookReturnValue => {
     history.push("/home");
   }, [challengeApi, showAlert, history]);
 
+  const generateDraftPoolForChallenge = useCallback(async () => {
+    if (challengeApi.draft) {
+      await challengeApi.generateDraftPoolForChallenge();
+      showAlert({
+        color: "success",
+        message: "Generated Draft Pool for Challenge",
+      });
+      history.push(`drafts/${challengeApi.draft.id}/pool`);
+    }
+  }, [challengeApi, showAlert, history]);
+
   return {
     ...challengeResultsApi,
     ...challengeApi,
     deleteChallenge,
+    generateDraftPoolForChallenge,
   };
 };

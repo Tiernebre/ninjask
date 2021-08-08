@@ -64,9 +64,14 @@ export class FetchHttpClient implements HttpClient {
     return this.parseResponse(response);
   }
 
-  private parseResponse<T>(response: Response): Promise<T> {
+  private async parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
-      return response.json() as Promise<T>;
+      try {
+        const json = (await response.json()) as Promise<T>;
+        return json;
+      } catch (error) {
+        return {} as T;
+      }
     } else {
       if (response.status >= 500) {
         throw new HttpServerError(

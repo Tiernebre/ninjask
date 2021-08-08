@@ -1,7 +1,9 @@
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
 import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
+import { ChallengeStatus } from "../../../../api/challenge/ChallengeStatus";
 
 export type ChallengeActionsProps = {
+  challengeStatus: ChallengeStatus;
   inChallenge: boolean;
   ownsChallenge: boolean;
   onLeaveChallenge: () => void;
@@ -11,7 +13,10 @@ export type ChallengeActionsProps = {
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   return props.ownsChallenge ? (
-    <ChallengeOwnerActions onDeleteChallenge={props.onDeleteChallenge} />
+    <ChallengeOwnerActions
+      onDeleteChallenge={props.onDeleteChallenge}
+      challengeStatus={props.challengeStatus}
+    />
   ) : (
     <ChallengeParticipantActions {...props} />
   );

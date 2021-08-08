@@ -1,7 +1,9 @@
 import { DropdownItem, SmartDropdown } from "@tiernebre/kecleon";
 import { Fragment } from "react";
+import { ChallengeStatus } from "../../../../api/challenge/ChallengeStatus";
 
 type ChallengeOwnerActionsProps = {
+  challengeStatus: ChallengeStatus;
   onDeleteChallenge: () => void;
 };
 

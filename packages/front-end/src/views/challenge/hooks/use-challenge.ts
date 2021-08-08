@@ -47,8 +47,13 @@ export const useChallenge = (): ChallengeHookReturnValue => {
   const generateDraftPool = useCallback(async () => {
     if (challengeApi.draft) {
       await generatePoolForDraft(challengeApi.draft.id);
+      showAlert({
+        color: "success",
+        message: "Generated Draft Pool for Challenge",
+      });
+      await challengeApi.fetchChallenge();
     }
-  }, [challengeApi, generatePoolForDraft]);
+  }, [challengeApi, generatePoolForDraft, showAlert]);
 
   return {
     ...challengeResultsApi,

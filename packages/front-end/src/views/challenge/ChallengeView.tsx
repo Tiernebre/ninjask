@@ -21,6 +21,7 @@ export const ChallengeView = (): JSX.Element | null => {
     addUserToChallenge,
     removeUserFromChallenge,
     deleteChallenge,
+    generateDraftPool,
   } = useChallenge();
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
@@ -35,7 +36,7 @@ export const ChallengeView = (): JSX.Element | null => {
           onLeaveChallenge={removeUserFromChallenge}
           onJoinChallenge={addUserToChallenge}
           onDeleteChallenge={deleteChallenge}
-          onGenerateDraftPool={console.log}
+          onGenerateDraftPool={generateDraftPool}
         />
         <Columns>
           <Column size={participantsColumnSize}>

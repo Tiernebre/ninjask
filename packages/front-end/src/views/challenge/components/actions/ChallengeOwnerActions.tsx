@@ -18,6 +18,7 @@ export const ChallengeOwnerActions = ({
   return (
     <>
       <SmartDropdown
+        className="mr-3"
         alignment="right"
         triggerLabel="Actions"
         menuId="challenge-owner-actions"

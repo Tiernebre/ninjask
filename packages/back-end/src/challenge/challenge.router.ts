@@ -35,10 +35,15 @@ export class ChallengeRouter extends Router<ContextState, Context> {
     });
 
     this.post(this.URI, async (ctx) => {
-      ctx.body = await this.challengeService.createOne(
+      const createdChallenge = await this.challengeService.createOne(
         ctx.request.body as CreateChallengeRequest,
         ctx.state.session.userId
       );
+      await this.draftService.createOne({
+        challengeId: createdChallenge.id,
+        extraPoolSize: 10, // TODO: Dynamic Support for this
+      });
+      ctx.body = createdChallenge;
       ctx.status = CREATED;
     });
 

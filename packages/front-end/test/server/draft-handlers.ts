@@ -14,4 +14,14 @@ export const draftHandlers = [
 
     return res(ctx.json(pool));
   }),
+  rest.get(`${HOST}drafts/:id/pool`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+    const pool = draftPools[Number(id)];
+
+    return res(ctx.json(pool));
+  }),
 ];

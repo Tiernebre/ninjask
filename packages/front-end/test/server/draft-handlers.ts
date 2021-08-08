@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import { draftPools } from "../mocks/draft";
+import { draftPools, draftSelections } from "../mocks/draft";
 import { HOST } from "./constants";
 import { isAuthorized } from "./helpers";
 
@@ -30,7 +30,7 @@ export const draftHandlers = [
     }
 
     const { id } = req.params;
-    const selections = draftPools[Number(id)];
+    const selections = draftSelections[Number(id)];
 
     return res(ctx.json(selections));
   }),
@@ -40,7 +40,7 @@ export const draftHandlers = [
     }
 
     const { id } = req.params;
-    const selections = draftPools[Number(id)];
+    const selections = draftSelections[Number(id)];
 
     return res(ctx.json(selections));
   }),

@@ -16,3 +16,11 @@ it("gets a draft pool", async () => {
     result.current.getPoolForDraft(expectedDraft.id)
   ).resolves.toStrictEqual(expectedPool);
 });
+
+it("generates a draft pool", async () => {
+  const [expectedDraft] = Object.values(drafts);
+  const { result } = renderHook(() => useDraftApi(), { wrapper });
+  await expect(
+    result.current.generatePoolForDraft(expectedDraft.id)
+  ).resolves.toBeUndefined(); // void method
+});

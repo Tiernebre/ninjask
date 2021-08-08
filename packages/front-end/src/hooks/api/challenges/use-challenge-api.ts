@@ -1,7 +1,8 @@
 import { useState, useMemo, useCallback } from "react";
-import { Challenge, HttpChallengeService } from "../../../api";
+import { Challenge, Draft, HttpChallengeService } from "../../../api";
 import { useHttp } from "../../http";
 import { useSessionPayload } from "../../session";
+import { useDraftApi } from "../draft";
 
 export type ChallengeApiHookParameters = {
   challengeId: number;
@@ -9,6 +10,7 @@ export type ChallengeApiHookParameters = {
 
 export type ChallengeApiHookReturnValue = {
   challenge: Challenge | undefined;
+  draft?: Draft;
   userOwnsChallenge: boolean;
   fetchChallenge: () => Promise<void>;
   deleteChallenge: () => Promise<void>;
@@ -26,9 +28,11 @@ export type ChallengeApiHookReturnValue = {
 export const useGetChallengeApi = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
+  const draftApi = useDraftApi();
+  const [challenge, setChallenge] = useState<Challenge>();
+  const [draft, setDraft] = useState<Draft>();
   const sessionPayload = useSessionPayload();
   const { httpClient } = useHttp();
-  const [challenge, setChallenge] = useState<Challenge>();
 
   const challengeService = useMemo(
     () => new HttpChallengeService(httpClient),
@@ -39,7 +43,8 @@ export const useGetChallengeApi = ({
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(challengeId));
-  }, [challengeService, challengeId]);
+    setDraft(await draftApi.getDraftForChallengeId(challengeId));
+  }, [challengeService, challengeId, draftApi]);
 
   const deleteChallenge = useCallback(async () => {
     await challengeService.deleteOneById(challengeId);
@@ -48,6 +53,7 @@ export const useGetChallengeApi = ({
 
   return {
     challenge,
+    draft,
     fetchChallenge,
     userOwnsChallenge,
     deleteChallenge,

@@ -10,9 +10,10 @@ type ChallengeOwnerActionsProps = {
 
 export const ChallengeOwnerActions = ({
   onDeleteChallenge,
+  challengeStatus,
   onGenerateDraftPool,
 }: ChallengeOwnerActionsProps): JSX.Element => {
-  const proceedAction = (
+  const proceedAction = challengeStatus === ChallengeStatus.CREATED && (
     <Button color="success" onClick={onGenerateDraftPool}>
       Generate Draft Pool
     </Button>

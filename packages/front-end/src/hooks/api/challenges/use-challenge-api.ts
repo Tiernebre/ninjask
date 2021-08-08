@@ -28,11 +28,11 @@ export type ChallengeApiHookReturnValue = {
 export const useGetChallengeApi = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
-  const draftApi = useDraftApi();
   const [challenge, setChallenge] = useState<Challenge>();
   const [draft, setDraft] = useState<Draft>();
   const sessionPayload = useSessionPayload();
   const { httpClient } = useHttp();
+  const { getDraftForChallengeId } = useDraftApi();
 
   const challengeService = useMemo(
     () => new HttpChallengeService(httpClient),
@@ -43,8 +43,8 @@ export const useGetChallengeApi = ({
 
   const fetchChallenge = useCallback(async () => {
     setChallenge(await challengeService.getOneById(challengeId));
-    setDraft(await draftApi.getDraftForChallengeId(challengeId));
-  }, [challengeService, challengeId, draftApi]);
+    setDraft(await getDraftForChallengeId(challengeId));
+  }, [challengeService, challengeId, getDraftForChallengeId]);
 
   const deleteChallenge = useCallback(async () => {
     await challengeService.deleteOneById(challengeId);

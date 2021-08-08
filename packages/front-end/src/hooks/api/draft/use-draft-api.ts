@@ -3,7 +3,7 @@ import { Draft } from "../../../api";
 import { useHttp } from "../../http";
 
 type DraftApi = {
-  getDraftForChallengeId(challengeId: number): Promise<Draft>;
+  getDraftForChallengeId: (challengeId: number) => Promise<Draft>;
 };
 
 export const useDraftApi = (): DraftApi => {

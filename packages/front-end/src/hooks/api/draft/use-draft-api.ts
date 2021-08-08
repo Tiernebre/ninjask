@@ -43,7 +43,7 @@ export const useDraftApi = (): DraftApi => {
 
   const getDraftForChallenge = useCallback(
     (challengeId: number) => {
-      return httpClient.post<Draft>(`challenges/${challengeId}/draft`);
+      return httpClient.get<Draft>(`challenges/${challengeId}/draft`);
     },
     [httpClient]
   );

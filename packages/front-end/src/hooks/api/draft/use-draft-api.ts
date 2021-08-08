@@ -4,6 +4,7 @@ import { useHttp } from "../../http";
 
 type DraftApi = {
   getPoolForDraft: (draftId: number) => Promise<Pokemon[]>;
+  generatePoolForDraft: (draftId: number) => Promise<void>;
 };
 
 export const useDraftApi = (): DraftApi => {
@@ -11,12 +12,20 @@ export const useDraftApi = (): DraftApi => {
 
   const getPoolForDraft = useCallback(
     (draftId: number) => {
-      return httpClient.get<Pokemon[]>(`draft/${draftId}/pool`);
+      return httpClient.get<Pokemon[]>(`drafts/${draftId}/pool`);
+    },
+    [httpClient]
+  );
+
+  const generatePoolForDraft = useCallback(
+    async (draftId: number) => {
+      await httpClient.post(`drafts/${draftId}/pool`);
     },
     [httpClient]
   );
 
   return {
     getPoolForDraft,
+    generatePoolForDraft,
   };
 };

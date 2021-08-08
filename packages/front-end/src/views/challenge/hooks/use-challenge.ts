@@ -6,6 +6,7 @@ import {
   useGetChallengeApi,
   ChallengeResultsApiHookReturnValue,
   useChallengeResultsApi,
+  useDraftApi,
 } from "../../../hooks";
 
 type ChallengeViewParams = {
@@ -13,7 +14,9 @@ type ChallengeViewParams = {
 };
 
 type ChallengeHookReturnValue = ChallengeResultsApiHookReturnValue &
-  ChallengeApiHookReturnValue;
+  ChallengeApiHookReturnValue & {
+    generateDraftPool: () => Promise<void>;
+  };
 
 export const useChallenge = (): ChallengeHookReturnValue => {
   const history = useHistory();
@@ -26,6 +29,7 @@ export const useChallenge = (): ChallengeHookReturnValue => {
   const challengeResultsApi = useChallengeResultsApi({
     challengeId,
   });
+  const { generatePoolForDraft } = useDraftApi();
 
   useDidMount(() => {
     void Promise.all([
@@ -40,9 +44,16 @@ export const useChallenge = (): ChallengeHookReturnValue => {
     history.push("/home");
   }, [challengeApi, showAlert, history]);
 
+  const generateDraftPool = useCallback(async () => {
+    if (challengeApi.draft) {
+      await generatePoolForDraft(challengeApi.draft.id);
+    }
+  }, [challengeApi, generatePoolForDraft]);
+
   return {
     ...challengeResultsApi,
     ...challengeApi,
     deleteChallenge,
+    generateDraftPool,
   };
 };

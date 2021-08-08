@@ -66,7 +66,12 @@ export class FetchHttpClient implements HttpClient {
 
   private parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
-      return response.json() as Promise<T>;
+      try {
+        return response.json() as Promise<T>;
+      } catch {
+        // NO_CONTENT Http Response Body handling
+        return Promise.resolve({} as T);
+      }
     } else {
       if (response.status >= 500) {
         throw new HttpServerError(

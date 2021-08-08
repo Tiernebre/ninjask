@@ -1,6 +1,7 @@
-import { Challenge } from "../../../src/api";
+import { Challenge, Draft } from "../../../src/api";
 import { generateMockChallenge } from "./generate";
 import { Writeable } from "../../types";
+import { generateDraft } from "../draft";
 
 const createChallenges = (): Record<number, Writeable<Challenge>> => {
   const challenges: Record<number, Writeable<Challenge>> = {};
@@ -11,7 +12,20 @@ const createChallenges = (): Record<number, Writeable<Challenge>> => {
   return challenges;
 };
 
-export const challenges: Record<
+const challenges: Record<number, Writeable<Challenge>> = createChallenges();
+
+const createChallengeDrafts = (): Record<number, Writeable<Draft>> => {
+  const challengeDrafts: Record<number, Writeable<Draft>> = {};
+  Object.values(challenges).forEach((challenge) => {
+    const draft = generateDraft();
+    challengeDrafts[challenge.id] = draft;
+  });
+  return challengeDrafts;
+};
+
+const challengeDrafts: Record<
   number,
-  Writeable<Challenge>
-> = createChallenges();
+  Writeable<Draft>
+> = createChallengeDrafts();
+
+export { challenges, challengeDrafts };

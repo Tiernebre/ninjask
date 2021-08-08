@@ -13,6 +13,7 @@ import { useChallenge } from "./hooks";
 export const ChallengeView = (): JSX.Element | null => {
   const {
     challenge,
+    draft,
     results,
     userIsInChallenge,
     userOwnsChallenge,
@@ -25,7 +26,7 @@ export const ChallengeView = (): JSX.Element | null => {
 
   const participantsColumnSize = userIsInChallenge ? 8 : 12;
 
-  if (challenge && results) {
+  if (challenge && results && draft) {
     return (
       <Container as="section">
         <ChallengeViewHeader

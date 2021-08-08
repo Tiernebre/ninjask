@@ -5,7 +5,7 @@ import {
   MockSessionContextProvider,
   generateMockSessionContext,
 } from "../../../../test";
-import { challenges } from "../../../../test/mocks";
+import { challengeDrafts, challenges } from "../../../../test/mocks";
 import { SessionPayload } from "../../../api";
 import { useGetChallengeApi } from "./use-challenge-api";
 
@@ -21,15 +21,18 @@ const wrapper =
 it("fetches a challenge", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallenge = challenges[challengeId];
+  const expectedDraft = challengeDrafts[challengeId];
   const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
     wrapper: wrapper(generateMockSessionContext()),
   });
   expect(result.current.challenge).toBeUndefined();
+  expect(result.current.draft).toBeUndefined();
 
   await act(async () => {
     await result.current.fetchChallenge();
   });
-  expect(result.current.challenge).toEqual(expectedChallenge);
+  expect(result.current.challenge).toStrictEqual(expectedChallenge);
+  expect(result.current.draft).toStrictEqual(expectedDraft);
 });
 
 it("informs if the current user owns the fetched challenge", async () => {

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Pokemon, DraftSelection } from "../../../api";
+import { Pokemon, DraftSelection, Draft } from "../../../api";
 import { useHttp } from "../../http";
 
 type DraftApi = {
@@ -7,6 +7,7 @@ type DraftApi = {
   generatePoolForDraft: (draftId: number) => Promise<void>;
   getSelectionsForDraft: (draftId: number) => Promise<DraftSelection[]>;
   generateSelectionsForDraft: (draftId: number) => Promise<DraftSelection[]>;
+  getDraftForChallenge: (challengeId: number) => Promise<Draft>;
 };
 
 export const useDraftApi = (): DraftApi => {
@@ -40,10 +41,18 @@ export const useDraftApi = (): DraftApi => {
     [httpClient]
   );
 
+  const getDraftForChallenge = useCallback(
+    (challengeId: number) => {
+      return httpClient.post<Draft>(`challenges/${challengeId}/draft`);
+    },
+    [httpClient]
+  );
+
   return {
     getPoolForDraft,
     generatePoolForDraft,
     getSelectionsForDraft,
     generateSelectionsForDraft,
+    getDraftForChallenge,
   };
 };

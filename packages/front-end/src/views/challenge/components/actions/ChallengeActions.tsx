@@ -1,7 +1,9 @@
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
 import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
+import { Challenge } from "../../../../api";
 
 export type ChallengeActionsProps = {
+  challenge: Challenge;
   inChallenge: boolean;
   ownsChallenge: boolean;
   onLeaveChallenge: () => void;

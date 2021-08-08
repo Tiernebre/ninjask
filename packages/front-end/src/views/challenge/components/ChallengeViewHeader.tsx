@@ -1,10 +1,7 @@
-import { Challenge } from "../../../api";
 import { HeadingGroup, Level } from "@tiernebre/kecleon";
 import { ChallengeActions, ChallengeActionsProps } from "./actions";
 
-export type ChallengeViewHeaderProps = {
-  challenge: Challenge;
-} & ChallengeActionsProps;
+type ChallengeViewHeaderProps = ChallengeActionsProps;
 
 export const ChallengeViewHeader = ({
   challenge,
@@ -22,7 +19,7 @@ export const ChallengeViewHeader = ({
             />
           </div>
         }
-        right={<ChallengeActions {...actionProps} />}
+        right={<ChallengeActions challenge={challenge} {...actionProps} />}
       />
     </header>
   );

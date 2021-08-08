@@ -10,7 +10,10 @@ import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
 import { NotFoundError } from "../error";
 import { CreateChallengeRequest } from "../challenge/create-challenge-request";
-import { CreateDraftRequest } from "./create-draft-request";
+import {
+  CreateDraftRequest,
+  createDraftRequestSchema,
+} from "./create-draft-request";
 import { ZodError } from "zod";
 
 describe("DraftService", () => {
@@ -161,6 +164,26 @@ describe("DraftService", () => {
       await expect(
         draftService.createOne(request as CreateDraftRequest)
       ).rejects.toThrowError(ZodError);
+    });
+
+    it("returns the created mapped draft", async () => {
+      const expected = generateMockDraftEntity();
+      when(
+        draftRepository.create({
+          ...validCreateDraftRequest,
+        })
+      ).thenReturn(expected);
+      when(draftRepository.save(expected)).thenResolve(expected);
+      await expect(
+        draftService.createOne(validCreateDraftRequest)
+      ).resolves.toEqual({
+        id: expected.id,
+        poolSize: (await expected.pokemon).length,
+        extraPoolSize: expected.extraPoolSize,
+        livePoolingHasFinished: false,
+        challengeId: expected.challengeId,
+        numberOfRounds: expected.numberOfRounds,
+      });
     });
   });
 });

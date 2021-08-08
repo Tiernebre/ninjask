@@ -64,11 +64,12 @@ export class FetchHttpClient implements HttpClient {
     return this.parseResponse(response);
   }
 
-  private parseResponse<T>(response: Response): Promise<T> {
+  private async parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
       try {
-        return response.json() as Promise<T>;
-      } catch {
+        const jsonBody = (await response.json()) as Promise<T>;
+        return jsonBody;
+      } catch (error) {
         // NO_CONTENT Http Response Body handling
         return Promise.resolve({} as T);
       }

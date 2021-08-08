@@ -10,3 +10,11 @@ export const generateDraftSelection = (completed = false): DraftSelection => ({
   userId: generateRandomNumber(),
   selection: completed ? generatePokemon() : null,
 });
+
+export const generateDraftSelections = (): DraftSelection[] => {
+  const draftSelections = [];
+  for (let i = 0; i < 20; i++) {
+    draftSelections.push(generateDraftSelection());
+  }
+  return draftSelections;
+};

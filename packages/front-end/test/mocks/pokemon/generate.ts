@@ -12,3 +12,11 @@ export const generatePokemon = (): Pokemon => {
     },
   };
 };
+
+export const generateManyPokemon = (): Pokemon[] => {
+  const pokemon = [];
+  for (let i = 0; i < 20; i++) {
+    pokemon.push(generatePokemon());
+  }
+  return pokemon;
+};

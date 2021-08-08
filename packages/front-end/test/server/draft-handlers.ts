@@ -24,4 +24,24 @@ export const draftHandlers = [
 
     return res(ctx.json(pool));
   }),
+  rest.post(`${HOST}drafts/:id/selections`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+    const selections = draftPools[Number(id)];
+
+    return res(ctx.json(selections));
+  }),
+  rest.get(`${HOST}drafts/:id/selections`, (req, res, ctx) => {
+    if (!isAuthorized(req)) {
+      return res(ctx.status(403), ctx.json({ message: "Not Authorized" }));
+    }
+
+    const { id } = req.params;
+    const selections = draftPools[Number(id)];
+
+    return res(ctx.json(selections));
+  }),
 ];

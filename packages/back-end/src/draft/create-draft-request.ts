@@ -1,12 +1,10 @@
 import { z } from "zod";
 
-export const createChallengeRequestSchema = z
+export const createDraftRequestSchema = z
   .object({
-    challengeId: z.number(),
+    challengeId: z.number().min(1),
     extraPoolSize: z.number(),
   })
   .strict();
 
-export type CreateChallengeRequest = z.infer<
-  typeof createChallengeRequestSchema
->;
+export type CreateDraftRequest = z.infer<typeof createDraftRequestSchema>;

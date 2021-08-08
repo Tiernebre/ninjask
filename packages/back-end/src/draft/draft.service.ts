@@ -3,6 +3,10 @@ import { NotFoundError } from "../error";
 import { Logger } from "../logger";
 import { Draft } from "./draft";
 import { DraftEntity } from "./draft.entity";
+import {
+  CreateDraftRequest,
+  createDraftRequestSchema,
+} from "./create-draft-request";
 
 export class DraftService {
   constructor(
@@ -43,6 +47,15 @@ export class DraftService {
 
   public async incrementPoolIndexForOneWithId(id: number): Promise<void> {
     await this.draftRepository.increment({ id }, "livePoolPokemonIndex", 1);
+  }
+
+  public async createOne(request: CreateDraftRequest): Promise<Draft> {
+    createDraftRequestSchema.parse(request);
+    const draftToSave = this.draftRepository.create({
+      ...request,
+    });
+    const draftCreated = await this.draftRepository.save(draftToSave);
+    return this.mapFromEntity(draftCreated);
   }
 
   private async mapFromEntity(entity: DraftEntity): Promise<Draft> {

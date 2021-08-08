@@ -9,11 +9,7 @@ import { DraftService } from "./draft.service";
 import { generateRandomNumber } from "../random";
 import { Logger } from "../logger";
 import { NotFoundError } from "../error";
-import { CreateChallengeRequest } from "../challenge/create-challenge-request";
-import {
-  CreateDraftRequest,
-  createDraftRequestSchema,
-} from "./create-draft-request";
+import { CreateDraftRequest } from "./create-draft-request";
 import { ZodError } from "zod";
 
 describe("DraftService", () => {

@@ -1,6 +1,7 @@
 import { Challenge } from "../../../src/api";
 import { v4 as uuid } from "uuid";
 import { generateRandomNumber } from "../../random/random";
+import { ChallengeStatus } from "../../../src/api/challenge/ChallengeStatus";
 
 export const generateMockChallenge = (): Challenge => ({
   id: generateRandomNumber(),
@@ -8,6 +9,7 @@ export const generateMockChallenge = (): Challenge => ({
   description: `Challenge Description - ${uuid()}`,
   versionId: generateRandomNumber(),
   creatorId: generateRandomNumber(),
+  status: ChallengeStatus.CREATED,
 });
 
 export const generateMockChallenges = (): Challenge[] => {

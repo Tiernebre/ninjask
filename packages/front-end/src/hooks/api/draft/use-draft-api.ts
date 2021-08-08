@@ -1,10 +1,11 @@
 import { useCallback } from "react";
-import { Pokemon } from "../../../api";
+import { Pokemon, DraftSelection } from "../../../api";
 import { useHttp } from "../../http";
 
 type DraftApi = {
   getPoolForDraft: (draftId: number) => Promise<Pokemon[]>;
   generatePoolForDraft: (draftId: number) => Promise<void>;
+  getSelectionsForDraft: (draftId: number) => Promise<DraftSelection[]>;
 };
 
 export const useDraftApi = (): DraftApi => {
@@ -25,8 +26,8 @@ export const useDraftApi = (): DraftApi => {
   );
 
   const getSelectionsForDraft = useCallback(
-    async (draftId: number) => {
-      await httpClient.get(`drafts/${draftId}/selections`);
+    (draftId: number) => {
+      return httpClient.get<DraftSelection[]>(`drafts/${draftId}/selections`);
     },
     [httpClient]
   );
@@ -34,5 +35,6 @@ export const useDraftApi = (): DraftApi => {
   return {
     getPoolForDraft,
     generatePoolForDraft,
+    getSelectionsForDraft,
   };
 };

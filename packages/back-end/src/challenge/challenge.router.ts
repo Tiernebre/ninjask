@@ -43,6 +43,10 @@ export class ChallengeRouter extends Router<ContextState, Context> {
         challengeId: createdChallenge.id,
         extraPoolSize: 10, // TODO: Dynamic Support for this
       });
+      await this.challengeParticipantService.createOne(
+        ctx.state.session.userId,
+        createdChallenge.id
+      );
       ctx.body = createdChallenge;
       ctx.status = CREATED;
     });

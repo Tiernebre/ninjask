@@ -4,7 +4,7 @@ import { Server } from "http";
 import Application from "koa";
 import { ChallengeRouter } from "./challenge.router";
 import { ChallengeService } from "./challenge.service";
-import { matchers, object, when } from "testdouble";
+import { object, when, verify } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";
@@ -35,9 +35,6 @@ describe("Challenge Router (integration)", () => {
     challengeService = object<ChallengeService>();
     draftService = object<DraftService>();
     challengeParticipantService = object<ChallengeParticipantService>();
-    when(draftService.createOne(matchers.anything())).thenResolve(
-      generateMockDraft()
-    );
     const router = new ChallengeRouter(
       challengeService,
       draftService,
@@ -45,9 +42,9 @@ describe("Challenge Router (integration)", () => {
     );
     session = generateMockSessionPayload();
     app.use(bodyParser());
-    app.use((ctx, next) => {
+    app.use(async (ctx, next) => {
       ctx.state.session = session;
-      void next();
+      await next();
     });
     app.use(router.routes());
 
@@ -246,13 +243,19 @@ describe("Challenge Router (integration)", () => {
       when(challengeService.createOne(requestDto, session.userId)).thenResolve(
         createdChallenge
       );
-      when(
+      const response = await request.post(uri).send(requestDto);
+      verify(
         draftService.createOne({
           challengeId: createdChallenge.id,
           extraPoolSize: 10,
         })
-      ).thenResolve(generateMockDraft());
-      const response = await request.post(uri).send(requestDto);
+      );
+      verify(
+        challengeParticipantService.createOne(
+          session.userId,
+          createdChallenge.id
+        )
+      );
       expect(response.status).toEqual(CREATED);
     });
 
@@ -262,13 +265,19 @@ describe("Challenge Router (integration)", () => {
       when(challengeService.createOne(requestDto, session.userId)).thenResolve(
         createdChallenge
       );
-      when(
+      const response = await request.post(uri).send(requestDto);
+      verify(
         draftService.createOne({
           challengeId: createdChallenge.id,
           extraPoolSize: 10,
         })
-      ).thenResolve(generateMockDraft());
-      const response = await request.post(uri).send(requestDto);
+      );
+      verify(
+        challengeParticipantService.createOne(
+          session.userId,
+          createdChallenge.id
+        )
+      );
       expect(response.body).toEqual(createdChallenge);
     });
   });

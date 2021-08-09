@@ -4,7 +4,7 @@ import { Server } from "http";
 import Application from "koa";
 import { ChallengeRouter } from "./challenge.router";
 import { ChallengeService } from "./challenge.service";
-import { matchers, object, when, verify } from "testdouble";
+import { object, when, verify } from "testdouble";
 import { SessionPayload } from "../session/session-payload";
 import { Challenge } from "./challenge";
 import { generateMockDraft } from "../draft/draft.mock";

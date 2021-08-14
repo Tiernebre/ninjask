@@ -26,7 +26,7 @@
     "@tsconfig/recommended": "^1.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.1",
     "@types/jest-when": "^2.7.2",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/koa": "^2.13.4",
@@ -37,14 +37,14 @@
     "@types/koa__cors": "^3.0.3",
     "@types/koa__router": "^8.0.7",
     "@types/lodash": "^4.14.172",
-    "@types/node": "^16.4.13",
+    "@types/node": "^16.6.1",
     "@types/node-fetch": "^2.5.12",
     "@types/pino": "^6.3.11",
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
     "@types/ws": "^7.4.6",
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
     "dockest": "^2.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
@@ -56,10 +56,10 @@
     "nodemon": "^2.0.12",
     "prettier": "^2.3.1",
     "rimraf": "^3.0.2",
-    "supertest": "^6.1.4",
+    "supertest": "^6.1.5",
     "testdouble": "^3.16.1",
     "ts-jest": "^26.5.6",
-    "ts-node": "^10.1.0",
+    "ts-node": "^10.2.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
@@ -79,10 +79,10 @@
     "pg": "^8.7.1",
     "pino": "^6.13.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.36",
+    "typeorm": "^0.2.37",
     "typeorm-naming-strategies": "^2.0.0",
     "uuid": "^8.3.2",
     "ws": "^7.5.3",
-    "zod": "^3.7.1"
+    "zod": "^3.7.2"
   }
 }

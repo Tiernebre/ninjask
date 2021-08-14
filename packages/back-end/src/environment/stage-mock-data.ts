@@ -33,6 +33,10 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testUser.password = await bcrypt.hash("NinjaskTestPassword", 12);
   testUser.accessKey = "0b86b703-a01f-4549-8b46-d4caa30662e2";
   testUser = await userRepository.save(testUser);
+  let otherUser = userRepository.create();
+  otherUser.nickname = "Other-Test-User";
+  otherUser.password = await bcrypt.hash("NinjaskTestPassword", 12);
+  otherUser = await userRepository.save(otherUser);
 
   const leagueRepository = getRepository(LeagueEntity);
   let testLeague = leagueRepository.create();
@@ -56,6 +60,13 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testChallenge.versionId = 1;
   testChallenge.creator = Promise.resolve(testUser);
   testChallenge = await challengeRepository.save(testChallenge);
+  let otherChallenge = challengeRepository.create();
+  otherChallenge.name = "Other Challenge";
+  otherChallenge.description = "Other Challenge";
+  otherChallenge.season = Promise.resolve(testSeason);
+  otherChallenge.versionId = 2;
+  otherChallenge.creator = Promise.resolve(otherUser);
+  otherChallenge = await challengeRepository.save(otherChallenge);
 
   const challengeResultRepository = getRepository(ChallengeParticipantEntity);
   const testChallengeResult = challengeResultRepository.create();
@@ -68,6 +79,10 @@ export const stageMockData = async (logger: Logger): Promise<void> => {
   testDraft.challenge = Promise.resolve(testChallenge);
   testDraft.extraPoolSize = 20;
   testDraft = await draftRepository.save(testDraft);
+  let otherDraft = draftRepository.create();
+  otherDraft.challenge = Promise.resolve(otherChallenge);
+  otherDraft.extraPoolSize = 20;
+  otherDraft = await draftRepository.save(otherDraft);
 
   logger.info("Seeding of test data has completed!");
 };

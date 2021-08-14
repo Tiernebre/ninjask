@@ -6,6 +6,7 @@ import {
   PageSpinner,
   Title,
 } from "@tiernebre/kecleon";
+import { ChallengeStatus } from "../../api";
 import { ChallengeResultsTable, ChallengeResultForm } from "./components";
 import { ChallengeViewHeader } from "./components/ChallengeViewHeader";
 import { useChallenge } from "./hooks";
@@ -24,9 +25,10 @@ export const ChallengeView = (): JSX.Element | null => {
     generateDraftPool,
   } = useChallenge();
 
-  const participantsColumnSize = userIsInChallenge ? 8 : 12;
-
   if (challenge && results) {
+    const challengeIsDrafted = challenge.status === ChallengeStatus.DRAFTED;
+    const showResultForm = userIsInChallenge && challengeIsDrafted;
+    const participantsColumnSize = showResultForm ? 8 : 12;
     return (
       <Container as="section">
         <ChallengeViewHeader
@@ -45,7 +47,7 @@ export const ChallengeView = (): JSX.Element | null => {
               <ChallengeResultsTable results={results} />
             </Box>
           </Column>
-          {userIsInChallenge && (
+          {showResultForm && (
             <Column size={4}>
               <Box>
                 <Title level={4}>Submit Your Result</Title>

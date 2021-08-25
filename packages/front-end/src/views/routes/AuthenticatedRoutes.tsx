@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Home, ChallengeView, ChallengesView } from "..";
 import { useSession } from "../../hooks";
 import { CreateChallengeView } from "../challenge/CreateChallengeView";
+import { DraftPoolView } from "../draft-pool";
 import { LeagueView } from "../league";
 import { LeaguesView } from "../leagues";
 import { LiveDraftPoolView } from "../live-draft-pool";
@@ -42,6 +43,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/challenges/:challengeId/draft/live" exact>
         <LiveDraftPoolView />
+      </Route>
+      <Route path="/drafts/:draftId/pool" exact>
+        <DraftPoolView />
       </Route>
     </Fragment>
   ) : null;

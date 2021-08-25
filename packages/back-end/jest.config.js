@@ -20,12 +20,4 @@ module.exports = {
       tsconfig: "./tsconfig.test.json",
     },
   },
-  coverageThreshold: {
-    global: {
-      branches: 95,
-      functions: 95,
-      lines: 95,
-      statements: -10,
-    },
-  },
 };

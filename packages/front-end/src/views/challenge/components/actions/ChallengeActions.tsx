@@ -1,6 +1,8 @@
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
 import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
-import { Challenge } from "../../../../api";
+import { Challenge, ChallengeStatus } from "../../../../api";
+import { Fragment } from "react";
+import { Button } from "@tiernebre/kecleon";
 
 export type ChallengeActionsProps = {
   challenge: Challenge;
@@ -13,13 +15,31 @@ export type ChallengeActionsProps = {
 };
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
-  return props.ownsChallenge ? (
+  const challengeStatus = props.challenge.status;
+  const content = props.ownsChallenge ? (
     <ChallengeOwnerActions
       onDeleteChallenge={props.onDeleteChallenge}
-      challengeStatus={props.challenge.status}
+      challengeStatus={challengeStatus}
       onGenerateDraftPool={props.onGenerateDraftPool}
     />
   ) : (
     <ChallengeParticipantActions {...props} />
+  );
+
+  const additionalButtons =
+    challengeStatus === ChallengeStatus.POOLED ? (
+      <Button
+        color="link"
+        link={{ to: `/challenges/${props.challenge.id}/draft/live` }}
+      >
+        View Live Draft Pool
+      </Button>
+    ) : null;
+
+  return (
+    <Fragment>
+      {content}
+      {additionalButtons}
+    </Fragment>
   );
 };

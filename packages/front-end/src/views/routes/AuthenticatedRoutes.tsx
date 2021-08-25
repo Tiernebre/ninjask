@@ -5,6 +5,7 @@ import { useSession } from "../../hooks";
 import { CreateChallengeView } from "../challenge/CreateChallengeView";
 import { LeagueView } from "../league";
 import { LeaguesView } from "../leagues";
+import { LiveDraftPoolView } from "../live-draft-pool";
 import { SeasonView } from "../season";
 
 type AuthenticatedRoutesProps = {
@@ -38,6 +39,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/seasons/:id" exact>
         <SeasonView />
+      </Route>
+      <Route path="/challenges/:challengeId/draft/live" exact>
+        <LiveDraftPoolView />
       </Route>
     </Fragment>
   ) : null;

@@ -1,11 +1,12 @@
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
 import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
-import { Challenge, ChallengeStatus } from "../../../../api";
+import { Challenge, ChallengeStatus, Draft } from "../../../../api";
 import { Fragment } from "react";
 import { Button } from "@tiernebre/kecleon";
 
 export type ChallengeActionsProps = {
   challenge: Challenge;
+  draft: Draft;
   inChallenge: boolean;
   ownsChallenge: boolean;
   onLeaveChallenge: () => void;

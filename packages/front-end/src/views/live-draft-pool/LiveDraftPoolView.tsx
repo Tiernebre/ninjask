@@ -19,19 +19,16 @@ export const LiveDraftPoolView = (): JSX.Element => {
     void fetchChallenge();
   });
 
-  const content =
-    challenge && draft ? (
-      <LiveDraftPool
-        draft={draft}
-        challengeOwnerId={challenge.creatorId}
-        sessionPayload={sessionPayload}
-        onFinished={console.log}
-      />
-    ) : (
-      <Container>
-        <PageSpinner />
-      </Container>
-    );
-
-  return content;
+  return challenge && draft ? (
+    <LiveDraftPool
+      draft={draft}
+      challengeOwnerId={challenge.creatorId}
+      sessionPayload={sessionPayload}
+      onFinished={console.log}
+    />
+  ) : (
+    <Container>
+      <PageSpinner />
+    </Container>
+  );
 };

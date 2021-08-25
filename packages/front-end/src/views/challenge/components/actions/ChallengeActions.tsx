@@ -26,7 +26,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
     <ChallengeParticipantActions {...props} />
   );
 
-  const additionalButtons =
+  const viewLiveDraftPoolButton =
     challengeStatus === ChallengeStatus.POOLED ? (
       <Button
         color="link"
@@ -39,7 +39,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   return (
     <Fragment>
       {content}
-      {additionalButtons}
+      {viewLiveDraftPoolButton}
     </Fragment>
   );
 };

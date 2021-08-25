@@ -28,7 +28,8 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
   );
 
   const viewLiveDraftPoolButton =
-    challengeStatus === ChallengeStatus.POOLED ? (
+    challengeStatus === ChallengeStatus.POOLED &&
+    !props.draft.livePoolingHasFinished ? (
       <Button
         color="link"
         link={{ to: `/challenges/${props.challenge.id}/draft/live` }}
@@ -37,10 +38,20 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
       </Button>
     ) : null;
 
+  const viewDraftPoolButton = props.draft.livePoolingHasFinished ? (
+    <Button
+      color="link"
+      link={{ to: `/challenges/${props.challenge.id}/draft/pool` }}
+    >
+      View Draft Pool
+    </Button>
+  ) : null;
+
   return (
     <Fragment>
       {content}
       {viewLiveDraftPoolButton}
+      {viewDraftPoolButton}
     </Fragment>
   );
 };

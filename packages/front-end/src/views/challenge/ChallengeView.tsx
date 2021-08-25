@@ -23,9 +23,10 @@ export const ChallengeView = (): JSX.Element | null => {
     removeUserFromChallenge,
     deleteChallenge,
     generateDraftPool,
+    draft,
   } = useChallenge();
 
-  if (challenge && results) {
+  if (challenge && draft && results) {
     const challengeIsDrafted = challenge.status === ChallengeStatus.DRAFTED;
     const showResultForm = userIsInChallenge && challengeIsDrafted;
     const participantsColumnSize = showResultForm ? 8 : 12;
@@ -33,6 +34,7 @@ export const ChallengeView = (): JSX.Element | null => {
       <Container as="section">
         <ChallengeViewHeader
           challenge={challenge}
+          draft={draft}
           inChallenge={userIsInChallenge}
           ownsChallenge={userOwnsChallenge}
           onLeaveChallenge={removeUserFromChallenge}

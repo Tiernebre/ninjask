@@ -1,6 +1,6 @@
-import { Container, PageSpinner } from "@tiernebre/kecleon";
+import { Container, PageSpinner, useDidMount } from "@tiernebre/kecleon";
 import { useParams } from "react-router-dom";
-import { useSessionPayload } from "../../hooks";
+import { useGetChallengeApi } from "../../hooks";
 import "./LiveDraftPoolView.scss";
 
 type LiveDraftPoolViewParams = {
@@ -9,10 +9,16 @@ type LiveDraftPoolViewParams = {
 
 export const LiveDraftPoolView = (): JSX.Element => {
   const { challengeId } = useParams<LiveDraftPoolViewParams>();
+  const { challenge, draft, fetchChallenge } = useGetChallengeApi({
+    challengeId: Number(challengeId),
+  });
 
-  return (
-    <Container>
-      <PageSpinner />
-    </Container>
-  );
+  useDidMount(() => {
+    void fetchChallenge();
+  });
+
+  const content =
+    challenge && draft ? <div>Challenge yo</div> : <PageSpinner />;
+
+  return <Container>{content}</Container>;
 };

@@ -29,7 +29,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
 
   const additionalButtons =
     challengeStatus === ChallengeStatus.POOLED ? (
-      <Button color="link" link={{ to: `drafts/${props.draft.id}/live` }}>
+      <Button color="link" link={{ to: `/drafts/${props.draft.id}/live` }}>
         View Live Draft Pool
       </Button>
     ) : null;

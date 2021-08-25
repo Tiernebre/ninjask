@@ -1,6 +1,10 @@
 import { useCallback, Fragment } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { LiveDraftPool as LiveDraftPoolApi, Draft, SessionPayload } from "../../../api";
+import {
+  LiveDraftPool as LiveDraftPoolApi,
+  Draft,
+  SessionPayload,
+} from "../../../api";
 import { PooledPokemon, PokemonInformation } from "../../../components";
 
 type LiveDraftPoolProps = {
@@ -14,7 +18,7 @@ export const LiveDraftPool = ({
   draft,
   challengeOwnerId,
   sessionPayload,
-  onFinished
+  onFinished,
 }: LiveDraftPoolProps): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { lastJsonMessage, readyState, sendMessage } = useWebSocket(
@@ -67,4 +71,4 @@ export const LiveDraftPool = ({
       )}
     </Fragment>
   );
-}
+};

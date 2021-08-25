@@ -40,7 +40,7 @@ export const AuthenticatedRoutes = ({
       <Route path="/seasons/:id" exact>
         <SeasonView />
       </Route>
-      <Route path="/drafts/:id/live" exact>
+      <Route path="/challenges/:challengeId/draft/live" exact>
         <LiveDraftPoolView />
       </Route>
     </Fragment>

@@ -1,4 +1,9 @@
-import { useDidMount, HeadingGroup, Container } from "@tiernebre/kecleon";
+import {
+  useDidMount,
+  HeadingGroup,
+  Container,
+  PageSpinner,
+} from "@tiernebre/kecleon";
 import { useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Pokemon } from "../../api";
@@ -23,19 +28,22 @@ export const DraftPoolView = (): JSX.Element => {
     void fetchPokemon();
   });
 
+  const content = pokemon.length ? (
+    <div className="DraftPoolView">
+      <div className="DraftPoolView__pokemon p-5">
+        {pokemon.map((individualPokemon) => (
+          <PokemonCard key={individualPokemon.id} pokemon={individualPokemon} />
+        ))}
+      </div>
+    </div>
+  ) : (
+    <PageSpinner />
+  );
+
   return (
     <Container>
-      <div className="DraftPoolView">
-        <HeadingGroup title="Draft Pool" />
-        <div className="DraftPoolView__pokemon p-5">
-          {pokemon.map((individualPokemon) => (
-            <PokemonCard
-              key={individualPokemon.id}
-              pokemon={individualPokemon}
-            />
-          ))}
-        </div>
-      </div>
+      <HeadingGroup title="Draft Pool" />
+      {content}
     </Container>
   );
 };

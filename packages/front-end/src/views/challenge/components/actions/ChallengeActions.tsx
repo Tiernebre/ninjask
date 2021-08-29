@@ -23,6 +23,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
       onDeleteChallenge={props.onDeleteChallenge}
       challengeStatus={challengeStatus}
       onGenerateDraftPool={props.onGenerateDraftPool}
+      loading={props.loading}
     />
   ) : (
     <ChallengeParticipantActions {...props} />

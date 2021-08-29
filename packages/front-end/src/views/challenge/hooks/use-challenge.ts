@@ -21,7 +21,7 @@ type ChallengeHookReturnValue = ChallengeResultsApiHookReturnValue &
 
 export const useChallenge = (): ChallengeHookReturnValue => {
   const { id } = useParams<ChallengeViewParams>();
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const { showAlert } = useAlerts();
   const challengeId = Number(id);

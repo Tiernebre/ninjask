@@ -1,17 +1,16 @@
 import { useCallback, useState } from "react";
 import { Container, HeadingGroup, useDidMount } from "@tiernebre/kecleon";
-import { Challenge, HttpChallengeService } from "../../api";
+import { Challenge } from "../../api";
 import { ChallengeTable } from "../../components";
-import { useHttp } from "../../hooks";
+import { useChallengesApi } from "../../hooks";
 
 export const Home = (): JSX.Element => {
-  const { httpClient } = useHttp();
+  const { getChallengesForCurrentUser } = useChallengesApi();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const fetchChallenges = useCallback(async () => {
-    const challengeService = new HttpChallengeService(httpClient);
-    setChallenges(await challengeService.getAllForCurrentUser());
-  }, [httpClient]);
+    setChallenges(await getChallengesForCurrentUser());
+  }, [getChallengesForCurrentUser]);
 
   useDidMount(() => {
     void fetchChallenges();

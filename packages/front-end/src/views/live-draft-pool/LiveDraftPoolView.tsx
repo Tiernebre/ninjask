@@ -1,6 +1,6 @@
 import { Container, PageSpinner, useDidMount } from "@tiernebre/kecleon";
 import { useHistory, useParams } from "react-router-dom";
-import { useGetChallengeApi, useSessionPayload } from "../../hooks";
+import { useGetChallenge, useSessionPayload } from "../../hooks";
 import { LiveDraftPool } from "./components/LiveDraftPool";
 import "./LiveDraftPoolView.scss";
 
@@ -12,7 +12,7 @@ export const LiveDraftPoolView = (): JSX.Element => {
   const history = useHistory();
   const sessionPayload = useSessionPayload();
   const { challengeId } = useParams<LiveDraftPoolViewParams>();
-  const { challenge, draft, fetchChallenge } = useGetChallengeApi({
+  const { challenge, draft, fetchChallenge } = useGetChallenge({
     challengeId: Number(challengeId),
   });
 

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
   ChallengeApiHookReturnValue,
-  useGetChallengeApi,
+  useGetChallenge,
   ChallengeResultsApiHookReturnValue,
   useChallengeResultsApi,
   useDraftApi,
@@ -23,7 +23,7 @@ export const useChallenge = (): ChallengeHookReturnValue => {
   const { id } = useParams<ChallengeViewParams>();
   const { showAlert } = useAlerts();
   const challengeId = Number(id);
-  const challengeApi = useGetChallengeApi({
+  const challengeApi = useGetChallenge({
     challengeId,
   });
   const challengeResultsApi = useChallengeResultsApi({

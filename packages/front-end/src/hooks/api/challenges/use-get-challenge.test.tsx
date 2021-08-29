@@ -7,7 +7,7 @@ import {
 } from "../../../../test";
 import { challengeDrafts, challenges } from "../../../../test/mocks";
 import { SessionPayload } from "../../../api";
-import { useGetChallengeApi } from "./use-challenge-api";
+import { useGetChallenge } from "./use-get-challenge";
 
 const wrapper =
   (value: ISessionContext) =>
@@ -22,7 +22,7 @@ it("fetches a challenge", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
   const expectedChallenge = challenges[challengeId];
   const expectedDraft = challengeDrafts[challengeId];
-  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+  const { result } = renderHook(() => useGetChallenge({ challengeId }), {
     wrapper: wrapper(generateMockSessionContext()),
   });
   expect(result.current.challenge).toBeUndefined();
@@ -42,7 +42,7 @@ it("informs if the current user owns the fetched challenge", async () => {
   const expectedChallenge = challenges[challengeId];
   expectedChallenge.creatorId = sessionPayload.userId;
   challenges[challengeId] = expectedChallenge;
-  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+  const { result } = renderHook(() => useGetChallenge({ challengeId }), {
     wrapper: wrapper(context),
   });
 
@@ -59,7 +59,7 @@ it("informs if the current user does not own the fetched challenge", async () =>
   const expectedChallenge = challenges[challengeId];
   expectedChallenge.creatorId = sessionPayload.userId + 1;
   challenges[challengeId] = expectedChallenge;
-  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+  const { result } = renderHook(() => useGetChallenge({ challengeId }), {
     wrapper: wrapper(context),
   });
 
@@ -71,7 +71,7 @@ it("informs if the current user does not own the fetched challenge", async () =>
 
 it("deletes a challenge", async () => {
   const challengeId = Number(Object.keys(challenges)[0]);
-  const { result } = renderHook(() => useGetChallengeApi({ challengeId }), {
+  const { result } = renderHook(() => useGetChallenge({ challengeId }), {
     wrapper: wrapper(generateMockSessionContext()),
   });
   expect(result.current.challenge).toBeUndefined();

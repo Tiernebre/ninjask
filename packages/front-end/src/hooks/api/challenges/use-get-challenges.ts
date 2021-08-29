@@ -1,5 +1,5 @@
 import { Challenge, HttpChallengeService } from "../../../api";
-import { useHttp } from "../../";
+import { useHttp } from "../..";
 import { useState, useMemo, useCallback } from "react";
 
 export type UseGetChallengesReturnValue = {
@@ -7,7 +7,7 @@ export type UseGetChallengesReturnValue = {
   challenges: Challenge[];
 };
 
-export const useGetChallengesApi = (): UseGetChallengesReturnValue => {
+export const useGetChallenges = (): UseGetChallengesReturnValue => {
   const { httpClient } = useHttp();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 

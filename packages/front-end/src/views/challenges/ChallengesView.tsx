@@ -6,10 +6,10 @@ import {
   useDidMount,
 } from "@tiernebre/kecleon";
 import { ChallengeTable } from "../../components";
-import { useGetChallengesApi } from "../../hooks";
+import { useGetChallenges } from "../../hooks";
 
 export const ChallengesView = (): JSX.Element => {
-  const { challenges, fetchChallenges } = useGetChallengesApi();
+  const { challenges, fetchChallenges } = useGetChallenges();
 
   useDidMount(() => {
     void fetchChallenges();

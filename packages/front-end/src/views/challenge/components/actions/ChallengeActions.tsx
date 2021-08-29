@@ -13,6 +13,7 @@ export type ChallengeActionsProps = {
   onJoinChallenge: () => void;
   onDeleteChallenge: () => void;
   onGenerateDraftPool: () => void;
+  loading: boolean;
 };
 
 export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
@@ -22,6 +23,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
       onDeleteChallenge={props.onDeleteChallenge}
       challengeStatus={challengeStatus}
       onGenerateDraftPool={props.onGenerateDraftPool}
+      loading={props.loading}
     />
   ) : (
     <ChallengeParticipantActions {...props} />
@@ -33,13 +35,18 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
       <Button
         color="link"
         link={{ to: `/challenges/${props.challenge.id}/draft/live` }}
+        loading={props.loading}
       >
         View Live Draft Pool
       </Button>
     ) : null;
 
   const viewDraftPoolButton = props.draft.livePoolingHasFinished ? (
-    <Button color="link" link={{ to: `/drafts/${props.draft.id}/pool` }}>
+    <Button
+      color="link"
+      link={{ to: `/drafts/${props.draft.id}/pool` }}
+      loading={props.loading}
+    >
       View Draft Pool
     </Button>
   ) : null;

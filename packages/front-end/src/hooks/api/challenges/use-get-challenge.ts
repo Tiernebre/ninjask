@@ -1,8 +1,8 @@
-import { useState, useMemo, useCallback } from "react";
-import { Challenge, Draft, HttpChallengeService } from "../../../api";
-import { useHttp } from "../../http";
+import { useState, useCallback } from "react";
+import { Challenge, Draft } from "../../../api";
 import { useSessionPayload } from "../../session";
 import { useDraftApi } from "../draft";
+import { useChallengesApi } from "./use-challenges-api";
 
 export type ChallengeApiHookParameters = {
   challengeId: number;
@@ -28,28 +28,23 @@ export type ChallengeApiHookReturnValue = {
 export const useGetChallenge = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
+  const { getChallengeById, deleteChallengeById } = useChallengesApi();
   const sessionPayload = useSessionPayload();
-  const { httpClient } = useHttp();
   const [challenge, setChallenge] = useState<Challenge>();
   const [draft, setDraft] = useState<Draft>();
   const { getDraftForChallenge } = useDraftApi();
 
-  const challengeService = useMemo(
-    () => new HttpChallengeService(httpClient),
-    [httpClient]
-  );
-
   const userOwnsChallenge = challenge?.creatorId === sessionPayload.userId;
 
   const fetchChallenge = useCallback(async () => {
-    setChallenge(await challengeService.getOneById(challengeId));
+    setChallenge(await getChallengeById(challengeId));
     setDraft(await getDraftForChallenge(challengeId));
-  }, [challengeService, challengeId, getDraftForChallenge]);
+  }, [getChallengeById, challengeId, getDraftForChallenge]);
 
   const deleteChallenge = useCallback(async () => {
-    await challengeService.deleteOneById(challengeId);
+    await deleteChallengeById(challengeId);
     setChallenge(undefined);
-  }, [challengeService, challengeId]);
+  }, [deleteChallengeById, challengeId]);
 
   return {
     challenge,

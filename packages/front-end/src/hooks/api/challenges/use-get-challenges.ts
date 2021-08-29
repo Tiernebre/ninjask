@@ -1,6 +1,6 @@
-import { Challenge, HttpChallengeService } from "../../../api";
-import { useHttp } from "../..";
-import { useState, useMemo, useCallback } from "react";
+import { Challenge } from "../../../api";
+import { useState, useCallback } from "react";
+import { useChallengesApi } from "./use-challenges-api";
 
 export type UseGetChallengesReturnValue = {
   fetchChallenges: () => Promise<void>;
@@ -8,17 +8,12 @@ export type UseGetChallengesReturnValue = {
 };
 
 export const useGetChallenges = (): UseGetChallengesReturnValue => {
-  const { httpClient } = useHttp();
+  const { getAllChallenges } = useChallengesApi();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
-  const challengeService = useMemo(
-    () => new HttpChallengeService(httpClient),
-    [httpClient]
-  );
-
   const fetchChallenges = useCallback(async () => {
-    setChallenges(await challengeService.getAll());
-  }, [challengeService]);
+    setChallenges(await getAllChallenges());
+  }, [getAllChallenges]);
 
   return {
     challenges,

@@ -17,7 +17,7 @@ export type ChallengeApiHookReturnValue = {
 };
 
 /**
- * useGetChallengeApi is a hook that fetches a challenge
+ * useGetChallenge is a hook that fetches a challenge
  * and its result into state and provides an API of operations
  * on that specific challenge and its results.
  *
@@ -25,7 +25,7 @@ export type ChallengeApiHookReturnValue = {
  * a given challenge ID. If you're looking to retrieve multiple
  * challenges use {@link use-get-challenges-api.ts} instead.
  */
-export const useGetChallengeApi = ({
+export const useGetChallenge = ({
   challengeId,
 }: ChallengeApiHookParameters): ChallengeApiHookReturnValue => {
   const sessionPayload = useSessionPayload();

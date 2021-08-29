@@ -7,7 +7,7 @@ import {
 } from "../../../../test";
 import { challengeDrafts, challenges } from "../../../../test/mocks";
 import { SessionPayload } from "../../../api";
-import { useGetChallengeApi } from "./use-challenge-api";
+import { useGetChallengeApi } from "./use-get-challenge";
 
 const wrapper =
   (value: ISessionContext) =>

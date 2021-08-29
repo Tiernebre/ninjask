@@ -230,7 +230,9 @@ export const injectDependencies = async (
   try {
     await setupTypeOrmConnection();
   } catch (error) {
-    logger.error(error);
+    if (error instanceof Error) {
+      logger.error(error.message);
+    }
   }
   // routes below this are public and can be pinged by anyone
   app.use(buildSessionRouter(logger).routes());

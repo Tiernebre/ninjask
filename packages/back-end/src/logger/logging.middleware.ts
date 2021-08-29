@@ -11,7 +11,9 @@ export const loggingMiddleware =
       await next();
       logger.info(`Finished ${ctx.method} Request.`);
     } catch (error) {
-      logger.error(error);
+      if (error instanceof Error) {
+        logger.error(error.message);
+      }
       throw error;
     }
   };

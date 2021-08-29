@@ -41,7 +41,7 @@ describe("logging-middleware", () => {
           `Received ${ctx.method} ${ctx.protocol} Request for ${ctx.path}`
         )
       );
-      verify(logger.error(error));
+      verify(logger.error(error.message));
     });
   });
 });

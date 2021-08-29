@@ -6,15 +6,17 @@ type ChallengeOwnerActionsProps = {
   onDeleteChallenge: () => void;
   challengeStatus: ChallengeStatus;
   onGenerateDraftPool: () => void;
+  loading: boolean;
 };
 
 export const ChallengeOwnerActions = ({
   onDeleteChallenge,
   challengeStatus,
   onGenerateDraftPool,
+  loading,
 }: ChallengeOwnerActionsProps): JSX.Element => {
   const proceedAction = challengeStatus === ChallengeStatus.CREATED && (
-    <Button color="success" onClick={onGenerateDraftPool}>
+    <Button color="success" onClick={onGenerateDraftPool} loading={loading}>
       Generate Draft Pool
     </Button>
   );
@@ -28,7 +30,9 @@ export const ChallengeOwnerActions = ({
         menuId="challenge-owner-actions"
         items={
           <Fragment>
-            <DropdownItem onClick={onDeleteChallenge}>Delete</DropdownItem>
+            <DropdownItem onClick={onDeleteChallenge} loading={loading}>
+              Delete
+            </DropdownItem>
           </Fragment>
         }
       />

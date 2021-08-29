@@ -1,5 +1,5 @@
 import { Challenge, HttpChallengeService } from "../../../api";
-import { useHttp } from "../../";
+import { useHttp } from "../..";
 import { useState, useMemo, useCallback } from "react";
 
 export type UseGetChallengesReturnValue = {

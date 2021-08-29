@@ -7,7 +7,7 @@ export type UseGetChallengesReturnValue = {
   challenges: Challenge[];
 };
 
-export const useGetChallengesApi = (): UseGetChallengesReturnValue => {
+export const useGetChallenges = (): UseGetChallengesReturnValue => {
   const { httpClient } = useHttp();
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 

@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 import { PropsWithChildren } from "react";
-import { ISessionContext, useGetChallengesApi } from "../..";
+import { ISessionContext, useGetChallenges } from "../..";
 import {
   challenges,
   generateMockSessionContext,
@@ -18,7 +18,7 @@ const wrapper =
 
 it("fetches challenges", async () => {
   const expectedChallenges = challenges;
-  const { result } = renderHook(() => useGetChallengesApi(), {
+  const { result } = renderHook(() => useGetChallenges(), {
     wrapper: wrapper(generateMockSessionContext()),
   });
   await act(async () => {

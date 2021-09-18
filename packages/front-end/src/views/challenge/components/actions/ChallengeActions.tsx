@@ -56,7 +56,7 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
     props.challenge.status === ChallengeStatus.POOLED ? (
       <Button
         color="success"
-        link={{ to: `/drafts/${props.draft.id}` }}
+        link={{ to: `/challenges/${props.challenge.id}/live-draft` }}
         loading={props.loading}
       >
         Participate in Live Draft

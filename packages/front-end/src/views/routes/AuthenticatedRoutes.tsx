@@ -6,6 +6,7 @@ import { CreateChallengeView } from "../challenge/CreateChallengeView";
 import { DraftPoolView } from "../draft-pool";
 import { LeagueView } from "../league";
 import { LeaguesView } from "../leagues";
+import { LiveDraftView } from "../live-draft";
 import { LiveDraftPoolView } from "../live-draft-pool";
 import { SeasonView } from "../season";
 
@@ -46,6 +47,9 @@ export const AuthenticatedRoutes = ({
       </Route>
       <Route path="/drafts/:draftId/pool" exact>
         <DraftPoolView />
+      </Route>
+      <Route path="/challenges/:challengeId/live-draft" exact>
+        <LiveDraftView />
       </Route>
     </Fragment>
   ) : null;

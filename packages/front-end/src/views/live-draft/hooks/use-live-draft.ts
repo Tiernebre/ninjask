@@ -1,4 +1,5 @@
 import useWebSocket from "react-use-websocket";
+import { LiveDraftSelectionMessage } from "../types/live-draft-selection-message";
 
 export const useLiveDraft = (draftId: number): void => {
   const { lastJsonMessage, readyState, sendMessage } = useWebSocket(
@@ -7,9 +8,7 @@ export const useLiveDraft = (draftId: number): void => {
     )}/live-selections`
   );
 
-  const finalizeSelection = (): void => {
-    sendMessage({
-      draftPokemonId: 1,
-    });
+  const finalizeSelection = (request: LiveDraftSelectionMessage): void => {
+    sendMessage(JSON.stringify(request));
   };
 };

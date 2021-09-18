@@ -2,6 +2,7 @@ export * from "./challenge";
 export * from "./draft";
 export * from "./http";
 export * from "./league";
+export * from "./live-sessions";
 export * from "./pokemon";
 export * from "./season";
 export * from "./session";

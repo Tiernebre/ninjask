@@ -68,6 +68,11 @@ export const liveDraftSelectionMiddleware = (
         `User with id = ${liveSession.userId} has entered the draft live selection room with id = ${draftRoomId}. Welcome!`
       );
       registerClientForDraftRoomId(draftRoomId, ctx.websocket);
+      void draftSelectionService
+        .getAllForDraft(Number(id))
+        .then((selections) => {
+          ctx.websocket.send(JSON.stringify(selections));
+        });
 
       ctx.websocket.on("message", (message: string) => {
         const receivedMessage = JSON.parse(

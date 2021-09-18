@@ -6,7 +6,6 @@ import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
-import { SSL_OP_CRYPTOPRO_TLSEXT_BUG } from "constants";
 
 export enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",

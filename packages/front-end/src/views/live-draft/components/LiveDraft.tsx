@@ -1,5 +1,6 @@
 import { HeadingGroup } from "@tiernebre/kecleon";
 import { Challenge, Draft } from "../../../api";
+import { useLiveDraft } from "../hooks/use-live-draft";
 
 type LiveDraftProps = {
   challenge: Challenge;
@@ -12,5 +13,15 @@ export const LiveDraft = ({
   draft,
   liveSessionToken,
 }: LiveDraftProps): JSX.Element => {
-  return <HeadingGroup title={`${challenge.name} Live Draft`} />;
+  const { currentDraftSelections } = useLiveDraft({
+    draftId: draft.id,
+    liveSessionToken,
+  });
+
+  return (
+    <div>
+      <HeadingGroup title={`${challenge.name} Live Draft`} />
+      {JSON.stringify(currentDraftSelections)}
+    </div>
+  );
 };

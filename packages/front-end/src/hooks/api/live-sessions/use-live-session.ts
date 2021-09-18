@@ -1,11 +1,25 @@
-import { useHttp } from "../../hooks";
+import { useDidMount } from "@tiernebre/kecleon";
+import { useState } from "react";
+import { useLiveSessionApi } from "./use-live-session-api";
 
 type LiveSessionHookReturnValue = {
-  liveSessionToken: string;
+  liveSessionToken: string | undefined;
 };
 
 export const useLiveSession = (): LiveSessionHookReturnValue => {
-  const { httpClient } = useHttp();
+  const [liveSessionToken, setLiveSessionToken] = useState<string>();
+  const { createOne } = useLiveSessionApi();
 
-  const;
+  const updateSessionToken = async () => {
+    const liveSession = await createOne();
+    setLiveSessionToken(liveSession.ticket);
+  };
+
+  useDidMount(() => {
+    void updateSessionToken();
+  });
+
+  return {
+    liveSessionToken,
+  };
 };

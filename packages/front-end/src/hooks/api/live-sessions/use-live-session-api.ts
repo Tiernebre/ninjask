@@ -3,7 +3,7 @@ import { useHttp } from "../..";
 import { LiveSession } from "../../../api";
 
 type LiveSessionApi = {
-  createOne(): Promise<LiveSession>;
+  createOne: () => Promise<LiveSession>;
 };
 
 export const useLiveSessionApi = (): LiveSessionApi => {

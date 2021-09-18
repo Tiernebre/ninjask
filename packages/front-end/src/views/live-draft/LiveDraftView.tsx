@@ -18,7 +18,7 @@ export const LiveDraftView = (): JSX.Element => {
   });
 
   return challenge && draft ? (
-    <LiveDraft />
+    <LiveDraft challenge={challenge} draft={draft} />
   ) : (
     <Container>
       <PageSpinner />

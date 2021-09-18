@@ -1,8 +1,8 @@
 import { ChallengeParticipantActions } from "./ChallengeParticipantActions";
 import { ChallengeOwnerActions } from "./ChallengeOwnerActions";
 import { Challenge, ChallengeStatus, Draft } from "../../../../api";
-import { Fragment } from "react";
 import { Button } from "@tiernebre/kecleon";
+import styles from "./ChallengeActions.module.scss";
 
 export type ChallengeActionsProps = {
   challenge: Challenge;
@@ -51,11 +51,23 @@ export const ChallengeActions = (props: ChallengeActionsProps): JSX.Element => {
     </Button>
   ) : null;
 
+  const viewLiveDraftButton =
+    props.challenge.status === ChallengeStatus.POOLED ? (
+      <Button
+        color="link"
+        link={{ to: `/drafts/${props.draft.id}` }}
+        loading={props.loading}
+      >
+        Participate in Live Draft
+      </Button>
+    ) : null;
+
   return (
-    <Fragment>
+    <div className={styles.container}>
       {content}
       {viewLiveDraftPoolButton}
       {viewDraftPoolButton}
-    </Fragment>
+      {viewLiveDraftButton}
+    </div>
   );
 };

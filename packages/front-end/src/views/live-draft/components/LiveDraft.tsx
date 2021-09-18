@@ -10,9 +10,5 @@ export const LiveDraft = ({
   challenge,
   draft,
 }: LiveDraftProps): JSX.Element => {
-  return (
-    <div>
-      <HeadingGroup title={`${challenge.name} Live Draft`} />
-    </div>
-  );
+  return <HeadingGroup title={`${challenge.name} Live Draft`} />;
 };

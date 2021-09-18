@@ -6,6 +6,7 @@ import { DraftSelectionService } from "./draft-selection.service";
 import { FinalizeDraftSelectionRequest } from "./finalize-draft-selection-request";
 import { v4 as uuid } from "uuid";
 import WebSocket from "ws";
+import { SSL_OP_CRYPTOPRO_TLSEXT_BUG } from "constants";
 
 export enum LiveDraftSelectionMessageType {
   FINALIZE_SELECTION = "FINALIZE_SELECTION",
@@ -68,6 +69,11 @@ export const liveDraftSelectionMiddleware = (
         `User with id = ${liveSession.userId} has entered the draft live selection room with id = ${draftRoomId}. Welcome!`
       );
       registerClientForDraftRoomId(draftRoomId, ctx.websocket);
+      void draftSelectionService
+        .getAllForDraft(Number(id))
+        .then((selections) => {
+          ctx.websocket.send(JSON.stringify(selections));
+        });
 
       ctx.websocket.on("message", (message: string) => {
         const receivedMessage = JSON.parse(

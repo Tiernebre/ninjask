@@ -12,7 +12,7 @@ export const useLiveDraft = (draftId: number): LiveDraftHookReturnValue => {
     DraftSelection[]
   >([]);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { lastMessage, readyState, sendMessage } = useWebSocket(
+  const { lastJsonMessage, readyState, sendMessage } = useWebSocket(
     `${process.env.REACT_APP_BACK_END_API_WS_URL as string}/drafts/${Number(
       draftId
     )}/live-selections`
@@ -23,8 +23,8 @@ export const useLiveDraft = (draftId: number): LiveDraftHookReturnValue => {
   };
 
   useEffect(() => {
-    setCurrentDraftSelections(lastMessage as DraftSelection[]);
-  }, [lastMessage]);
+    setCurrentDraftSelections(lastJsonMessage as DraftSelection[]);
+  }, [lastJsonMessage]);
 
   return {
     currentDraftSelections,

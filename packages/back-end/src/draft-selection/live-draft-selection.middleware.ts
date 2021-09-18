@@ -69,7 +69,7 @@ export const liveDraftSelectionMiddleware = (
       );
       registerClientForDraftRoomId(draftRoomId, ctx.websocket);
       void draftSelectionService
-        .getAllForDraft(Number(id))
+        .getOrGenerateForDraft(Number(id))
         .then((selections) => {
           ctx.websocket.send(JSON.stringify(selections));
         });

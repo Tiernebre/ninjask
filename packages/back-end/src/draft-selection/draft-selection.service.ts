@@ -24,6 +24,19 @@ export class DraftSelectionService {
     private readonly challengeParticipantService: ChallengeParticipantService
   ) {}
 
+  public async getOrGenerateForDraft(
+    draftId: number
+  ): Promise<DraftSelection[]> {
+    const existingSelections = await this.getAllForDraft(draftId);
+    let selections: DraftSelection[] = [];
+    if (existingSelections && existingSelections.length) {
+      selections = existingSelections;
+    } else {
+      selections = await this.generateForDraft(draftId);
+    }
+    return selections;
+  }
+
   public async generateForDraft(draftId: number): Promise<DraftSelection[]> {
     z.number().parse(draftId);
 

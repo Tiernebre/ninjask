@@ -38,7 +38,7 @@
     "@types/koa__router": "^8.0.8",
     "@types/lodash": "^4.14.173",
     "@types/node": "^16.9.2",
-    "@types/node-fetch": "^2.5.12",
+    "@types/node-fetch": "^3.0.3",
     "@types/pino": "^6.3.11",
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",

@@ -2,7 +2,7 @@ import Koa from "koa";
 import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
-import { matchers, object, when } from "testdouble";
+import { object, when } from "testdouble";
 import { DraftSelectionService } from "../draft-selection";
 import {
   generateMockDraftSelection,
@@ -53,7 +53,7 @@ describe("Draft Selection Router", () => {
         draftSelectionService.finalizeOneForUser(
           id,
           session.userId,
-          matchers.contains(postRequest)
+          postRequest
         )
       ).thenResolve(generateMockDraftSelection());
       const response = await request.post(uri).send(postRequest);
@@ -67,7 +67,7 @@ describe("Draft Selection Router", () => {
         draftSelectionService.finalizeOneForUser(
           id,
           session.userId,
-          matchers.contains(postRequest)
+          postRequest
         )
       ).thenResolve(expectedFinalizedDraftSelection);
       const response = await request.post(uri).send(postRequest);

@@ -43,8 +43,8 @@
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
     "@types/ws": "^7.4.6",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "dockest": "^2.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
@@ -60,7 +60,7 @@
     "testdouble": "^3.16.2",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.3.0",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",

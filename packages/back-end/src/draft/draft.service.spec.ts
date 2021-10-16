@@ -1,4 +1,4 @@
-import { matchers, object, when, verify } from "testdouble";
+import { object, when, verify } from "testdouble";
 import { Repository } from "typeorm";
 import { DraftEntity } from "./draft.entity";
 import {
@@ -84,7 +84,7 @@ describe("DraftService", () => {
     it("returns the found draft entity if it exists", async () => {
       const id = generateRandomNumber();
       const expected = generateMockDraftEntity();
-      when(draftRepository.findOne(id, matchers.anything())).thenResolve(
+      when(draftRepository.findOne(id, { relations: ["pokemon"] })).thenResolve(
         expected
       );
       const gotten = await draftService.getOneAsEntityWithPool(id);
@@ -93,7 +93,7 @@ describe("DraftService", () => {
 
     it("throws an error if the draft entity does not exist", async () => {
       const id = 1;
-      when(draftRepository.findOne(id, matchers.anything())).thenResolve(
+      when(draftRepository.findOne(id, { relations: ["pokemon"] })).thenResolve(
         undefined
       );
       await expect(

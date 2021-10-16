@@ -2,7 +2,7 @@ import Koa from "koa";
 import supertest from "supertest";
 import { Server } from "http";
 import Application from "koa";
-import { matchers, object, when } from "testdouble";
+import { object, when } from "testdouble";
 import { DraftSelectionService } from "../draft-selection";
 import {
   generateMockDraftSelection,

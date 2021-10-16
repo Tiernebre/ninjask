@@ -2,6 +2,21 @@
 
 Web application for making it easier to organize challenge runs of Pokemon with friends.
 
+## Prerequisite Software Dependencies Needed
+
+- Docker
+- Docker-Compose V1
+    - Integration testing infrastructure is not compatible with V2 just yet.
+- Node.js version 14+
+
+For installing these tools, I suggest using [asdf vm](https://asdf-vm.com/). This project
+is asdf-vm compatible! If you want to install the proper and working prerequisite software
+just run the command below:
+
+```
+asdf install
+```
+
 ## Getting Started
 
 Ninjask is a monorepo built and organized using Lerna. The front-end and back-end

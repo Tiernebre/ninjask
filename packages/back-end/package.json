@@ -45,7 +45,7 @@
     "@types/ws": "^7.4.6",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "dockest": "^2.1.0",
+    "dockest": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-jest-dom": "^3.9.2",

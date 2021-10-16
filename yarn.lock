@@ -6323,10 +6323,10 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-dockest@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/dockest/-/dockest-2.1.0.tgz#efbeaca7bb6078b9bb0a431a050cdefc5b50f07e"
-  integrity sha512-cEudMXrP9Sl1obedYDEyXoKSePGsmbT8750W2D1/W19szr+EbSlEpaRp3tIl5q8oeZ6UxFnfZjXzD+4nDrVhZw==
+dockest@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/dockest/-/dockest-3.0.0.tgz#92d08deda27a9d54e74971f241b27458162f4bba"
+  integrity sha512-+SDf+BKEsREQdSZYcyn8w0mlYw0deg448n64fwh9bOzJ73lGOWysiJOkanagDFn9sv2eCOtoxB+GyfBV7YMZuQ==
   dependencies:
     chalk "^3.0.0"
     execa "^4.0.0"
@@ -6335,6 +6335,7 @@ dockest@^2.1.0:
     is-docker "^2.0.0"
     js-yaml "^3.13.1"
     rxjs "^6.5.4"
+    toposort "^2.0.2"
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -15236,6 +15237,11 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
+
+toposort@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/toposort/-/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
+  integrity sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
 
 touch@^3.1.0:
   version "3.1.0"

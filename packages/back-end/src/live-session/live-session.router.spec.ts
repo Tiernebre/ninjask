@@ -3,7 +3,7 @@ import Application from "koa";
 import bodyParser from "koa-bodyparser";
 import { Server } from "http";
 import supertest from "supertest";
-import { matchers, object, when } from "testdouble";
+import { object, when } from "testdouble";
 import { LiveSessionService, LiveSessionRouter } from ".";
 import { generateMockSessionPayload } from "../session/session.mock";
 import { SessionPayload } from "../session";

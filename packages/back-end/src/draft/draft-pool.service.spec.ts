@@ -47,7 +47,9 @@ describe("DraftPoolService", () => {
     versionService = object<VersionService>();
     challengeService = object<ChallengeService>();
     when(
-      challengeService.oneCanHavePoolGeneratedWithId(matchers.anything())
+      challengeService.oneCanHavePoolGeneratedWithId(
+        matchers.anything() as number
+      )
     ).thenResolve(true);
     draftPoolService = new DraftPoolService(
       draftService,

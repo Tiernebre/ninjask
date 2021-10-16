@@ -1,7 +1,7 @@
-import { Logger } from "pino";
 import { loggingMiddleware } from "./logging.middleware";
 import { object, verify } from "testdouble";
 import { Context, Next } from "koa";
+import { Logger } from ".";
 
 describe("logging-middleware", () => {
   let middleware: (ctx: Context, next: Next) => Promise<void>;

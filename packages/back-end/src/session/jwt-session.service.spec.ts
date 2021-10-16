@@ -8,10 +8,10 @@ import { generateMockUser } from "../user/user.mock";
 import jwt from "jsonwebtoken";
 import { RefreshPayload } from "./refresh-payload";
 import { User } from "../user/user";
-import { Logger } from "pino";
 import { v4 as uuid } from "uuid";
 import { randomBytes, createHash } from "crypto";
 import { ZodError } from "zod";
+import { Logger } from "../logger";
 
 describe("JwtSessionService", () => {
   let jwtSessionService: JwtSessionService;

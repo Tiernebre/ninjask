@@ -42,18 +42,16 @@ describe("Live Session Router (integration)", () => {
     const uri = "/live-sessions";
 
     it("returns with 201 CREATED status", async () => {
-      when(
-        liveSessionService.createOne(matchers.contains(session))
-      ).thenResolve(generateMockLiveSession());
+      when(liveSessionService.createOne(session)).thenResolve(
+        generateMockLiveSession()
+      );
       const response = await request.post(uri).send();
       expect(response.status).toEqual(CREATED);
     });
 
     it("returns with the created live session in the response body", async () => {
       const expected = generateMockLiveSession();
-      when(
-        liveSessionService.createOne(matchers.contains(session))
-      ).thenResolve(expected);
+      when(liveSessionService.createOne(session)).thenResolve(expected);
       const response = await request.post(uri).send();
       expect(response.body).toEqual(expected);
     });

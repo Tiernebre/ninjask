@@ -53,7 +53,7 @@ describe("Draft Selection Router", () => {
         draftSelectionService.finalizeOneForUser(
           id,
           session.userId,
-          matchers.contains(postRequest)
+          postRequest
         )
       ).thenResolve(generateMockDraftSelection());
       const response = await request.post(uri).send(postRequest);
@@ -67,7 +67,7 @@ describe("Draft Selection Router", () => {
         draftSelectionService.finalizeOneForUser(
           id,
           session.userId,
-          matchers.contains(postRequest)
+          postRequest
         )
       ).thenResolve(expectedFinalizedDraftSelection);
       const response = await request.post(uri).send(postRequest);
